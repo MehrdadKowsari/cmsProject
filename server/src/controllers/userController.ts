@@ -151,6 +151,45 @@ export const update = async (req: Request, res: Response) => {
     }
 }
 
+export const updateProfile = async (req: Request, res: Response) => {
+    try {
+        const { id , firstName, lastName, userName, email, image } = req.body;
+        let user = await User.findOne({ _id : id });
+        if (user === null) {
+          return res.status(404).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+        }
+        
+        let duplicateUserCount = await User.count({ userName, _id: {$ne: id}});
+        if (duplicateUserCount > 0) {
+            return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserNameAlreadyExists)));
+        }
+        
+        duplicateUserCount = await User.count({ email, _id: {$ne: id} });
+        if (duplicateUserCount > 0) {
+            return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.EmailAlreadyExists)));
+        }
+        user.image = image;
+        user.userName = userName;
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+        
+        const  { modifiedCount } = await User.updateOne({ _id : id },
+        { $set: { 
+            image: image,
+            userName: userName,
+            firstName : firstName,
+            lastName : lastName,
+            email : email
+        }});
+        if (modifiedCount > 0) {
+            return res.status(200).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
+        }
+    } catch (error) {
+        return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+    }
+}
+
 export const toggleActive = async (req: Request, res: Response) => {
     try {
         const id = req.body;
@@ -177,7 +216,8 @@ export const getCurrent = async (req: Request, res: Response) => {
           return res.status(404).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
         }
         const userDTO: UserDTO = <UserDTO>{
-            id: user._id.toString(),         
+            id: user._id.toString(),   
+            image: user.image,      
             firstName: user.firstName,
             lastName: user.lastName,
             fullName: `${user.firstName} ${user.lastName}`,

@@ -9,7 +9,6 @@ import PersonIcon from '@mui/icons-material/PersonOutlined'
 import { useFormik } from 'formik';
 import {object, string} from 'yup';
 import * as yup from 'yup';
-import { useRouter } from 'next/router';
 import notification from '../../../../services/notificationService';
 import { AddUserDTO } from 'src/models/security/user/addUserDTO';
 import { UpdateUserDTO } from 'src/models/security/user/updateUserDTO';
@@ -17,17 +16,16 @@ import { FormProps } from 'src/types/shared/formType';
 import { useAppDispatch } from 'src/state/hooks/hooks';
 import { add, getById, update } from 'src/state/slices/userSlice';
 import { UserDTO } from 'src/models/security/user/userDTO';
-import Card from 'mdi-material-ui/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
+import CommonMessage from 'src/constants/commonMessage';
+import SecurityMessage from 'src/constants/securityMessage';
+import { useTranslation } from 'react-i18next';
 
 
 const UserForm = ({id, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 
 const dispatch = useAppDispatch();
-const router = useRouter();
+const { t } = useTranslation(['commmon', 'security']);
 
 useEffect(() => {
   if (id) {
@@ -50,14 +48,15 @@ const getItemById = async (id: string | number) => {
   }
 }
 
-const signUpSchema = object({
-  firstName: string().required(),
-  lastName: string().required(),
-  email: string().required().email(),
-  userName: string().required(),
-  password: string().required(),
-  confirmPassword: string().required().oneOf([yup.ref('password')], 'confirmPassword do not match')
+const newItemSchema = object({
+  firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  email: string().required().email(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  password: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  confirmPassword: string().required().oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch)!)
 });
+const userName = t('username', CommonMessage.Username);
 
 const addInitialValues: AddUserDTO = {
   firstName: '',
@@ -69,7 +68,7 @@ const addInitialValues: AddUserDTO = {
 };
   const formik = useFormik({
     initialValues: addInitialValues,
-    validationSchema: signUpSchema,
+    validationSchema: newItemSchema,
     onSubmit: async (values) => {
       if(formik.isValid){
         if (isUpdate) {
@@ -161,7 +160,7 @@ const addInitialValues: AddUserDTO = {
                   <TextField 
                   fullWidth 
                   id="userName"
-                  label="User Name"
+                  label={userName}
                   value={formik.values.userName}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}

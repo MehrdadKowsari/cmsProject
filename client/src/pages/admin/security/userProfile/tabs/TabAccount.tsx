@@ -4,25 +4,22 @@ import { useState, ElementType, ChangeEvent, SyntheticEvent } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
-import Alert from '@mui/material/Alert'
-import Select from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
-import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import AlertTitle from '@mui/material/AlertTitle'
-import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
 import Button, { ButtonProps } from '@mui/material/Button'
 
 // ** Icons Imports
-import Close from 'mdi-material-ui/Close'
 import { useAuth } from 'src/state/providers/AuthProvider'
-import { CheckBox } from '@mui/icons-material'
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
+import { object, string } from 'yup'
+import CommonMessage from 'src/constants/commonMessage'
+import { useTranslation } from 'react-i18next'
+import { useFormik } from 'formik'
+import { UpdateUserProfileDTO } from 'src/models/security/user/updateUserProfileDTO'
+import notificationService from 'src/services/notificationService'
+import { useAppDispatch } from 'src/state/hooks/hooks'
+import { updateProfile } from 'src/state/slices/userSlice'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -50,11 +47,10 @@ const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
 
 const TabAccount = () => {
   // ** State
-  const [openAlert, setOpenAlert] = useState<boolean>(true)
-  const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
-
   const { user } = useAuth();
-
+  const [imgSrc, setImgSrc] = useState<string>(user?.image || '/images/avatars/1.png')
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation(['common', 'security'])
   const onChange = (file: ChangeEvent) => {
     const reader = new FileReader()
     const { files } = file.target as HTMLInputElement
@@ -64,10 +60,52 @@ const TabAccount = () => {
       reader.readAsDataURL(files[0])
     }
   }
+  const addInitialValues: UpdateUserProfileDTO = {
+    id: user?.id,
+    image: imgSrc,
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    email: user?.email,
+    userName: user?.userName
+  };
+
+  const newItemSchema = object({
+    firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+    lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+    email: string().required().email(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+    userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  });
+  const formik = useFormik({
+    initialValues: addInitialValues,
+    validationSchema: newItemSchema,
+    onSubmit: async (values) => {
+      if(formik.isValid){
+        const updateUserData: UpdateUserProfileDTO = {
+          id: user?.id,
+          image: imgSrc,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          userName: values.userName,
+
+        };
+        const result = await dispatch(updateProfile(updateUserData));
+        if (result) {
+          notificationService.showSuccessMessage(t('successOperation', CommonMessage.SuccessOperation)!);
+        } 
+      }
+      else{
+        notificationService.showErrorMessage('form data are invalid')
+      }
+    }
+
+  })
+
+  const userName = t('username', CommonMessage.Username);
 
   return (
     <CardContent>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={7}>
           <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -94,7 +132,14 @@ const TabAccount = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Username' placeholder='Username' defaultValue={user?.userName} />
+            <TextField fullWidth 
+            label={userName} 
+            placeholder={userName} 
+            value={formik.values.firstName}
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur}
+            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+            helperText={formik.errors.firstName} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -102,31 +147,37 @@ const TabAccount = () => {
               type='email'
               label='Email'
               placeholder='Email'
-              defaultValue={user?.email}
-            />
+              value={formik.values.email}
+              onChange={formik.handleChange} 
+              onBlur={formik.handleBlur}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.errors.email}/> 
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='First Name' placeholder='First Name' defaultValue={user?.firstName} />
+            <TextField fullWidth 
+            label='First Name' 
+            placeholder='First Name' 
+            value={formik.values.firstName}
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur}
+            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+            helperText={formik.errors.firstName} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Last Name' placeholder='Last Name' defaultValue={user?.lastName} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-            <FormGroup>
-              <FormControlLabel control={<Checkbox checked={user?.isActive} />} label='Is Active' />
-            </FormGroup>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-            <FormGroup>
-              <FormControlLabel control={<Checkbox checked={user?.isCreatedByExternalAccount} />} label='Is Created By External Account' />
-            </FormGroup>
-            </FormControl>
+            <TextField fullWidth 
+            label='Last Name' 
+            placeholder='Last Name' 
+            value={formik.values.lastName}
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur}
+            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+            helperText={formik.errors.lastName}/>
           </Grid>
           <Grid item xs={12}>
-            <Button variant='contained' sx={{ marginRight: 3.5 }}>
+            <Button 
+            type="submit"
+            variant='contained' 
+            sx={{ marginRight: 3.5 }}>
               Save Changes
             </Button>
             <Button type='reset' variant='outlined' color='secondary'>

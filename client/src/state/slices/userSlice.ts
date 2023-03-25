@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import axios from 'src/api/axios';
 import { AddUserDTO } from 'src/models/security/user/addUserDTO';
 import { UpdateUserDTO } from 'src/models/security/user/updateUserDTO';
+import { UpdateUserProfileDTO } from 'src/models/security/user/updateUserProfileDTO';
 import { UserDTO } from 'src/models/security/user/userDTO';
 import { IntialState } from '../interfaces/intialState';
 
@@ -62,6 +63,18 @@ export const update = createAsyncThunk(
   async (user: UpdateUserDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/update`, user)
+      return data?.result;;
+    } catch (err) {
+        const error= err as AxiosError;
+        return rejectWithValue(error.message);
+    }
+});
+
+export const updateProfile = createAsyncThunk(
+  "users/updateProfile", 
+  async (user: UpdateUserProfileDTO, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/updateProfile`, user)
       return data?.result;;
     } catch (err) {
         const error= err as AxiosError;
@@ -244,6 +257,21 @@ const userSlice = createSlice({
             state.error = <string>payload;
           })
           .addCase(update.rejected, (state, { payload }) => {
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
+          .addCase(updateProfile.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(updateProfile.fulfilled, (state, { payload }) => {
+            state.isLoading = false;
+            state.hasError = false;
+            state.error = <string>payload;
+          })
+          .addCase(updateProfile.rejected, (state, { payload }) => {
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;
