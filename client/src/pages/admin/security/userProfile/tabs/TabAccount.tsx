@@ -60,7 +60,7 @@ const TabAccount = () => {
       reader.readAsDataURL(files[0])
     }
   }
-  const addInitialValues: UpdateUserProfileDTO = {
+  const initialValues: UpdateUserProfileDTO = {
     id: user?.id,
     image: imgSrc,
     firstName: user?.firstName,
@@ -76,7 +76,7 @@ const TabAccount = () => {
     userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   });
   const formik = useFormik({
-    initialValues: addInitialValues,
+    initialValues: initialValues,
     validationSchema: newItemSchema,
     onSubmit: async (values) => {
       if(formik.isValid){
@@ -91,7 +91,7 @@ const TabAccount = () => {
         };
         const result = await dispatch(updateProfile(updateUserData));
         if (result) {
-          notificationService.showSuccessMessage(t('successOperation', CommonMessage.SuccessOperation)!);
+          user.firstName = updateUserData.firstName;
         } 
       }
       else{
@@ -100,7 +100,6 @@ const TabAccount = () => {
     }
 
   })
-
   const userName = t('username', CommonMessage.Username);
 
   return (
@@ -133,17 +132,19 @@ const TabAccount = () => {
 
           <Grid item xs={12} sm={6}>
             <TextField fullWidth 
+            id='userName'
             label={userName} 
             placeholder={userName} 
-            value={formik.values.firstName}
+            value={formik.values.userName}
             onChange={formik.handleChange} 
             onBlur={formik.handleBlur}
-            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-            helperText={formik.errors.firstName} />
+            error={formik.touched.userName && Boolean(formik.errors.userName)}
+            helperText={formik.errors.userName} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
+              id='email'
               type='email'
               label='Email'
               placeholder='Email'
@@ -155,6 +156,7 @@ const TabAccount = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth 
+            id='firstName' 
             label='First Name' 
             placeholder='First Name' 
             value={formik.values.firstName}
@@ -165,6 +167,7 @@ const TabAccount = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth 
+            id='lastName' 
             label='Last Name' 
             placeholder='Last Name' 
             value={formik.values.lastName}
