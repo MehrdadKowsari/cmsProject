@@ -20,6 +20,7 @@ import { UpdateUserProfileDTO } from 'src/models/security/user/updateUserProfile
 import notificationService from 'src/services/notificationService'
 import { useAppDispatch } from 'src/state/hooks/hooks'
 import { updateProfile } from 'src/state/slices/userSlice'
+import { UserDTO } from 'src/models/security/user/userDTO'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -47,7 +48,7 @@ const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
 
 const TabAccount = () => {
   // ** State
-  const { user } = useAuth();
+  const { user, setUserInfo } = useAuth();
   const [imgSrc, setImgSrc] = useState<string>(user?.image || '/images/avatars/1.png')
   const dispatch = useAppDispatch();
   const { t } = useTranslation(['common', 'security'])
@@ -89,13 +90,13 @@ const TabAccount = () => {
           userName: values.userName,
 
         };
-        const result = await dispatch(updateProfile(updateUserData));
-        if (result) {
-          user.firstName = updateUserData.firstName;
+        const userDTO: UserDTO = await dispatch(updateProfile(updateUserData)).unwrap();
+        if (userDTO) {
+          setUserInfo(userDTO);
         } 
       }
       else{
-        notificationService.showErrorMessage('form data are invalid')
+        notificationService.showErrorMessage(CommonMessage.FormDataIsInvalid)
       }
     }
 

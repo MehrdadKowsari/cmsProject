@@ -3,12 +3,13 @@ import { BaseModel } from "../../shared/base/baseModel";
 export interface UserDTO extends BaseModel {
     firstName: string;
     lastName: string;
-    fullName: string;
+    fullName?: string;
     email: string;
-    phoneNumber: string;
+    phoneNumber?: string;
     userName: string;
-    password: string;
-    passwordConfirm: string;
+    password?: string;
+    passwordConfirm?: string;
+    image?: string;
     isActive: boolean;
 }
 

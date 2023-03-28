@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { NextPageWithLayout } from 'src/pages/_app'
 import { UserDTO } from 'src/models/security/user/userDTO';
@@ -8,6 +8,7 @@ import { getCurrent } from '../slices/userSlice';
 
 const AuthContext = createContext<any>({} as {
   user: UserDTO;
+  setUserInfo: (userDTO: UserDTO) => void;
   authenticate: (newToken: string) => Promise<void>;
   logout: (redirectLocation: string | undefined) => void;
   isLoading: boolean;
@@ -44,6 +45,10 @@ function AuthProvider({ children }: {children: any}) {
     }
   }
 
+  async function setUserInfo(userDTO: UserDTO) {
+    await setUser(userDTO);
+  }
+
   useEffect(() => {
     const Component = children.type as NextPageWithLayout;
     if (!Component.isRequiredAuth) return;
@@ -64,6 +69,7 @@ function AuthProvider({ children }: {children: any}) {
     <AuthContext.Provider 
       value={{ 
         user,
+        setUserInfo,
         logout,
         isLoading,
         isAuthenticated: !!user 

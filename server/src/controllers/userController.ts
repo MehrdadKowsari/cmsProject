@@ -35,12 +35,13 @@ export const fetchAll = async (req: Request, res: Response) => {
     try {
         const users: UserDTO[] = (await User.find()).map((user: any) => <UserDTO>{
             id: user._id.toString(),         
+            fullName: `${user.firstName} ${user.lastName}`,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
             isCreatedByExternalAccount: user.isCreatedByExternalAccount,
             userName: user.userName,
-            isActive: user.isActive
+            isActive: user.isActive,
         });
         return res.status(200).json(new MethodResult<UserDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), users));
     } catch (error) {
@@ -180,10 +181,21 @@ export const updateProfile = async (req: Request, res: Response) => {
             userName: userName,
             firstName : firstName,
             lastName : lastName,
-            email : email
+            email : email,
         }});
         if (modifiedCount > 0) {
-            return res.status(200).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
+            const userDTO: UserDTO = <UserDTO>{
+                id: user._id.toString(),         
+                fullName: `${user.firstName} ${user.lastName}`,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                isCreatedByExternalAccount: user.isCreatedByExternalAccount,
+                userName: user.userName,
+                isActive: user.isActive,
+                image: user.image
+            };
+            return res.status(200).json(new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), userDTO));
         }
     } catch (error) {
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));

@@ -91,4 +91,5 @@ export default class CommonMessage {
     public static readonly NoRowSelected: string = 'No Row Selected';
     public static readonly DoNotHaveAccessToPage: string = 'You Do Not Have Access To This Page';
     public static readonly DoNotHaveAccessToThisActionOrSection: string = 'You Do Not Have Access To This Action Or Section';
+    public static readonly FormDataIsInvalid: string = 'Form Data Is Invalid';
 }
