@@ -30,10 +30,10 @@ const TabSecurity = () => {
   // ** States
   const [values, setValues] = useState<State>({
     newPassword: '',
-    currentPassword: '',
     showNewPassword: false,
-    confirmNewPassword: '',
+    currentPassword: '',
     showCurrentPassword: false,
+    confirmNewPassword: '',
     showConfirmNewPassword: false
   })
 
