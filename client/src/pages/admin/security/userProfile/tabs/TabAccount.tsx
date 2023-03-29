@@ -49,27 +49,36 @@ const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
 const TabAccount = () => {
   // ** State
   const { user, setUserInfo } = useAuth();
-  const [imgSrc, setImgSrc] = useState<string>(user?.image || '/images/avatars/1.png')
+  const [userIamge, setUserImage] = useState<string>(user?.image);
   const dispatch = useAppDispatch();
   const { t } = useTranslation(['common', 'security'])
+  
   const onChange = (file: ChangeEvent) => {
     const reader = new FileReader()
     const { files } = file.target as HTMLInputElement
     if (files && files.length !== 0) {
-      reader.onload = () => setImgSrc(reader.result as string)
+      reader.onload = () => { 
+        setUserImage(reader.result as string);
+        (file.target as HTMLInputElement).value = '';
+      }
 
       reader.readAsDataURL(files[0])
     }
   }
+
+  const handleResetUserImage = () => {
+    setUserImage(user?.image);
+  }
+  
   const initialValues: UpdateUserProfileDTO = {
     id: user?.id,
-    image: imgSrc,
+    image: userIamge,
     firstName: user?.firstName,
     lastName: user?.lastName,
     email: user?.email,
     userName: user?.userName
   };
-
+  
   const newItemSchema = object({
     firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
     lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
@@ -83,7 +92,7 @@ const TabAccount = () => {
       if(formik.isValid){
         const updateUserData: UpdateUserProfileDTO = {
           id: user?.id,
-          image: imgSrc,
+          image: userIamge,
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
@@ -101,6 +110,9 @@ const TabAccount = () => {
     }
 
   })
+  const handleResetForm = () => {
+    formik.resetForm();
+  }
   const userName = t('username', CommonMessage.Username);
 
   return (
@@ -109,7 +121,7 @@ const TabAccount = () => {
         <Grid container spacing={7}>
           <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ImgStyled src={imgSrc} alt='Profile Pic' />
+              <ImgStyled src={userIamge} alt='Profile Pic' />
               <Box>
                 <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
                   Upload New Photo
@@ -121,7 +133,7 @@ const TabAccount = () => {
                     id='account-settings-upload-image'
                   />
                 </ButtonStyled>
-                <ResetButtonStyled color='error' variant='outlined' onClick={() => setImgSrc('/images/avatars/1.png')}>
+                <ResetButtonStyled color='error' variant='outlined' onClick={handleResetUserImage}>
                   Reset
                 </ResetButtonStyled>
                 <Typography variant='body2' sx={{ marginTop: 5 }}>
@@ -179,12 +191,16 @@ const TabAccount = () => {
           </Grid>
           <Grid item xs={12}>
             <Button 
-            type="submit"
+            type='submit'
             variant='contained' 
             sx={{ marginRight: 3.5 }}>
               Save Changes
             </Button>
-            <Button type='reset' variant='outlined' color='secondary'>
+            <Button 
+            type='reset' 
+            variant='outlined' 
+            color='secondary'
+            onClick={handleResetForm}>
               Reset
             </Button>
           </Grid>
