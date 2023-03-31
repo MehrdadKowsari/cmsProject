@@ -6,6 +6,8 @@ import { UpdateUserDTO } from 'src/models/security/user/updateUserDTO';
 import { UpdateUserProfileDTO } from 'src/models/security/user/updateUserProfileDTO';
 import { UserDTO } from 'src/models/security/user/userDTO';
 import { IntialState } from '../interfaces/intialState';
+import { ChangeUserPasswordDTO } from 'src/models/security/user/changeUserPasswordDTO';
+import { ResetUserPasswordDTO } from 'src/models/security/user/resetUserPasswordDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/user`;
 
@@ -45,6 +47,7 @@ export const getById = createAsyncThunk(
       }
   }
 )
+
 export const getByUsername = createAsyncThunk(
   'users/getByUsername',
   async (username: string, { rejectWithValue }) => {
@@ -75,6 +78,30 @@ export const updateProfile = createAsyncThunk(
   async (user: UpdateUserProfileDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/updateProfile`, user)
+      return data?.result;;
+    } catch (err) {
+        const error= err as AxiosError;
+        return rejectWithValue(error.message);
+    }
+});
+
+export const changePassword = createAsyncThunk(
+  "users/changePassword", 
+  async (changePassword: ChangeUserPasswordDTO, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/changePassword`, changePassword)
+      return data?.result;;
+    } catch (err) {
+        const error= err as AxiosError;
+        return rejectWithValue(error.message);
+    }
+});
+
+export const resetPassword = createAsyncThunk(
+  "users/resetPassword", 
+  async (resetPassword: ResetUserPasswordDTO, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/resetPassword`, resetPassword)
       return data?.result;;
     } catch (err) {
         const error= err as AxiosError;
@@ -272,6 +299,36 @@ const userSlice = createSlice({
             state.error = <string>payload;
           })
           .addCase(updateProfile.rejected, (state, { payload }) => {
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
+          .addCase(changePassword.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(changePassword.fulfilled, (state, { payload }) => {
+            state.isLoading = false;
+            state.hasError = false;
+            state.error = <string>payload;
+          })
+          .addCase(changePassword.rejected, (state, { payload }) => {
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
+          .addCase(resetPassword.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(resetPassword.fulfilled, (state, { payload }) => {
+            state.isLoading = false;
+            state.hasError = false;
+            state.error = <string>payload;
+          })
+          .addCase(resetPassword.rejected, (state, { payload }) => {
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;

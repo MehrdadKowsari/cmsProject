@@ -1,5 +1,5 @@
-export class ResetUserPasswordDTO {
-    public Password: string;
-    public PasswordConfirm: string;
-    public UserId: number;
+export interface ResetUserPasswordDTO {
+    password: string;
+    confirmPassword: string;
+    userId: number;
 }

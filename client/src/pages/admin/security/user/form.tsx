@@ -102,7 +102,7 @@ const addInitialValues: AddUserDTO = {
         }
       }
       else{
-        notification.showErrorMessage('form data are invalid')
+        notification.showErrorMessage(CommonMessage.FormDataIsInvalid)
       }
     }
 
