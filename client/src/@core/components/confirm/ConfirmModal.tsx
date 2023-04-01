@@ -1,6 +1,5 @@
 import React from 'react';
 // material-ui components
-import withStyles from "@mui/material/styles/withStyles";
 import Slide from "@mui/material/Slide";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -11,16 +10,13 @@ import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
 import Button from '@mui/material/Button';
 
-//import { makeStyles } from '@mui/styles';
-
 // @mui/icons
 import Close from "@mui/icons-material/Close";
 // core components
 
-
-import modalStyle from "../../../styles/jss/components/confirm/modalStyle";
 import useConfirm from 'src/state/hooks/useConfirm';
 import { TransitionProps } from '@mui/material/transitions/transition';
+import confirmModalStyle from '../../../styles/jss/components/confirm/modalStyle';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -34,8 +30,7 @@ const Transition = React.forwardRef(function Transition(
 
 export default function ConfirmModal() {
   const { onConfirm, onCancel, confirmState } = useConfirm();
-  //const useStyles = makeStyles(modalStyle);
-  //const classes = useStyles();
+  const { classes } = confirmModalStyle();
   return (
     <>
         <Dialog
@@ -49,7 +44,7 @@ export default function ConfirmModal() {
         aria-labelledby="modal-slide-title"
         aria-describedby="modal-slide-description"
       >
-        {/* <DialogTitle
+        <DialogTitle
           id="classic-modal-slide-title"
           className={classes.modalHeader}
         >
@@ -89,7 +84,7 @@ export default function ConfirmModal() {
             onClick={onConfirm}> 
             Yes
           </Button>
-        </DialogActions> */}
+        </DialogActions>
       </Dialog>
     </>
   );

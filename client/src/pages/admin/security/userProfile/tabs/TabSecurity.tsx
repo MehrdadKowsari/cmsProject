@@ -218,15 +218,14 @@ const TabSecurity = () => {
         <Box sx={{ mt: 7 }}>
           <Button
           type='submit' 
-          variant='contained' 
-          sx={{ marginRight: 3.5 }}>
+          variant='contained'>
             Save Changes
           </Button>
           <Button
-            type='reset'
-            variant='outlined'
-            color='secondary'
-          >
+          type='reset'
+          variant='outlined'
+          color='secondary'
+          sx={{ mx: 3.5 }}>
             Reset
           </Button>
         </Box>

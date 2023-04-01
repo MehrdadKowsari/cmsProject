@@ -7,8 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from 'react';
 import { i18n } from 'next-i18next';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -58,16 +58,18 @@ type CustomizedDialogsProps = {
     title: string,
     children: React.ReactNode,
     isOpen: boolean,
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     onClose: () => void;
 }
 
-export default function CustomizedDialogs({title, children, isOpen, onClose}: CustomizedDialogsProps) {
+export default function CustomDialog({title, children, isOpen, size, onClose}: CustomizedDialogsProps) {
   return (
     <div>
       <BootstrapDialog
         onClose={onClose}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
+        maxWidth={size || 'sm'}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={onClose}>
           {title}
@@ -76,7 +78,14 @@ export default function CustomizedDialogs({title, children, isOpen, onClose}: Cu
           {children}
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={onClose}>
+          <Button 
+          variant='contained'
+          color='secondary'
+          autoFocus 
+          onClick={onClose}
+          size='small'
+          startIcon={<ClearIcon />}
+          sx={{mx : 2, my: 2}}>
             Close
           </Button>
         </DialogActions>

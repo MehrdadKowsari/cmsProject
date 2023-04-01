@@ -14,17 +14,27 @@ import { Button, CardContent, CardHeader } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useAppDispatch } from "src/state/hooks/hooks";
 import { getAll, remove, toggleActive } from "src/state/slices/userSlice";
-import CustomizedDialogs from "src/components/Modal/Modal";
+import CustomDialog from "src/components/Modal/Modal";
 import UserForm from "./form";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Card from "mdi-material-ui/Card";
+import Card from "@mui/material/Card";
  
 const User = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
   const users: any[] = useSelector((state:any) => state?.user?.users);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number| string | null>(null);
+  const [page, setPage] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(5);
+
+  const queryOptions = React.useMemo(
+    () => ({
+      page,
+      pageSize,
+    }),
+    [page, pageSize],
+  );
   
   const { confirm } = useConfirm();
     useEffect(() => {
@@ -124,18 +134,17 @@ const User = ({Component, pageProps}: AppProps) => {
 
     const handleCloseForm = () => {
       dispatch(getAll());
-      handleCloseForm();
+      handleCloseModal();
     }
 
     return(
         <>
-        <Card sx={{width: '500px'}}>
-            <CardHeader title='Basic' titleTypographyProps={{ variant: 'h6' }}/>
+        <Card>
+            <CardHeader 
+            title='User' 
+            titleTypographyProps={{ variant: 'h6' }}/>
             <CardContent>
-              this is a test
-            </CardContent>
-          </Card>
-        <Box mx={1}>
+            <Box mx={1}>
           <Button
             variant="contained" 
             size="small"
@@ -150,8 +159,11 @@ const User = ({Component, pageProps}: AppProps) => {
           <DataGrid
             rows={users}
             columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
+            page={page}
+            pageSize={pageSize}
+            paginationMode="server"
+            onPageChange={(newPage) => setPage(newPage)}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             checkboxSelection
             getRowId={(row: any) => row?.id}
           />
@@ -160,13 +172,15 @@ const User = ({Component, pageProps}: AppProps) => {
           no data
           </div>}  
         </Box>  
-        <CustomizedDialogs 
+        <CustomDialog 
         title="user" 
         isOpen={isOpenModal}
         onClose={() => handleCloseModal()}>
           <UserForm id={rowId}
           onClose={handleCloseForm}/>
-        </CustomizedDialogs>
+        </CustomDialog>
+            </CardContent>
+          </Card>
         </>
     )
 }

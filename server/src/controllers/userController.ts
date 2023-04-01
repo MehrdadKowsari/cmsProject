@@ -138,15 +138,18 @@ export const update = async (req: Request, res: Response) => {
         user.lastName = lastName;
         user.email = email;
         
-        const  { modifiedCount } = await User.updateOne({ _id : id },
+        const  { matchedCount } = await User.updateOne({ _id : id },
         { $set: { 
             userName: userName,
             firstName : firstName,
             lastName : lastName,
             email : email
         }});
-        if (modifiedCount > 0) {
+        if (matchedCount > 0) {
             return res.status(200).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
+        }
+        else {
+            return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ErrorOperation)));
         }
     } catch (error) {
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
@@ -176,7 +179,7 @@ export const updateProfile = async (req: Request, res: Response) => {
         user.lastName = lastName;
         user.email = email;
         
-        const  { modifiedCount } = await User.updateOne({ _id : id },
+        const  { matchedCount } = await User.updateOne({ _id : id },
         { $set: { 
             image: image,
             userName: userName,
@@ -184,7 +187,7 @@ export const updateProfile = async (req: Request, res: Response) => {
             lastName : lastName,
             email : email,
         }});
-        if (modifiedCount > 0) {
+        if (matchedCount > 0) {
             const userDTO: UserDTO = <UserDTO>{
                 id: user._id.toString(),         
                 fullName: `${user.firstName} ${user.lastName}`,
@@ -197,6 +200,9 @@ export const updateProfile = async (req: Request, res: Response) => {
                 image: user.image
             };
             return res.status(200).json(new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), userDTO));
+        }
+        else {
+            return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ErrorOperation)));
         }
     } catch (error) {
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));

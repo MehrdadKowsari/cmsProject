@@ -1,11 +1,10 @@
 import React,  { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import LoginIcon from '@mui/icons-material/Login';
-import PersonIcon from '@mui/icons-material/PersonOutlined'
+import SaveIcon from '@mui/icons-material/Save'
+import ClearIcon from '@mui/icons-material/Clear'
 import { useFormik } from 'formik';
 import {object, string} from 'yup';
 import * as yup from 'yup';
@@ -19,6 +18,9 @@ import { UserDTO } from 'src/models/security/user/userDTO';
 import CommonMessage from 'src/constants/commonMessage';
 import SecurityMessage from 'src/constants/securityMessage';
 import { useTranslation } from 'react-i18next';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
 
 
 const UserForm = ({id, onClose}: FormProps) => {
@@ -54,7 +56,13 @@ const newItemSchema = object({
   email: string().required().email(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   password: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  confirmPassword: string().required().oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch)!)
+  confirmPassword: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch)!)
+});
+const updateItemSchema = object({
+  firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  email: string().required().email(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
 });
 const userName = t('username', CommonMessage.Username);
 
@@ -68,7 +76,7 @@ const addInitialValues: AddUserDTO = {
 };
   const formik = useFormik({
     initialValues: addInitialValues,
-    validationSchema: newItemSchema,
+    validationSchema: isUpdate ? updateItemSchema : newItemSchema,
     onSubmit: async (values) => {
       if(formik.isValid){
         if (isUpdate) {
@@ -81,7 +89,7 @@ const addInitialValues: AddUserDTO = {
             password: values.password,
             confirmPassword: values.confirmPassword
           };
-          const result = await dispatch(update(updateUserData));
+          const result = await dispatch(update(updateUserData)).unwrap();
           if (result) {
             onClose();
           }
@@ -94,7 +102,7 @@ const addInitialValues: AddUserDTO = {
             password: values.password,
             confirmPassword: values.confirmPassword
           }
-          const result = await dispatch(add(addUserData));
+          const result = await dispatch(add(addUserData)).unwrap();
           if (result) {
             onClose();
           }
@@ -109,20 +117,19 @@ const addInitialValues: AddUserDTO = {
   })
   
   return (
-    <Grid container spacing={6}>
+    <Card>
+      <CardHeader 
+      title={isUpdate ? "Update" : "Add New"}
+      titleTypographyProps={{variant: 'h6'}}>
+      </CardHeader>
+      <CardContent>
+      <Grid container spacing={6}>
         <Grid item xs={12}>
         <Box>
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
             <Grid container 
             spacing={3}
             justifyContent="center">
-                <Grid item>
-                </Grid>
-                <Grid item lg={12}>
-                  <Typography variant="h4">
-                    <span>{isUpdate ? "Update" : "Add New" }</span>
-                  </Typography>  
-                </Grid>
                 <Grid item lg={12}>
                   <TextField 
                   fullWidth 
@@ -195,10 +202,19 @@ const addInitialValues: AddUserDTO = {
                   <Button
                   type="submit"
                   variant="contained" 
-                  size="large"
+                  size="small"
                   color="success"
-                  startIcon={isUpdate ? <PersonIcon/> : <LoginIcon />}>
-                    <span>{isUpdate ? "Update" : "Add New" }</span>
+                  startIcon={<SaveIcon/>}>
+                    <span>Save</span>
+                  </Button>  
+                  <Button
+                  type="reset"
+                  variant="outlined" 
+                  size="small"
+                  color="secondary"
+                  sx={{mx: 3}}
+                  startIcon={<ClearIcon/>}>
+                    <span>Reset</span>
                   </Button>  
                 </Grid>
             </Grid>
@@ -206,6 +222,9 @@ const addInitialValues: AddUserDTO = {
           </Box>
         </Grid>
     </Grid>
+      </CardContent>
+    </Card>
+    
     
   )
 }

@@ -14,6 +14,8 @@ import { ValidateRefreshToken } from '../dtos/auth/validateRefreshToken';
 import { google } from 'googleapis/build/src/index';
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
+const ACCESS_TOKEN_EXPIRES_IN = '1m';
+const REFRESH_TOKEN_EXPIRES_IN = '60m';
 
 export const signIn = async (req: Request, res: Response) => {
     try {
@@ -32,8 +34,8 @@ export const signIn = async (req: Request, res: Response) => {
         if (!isPasswordCorect) {
           return res.status(400).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UsernameOrPasswordIsIncorect)));  
         }
-        const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: '5s'});
-        const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: '10m'});
+        const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
+        const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: '20m'});
         return res.status(200).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
     } catch (error) {
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
@@ -61,8 +63,8 @@ export const signInByGoogle = async (req: Request, res: Response) => {
                 return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));        
             }
         }
-        const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: '5s'});
-        const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: '10m'});
+        const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
+        const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_EXPIRES_IN});
         return res.status(200).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
     } catch (error) {
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
@@ -88,7 +90,8 @@ export const signUp = async (req: Request, res: Response) => {
         const hashedPassword = await bcrypt.hash(password, 12);
         const newUser = await User.create({firstName, lastName, userName, password: hashedPassword, email });
         const accessToken = jwt.sign({userName: newUser.userName, email: newUser.email, id: newUser._id}, TOKEN_SECRET, {expiresIn: '1m'});
-        const refreshToken = jwt.sign({userName: newUser.userName, email: newUser.email, id: newUser._id}, TOKEN_SECRET, {expiresIn: '10m'});
+        const refreshToken = jwt.sign({userName: newUser.userName, email: newUser.email, id: newUser._id}, TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_EXPIRES_IN});
+        
         return res.status(200).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
     } catch (error) {
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
@@ -112,8 +115,8 @@ export const getRefreshToken = async (req: Request, res: Response) => {
                         decodedData = <JwtPayload>decoded
                         userId = decodedData?.id;
 
-                        const accessToken = jwt.sign({userName: decodedData.userName, email: decodedData.email, id: decodedData.id}, TOKEN_SECRET, {expiresIn: '5s'});
-                        const refreshToken = jwt.sign({userName: decodedData.userName, email: decodedData.email, id: decodedData.id}, TOKEN_SECRET, {expiresIn: '10m'});
+                        const accessToken = jwt.sign({userName: decodedData.userName, email: decodedData.email, id: decodedData.id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
+                        const refreshToken = jwt.sign({userName: decodedData.userName, email: decodedData.email, id: decodedData.id}, TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_EXPIRES_IN});
                         return res.status(200).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
                     }
                 });

@@ -1,4 +1,7 @@
-const modalStyle = {
+import { makeStyles } from "tss-react/mui";
+
+const confirmModalStyle = makeStyles()(
+  () => ({
   modal: {
     borderRadius: "6px",
   },
@@ -50,6 +53,6 @@ const modalStyle = {
     marginLeft: "auto",
     marginRight: "auto",
   },
-};
+}));
 
-export default modalStyle;
+export default confirmModalStyle;
