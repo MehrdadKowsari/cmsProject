@@ -18,4 +18,5 @@ export default class Message {
     public static readonly UserNameAlreadyExists: 'UserName Already Exists';
     public static readonly EmailAlreadyExists: 'Email Already Exists';
     public static readonly ConfirmPasswordDoesNotMatch:string = 'Confirm Password Does Not Match';
+    public static readonly PasswordDoesNotMatch:string = 'Password Does Not Match';
 }

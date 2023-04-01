@@ -22,15 +22,14 @@ import { useAuth } from 'src/state/providers/AuthProvider'
 import { useFormik } from 'formik'
 import CommonMessage from 'src/constants/commonMessage'
 import { object, string } from 'yup'
-import yup from 'yup'
+import * as yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { ChangeUserPasswordDTO } from 'src/models/security/user/changeUserPasswordDTO'
 import { useAppDispatch } from 'src/state/hooks/hooks'
 import { changePassword } from 'src/state/slices/userSlice'
 import SecurityMessage from 'src/constants/securityMessage'
+import TextField from '@mui/material/TextField'
 
-const { t } = useTranslation(['common, security'])
-const useDispatch = useAppDispatch();
 interface State {
   newPassword: string
   currentPassword: string
@@ -45,7 +44,9 @@ const TabSecurity = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState<boolean>(false)
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState<boolean>(false)
-  
+
+  const { t } = useTranslation(['common, security']);
+  const useDispatch = useAppDispatch();
   
   const initialValues: State = {
     newPassword: '',
@@ -59,26 +60,24 @@ const TabSecurity = () => {
   const validationSchema = object({
     currentPassword: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
     newPassword: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-    confirmNewPassword: string().required().oneOf([yup.ref("newPassword")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch)!)
+    confirmNewPassword: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("newPassword")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch)!)
   });
   
   const { user } = useAuth();
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: async (values: State) => {
+    onSubmit: async (values: State, { resetForm }) => {
       const changeUserPassword: ChangeUserPasswordDTO = {
+        id: user?.id,
         currentPassword: values.currentPassword,
         newPassword: values.newPassword,
         confirmNewPassword: values.confirmNewPassword,
       }
     const result = await useDispatch(changePassword(changeUserPassword)).unwrap();
     if (result) {
-      
+      resetForm();
     }
-    },
-    onReset: () => {
-      formik.resetForm();
     } 
   });
 
@@ -108,81 +107,94 @@ const TabSecurity = () => {
 
   return (
 
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
       <CardContent sx={{ paddingBottom: 0 }}>
         <Grid container spacing={5}>
           <Grid item xs={12} sm={6}>
             <Grid container spacing={5}>
               <Grid item xs={12} sx={{ marginTop: 4.75 }}>
                 <FormControl fullWidth>
-                  <InputLabel htmlFor='currentPassword'>Current Password</InputLabel>
-                  <OutlinedInput
+                  <TextField
                     label='Current Password'
-                    value={formik.handleChange}
+                    value={formik.values.currentPassword}
                     id='currentPassword'
                     type={showCurrentPassword ? 'text' : 'password'}
+                    onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    endAdornment={
-                      <InputAdornment position='end'>
-                        <IconButton
-                          edge='end'
-                          aria-label='toggle password visibility'
-                          onClick={handleClickShowCurrentPassword}
-                          onMouseDown={handleMouseDownCurrentPassword}
-                        >
-                          {showCurrentPassword ? <EyeOutline /> : <EyeOffOutline />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={12} sx={{ marginTop: 6 }}>
-                <FormControl fullWidth>
-                  <InputLabel htmlFor='newPassword'>New Password</InputLabel>
-                  <OutlinedInput
-                    label='New Password'
-                    value={formik.handleChange}
-                    id='newPassword'
-                    type={showNewPassword ? 'text' : 'password'}
-                    endAdornment={
-                      <InputAdornment position='end'>
-                        <IconButton
-                          edge='end'
-                          onClick={handleClickShowNewPassword}
-                          aria-label='toggle password visibility'
-                          onMouseDown={handleMouseDownNewPassword}
-                        >
-                          {showNewPassword ? <EyeOutline /> : <EyeOffOutline />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
+                    error={formik.touched.currentPassword && Boolean(formik.errors.currentPassword)}
+                    helperText={formik.errors.currentPassword}
+                    inputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          <IconButton
+                            edge='end'
+                            aria-label='toggle password visibility'
+                            onClick={handleClickShowCurrentPassword}
+                            onMouseDown={handleMouseDownCurrentPassword}
+                          >
+                            {showCurrentPassword ? <EyeOutline /> : <EyeOffOutline />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
                   />
                 </FormControl>
               </Grid>
 
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel htmlFor='confirmNewPassword'>Confirm New Password</InputLabel>
-                  <OutlinedInput
-                    label='Confirm New Password'
-                    value={formik.handleChange}
-                    id='confirmNewPassword'
-                    type={showConfirmNewPassword ? 'text' : 'password'}
+                  <TextField
+                    id='newPassword'
+                    label='New Password'
+                    type={showNewPassword ? 'text' : 'password'}
+                    value={formik.values.newPassword}
+                    onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    endAdornment={
-                      <InputAdornment position='end'>
-                        <IconButton
-                          edge='end'
-                          aria-label='toggle password visibility'
-                          onClick={handleClickShowConfirmNewPassword}
-                          onMouseDown={handleMouseDownConfirmNewPassword}
-                        >
-                          {showConfirmNewPassword ? <EyeOutline /> : <EyeOffOutline />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
+                    error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
+                    helperText={formik.errors.newPassword}
+                    inputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          <IconButton
+                            edge='end'
+                            onClick={handleClickShowNewPassword}
+                            aria-label='toggle password visibility'
+                            onMouseDown={handleMouseDownNewPassword}
+                          >
+                            {showNewPassword ? <EyeOutline /> : <EyeOffOutline />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <TextField
+                    id='confirmNewPassword'
+                    label='Confirm New Password'
+                    type={showConfirmNewPassword ? 'text' : 'password'}
+                    value={formik.values.confirmNewPassword}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    error={formik.touched.confirmNewPassword && Boolean(formik.errors.confirmNewPassword)}
+                    helperText={formik.errors.confirmNewPassword}
+                    inputProps= {{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          <IconButton
+                            edge='end'
+                            aria-label='toggle password visibility'
+                            onClick={handleClickShowConfirmNewPassword}
+                            onMouseDown={handleMouseDownConfirmNewPassword}
+                          >
+                            {showConfirmNewPassword ? <EyeOutline /> : <EyeOffOutline />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
                   />
                 </FormControl>
               </Grid>
@@ -202,25 +214,12 @@ const TabSecurity = () => {
           </Grid>
         </Grid>
       </CardContent>
-
-      <Divider sx={{ margin: 0 }} />
-
       <CardContent>
-        <Box sx={{ mt: 5.75, display: 'flex', justifyContent: 'center' }}>
-          <Box
-            sx={{
-              maxWidth: 368,
-              display: 'flex',
-              textAlign: 'center',
-              alignItems: 'center',
-              flexDirection: 'column'
-            }}
-          >
-          </Box>
-        </Box>
-
-        <Box sx={{ mt: 11 }}>
-          <Button variant='contained' sx={{ marginRight: 3.5 }}>
+        <Box sx={{ mt: 7 }}>
+          <Button
+          type='submit' 
+          variant='contained' 
+          sx={{ marginRight: 3.5 }}>
             Save Changes
           </Button>
           <Button

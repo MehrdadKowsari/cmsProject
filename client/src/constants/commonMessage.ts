@@ -81,6 +81,7 @@ export default class CommonMessage {
     public static readonly Delete: string = 'Delete';
     public static readonly Hotkeys: string = 'Hotkeys';
     public static readonly RequiredFiled: string = 'This Field Is Required';
+    public static readonly FiledFormatIsInvalid: string = 'Filed Format Is Invalid';
     public static readonly ToggleActive: string = 'Active/InActive';  
     public static readonly FormInfoIsNotValid: string = 'Form Info Is Not Valid';
     public static readonly DateDidNotEnterCorrectly: string = 'Date Did Not Enter Correctly';

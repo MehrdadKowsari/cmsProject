@@ -6,6 +6,7 @@ import { CRUDResultModel } from '../models/shared/crud/crudResultModel';
 import { MethodResult } from '../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
 import bcrypt from 'bcrypt';
+import { StatusCodes } from 'http-status-codes';
 
 export const add = async (req: Request, res: Response) => {
     try {
@@ -24,7 +25,7 @@ export const add = async (req: Request, res: Response) => {
             return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ConfirmPasswordDoesNotMatch)));
         }
         const hashedPassword = await bcrypt.hash(password, 12);
-        const newUser = await User.create({firstName, lastName, userName, password: hashedPassword, email });
+        await User.create({firstName, lastName, userName, password: hashedPassword, email });
         return res.status(200).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), true));
     } catch (error) {
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
@@ -196,6 +197,60 @@ export const updateProfile = async (req: Request, res: Response) => {
                 image: user.image
             };
             return res.status(200).json(new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), userDTO));
+        }
+    } catch (error) {
+        return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+    }
+}
+
+export const changePassword = async (req: Request, res: Response) => {
+    try {
+        const { id , currentPassword, newPassword, confirmNewPassword } = req.body;
+        let user = await User.findOne({ _id : id });
+        if (user === null) {
+          return res.status(404).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+        }
+        const isPasswordMatch = await bcrypt.compare(currentPassword, user.password as string);
+        if (!isPasswordMatch) {
+            return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.PasswordDoesNotMatch)));
+        }
+        
+        if (newPassword !== confirmNewPassword) {
+            return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ConfirmPasswordDoesNotMatch)));
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
+        
+        const  { modifiedCount } = await User.updateOne({ _id : id },
+        { $set: { 
+            password: hashedPassword
+        }});
+        if (modifiedCount > 0) {
+            return res.status(StatusCodes.OK).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
+        }
+    } catch (error) {
+        return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+    }
+}
+
+export const resetPassword = async (req: Request, res: Response) => {
+    try {
+        const { id , newPassword, confirmNewPassword } = req.body;
+        let user = await User.findOne({ _id : id });
+        if (user === null) {
+          return res.status(404).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+        }
+        
+        if (newPassword !== confirmNewPassword) {
+            return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ConfirmPasswordDoesNotMatch)));
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
+        
+        const  { modifiedCount } = await User.updateOne({ _id : id },
+        { $set: { 
+            password: hashedPassword
+        }});
+        if (modifiedCount > 0) {
+            return res.status(StatusCodes.OK).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
         }
     } catch (error) {
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));

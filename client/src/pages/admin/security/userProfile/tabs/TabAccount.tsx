@@ -82,7 +82,7 @@ const TabAccount = () => {
   const newItemSchema = object({
     firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
     lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-    email: string().required().email(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+    email: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).email(t('filedIsRequired', CommonMessage.FiledFormatIsInvalid)!),
     userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   });
   const formik = useFormik({

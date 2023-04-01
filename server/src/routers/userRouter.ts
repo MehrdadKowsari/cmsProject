@@ -1,5 +1,5 @@
 import express from 'express';
-import { add, fetchAll, getById, getCurrent, update, toggleActive, remove, updateProfile } from '../controllers/userController'
+import { add, fetchAll, getById, getCurrent, update, toggleActive, remove, updateProfile, changePassword, resetPassword } from '../controllers/userController'
 
 const router = express.Router();
 
@@ -10,6 +10,8 @@ router.post('/getCurrent', getCurrent);
 router.post('/delete', remove);
 router.post('/update', update);
 router.post('/updateProfile', updateProfile);
+router.post('/changePassword', changePassword);
+router.post('/resetPassword', resetPassword);
 router.post('/toggleActive', toggleActive);
 
 export default router;
