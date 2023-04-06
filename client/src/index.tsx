@@ -2,7 +2,9 @@
 const Home = () =>{
     return (
         <>
-        Home
+            <div data-testid="homeContainer">
+                Home
+            </div>
         </>
     )
 }
