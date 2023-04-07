@@ -3,7 +3,7 @@ const createJestConfig = nextJest({
   dir: "./",
 });
 const customJestConfig = {
-  moduleDirectories: ["node_modules", "<rootDir>/jest.setup.js"],
+  moduleDirectories: ["node_modules", "<rootDir>/jest.setup.ts"],
   testEnvironment: "jest-environment-jsdom",
 };
 module.exports = createJestConfig(customJestConfig);

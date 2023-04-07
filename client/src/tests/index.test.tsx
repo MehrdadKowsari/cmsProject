@@ -1,12 +1,12 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 
-import { describe } from "node:test";
-import Home from "src";
+import Home from "../index";
 
 describe('Home', () => {
-    it('renders home page') , () => {
-        render(<Home/>)
-        //expect(screen.getByTestId('homeContainer').toBeInTheDocument());
-    }
+    it(('renders home page') , () => {
+        render(<Home/>);
+        
+        expect(screen.getByTestId('homeContainer')).toBeInTheDocument();
+    })
 })
