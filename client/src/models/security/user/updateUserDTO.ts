@@ -6,7 +6,5 @@ export interface UpdateUserDTO extends BaseModel {
   email: string;
   phoneNumber?: string;
   userName: string;
-  password: string;
-  confirmPassword: string;
 }
 

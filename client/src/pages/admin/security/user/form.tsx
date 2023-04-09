@@ -27,7 +27,7 @@ const UserForm = ({id, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 
 const dispatch = useAppDispatch();
-const { t } = useTranslation(['commmon', 'security']);
+const { t } = useTranslation(['common', 'security']);
 
 useEffect(() => {
   if (id) {
@@ -43,30 +43,36 @@ const getItemById = async (id: string | number) => {
         firstName: userDTO.firstName,
         lastName: userDTO.lastName,
         email: userDTO.email,
-        userName: userDTO.userName,
-        password: '',
-        confirmPassword: ''
-      } as AddUserDTO);
+        userName: userDTO.userName      
+      } as initialValuesType);
   }
 }
 
-const newItemSchema = object({
+const newItemValidationSchema = object({
   firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  email: string().required().email(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  email: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).email(t('thisFieldDidNotEnterCorrectly', CommonMessage.ThisFieldDidNotEnterCorrectly)!),
   userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   password: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   confirmPassword: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch)!)
 });
-const updateItemSchema = object({
+
+const updateItemValidationSchema = object({
   firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  email: string().required().email(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  email: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).email(t('thisFieldDidNotEnterCorrectly', CommonMessage.ThisFieldDidNotEnterCorrectly)!),
   userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
 });
-const userName = t('username', CommonMessage.Username);
 
-const addInitialValues: AddUserDTO = {
+type initialValuesType = {
+  firstName: string,
+  lastName: string,
+  email: string,
+  userName: string,
+  password?: string | undefined,
+  confirmPassword?: string| undefined
+};
+const initialValues: initialValuesType = {
   firstName: '',
   lastName: '',
   email: '',
@@ -75,8 +81,8 @@ const addInitialValues: AddUserDTO = {
   confirmPassword: ''
 };
   const formik = useFormik({
-    initialValues: addInitialValues,
-    validationSchema: isUpdate ? updateItemSchema : newItemSchema,
+    initialValues: initialValues,
+    validationSchema: isUpdate ? updateItemValidationSchema : newItemValidationSchema,
     onSubmit: async (values) => {
       if(formik.isValid){
         if (isUpdate) {
@@ -85,9 +91,7 @@ const addInitialValues: AddUserDTO = {
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,
-            userName: values.userName,
-            password: values.password,
-            confirmPassword: values.confirmPassword
+            userName: values.userName
           };
           const result = await dispatch(update(updateUserData)).unwrap();
           if (result) {
@@ -99,18 +103,17 @@ const addInitialValues: AddUserDTO = {
             lastName: values.lastName,
             email: values.email,
             userName: values.userName,
-            password: values.password,
-            confirmPassword: values.confirmPassword
+            password: values.password!,
+            confirmPassword: values.confirmPassword!
           }
           const result = await dispatch(add(addUserData)).unwrap();
           if (result) {
             onClose();
-          }
-          
+          }         
         }
       }
       else{
-        notification.showErrorMessage(CommonMessage.FormDataIsInvalid)
+        notification.showErrorMessage(t('formDataIsInvalid', CommonMessage.FormDataIsInvalid)!)
       }
     }
 
@@ -119,7 +122,7 @@ const addInitialValues: AddUserDTO = {
   return (
     <Card>
       <CardHeader 
-      title={isUpdate ? "Update" : "Add New"}
+      title={isUpdate ? t('update', CommonMessage.Update) : t('new', CommonMessage.New)}
       titleTypographyProps={{variant: 'h6'}}>
       </CardHeader>
       <CardContent>
@@ -134,7 +137,7 @@ const addInitialValues: AddUserDTO = {
                   <TextField 
                   fullWidth 
                   id="firstName"
-                  label="First Name"
+                  label={t('firstName', CommonMessage.FirstName)}
                   value={formik.values.firstName}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -145,7 +148,7 @@ const addInitialValues: AddUserDTO = {
                   <TextField 
                   fullWidth 
                   id="lastName"
-                  label="Last Name"
+                  label={t('lastName', CommonMessage.LastName)}
                   value={formik.values.lastName}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -156,7 +159,7 @@ const addInitialValues: AddUserDTO = {
                   <TextField 
                   fullWidth 
                   id="email"
-                  label="Email"
+                  label={t('email', CommonMessage.Email)}
                   value={formik.values.email}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -167,7 +170,7 @@ const addInitialValues: AddUserDTO = {
                   <TextField 
                   fullWidth 
                   id="userName"
-                  label={userName}
+                  label={t('username', CommonMessage.Username)}
                   value={formik.values.userName}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -179,7 +182,7 @@ const addInitialValues: AddUserDTO = {
                   fullWidth 
                   type='password'
                   id="password"
-                  label="Password"
+                  label={t('password', CommonMessage.Password)}
                   value={formik.values.password}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -191,7 +194,7 @@ const addInitialValues: AddUserDTO = {
                   fullWidth 
                   type='password'
                   id="confirmPassword"
-                  label="Confirm Password"
+                  label={t('confirmPassword', CommonMessage.Password)}
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -205,7 +208,7 @@ const addInitialValues: AddUserDTO = {
                   size="small"
                   color="success"
                   startIcon={<SaveIcon/>}>
-                    <span>Save</span>
+                    <span>{t('save', CommonMessage.Save)}</span>
                   </Button>  
                   <Button
                   type="reset"
@@ -214,7 +217,7 @@ const addInitialValues: AddUserDTO = {
                   color="secondary"
                   sx={{mx: 3}}
                   startIcon={<ClearIcon/>}>
-                    <span>Reset</span>
+                    <span>{t('reset', CommonMessage.Reset)}</span>
                   </Button>  
                 </Grid>
             </Grid>
@@ -223,9 +226,7 @@ const addInitialValues: AddUserDTO = {
         </Grid>
     </Grid>
       </CardContent>
-    </Card>
-    
-    
+    </Card> 
   )
 }
 

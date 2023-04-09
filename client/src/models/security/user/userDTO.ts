@@ -8,7 +8,7 @@ export interface UserDTO extends BaseModel {
     phoneNumber?: string;
     userName: string;
     password?: string;
-    passwordConfirm?: string;
+    confirmPassword?: string;
     image?: string;
     isActive: boolean;
 }
