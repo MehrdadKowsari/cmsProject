@@ -19,6 +19,8 @@ import UserForm from "./form";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Card from "@mui/material/Card";
+import CommonMessage from "src/constants/commonMessage";
+import { useTranslation } from "react-i18next";
  
 const User = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
@@ -27,7 +29,8 @@ const User = ({Component, pageProps}: AppProps) => {
   const [rowId, setRowId] = useState<number| string | null>(null);
   const [page, setPage] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(5);
-
+  const { t } = useTranslation(['common', 'security'])
+  
   const queryOptions = React.useMemo(
     () => ({
       page,
@@ -78,19 +81,19 @@ const User = ({Component, pageProps}: AppProps) => {
     );
   
     const columns: GridColumns = [
-      { field: 'userName', headerName: 'Username', width: 130 },
-      { field: 'firstName', headerName: 'First Name', width: 130 },
-      { field: 'lastName', headerName: 'Last Name', width: 130 },
+      { field: 'userName', headerName: t('username', CommonMessage.Username)!, width: 130 },
+      { field: 'firstName', headerName: t('firstName', CommonMessage.FirstName)!, width: 130 },
+      { field: 'lastName', headerName: t('lastName', CommonMessage.LastName)!, width: 130 },
       {
         field: 'fullName',
-        headerName: 'Full Name',
+        headerName: t('fullName', CommonMessage.FullName)!,
         sortable: false,
          width: 160,
          valueGetter: (params: GridValueGetterParams) =>
          `${params.row.firstName || ''} ${params.row.lastName || ''}`,
         },
-        { field: 'isActive', headerName: 'Is Active', width: 130, type: 'boolean'},
-        { field: 'isCreatedByExternalAccount', headerName: 'Is Created By External Account', width: 250, type: 'boolean'},
+        { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean'},
+        { field: 'isCreatedByExternalAccount', headerName: t('isCreatedByExternalAccount', { ns: 'security' })!, width: 250, type: 'boolean'},
         {
           field: 'actions',
           type: 'actions',
@@ -99,19 +102,19 @@ const User = ({Component, pageProps}: AppProps) => {
             <GridActionsCellItem
               key={params.id}
               icon={<EditIcon color="success" />}
-              label="Update"
+              label={t('update', CommonMessage.Update)}
               onClick={updateUser(params.id)}
             />,
             <GridActionsCellItem
               key={params.id}
               icon={<DeleteIcon color="error" />}
-              label="Delete"
+              label={t('delete', CommonMessage.Delete)}
               onClick={deleteUser(params.id)}
             />,
             <GridActionsCellItem
               key={params.id}
               icon={<SecurityIcon />}
-              label="Toggle Admin"
+              label={t('toggleActive', CommonMessage.ToggleActive)}
               onClick={toggleIsActive(params.id)}
               showInMenu
             />
@@ -141,7 +144,7 @@ const User = ({Component, pageProps}: AppProps) => {
         <>
         <Card>
             <CardHeader 
-            title='User' 
+            title={t('user', CommonMessage.User)} 
             titleTypographyProps={{ variant: 'h6' }}/>
             <CardContent>
             <Box mx={1}>
@@ -151,7 +154,7 @@ const User = ({Component, pageProps}: AppProps) => {
             color="success"
             startIcon={<AddIcon/>}
             onClick={handleAddNew}>
-              <span>New</span>
+              <span>{t('new', CommonMessage.New)}</span>
           </Button>
         </Box>
         <Box mt={2}>
@@ -195,6 +198,6 @@ export const getStaticProps: GetStaticProps<UserProps> = async ({
   locale,
 }) => ({
   props: {
-    ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+    ...(await serverSideTranslations(locale ?? 'en', ['common', 'security'])),
   },
 })

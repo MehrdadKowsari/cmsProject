@@ -1,5 +1,6 @@
 {
     "login": "ورود",
     "signUp": "ثبت نام",
-    "confirmPasswordDoNotMatch": "کلمه عبور و تایید آن تطابق ندارد"   
+    "confirmPasswordDoNotMatch": "کلمه عبور و تایید آن تطابق ندارد",   
+    "isCreatedByExternalAccount": "ایجاد شده با اکانت خارجی"   
 }

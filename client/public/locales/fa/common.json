@@ -39,6 +39,7 @@
     "preview": "نمایش",
     "fullName": "نام و نام خانوادگی",
     "username": "نام کاربری",
+    "user": "کاربر",
     "password": "رمز عبور",
     "confirmPassword": "تایید رمز عبور",
     "detail": "جزئیات",
@@ -92,6 +93,7 @@
     "thisFieldDidNotEnterCorrectly": "این فیلد به درستی وارد نشده است",
     "startFromDateShouldNotBeGreaterThanEndToDate": "تاریخ شروع نباید بزرگتر از تاریخ پایان باشد",
     "noRowSelected": "ردیفی انتخاب نشده است",
+    "noDataExist": "داده ای وجود ندارد",
     "doNotHaveAccessToPage": "شما دسترسی به این صفحه/پنجره را ندارید",
     "doNotHaveAccessToThisActionOrSection": "دسترسی(انجام) به این قسمت(عملیات) را ندارید"
 }

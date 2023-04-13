@@ -35,6 +35,7 @@ export default class CommonMessage {
     public static readonly Preview: string = 'Preview';
     public static readonly FullName: string = 'FullName';
     public static readonly Username: string = 'Username';
+    public static readonly User: string = 'User';
     public static readonly Password: string = 'Password';
     public static readonly ConfirmPassword: string = 'Confirm Password';
     public static readonly OperationType: string = 'OperationType';
@@ -89,6 +90,7 @@ export default class CommonMessage {
     public static readonly ThisFieldDidNotEnterCorrectly: string = 'This Field Did Not Enter Correctly';
     public static readonly StartFromDateShouldNotBeGreaterThanEndToDate: string = 'Start From Date Should Not Be Greater Than End To Date';
     public static readonly NoRowSelected: string = 'No Row Selected';
+    public static readonly NoDataExist: string = 'No Data Exist';
     public static readonly DoNotHaveAccessToPage: string = 'You Do Not Have Access To This Page';
     public static readonly DoNotHaveAccessToThisActionOrSection: string = 'You Do Not Have Access To This Action Or Section';
     public static readonly FormDataIsInvalid: string = 'Form Data Is Invalid';
