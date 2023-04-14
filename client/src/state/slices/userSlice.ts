@@ -8,6 +8,7 @@ import { UserDTO } from 'src/models/security/user/userDTO';
 import { IntialState } from '../interfaces/intialState';
 import { ChangeUserPasswordDTO } from 'src/models/security/user/changeUserPasswordDTO';
 import { ResetUserPasswordDTO } from 'src/models/security/user/resetUserPasswordDTO';
+import { GridParameter } from 'src/models/shared/grid/gridPrameter';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/user`;
 
@@ -25,9 +26,9 @@ export const add = createAsyncThunk(
 
 export const getAll = createAsyncThunk(
   "users/getAll", 
-  async (_, { rejectWithValue }) => {
+  async (gridParameter: GridParameter, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/fetchAll`);
+      const { data } = await axios.post(`${API_URL}/fetchAll`, gridParameter);
       return data?.result;;
     } catch (err) {
       const error= err as AxiosError;
@@ -203,7 +204,8 @@ const userSlice = createSlice({
             state.hasError = false;
           })
           .addCase(getAll.fulfilled, (state, { payload }) => {
-            state.users = payload;
+            state.users = payload.rows;
+            state.totalCount = payload.totalCount;
             state.isLoading = false;
             state.hasError = false;
           })

@@ -7,6 +7,8 @@ import { MethodResult } from '../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
 import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
+import { GridData } from '../models/shared/grid/gridData';
+import GridUtilityHelper from '../helpers/gridUtilityHelper';
 
 export const add = async (req: Request, res: Response) => {
     try {
@@ -34,7 +36,13 @@ export const add = async (req: Request, res: Response) => {
 
 export const fetchAll = async (req: Request, res: Response) => {
     try {
-        const users: UserDTO[] = (await User.find()).map((user: any) => <UserDTO>{
+        const { currentPage, pageSize, sortModel } = req.body;
+        const limitCount: number = (pageSize || 10);
+        const skipCount = (currentPage || 0) * limitCount;
+        const totalCount = await User.find().count();
+        const sort = GridUtilityHelper.getSortObject(sortModel);
+          
+        const users: UserDTO[] = (await User.find().sort(sort).skip(skipCount).limit(limitCount)).map((user: any) => <UserDTO>{
             id: user._id.toString(),         
             fullName: `${user.firstName} ${user.lastName}`,
             firstName: user.firstName,
@@ -44,8 +52,11 @@ export const fetchAll = async (req: Request, res: Response) => {
             userName: user.userName,
             isActive: user.isActive,
         });
-        return res.status(200).json(new MethodResult<UserDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), users));
-    } catch (error) {
+        return res.status(200).json(new MethodResult<GridData<UserDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), {
+            rows: users,
+            totalCount: totalCount
+        }));
+    } catch (error) {console.log(error)
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
 }
@@ -102,14 +113,25 @@ export const isExistUserByUsername = async (req: Request, res: Response) => {
     }
 }
 
-export const remove = async (req: Request, res: Response) => {
+export const getCurrent = async (req: Request, res: Response) => {
     try {
-        const id = req.body;
-        const { deletedCount } = await User.deleteOne({ _id : id });
-        if (deletedCount > 0) {
-            return res.status(200).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
+        const id: string | undefined = req.user?.id;
+        const user = await User.findOne({ _id : id });
+        if (!user) {
+          return res.status(404).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
         }
-        return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+        const userDTO: UserDTO = <UserDTO>{
+            id: user._id.toString(),   
+            image: user.image,      
+            firstName: user.firstName,
+            lastName: user.lastName,
+            fullName: `${user.firstName} ${user.lastName}`,
+            email: user.email,
+            userName: user.userName,
+            isActive: user.isActive,
+            isCreatedByExternalAccount: user.isCreatedByExternalAccount
+        };
+        return res.status(200).json(new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), userDTO));
     } catch (error) {
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
@@ -281,25 +303,14 @@ export const toggleActive = async (req: Request, res: Response) => {
     }
 }
 
-export const getCurrent = async (req: Request, res: Response) => {
+export const remove = async (req: Request, res: Response) => {
     try {
-        const id: string | undefined = req.user?.id;
-        const user = await User.findOne({ _id : id });
-        if (!user) {
-          return res.status(404).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+        const id = req.body;
+        const { deletedCount } = await User.deleteOne({ _id : id });
+        if (deletedCount > 0) {
+            return res.status(200).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
         }
-        const userDTO: UserDTO = <UserDTO>{
-            id: user._id.toString(),   
-            image: user.image,      
-            firstName: user.firstName,
-            lastName: user.lastName,
-            fullName: `${user.firstName} ${user.lastName}`,
-            email: user.email,
-            userName: user.userName,
-            isActive: user.isActive,
-            isCreatedByExternalAccount: user.isCreatedByExternalAccount
-        };
-        return res.status(200).json(new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), userDTO));
+        return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     } catch (error) {
         return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }

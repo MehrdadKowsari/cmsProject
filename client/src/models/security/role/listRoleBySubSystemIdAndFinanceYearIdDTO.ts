@@ -1,5 +1,5 @@
-import { AgGridParameter } from "../../shared/agGrid/agGridPrameter";
+import { GridParameter } from "../../shared/grid/gridPrameter";
 
 export class ListRoleDTO {
-    public GridParameter: AgGridParameter;
+    public GridParameter: GridParameter;
 }

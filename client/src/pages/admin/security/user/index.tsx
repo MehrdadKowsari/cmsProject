@@ -2,7 +2,7 @@ import { AppProps } from "next/app";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as React from 'react';
-import { DataGrid, GridActionsCellItem, GridColDef, GridColumns, GridRowId, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef, GridColumns, GridRowId, GridSortModel, GridValueGetterParams } from '@mui/x-data-grid';
 import UserLayout from "src/layouts/admin/UserLayout";
 import useConfirm from "src/state/hooks/useConfirm";
 
@@ -20,29 +20,38 @@ import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Card from "@mui/material/Card";
 import CommonMessage from "src/constants/commonMessage";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
+import { GridParameter } from "src/models/shared/grid/gridPrameter";
+import ApplicationParams from "src/constants/applicationParams";
  
 const User = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
-  const users: any[] = useSelector((state:any) => state?.user?.users);
+  const { users, totalCount, isLoading} = useSelector((state:any) => state?.user);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number| string | null>(null);
   const [page, setPage] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(5);
+  const [pageSize, setPageSize] = React.useState(ApplicationParams.GridDefaultPageSize);
+  const [sortModel, setSortModel] = React.useState<GridSortModel>([
+    {
+      field: '_id',
+      sort: 'desc',
+    },
+  ]);
   const { t } = useTranslation(['common', 'security'])
   
   const queryOptions = React.useMemo(
     () => ({
       page,
       pageSize,
+      sortModel
     }),
-    [page, pageSize],
+    [page, pageSize,sortModel],
   );
   
   const { confirm } = useConfirm();
     useEffect(() => {
-        dispatch(getAll())
-    }, [])
+      getGridData();
+    }, [queryOptions])
 
     const showConfirm =  async () =>{
       const isConfirmed = await confirm();
@@ -55,7 +64,7 @@ const User = ({Component, pageProps}: AppProps) => {
         if (isConfirmed) {
           const result: boolean = await dispatch(remove(id)).unwrap();
           if(result){
-            dispatch(getAll());
+            getGridData();
           }
         }
       },
@@ -74,11 +83,20 @@ const User = ({Component, pageProps}: AppProps) => {
       (id: GridRowId) => async () => {
         const result: boolean = await dispatch(toggleActive(id)).unwrap();
         if(result !== null){
-          dispatch(getAll());
+          getGridData();
         }
       },
       [],
     );
+
+    const getGridData = () => {
+      const gridparameter: GridParameter = {
+        currentPage: queryOptions.page,
+        pageSize: queryOptions.pageSize,
+        sortModel: sortModel
+      }
+      dispatch(getAll(gridparameter))
+    }
   
     const columns: GridColumns = [
       { field: 'userName', headerName: t('username', CommonMessage.Username)!, width: 130 },
@@ -136,7 +154,7 @@ const User = ({Component, pageProps}: AppProps) => {
     }
 
     const handleCloseForm = () => {
-      dispatch(getAll());
+      getGridData();
       handleCloseModal();
     }
 
@@ -164,19 +182,23 @@ const User = ({Component, pageProps}: AppProps) => {
             columns={columns}
             page={page}
             pageSize={pageSize}
+            rowCount={totalCount}
+            loading={isLoading}
             paginationMode="server"
             onPageChange={(newPage) => setPage(newPage)}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={ApplicationParams.GridPageSize}
+            onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
             checkboxSelection
             getRowId={(row: any) => row?.id}
           />
           </div>
           : <div>
-          no data
+          {t('noDataExist', CommonMessage.NoDataExist)}
           </div>}  
         </Box>  
         <CustomDialog 
-        title="user" 
+        title={t('user', CommonMessage.User)} 
         isOpen={isOpenModal}
         onClose={() => handleCloseModal()}>
           <UserForm id={rowId}

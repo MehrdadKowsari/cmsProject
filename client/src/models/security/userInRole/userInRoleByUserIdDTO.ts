@@ -1,7 +1,7 @@
-import { AgGridParameter } from "../../shared/agGrid/agGridPrameter";
+import { GridParameter } from "../../shared/grid/gridPrameter";
 
 export class UserInRoleByUserIdDTO {
-    public GridParameter: AgGridParameter;
+    public GridParameter: GridParameter;
     public UserId: number;
 }
 
