@@ -12,6 +12,7 @@ import { CRUDResultModel } from '../models/shared/crud/crudResultModel';
 import { MethodResult } from '../models/shared/crud/methodResult';
 import { ValidateRefreshToken } from '../dtos/auth/validateRefreshToken';
 import { google } from 'googleapis/build/src/index';
+import { StatusCodes } from 'http-status-codes';
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
 const ACCESS_TOKEN_EXPIRES_IN = '1m';
@@ -22,13 +23,13 @@ export const signIn = async (req: Request, res: Response) => {
         const { userName, password } = req.body;
         const user = await User.findOne({ userName });
         if (!user) {
-          return res.status(404).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UsernameOrPasswordIsIncorect)));  
+          return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UsernameOrPasswordIsIncorect)));  
         }
         if (user.isCreatedByExternalAccount || !user.password) {
-            return res.status(404).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ThisLoginTypeIsNotPossible)));  
+            return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ThisLoginTypeIsNotPossible)));  
         }
         if (!user.isActive) {
-            return res.status(404).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserIsNotActive)));
+            return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserIsNotActive)));
         }
         const isPasswordCorect = await bcrypt.compare(password, user.password);
         if (!isPasswordCorect) {
@@ -36,9 +37,9 @@ export const signIn = async (req: Request, res: Response) => {
         }
         const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
         const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: '20m'});
-        return res.status(200).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
+        return res.status(StatusCodes.OK).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
     } catch (error) {
-        return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
 }
 
@@ -60,14 +61,14 @@ export const signInByGoogle = async (req: Request, res: Response) => {
         if (!user) {
             user = await User.create({firstName, lastName, userName, email, isCreatedByExternalAccount: true });
             if (!user || !user._id) {
-                return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));        
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));        
             }
         }
         const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
         const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_EXPIRES_IN});
-        return res.status(200).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
+        return res.status(StatusCodes.OK).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
     } catch (error) {
-        return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
 }
 
@@ -76,25 +77,25 @@ export const signUp = async (req: Request, res: Response) => {
         const { firstName, lastName, userName, email, password, confirmPassword } = req.body;
         let user = await User.findOne({ userName });
         if (user) {
-            return res.status(200).json({ message: 'UserName already exists.', result:'error'});
+            return res.status(StatusCodes.OK).json({ message: 'UserName already exists.', result:'error'});
         }
 
         user = await User.findOne({ email });
         if (user) {
-            return res.status(200).json({ message: 'Email already exists.', result:'error'});
+            return res.status(StatusCodes.OK).json({ message: 'Email already exists.', result:'error'});
         }
 
         if (password !== confirmPassword) {
-            return res.status(200).json({ message: 'Password don\'t match.', result:'error'});
+            return res.status(StatusCodes.OK).json({ message: 'Password don\'t match.', result:'error'});
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const newUser = await User.create({firstName, lastName, userName, password: hashedPassword, email });
         const accessToken = jwt.sign({userName: newUser.userName, email: newUser.email, id: newUser._id}, TOKEN_SECRET, {expiresIn: '1m'});
         const refreshToken = jwt.sign({userName: newUser.userName, email: newUser.email, id: newUser._id}, TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_EXPIRES_IN});
         
-        return res.status(200).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
+        return res.status(StatusCodes.OK).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
     } catch (error) {
-        return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
 }
 
@@ -109,7 +110,7 @@ export const getRefreshToken = async (req: Request, res: Response) => {
             if (isCustomAuth) {
                 jwt.verify(refreshToken, TOKEN_SECRET, (error: any, decoded: any) =>{
                     if (error) {
-                        return res.status(401).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+                        return res.status(StatusCodes.UNAUTHORIZED).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
                     }
                     else{
                         decodedData = <JwtPayload>decoded
@@ -117,7 +118,7 @@ export const getRefreshToken = async (req: Request, res: Response) => {
 
                         const accessToken = jwt.sign({userName: decodedData.userName, email: decodedData.email, id: decodedData.id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
                         const refreshToken = jwt.sign({userName: decodedData.userName, email: decodedData.email, id: decodedData.id}, TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_EXPIRES_IN});
-                        return res.status(200).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
+                        return res.status(StatusCodes.OK).json(new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
                     }
                 });
             }
@@ -126,9 +127,9 @@ export const getRefreshToken = async (req: Request, res: Response) => {
                 userId = decodedData?.sub;
             }
         } else {
-            return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
         }
     } catch (error) {
-        return res.status(500).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
 }

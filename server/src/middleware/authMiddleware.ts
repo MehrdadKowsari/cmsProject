@@ -53,11 +53,11 @@ const authMiddleware = async(req:Request, res: Response, next: NextFunction) => 
             }
             next();
         } else {
-            return res.status(401).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.TokenExpired)));
+            return res.status(StatusCodes.UNAUTHORIZED).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.TokenExpired)));
         }
     } catch (error) {
         console.log(error);
-        return res.status(401).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.TokenExpired)));
+        return res.status(StatusCodes.UNAUTHORIZED).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.TokenExpired)));
     }
 }
 

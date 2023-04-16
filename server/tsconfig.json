@@ -8,6 +8,7 @@
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
     "sourceMap": true,
     "outDir": "dist",
+    "moduleResolution":"node",
     "baseUrl": ".",
     "paths": {
         "*": [
