@@ -10,6 +10,7 @@ import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
 import { UserType } from '../types/security/user';
 import bcrypt from 'bcrypt';
 import User from '../models/security/user';
+import { StatusCodes } from 'http-status-codes';
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
 
