@@ -1,4 +1,4 @@
-import { BaseModel } from "../models/shared/base/baseModel";
+import { BaseModel } from "../../models/shared/base/baseModel";
 
 export interface UserDTO extends BaseModel {
     firstName: string;

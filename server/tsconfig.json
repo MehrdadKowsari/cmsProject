@@ -10,10 +10,13 @@
     "outDir": "dist",
     "moduleResolution":"node",
     "baseUrl": ".",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "paths": {
         "*": [
             "node_modules/*"
-        ]
+        ],
+        "src/*": ["./src/*"]
     },
     "typeRoots": [
     "./node_module/@types",

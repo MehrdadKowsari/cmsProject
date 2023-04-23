@@ -1,17 +1,19 @@
 import express from 'express';
-import { add, fetchAll, getById, getCurrent, update, toggleActive, remove, updateProfile, changePassword, resetPassword } from '../controllers/userController'
+import { UserController } from '../controllers/userController';
+import {container} from 'tsyringe'; 
 
+const userController = container.resolve(UserController);
 const router = express.Router();
 
-router.post('/add', add);
-router.post('/fetchAll', fetchAll);
-router.post('/getById', getById);
-router.post('/getCurrent', getCurrent);
-router.post('/delete', remove);
-router.post('/update', update);
-router.post('/updateProfile', updateProfile);
-router.post('/changePassword', changePassword);
-router.post('/resetPassword', resetPassword);
-router.post('/toggleActive', toggleActive);
+router.post('/add', userController.add);
+router.post('/fetchAll', userController.fetchAll);
+router.post('/getById', userController.getById);
+router.post('/getCurrent', userController.getCurrent);
+router.post('/delete', userController.delete);
+router.post('/update', userController.update);
+router.post('/updateProfile', userController.updateProfile);
+router.post('/changePassword', userController.changePassword);
+router.post('/resetPassword', userController.resetPassword);
+router.post('/toggleActive', userController.toggleActive);
 
 export default router;

@@ -9,7 +9,7 @@ import { MethodResult } from '../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
 import { UserType } from '../types/security/user';
 import bcrypt from 'bcrypt';
-import User from '../models/security/user';
+import UserModel from '../models/security/user';
 import { StatusCodes } from 'http-status-codes';
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
@@ -30,10 +30,10 @@ const authMiddleware = async(req:Request, res: Response, next: NextFunction) => 
             }
             else { 
                 decodedData = <JwtPayload>jwt.decode(token);
-                const user = await User.findOne( {$or : [{ userName : decodedData?.email }, {email : decodedData?.email}] });
+                const user = await UserModel.findOne( {$or : [{ userName : decodedData?.email }, {email : decodedData?.email}] });
                 if (user) {
                     req.user = <UserType>{ 
-                        id: user._id.toString(),
+                        id: user._id?.toString(),
                         username: user.userName,
                         email: user.email
                     }
@@ -44,9 +44,9 @@ const authMiddleware = async(req:Request, res: Response, next: NextFunction) => 
                     const userName = decodedData?.email;
                     const email = decodedData?.email;
                     const hashedPassword = await bcrypt.hash(decodedData?.jit, 12);
-                    const newUser = await User.create({firstName, lastName, userName, password: hashedPassword, email });
+                    const newUser = await UserModel.create({firstName, lastName, userName, password: hashedPassword, email });
                     req.user = <UserType>{ 
-                        id: newUser._id.toString(),
+                        id: newUser._id?.toString(),
                         email: newUser.email,
                         username: newUser.userName,
                     };

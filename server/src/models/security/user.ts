@@ -1,7 +1,28 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
-const userSchema = new mongoose.Schema({
-    id: { type: String },
+export const DOCUMENT_NAME = 'User';
+export const COLLECTION_NAME = 'users';
+
+export interface User{
+    _id: Types.ObjectId | null,
+    firstName?: string,
+    lastName?: string,
+    email: string,
+    userName: string,
+    password?: string,
+    passwordSalt?: string,
+    image?: string,
+    thumbnailImage?: string,
+    phoneNumber?: string,
+    language?: string,
+    isActive?: boolean,
+    isCreatedByExternalAccount?: boolean,
+    createDate?: Date,
+    createdBy?: string,
+    lastUpdateDate?: Date,
+};
+
+const userSchema = new mongoose.Schema<User>({
     firstName: { type: String },
     lastName: { type: String },
     email: { type: String, required: true },
@@ -20,5 +41,5 @@ const userSchema = new mongoose.Schema({
     
 })
 
-const User = mongoose.model('User', userSchema);
-export default User;
+const UserModel = mongoose.model<User>(DOCUMENT_NAME, userSchema, COLLECTION_NAME);
+export default UserModel;

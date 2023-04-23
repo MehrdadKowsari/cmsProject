@@ -1,5 +1,5 @@
-export class MethodError {
-    public Code: number;
-    public Title: string;
-    public Description: string;
+export interface MethodError {
+    Code?: number;
+    Title?: string;
+    Description?: string;
 }

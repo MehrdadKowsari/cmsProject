@@ -1,318 +1,142 @@
 import { Request, Response } from 'express';
 import Message from '../constants/messages';
-import { UserDTO } from '../dtos/userDTO';
-import User from '../models/security/user'
 import { CRUDResultModel } from '../models/shared/crud/crudResultModel';
 import { MethodResult } from '../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
-import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
-import { GridData } from '../models/shared/grid/gridData';
-import GridUtilityHelper from '../helpers/gridUtilityHelper';
+import UserService from '../services/userService';
+import { autoInjectable } from 'tsyringe';
+import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
+import { UpdateUserDTO } from 'src/dtos/user/updateUserDTO';
+import { UpdateUserProfileDTO } from 'src/dtos/user/updateUserProfileDTO';
+import { ChangeUserPasswordDTO } from 'src/dtos/user/changeUserPasswordDTO';
+import { ResetUserPasswordDTO } from 'src/dtos/user/resetUserPasswordDTO';
 
-export const add = async (req: Request, res: Response) => {
-    try {
-        const { firstName, lastName, userName, email, password, confirmPassword } = req.body;
-        let user = await User.findOne({ userName });
-        if (user) {
-            return res.status(StatusCodes.OK).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserNameAlreadyExists)));
-        }
-
-        user = await User.findOne({ email });
-        if (user) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.EmailAlreadyExists)));
-        }
-
-        if (password !== confirmPassword) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ConfirmPasswordDoesNotMatch)));
-        }
-        const hashedPassword = await bcrypt.hash(password, 12);
-        await User.create({firstName, lastName, userName, password: hashedPassword, email });
-        return res.status(StatusCodes.OK).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), true));
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+@autoInjectable()
+export class UserController{
+    private _userService: UserService;
+    constructor(userService: UserService){
+        this._userService = userService;
     }
-}
 
-export const fetchAll = async (req: Request, res: Response) => {
-    try {
-        const { currentPage, pageSize, sortModel } = req.body;
-        const limitCount: number = (pageSize || 10);
-        const skipCount = (currentPage || 0) * limitCount;
-        const totalCount = await User.find().count();
-        const sort = GridUtilityHelper.getSortObject(sortModel);
-          
-        const users: UserDTO[] = (await User.find().sort(sort).skip(skipCount).limit(limitCount)).map((user: any) => <UserDTO>{
-            id: user._id.toString(),         
-            fullName: `${user.firstName} ${user.lastName}`,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            isCreatedByExternalAccount: user.isCreatedByExternalAccount,
-            userName: user.userName,
-            isActive: user.isActive,
-        });
-        return res.status(StatusCodes.OK).json(new MethodResult<GridData<UserDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), {
-            rows: users,
-            totalCount: totalCount
-        }));
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+    add = async (req: Request, res: Response) => {
+        try {
+            const requestResult = await this._userService.addUser(req.body);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            
+        }
     }
-}
 
-export const getById = async (req: Request, res: Response) => {
-    try {
-        const id = req.body;
-        const user = await User.findOne({ _id : id });
-        if (!user) {
-          return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+    fetchAll = async (req: Request, res: Response) => {
+        try {
+            const gridParameter: GridParameter = req.body;
+            const requestResult = await this._userService.getAllByParams(gridParameter);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
         }
-        const userDTO: UserDTO = <UserDTO>{
-            id: user._id.toString(),         
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            userName: user.userName,
-            isActive: user.isActive
-        };
-        return res.status(StatusCodes.OK).json(new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), userDTO));
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
-}
 
-export const getByUsername = async (req: Request, res: Response) => {
-    try {
-        const { username } = req.body;
-        const user = await User.findOne({ userName : username });
-        if (!user) {
-          return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+    getById = async (req: Request, res: Response) => {
+        try {
+            const id = req.body;
+            const requestResult = await this._userService.getById(id);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
         }
-        const userDTO: UserDTO = <UserDTO>{
-            id: user._id.toString(),         
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            userName: user.userName,
-            isActive: user.isActive
-        };
-        return res.status(StatusCodes.OK).json(new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), userDTO));
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
-}
 
-export const isExistUserByUsername = async (req: Request, res: Response) => {
-    try {
-        const { username } = req.body;
-        const user = await User.findOne({ userName : username });
-        return res.status(StatusCodes.OK).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), user ? true : false));
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+    getByUsername = async (req: Request, res: Response) => {
+        try {
+            const { username } = req.body;
+            const requestResult = await this._userService.getByUsername(username);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+        }
     }
-}
 
-export const getCurrent = async (req: Request, res: Response) => {
-    try {
-        const id: string | undefined = req.user?.id;
-        const user = await User.findOne({ _id : id });
-        if (!user) {
-          return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+    isExistUserByUsername = async (req: Request, res: Response) => {
+        try {
+            const { username } = req.body;
+            const requestResult = await this._userService.isExistUserByUsername(username);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
         }
-        const userDTO: UserDTO = <UserDTO>{
-            id: user._id.toString(),   
-            image: user.image,      
-            firstName: user.firstName,
-            lastName: user.lastName,
-            fullName: `${user.firstName} ${user.lastName}`,
-            email: user.email,
-            userName: user.userName,
-            isActive: user.isActive,
-            isCreatedByExternalAccount: user.isCreatedByExternalAccount
-        };
-        return res.status(StatusCodes.OK).json(new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), userDTO));
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
-}
 
-export const update = async (req: Request, res: Response) => {
-    try {
-        const { id , firstName, lastName, userName, email } = req.body;
-        let user = await User.findOne({ _id : id });
-        if (user === null) {
-          return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+    getCurrent = async (req: Request, res: Response) => {
+        try {
+            const id: string | undefined = req.user?.id;
+            const requestResult = await this._userService.getCurrent(id!);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
         }
-        
-        let duplicateUserCount = await User.count({ userName, _id: {$ne: id}});
-        if (duplicateUserCount > 0) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserNameAlreadyExists)));
-        }
-        
-        duplicateUserCount = await User.count({ email, _id: {$ne: id} });
-        if (duplicateUserCount > 0) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.EmailAlreadyExists)));
-        }
-
-        user.userName = userName;
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.email = email;
-        
-        const  { matchedCount } = await User.updateOne({ _id : id },
-        { $set: { 
-            userName: userName,
-            firstName : firstName,
-            lastName : lastName,
-            email : email
-        }});
-        if (matchedCount > 0) {
-            return res.status(StatusCodes.OK).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
-        }
-        else {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ErrorOperation)));
-        }
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
-}
 
-export const updateProfile = async (req: Request, res: Response) => {
-    try {
-        const { id , firstName, lastName, userName, email, image } = req.body;
-        let user = await User.findOne({ _id : id });
-        if (user === null) {
-          return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+    update = async (req: Request, res: Response) => {
+        try {
+            const updateUserDTO: UpdateUserDTO = req.body;
+            const requestResult = await this._userService.update(updateUserDTO);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+            
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
         }
-        
-        let duplicateUserCount = await User.count({ userName, _id: {$ne: id}});
-        if (duplicateUserCount > 0) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserNameAlreadyExists)));
-        }
-        
-        duplicateUserCount = await User.count({ email, _id: {$ne: id} });
-        if (duplicateUserCount > 0) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.EmailAlreadyExists)));
-        }
-        user.image = image;
-        user.userName = userName;
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.email = email;
-        
-        const  { matchedCount } = await User.updateOne({ _id : id },
-        { $set: { 
-            image: image,
-            userName: userName,
-            firstName : firstName,
-            lastName : lastName,
-            email : email,
-        }});
-        if (matchedCount > 0) {
-            const userDTO: UserDTO = <UserDTO>{
-                id: user._id.toString(),         
-                fullName: `${user.firstName} ${user.lastName}`,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                isCreatedByExternalAccount: user.isCreatedByExternalAccount,
-                userName: user.userName,
-                isActive: user.isActive,
-                image: user.image
-            };
-            return res.status(StatusCodes.OK).json(new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), userDTO));
-        }
-        else {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ErrorOperation)));
-        }
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
-}
 
-export const changePassword = async (req: Request, res: Response) => {
-    try {
-        const { id , currentPassword, newPassword, confirmNewPassword } = req.body;
-        let user = await User.findOne({ _id : id });
-        if (user === null) {
-          return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+    updateProfile = async (req: Request, res: Response) => {
+        try {
+            const updateUserProfileDTO: UpdateUserProfileDTO = req.body;
+            const requestResult = await this._userService.updateProfile(updateUserProfileDTO);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
         }
-        const isPasswordMatch = await bcrypt.compare(currentPassword, user.password as string);
-        if (!isPasswordMatch) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.PasswordDoesNotMatch)));
-        }
-        
-        if (newPassword !== confirmNewPassword) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ConfirmPasswordDoesNotMatch)));
-        }
-        const hashedPassword = await bcrypt.hash(newPassword, 12);
-        
-        const  { modifiedCount } = await User.updateOne({ _id : id },
-        { $set: { 
-            password: hashedPassword
-        }});
-        if (modifiedCount > 0) {
-            return res.status(StatusCodes.OK).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
-        }
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
-}
 
-export const resetPassword = async (req: Request, res: Response) => {
-    try {
-        const { id , newPassword, confirmNewPassword } = req.body;
-        let user = await User.findOne({ _id : id });
-        if (user === null) {
-          return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+    changePassword = async (req: Request, res: Response) => {
+        try {
+            const changeUserPasswordDTO: ChangeUserPasswordDTO = req.body;
+            const requestResult = await this._userService.changePassword(changeUserPasswordDTO);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
         }
-        
-        if (newPassword !== confirmNewPassword) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ConfirmPasswordDoesNotMatch)));
-        }
-        const hashedPassword = await bcrypt.hash(newPassword, 12);
-        
-        const  { modifiedCount } = await User.updateOne({ _id : id },
-        { $set: { 
-            password: hashedPassword
-        }});
-        if (modifiedCount > 0) {
-            return res.status(StatusCodes.OK).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
-        }
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
-}
 
-export const toggleActive = async (req: Request, res: Response) => {
-    try {
-        const id = req.body;
-        const user = await User.findOne({ _id : id });
-        if (!user) {
-          return res.status(StatusCodes.NOT_FOUND).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+    resetPassword = async (req: Request, res: Response) => {
+        try {
+            const resetUserPasswordDTO: ResetUserPasswordDTO = req.body;
+            const requestResult = await this._userService.resetPassword(resetUserPasswordDTO);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
         }
-        const toggleIsActive = !user.isActive;
-        const  { modifiedCount } = await User.updateOne({_id: id}, { $set: { isActive: toggleIsActive}});
-        if (modifiedCount > 0) {
-            return res.status(StatusCodes.OK).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), toggleIsActive));
-        }
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
-}
 
-export const remove = async (req: Request, res: Response) => {
-    try {
-        const id = req.body;
-        const { deletedCount } = await User.deleteOne({ _id : id });
-        if (deletedCount > 0) {
-            return res.status(StatusCodes.OK).json(new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
+    toggleActive = async (req: Request, res: Response) => {
+        try {
+            const id = req.body;
+            const requestResult = await this._userService.toggleActive(id);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
         }
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
     }
-}
 
+    delete = async (req: Request, res: Response) => {
+        try {
+            const id = req.body;
+            const requestResult = await this._userService.delete(id);
+            return res.status(requestResult.statusCode).json(requestResult.methodResult);
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+        }
+    }
+
+}

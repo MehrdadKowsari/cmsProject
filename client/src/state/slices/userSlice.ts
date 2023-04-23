@@ -111,7 +111,7 @@ export const resetPassword = createAsyncThunk(
 });
 
 export const remove = createAsyncThunk(
-  'users/remove',
+  'users/delete',
   async (id: string | number, { rejectWithValue }) => {
       try {
           const { data } = await axios.post(`${API_URL}/delete`, id);
@@ -363,7 +363,6 @@ const userSlice = createSlice({
             state.isLoading = false;
             state.error = <string>payload;
           })
-
     }
 });
 

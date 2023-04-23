@@ -1,11 +1,13 @@
 import express from 'express';
-import { getRefreshToken, signIn, signInByGoogle, signUp } from '../controllers/authController'
+import AuthController from '../controllers/authController'
+import { container } from 'tsyringe';
 
+const authController = container.resolve(AuthController);
 const router = express.Router();
 
-router.post('/signIn', signIn);
-router.post('/signInByGoogle', signInByGoogle);
-router.post('/signUp', signUp);
-router.post('/getRefreshToken', getRefreshToken);
+router.post('/signIn', authController.signIn);
+router.post('/signInByGoogle', authController.signInByGoogle);
+router.post('/signUp', authController.signUp);
+router.post('/getRefreshToken', authController.getRefreshToken);
 
 export default router;
