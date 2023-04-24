@@ -22,7 +22,6 @@ export default class AuthController{
     signIn = async (req: Request, res: Response) => {
         try {
             const signIn: SignIn = req.body;
-            const id = req.body;
             const requestResult = await this._authService.signIn(signIn);
             return res.status(requestResult.statusCode).json(requestResult.methodResult);
         } catch (error) {
