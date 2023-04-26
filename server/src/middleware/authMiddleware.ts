@@ -57,7 +57,6 @@ const authMiddleware = async(req:Request, res: Response, next: NextFunction) => 
             return res.status(StatusCodes.UNAUTHORIZED).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.TokenExpired)));
         }
     } catch (error) {
-        console.log(error);
         return res.status(StatusCodes.UNAUTHORIZED).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.TokenExpired)));
     }
 }
