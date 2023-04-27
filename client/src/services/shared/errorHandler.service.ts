@@ -3,8 +3,9 @@ import { MethodResult } from "../../models/shared/crud/methodResult";
 import { CRUDResultEnum } from "../../models/shared/enums/crudResultEnum";
 import NotificationService from "../notificationService"
 import CommonMessage from "../../constants/commonMessage";
+import React, { ReactNode } from "react";
 
-export class ErrorHandlerService {
+class ErrorHandlerService {
     ShowErrorMessage(methodResult: MethodResult<any>) {
         if (methodResult.type) {
             switch (methodResult.type) {
@@ -154,6 +155,13 @@ export class ErrorHandlerService {
         }
         return erroMessages;
     }
+
+    GetErrorElement(methodErrors: MethodError[]): ReactNode {
+        let ul = React.createElement('ul', { style: { listStyleType: "square", padding: 10, margin: 10 } }, methodErrors.map((p, index) => (React.createElement('li', {key: index}, p.Description))));
+        return ul; 
+    }
 }
+
+
 
 export default new ErrorHandlerService();

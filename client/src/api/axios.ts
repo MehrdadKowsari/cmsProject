@@ -7,6 +7,8 @@ import Router from 'next/router';
 import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
 import { MethodResult } from 'src/models/shared/crud/methodResult';
 import { MethodError } from 'src/models/shared/crud/methodError';
+import ErrorHandlerService from 'src/services/shared/errorHandler.service';
+import { ReactNode } from 'react';
 
 const API_URL: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
@@ -39,7 +41,7 @@ axiosInstance.interceptors.request.use(
       return response;
     },
     async (error: any) => {
-      const errorMessage: string = error?.response?.data?.errors?.length > 0 ? error.response.data.errors.map((p: MethodError) => p.Description).join(' ,') : error?.response?.data?.message;
+      const errorMessage: string | ReactNode | undefined = error?.response?.data?.errors?.length > 0 ? ErrorHandlerService.GetErrorElement(error.response.data.errors) : error?.response?.data?.message;
       if (error && error.response && error.response.status) {
         const status = error.response.status;
         switch (status) {

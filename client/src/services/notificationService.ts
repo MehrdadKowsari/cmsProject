@@ -25,7 +25,7 @@ class NotificationService{
         toast.success(message, toastOptions);
     }
 
-    showErrorMessage(titleOrMessage?: string, message?: string | ReactNode, autoClose?: number) {
+    showErrorMessage(titleOrMessage?: string | ReactNode, message?: string | ReactNode, autoClose?: number) {
         if (!message && !titleOrMessage) {
             titleOrMessage = `${CommonMessage.Error}`;
             message = `${CommonMessage.ErrorOperation}`;
