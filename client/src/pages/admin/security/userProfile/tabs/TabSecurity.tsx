@@ -29,6 +29,7 @@ import { useAppDispatch } from 'src/state/hooks/hooks'
 import { changePassword } from 'src/state/slices/userSlice'
 import SecurityMessage from 'src/constants/securityMessage'
 import TextField from '@mui/material/TextField'
+import ApplicationParams from 'src/constants/applicationParams'
 
 interface State {
   newPassword: string
@@ -59,11 +60,13 @@ const TabSecurity = () => {
 
   const validationSchema = object({
     currentPassword: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-    newPassword: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-    confirmNewPassword: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("newPassword")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch)!)
+    password: string().min(ApplicationParams.PasswordMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+    confirmPassword: string().min(ApplicationParams.PasswordMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch, { ns: 'security' })!)
   });
   
-  const { user } = useAuth();
+  const { user } = useAuth()
+  
+  ;
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,

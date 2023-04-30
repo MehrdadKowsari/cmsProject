@@ -21,6 +21,8 @@ import notificationService from 'src/services/notificationService'
 import { useAppDispatch } from 'src/state/hooks/hooks'
 import { updateProfile } from 'src/state/slices/userSlice'
 import { UserDTO } from 'src/models/security/user/userDTO'
+import ApplicationParams from 'src/constants/applicationParams'
+import SecurityMessage from 'src/constants/securityMessage'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -83,7 +85,7 @@ const TabAccount = () => {
     firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
     lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
     email: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).email(t('filedIsRequired', CommonMessage.FiledFormatIsInvalid)!),
-    userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+    userName: string().min(ApplicationParams.UsernameMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.UsernameMinLenght), { n: `${ApplicationParams.UsernameMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
   });
   const formik = useFormik({
     initialValues: initialValues,
@@ -113,7 +115,6 @@ const TabAccount = () => {
   const handleResetForm = () => {
     formik.resetForm();
   }
-  const userName = t('username', CommonMessage.Username);
 
   return (
     <CardContent>
@@ -146,8 +147,7 @@ const TabAccount = () => {
           <Grid item xs={12} sm={6}>
             <TextField fullWidth 
             id='userName'
-            label={userName} 
-            placeholder={userName} 
+            label={t('username', CommonMessage.Username)}
             value={formik.values.userName}
             onChange={formik.handleChange} 
             onBlur={formik.handleBlur}
@@ -159,8 +159,7 @@ const TabAccount = () => {
               fullWidth
               id='email'
               type='email'
-              label='Email'
-              placeholder='Email'
+              label={t('email', CommonMessage.Email)}
               value={formik.values.email}
               onChange={formik.handleChange} 
               onBlur={formik.handleBlur}
@@ -170,8 +169,7 @@ const TabAccount = () => {
           <Grid item xs={12} sm={6}>
             <TextField fullWidth 
             id='firstName' 
-            label='First Name' 
-            placeholder='First Name' 
+            label={t('firstName', CommonMessage.FirstName)}
             value={formik.values.firstName}
             onChange={formik.handleChange} 
             onBlur={formik.handleBlur}
@@ -181,8 +179,7 @@ const TabAccount = () => {
           <Grid item xs={12} sm={6}>
             <TextField fullWidth 
             id='lastName' 
-            label='Last Name' 
-            placeholder='Last Name' 
+            label={t('lastName', CommonMessage.LastName)}
             value={formik.values.lastName}
             onChange={formik.handleChange} 
             onBlur={formik.handleBlur}

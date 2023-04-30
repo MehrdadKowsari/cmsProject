@@ -21,6 +21,9 @@ import { useTranslation } from 'react-i18next';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
+import ApplicationParams from 'src/constants/applicationParams';
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 
 const UserForm = ({id, onClose}: FormProps) => {
@@ -52,16 +55,16 @@ const newItemValidationSchema = object({
   firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   email: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).email(t('thisFieldDidNotEnterCorrectly', CommonMessage.ThisFieldDidNotEnterCorrectly)!),
-  userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  password: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  confirmPassword: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch)!)
+  userName: string().min(ApplicationParams.UsernameMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.UsernameMinLenght), { n: `${ApplicationParams.UsernameMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  password: string().min(ApplicationParams.PasswordMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  confirmPassword: string().min(ApplicationParams.PasswordMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch, { ns: 'security' })!)
 });
 
 const updateItemValidationSchema = object({
   firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   email: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!).email(t('thisFieldDidNotEnterCorrectly', CommonMessage.ThisFieldDidNotEnterCorrectly)!),
-  userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
+  userName: string().min(ApplicationParams.UsernameMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.UsernameMinLenght), { n: `${ApplicationParams.UsernameMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
 });
 
 type initialValuesType = {
@@ -231,3 +234,13 @@ const initialValues: initialValuesType = {
 }
 
 export default UserForm
+type Props = {
+  // Add custom props here
+}
+export const getStaticProps: GetStaticProps<Props> = async ({
+  locale,
+}) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? 'en', ['common','security'])),
+  },
+})

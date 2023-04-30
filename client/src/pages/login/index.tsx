@@ -32,6 +32,7 @@ import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import CommonMessage from 'src/constants/commonMessage';
 import SecurityMessage from 'src/constants/securityMessage';
+import ApplicationParams from 'src/constants/applicationParams';
 
 
 const Login = ({Component, pageProps}: AppProps) => {
@@ -58,9 +59,9 @@ const signUpSchema = object({
   firstName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   lastName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   email: string().required().email(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  userName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  password: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  confirmPassword: string().required().oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch)!)
+  userName: string().min(ApplicationParams.UsernameMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.UsernameMinLenght), { n: `${ApplicationParams.UsernameMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  password: string().min(ApplicationParams.PasswordMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  confirmPassword: string().min(ApplicationParams.PasswordMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch, { ns: 'security' })!)
 });
 
 const { classes } = useStyles();
@@ -326,6 +327,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({
   locale,
 }) => ({
   props: {
-    ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+    ...(await serverSideTranslations(locale ?? 'en', ['common', 'security'])),
   },
 })
