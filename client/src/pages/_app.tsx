@@ -1,6 +1,6 @@
 
 import { AppProps } from 'next/app';
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Provider } from 'react-redux';

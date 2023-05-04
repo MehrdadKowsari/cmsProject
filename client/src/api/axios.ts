@@ -6,22 +6,24 @@ import BrowserStorageService from '../services/shared/browserStorageService'
 import Router from 'next/router';
 import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
 import { MethodResult } from 'src/models/shared/crud/methodResult';
-import { MethodError } from 'src/models/shared/crud/methodError';
 import ErrorHandlerService from 'src/services/shared/errorHandler.service';
 import { ReactNode } from 'react';
+import { i18n } from 'next-i18next';
+import browserStorageService from '../services/shared/browserStorageService';
 
 const API_URL: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 const axiosInstance = axios.create({
   baseURL: API_URL
 });
- 
+
 axiosInstance.interceptors.request.use(
     (config: any) => {
       const accessToken: string = BrowserStorageService.getLocal('accessToken');
+      const locale: string = BrowserStorageService.getLocal('locale') || 'en';
       config.headers['Content-Type'] = 'application/json;charset=UTF-8'
       config.headers['Access-Control-Allow-Origin'] = '*'
-      config.headers['Accept-Language'] = 'en-US'
+      config.headers['Accept-Language'] = locale;
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`
       }
@@ -53,6 +55,7 @@ axiosInstance.interceptors.request.use(
           case 401:
             {
               let originalRequest = error.config;
+              const locale: string = BrowserStorageService.getLocal('locale') || 'en';
                 if (error.config && !error.config.__isRetryRequest) {
                   originalRequest._retry = true;
                   const token = await getRefreshToken()
@@ -61,7 +64,7 @@ axiosInstance.interceptors.request.use(
                       Authorization: `Bearer ${token}`,
                       'Content-Type': 'application/json;charset=UTF-8',
                       'Access-Control-Allow-Origin': '*',
-                      'Accept-Language': 'en-US'
+                      'Accept-Language': locale
                     };
                     return axiosInstance.request(originalRequest); 
                   }

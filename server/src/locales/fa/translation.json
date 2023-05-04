@@ -4,7 +4,6 @@
     "Security": "امنیت",
     "Users": "کاربران",
     "User Profile": "پروفایل کاربر",
-    "filedIsRequired": "وارد کردن این فیلد ضروری است",
     "success": "موفق",
     "error": "خطا",
     "warning": "هشدار",
@@ -95,6 +94,10 @@
     "noRowSelected": "ردیفی انتخاب نشده است",
     "noDataExist": "داده ای وجود ندارد",
     "doNotHaveAccessToPage": "شما دسترسی به این صفحه/پنجره را ندارید",
+    "filedIsRequired": "وارد کردن این فیلد ضروری است",
+    "thisFiledIsRequired": "وارد کردن {{field}} ضروری است",
     "doNotHaveAccessToThisActionOrSection": "دسترسی(انجام) به این قسمت(عملیات) را ندارید",
-    "minLenghtForThisFieldIsN": "طول این فیلد باید حداقل {{n}} کاراکتر باشد"
+    "minLenghtForThisFieldIsN": "طول {{field}} باید حداقل {{n}} کاراکتر باشد",
+    "maxLenghtForThisFieldIsN": "طول {{field}} باید حداکثر {{n}} کاراکتر باشد",
+    "thisFieldIsNotEnteredCorrectly": "{{field}} به درستی وارد نشده است"
 }
