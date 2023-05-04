@@ -102,6 +102,8 @@
     "emailIsRequired": "وارد کردن 'ایمیل' ضروری است",
     "passwordIsRequired": "وارد کردن 'کلمه عبور' ضروری است",
     "confirmPasswordIsRequired": "وارد کردن 'تایید کلمه عبور' ضروری است",
+    "currentPasswordIsRequired": "'کلمه عبور فعلی' ضروری است",
+    "idIsRequired": "'شناسه' ضروری است",
     "minLenghtForUsernameIsN": "طول 'نام کاربری' باید حداقل {{n}} کاراکتر باشد",
     "minLenghtForFirstNameIsN": "طول 'نام' باید حداقل {{n}} کاراکتر باشد",
     "minLenghtForLastNameIsN": "طول 'نام خانوادگی' باید حداقل {{n}} کاراکتر باشد",
