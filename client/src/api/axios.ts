@@ -8,8 +8,6 @@ import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
 import { MethodResult } from 'src/models/shared/crud/methodResult';
 import ErrorHandlerService from 'src/services/shared/errorHandler.service';
 import { ReactNode } from 'react';
-import { i18n } from 'next-i18next';
-import browserStorageService from '../services/shared/browserStorageService';
 
 const API_URL: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
