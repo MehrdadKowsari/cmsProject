@@ -1,0 +1,14 @@
+{
+    "successOperation":"Operation Completed Successfully",
+    "unknownErrorHappened": "Unknown Error Happened",
+    "ThisLoginTypeIsNotPossible": "This Login Type Is Not Possible",
+    "userIsNotActive": "User Is Not Active",
+    "usernameOrPasswordIsIncorect": "Username Or Password Is Incorect",
+    "userDoesNotExist": "User Does Not Exist",
+    "userNameAlreadyExists": "UserName Already Exists",
+    "emailAlreadyExists": "Email Already Exists",
+    "confirmPasswordDoesNotMatch": "Confirm Password Does Not Match",
+    "passwordDoesNotMatch": "Password Does Not Match",
+    "dataIsNotEnteredCorrectly": "Password Does Not Match",
+    "tokenExpired": "Token Expired"
+}

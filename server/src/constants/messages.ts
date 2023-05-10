@@ -102,12 +102,12 @@ export default class Message {
     public static readonly ThisLoginTypeIsNotPossible: string = 'This Login Type Is Not Possible';
     public static readonly UserIsNotActive: string = 'User Is Not Active';
     public static readonly UsernameOrPasswordIsIncorect: string = 'Username Or Password Is Incorect';
-    public static readonly UserDoesNotExist: 'User Does Not Exist';
-    public static readonly UserNameAlreadyExists: 'UserName Already Exists';
-    public static readonly EmailAlreadyExists: 'Email Already Exists';
+    public static readonly UserDoesNotExist: string = 'User Does Not Exist';
+    public static readonly UserNameAlreadyExists: string = 'UserName Already Exists';
+    public static readonly EmailAlreadyExists: string = 'Email Already Exists';
     public static readonly ConfirmPasswordDoesNotMatch:string = 'Confirm Password Does Not Match';
     public static readonly PasswordDoesNotMatch:string = 'Password Does Not Match';
-    public static readonly DataIsNotEnteredCorrectly:string = 'Password Does Not Match';
+    public static readonly DataIsNotEnteredCorrectly:string = 'Data Is Not Entered Correctly';
 
     
 }

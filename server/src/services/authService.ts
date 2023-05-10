@@ -1,4 +1,3 @@
-import Message from '../constants/messages';
 import { CRUDResultModel } from '../models/shared/crud/crudResultModel';
 import { MethodResult } from '../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
@@ -30,23 +29,23 @@ export default class AuthService{
             const { userName, password } = signIn;
             const user = await this._userRepository.getByUsername(userName);
             if (!user) {
-              return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UsernameOrPasswordIsIncorect)));  
+              return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'usernameOrPasswordIsIncorect')));  
             }
             if (user.isCreatedByExternalAccount || !user.password) {
-                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ThisLoginTypeIsNotPossible)));  
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'ThisLoginTypeIsNotPossible')));  
             }
             if (!user.isActive) {
-                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserIsNotActive)));
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userIsNotActive')));
             }
             const isPasswordCorect = await bcrypt.compare(password, user.password);
             if (!isPasswordCorect) {
-              return new RequestResult(400, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UsernameOrPasswordIsIncorect)));  
+              return new RequestResult(400, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'usernameOrPasswordIsIncorect')));  
             }
             const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
             const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: '20m'});
-            return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
+            return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
     
@@ -63,7 +62,7 @@ export default class AuthService{
             });
             const userInfo = await oauth2.userinfo.get();
             if (userInfo?.data) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));       
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));       
             }
             let {given_name : firstName , family_name: lastName , email: userName, email} = userInfo.data
             let user = await this._userRepository.getByUsernameOrEmail(userName!, email!);
@@ -78,14 +77,14 @@ export default class AuthService{
                 }
                 user = await this._userRepository.add(newUser);
                 if (!user || !user._id) {
-                    return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));        
+                    return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));        
                 }
             }
             const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
             const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_EXPIRES_IN});
-            return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
+            return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
     
@@ -94,16 +93,14 @@ export default class AuthService{
             const { firstName, lastName, userName, email, password, confirmPassword } = signUp;
             const isExistsUsername = await this._userRepository.isExistsUsername(null, userName);
             if (isExistsUsername) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserNameAlreadyExists)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userNameAlreadyExists')));
             }
-
             const isExistsEmail = await this._userRepository.isExistsEmail(null, email);
             if (isExistsEmail) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.EmailAlreadyExists)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'emailAlreadyExists')));
             }
-
             if (password !== confirmPassword) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ConfirmPasswordDoesNotMatch)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
             }
             const hashedPassword = await bcrypt.hash(password, 12);
             const newUser: User ={
@@ -113,14 +110,14 @@ export default class AuthService{
                 email,
                 userName,
                 password: hashedPassword,
-            }
+            };
             const user = await this._userRepository.add(newUser);
             const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
             const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_EXPIRES_IN});
             
-            return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
+            return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
     
@@ -137,16 +134,16 @@ export default class AuthService{
                 if (Object.keys(decodedData).length > 0) {
                     const accessToken = jwt.sign({userName: decodedData.userName, email: decodedData.email, id: decodedData.id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
                     const refreshToken = jwt.sign({userName: decodedData.userName, email: decodedData.email, id: decodedData.id}, TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_EXPIRES_IN});
-                    return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
+                    return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
                 }
                 else{
-                    return new RequestResult(StatusCodes.UNAUTHORIZED, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));    
+                    return new RequestResult(StatusCodes.UNAUTHORIZED, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));    
                 }
             } else {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
             }
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
 }
 }

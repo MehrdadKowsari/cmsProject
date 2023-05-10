@@ -100,6 +100,7 @@
     "firstNameIsRequired": "وارد کردن 'نام' ضروری است",
     "lastNameIsRequired": "وارد کردن 'نام خانوادگی' ضروری است",
     "emailIsRequired": "وارد کردن 'ایمیل' ضروری است",
+    "tokenIsRequired": "وارد کردن 'توکن' ضروری است",
     "passwordIsRequired": "وارد کردن 'کلمه عبور' ضروری است",
     "confirmPasswordIsRequired": "وارد کردن 'تایید کلمه عبور' ضروری است",
     "currentPasswordIsRequired": "'کلمه عبور فعلی' ضروری است",
@@ -116,5 +117,15 @@
     "maxLenghtForConfirmPasswordIsN": "طول 'تایید کلمه عبور' باید حداقل {{n}} کاراکتر باشد",
     "firstNameIsNotEnteredCorrectly": "'نام' به درستی وارد نشده است",
     "lastNameIsNotEnteredCorrectly": "'نام خانوادگی' به درستی وارد نشده است",
-    "emailIsNotEnteredCorrectly": "'ایمیل' به درستی وارد نشده است"
+    "emailIsNotEnteredCorrectly": "'ایمیل' به درستی وارد نشده است",
+    "ThisLoginTypeIsNotPossible": "این نوع ورود امکان پذیر نمی باشد",
+    "userIsNotActive": "کاربر فعال نمی باشد",
+    "usernameOrPasswordIsIncorect": "نام کاربری یا کلمه عبور نادرست است",
+    "userDoesNotExist": "کاربر وجود ندارد",
+    "userNameAlreadyExists": "نام کاربری وجود دارد",
+    "emailAlreadyExists": "ایمیل وجود ارد",
+    "confirmPasswordDoesNotMatch": "کلمه عبور و تایید آن تطابق ندارد",
+    "passwordDoesNotMatch": "کلمه عبور و تایید آن تطابق ندارد",
+    "dataIsNotEnteredCorrectly": "داده ها به درستی وارد نشده است",
+    "tokenExpired": "توکن منقضی شده است"
 }

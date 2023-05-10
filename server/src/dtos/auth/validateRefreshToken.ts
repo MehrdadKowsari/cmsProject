@@ -1,4 +1,4 @@
-export class ValidateRefreshToken {
-    public refreshToken: string;
-    public token: string;
+export interface ValidateRefreshToken {
+    refreshToken: string;
+    token: string;
 }

@@ -22,6 +22,7 @@ export default class UserService{
     private _userRepository: UserRepository;
     constructor(userRepository: UserRepository){
         this._userRepository = userRepository;
+        
     }
 
     addUser = async (addUserDTO: AddUserDTO) => {
@@ -29,16 +30,16 @@ export default class UserService{
             const { firstName, lastName, userName, email, password, confirmPassword } = addUserDTO;
             const isExistsUsername = await this._userRepository.isExistsUsername(null, userName);
             if (isExistsUsername) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserNameAlreadyExists)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userNameAlreadyExists')));
             }
 
             const isExistsEmail = await this._userRepository.isExistsEmail(null, email);
             if (isExistsEmail) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.EmailAlreadyExists)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'emailAlreadyExists')));
             }
 
             if (password !== confirmPassword) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ConfirmPasswordDoesNotMatch)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
             }
             const hashedPassword = await bcrypt.hash(password, 12);
             const newUser: User ={
@@ -50,9 +51,9 @@ export default class UserService{
                 password: hashedPassword,
             } 
             await this._userRepository.add(newUser);
-            return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), true));
+            return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), true));
             } catch (error) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
             }
     }
 
@@ -69,12 +70,12 @@ export default class UserService{
                 userName: user.userName,
                 isActive: user.isActive,
             });
-            return new RequestResult(StatusCodes.OK, new MethodResult<GridData<UserDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), {
+            return new RequestResult(StatusCodes.OK, new MethodResult<GridData<UserDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), {
                 rows: users,
                 totalCount: totalCount
             }));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
 
@@ -82,7 +83,7 @@ export default class UserService{
         try {
             const user = await this._userRepository.getById(id);
             if (!user) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));
+            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
             const userDTO: UserDTO = <UserDTO>{
                 id: user._id?.toString(),         
@@ -92,9 +93,9 @@ export default class UserService{
                 userName: user.userName,
                 isActive: user.isActive
             };
-            return new RequestResult(StatusCodes.OK, new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), userDTO));
+            return new RequestResult(StatusCodes.OK, new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), userDTO));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
 
@@ -102,7 +103,7 @@ export default class UserService{
         try {
             const user = await this._userRepository.getByUsername(username);
             if (!user) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
             }
             const userDTO: UserDTO = <UserDTO>{
                 id: user._id?.toString(),         
@@ -112,18 +113,18 @@ export default class UserService{
                 userName: user.userName,
                 isActive: user.isActive
             };
-            return new RequestResult(StatusCodes.OK, new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), userDTO));
+            return new RequestResult(StatusCodes.OK, new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), userDTO));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
 
     isExistUserByUsername = async (username: string) => {
         try {
             const user = await this._userRepository.getByUsername(username);
-            return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), user ? true : false));
+            return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), user ? true : false));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
 
@@ -131,7 +132,7 @@ export default class UserService{
         try {
             const user = await this._userRepository.getById(id);
             if (!user) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
             }
             const userDTO: UserDTO = <UserDTO>{
                 id: user._id?.toString(),   
@@ -144,9 +145,9 @@ export default class UserService{
                 isActive: user.isActive,
                 isCreatedByExternalAccount: user.isCreatedByExternalAccount
             };
-            return new RequestResult(StatusCodes.OK, new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, Message.SuccessOperation), userDTO));
+            return new RequestResult(StatusCodes.OK, new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), userDTO));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
 
@@ -155,17 +156,17 @@ export default class UserService{
             const { id , firstName, lastName, userName, email } = updateUserDTO;
             let user = await this._userRepository.getById(id);
             if (user === null) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
             }
             
             const isExistsUsername = await this._userRepository.isExistsUsername(id, userName);
             if (isExistsUsername) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserNameAlreadyExists)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userNameAlreadyExists')));
             }
             
             const isExistsEmail = await this._userRepository.isExistsEmail(id, email);
             if (isExistsEmail) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.EmailAlreadyExists)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'emailAlreadyExists')));
             }
             
             user.userName = userName;
@@ -176,13 +177,13 @@ export default class UserService{
             
             const  { matchedCount } = await this._userRepository.update(user);
             if (matchedCount > 0) {
-                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
+                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
             }
             else {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ErrorOperation)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
             }
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
 
@@ -191,17 +192,17 @@ export default class UserService{
             const { id , firstName, lastName, userName, email, image } = updateUserProfile;
             let user = await this._userRepository.getById(id);
             if (user === null) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
             }
             
             const isExistsUsername = await this._userRepository.isExistsUsername(id, userName);
             if (isExistsUsername) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserNameAlreadyExists)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userNameAlreadyExists')));
             }
             
             const isExistsEmail = await this._userRepository.isExistsEmail(id, email);
             if (isExistsEmail) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.EmailAlreadyExists)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'emailAlreadyExists')));
             }
             
             user.image = image;
@@ -224,13 +225,13 @@ export default class UserService{
                     isActive: user.isActive,
                     image: user.image
                 };
-                return new RequestResult(StatusCodes.OK, new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), userDTO));
+                return new RequestResult(StatusCodes.OK, new MethodResult<UserDTO>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), userDTO));
             }
             else {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ErrorOperation)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
             }
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
 
@@ -239,25 +240,25 @@ export default class UserService{
             const { id , currentPassword, newPassword, confirmNewPassword } = changePassword;
             let user = await this._userRepository.getById(id);
             if (user === null) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
             }
             const isPasswordMatch = await bcrypt.compare(currentPassword, user.password as string);
             if (!isPasswordMatch) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.PasswordDoesNotMatch)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'passwordDoesNotMatch')));
             }
             
             if (newPassword !== confirmNewPassword) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ConfirmPasswordDoesNotMatch)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
             }
             const hashedPassword = await bcrypt.hash(newPassword, 12);
             
             const  { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword);
             if (modifiedCount > 0) {
-                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
+                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
             }
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
 
@@ -266,21 +267,21 @@ export default class UserService{
             const { id , password, confirmPassword } = resetPassword;
             let user = await this._userRepository.getById(id);
             if (user === null) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
             }
             
             if (password !== confirmPassword) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.ConfirmPasswordDoesNotMatch)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
             }
             const hashedPassword = await bcrypt.hash(password, 12);
             
             const  { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword);
             if (modifiedCount > 0) {
-                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
+                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
             }
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
 
@@ -288,16 +289,16 @@ export default class UserService{
         try {
             const user = await this._userRepository.getById(id);
             if (!user) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UserDoesNotExist)));  
+            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
             }
             const toggleIsActive = !user.isActive;
             const  { modifiedCount } = await this._userRepository.toggleIsActive(id, toggleIsActive);
             if (modifiedCount > 0) {
-                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), toggleIsActive));
+                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), toggleIsActive));
             }
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
 
@@ -305,11 +306,11 @@ export default class UserService{
         try {
             const { deletedCount } = await this._userRepository.delete(id);
             if (deletedCount > 0) {
-                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, Message.SuccessOperation), true));
+                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
             }
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
             } catch (error) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened)));
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
             }
     }
 }

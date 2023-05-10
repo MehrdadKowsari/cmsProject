@@ -3,7 +3,6 @@ dotenv.config();
 
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import Message from '../constants/messages';
 import { CRUDResultModel } from '../models/shared/crud/crudResultModel';
 import { MethodResult } from '../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
@@ -11,6 +10,7 @@ import { UserType } from '../types/security/user';
 import bcrypt from 'bcrypt';
 import UserModel from '../models/security/user';
 import { StatusCodes } from 'http-status-codes';
+import localizeHelper from 'src/helpers/localizeHelper';
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
 
@@ -54,10 +54,10 @@ const authMiddleware = async(req:Request, res: Response, next: NextFunction) => 
             }
             next();
         } else {
-            return res.status(StatusCodes.UNAUTHORIZED).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.TokenExpired)));
+            return res.status(StatusCodes.UNAUTHORIZED).json(localizeHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'tokenExpired')), req));
         }
     } catch (error) {
-        return res.status(StatusCodes.UNAUTHORIZED).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.TokenExpired)));
+        return res.status(StatusCodes.UNAUTHORIZED).json(localizeHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'tokenExpired')), req));
     }
 }
 

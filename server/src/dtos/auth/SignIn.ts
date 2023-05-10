@@ -1,4 +1,4 @@
-export class SignIn {
+export interface SignIn {
     userName: string;
     password: string   
 } 

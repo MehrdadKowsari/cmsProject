@@ -15,7 +15,7 @@ const options = {
  };
 
 const addValidation = (req: any, res: Response, next: NextFunction) => {
-     const addUserValidationSchema = joi.object({
+     const addValidationSchema = joi.object({
           firstName: joi.string().alphanum().min(AppConstant.FirstnameMinLenght).max(AppConstant.FirstnameMaxLenght).trim(true).required().label('First Name')
           .messages({ 
                "string.base": req.t('firstNameIsRequired', `{{#label}} is required`),
@@ -34,9 +34,9 @@ const addValidation = (req: any, res: Response, next: NextFunction) => {
                "string.max": req.t('maxLenghtForLastNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
           userName: joi.string().min(AppConstant.UsernameMinLenght).max(AppConstant.UsernameMaxLenght).trim(true).required().label('Username')
           .messages({ 
-               "string.base": req.t('usernameIsRequired', `{{#label}} is required`, {field: 'Username'}),
-               "string.empty": req.t('usernameIsRequired', `{{#label}} is required`, {field: 'Username'}),
-               "string.required": req.t('usernameIsRequired', `{{#label}} is required`, {field: 'Username'}),
+               "string.base": req.t('usernameIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('usernameIsRequired', `{{#label}} is required`),
+               "string.required": req.t('usernameIsRequired', `{{#label}} is required`),
                "string.min": req.t('minLenghtForUsernameIsN', `{{#label}} min lenght is {{#limit}}`, {n: `{{#limit}}`}),
                "string.max": req.t('maxLenghtForUsernameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
           email: joi.string().email().trim(true).required()
@@ -59,7 +59,7 @@ const addValidation = (req: any, res: Response, next: NextFunction) => {
                "string.min": req.t('minLenghtForConfirmPasswordnIsN', `{{#label}} min lenght is {{#limit}}`, {n: AppConstant.PasswordMinLenght})})
      });
      
-     const { error } = addUserValidationSchema.validate(req.body, options);
+     const { error } = addValidationSchema.validate(req.body, options);
       
       if (error) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened, error.details.map((x:any) => <MethodError>{
@@ -93,7 +93,7 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 }
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
-     const updateUserValidationSchema = joi.object({
+     const updateValidationSchema = joi.object({
           firstName: joi.string().alphanum().min(AppConstant.FirstnameMinLenght).max(AppConstant.FirstnameMaxLenght).trim(true).required().label('First Name')
           .messages({ 
                "string.base": req.t('firstNameIsRequired', `{{#label}} is required`),
@@ -112,9 +112,9 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
                "string.max": req.t('maxLenghtForLastNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
           userName: joi.string().min(AppConstant.UsernameMinLenght).max(AppConstant.UsernameMaxLenght).trim(true).required().label('Username')
           .messages({ 
-               "string.base": req.t('usernameIsRequired', `{{#label}} is required`, {field: 'Username'}),
-               "string.empty": req.t('usernameIsRequired', `{{#label}} is required`, {field: 'Username'}),
-               "string.required": req.t('usernameIsRequired', `{{#label}} is required`, {field: 'Username'}),
+               "string.base": req.t('usernameIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('usernameIsRequired', `{{#label}} is required`),
+               "string.required": req.t('usernameIsRequired', `{{#label}} is required`),
                "string.min": req.t('minLenghtForUsernameIsN', `{{#label}} min lenght is {{#limit}}`, {n: `{{#limit}}`}),
                "string.max": req.t('maxLenghtForUsernameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
           email: joi.string().email().trim(true).required()
@@ -126,7 +126,7 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
      });
      
   
-      const { error } = updateUserValidationSchema.validate(req.body, options);
+      const { error } = updateValidationSchema.validate(req.body, options);
       
       if (error) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened, error.details.map((x:any) => <MethodError>{
@@ -158,9 +158,9 @@ const updateProfileValidation = (req: any, res: Response, next: NextFunction) =>
                "string.max": req.t('maxLenghtForLastNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
           userName: joi.string().min(AppConstant.UsernameMinLenght).max(AppConstant.UsernameMaxLenght).trim(true).required().label('Username')
           .messages({ 
-               "string.base": req.t('usernameIsRequired', `{{#label}} is required`, {field: 'Username'}),
-               "string.empty": req.t('usernameIsRequired', `{{#label}} is required`, {field: 'Username'}),
-               "string.required": req.t('usernameIsRequired', `{{#label}} is required`, {field: 'Username'}),
+               "string.base": req.t('usernameIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('usernameIsRequired', `{{#label}} is required`),
+               "string.required": req.t('usernameIsRequired', `{{#label}} is required`),
                "string.min": req.t('minLenghtForUsernameIsN', `{{#label}} min lenght is {{#limit}}`, {n: `{{#limit}}`}),
                "string.max": req.t('maxLenghtForUsernameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
           email: joi.string().email().trim(true).required()
@@ -251,13 +251,11 @@ const resetPasswordValidation = (req: any, res: Response, next: NextFunction) =>
 }
 
 const toggleAvtiveValidation = (req: any, res: Response, next: NextFunction) => {
-     const toggleAvtiveSchema = joi.object({
-          id: joi.string().trim(true).required().label('Id')
+     const toggleAvtiveSchema = joi.string().trim(true).required().label('Id')
           .messages({ 
                "string.base": req.t('idIsRequired', `{{#label}} is required`),
                "string.empty": req.t('idIsRequired', `{{#label}} is required`),
-               "string.required": req.t('idIsRequired', `{{#label}} is required`)})
-     });
+               "string.required": req.t('idIsRequired', `{{#label}} is required`)});
      
      const { error } = toggleAvtiveSchema.validate(req.body, options);
       
@@ -272,11 +270,11 @@ const toggleAvtiveValidation = (req: any, res: Response, next: NextFunction) => 
 }
 
 const deleteValidation = (req: any, res: Response, next: NextFunction) => {
-     const deleteSchema = joi.object({
-          id: joi.string().trim(true).required().label('Id')
-          .messages({ 
-               "string.required": req.t('idIsRequired', `{{#label}} is required`)})
-     });
+     const deleteSchema = joi.string().trim(true).required().label('Id')
+     .messages({ 
+          "string.base": req.t('idIsRequired', `{{#label}} is required`),
+          "string.empty": req.t('idIsRequired', `{{#label}} is required`),
+          "string.required": req.t('idIsRequired', `{{#label}} is required`)});
      
      const { error } = deleteSchema.validate(req.body, options);
       

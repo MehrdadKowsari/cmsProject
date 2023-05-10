@@ -11,13 +11,10 @@ import AppConstant from "src/constants/appConstants";
         
         isExistsUsername = async (id: string | null, userName: string) : Promise<boolean> => 
         {
-            if (id) {
-                return await UserModel.count({ userName}) > 0;  
-            }
-            return await UserModel.count({ userName, _id: {$ne: id}}) > 0;  
+            return id ? await UserModel.count({ userName, _id: {$ne: id}}) > 0 : await UserModel.count({ userName}) > 0;  
         }
         
-        isExistsEmail = async (id: string | null, email: string) => await UserModel.count({ email, _id: {$ne: id}}); 
+        isExistsEmail = async (id: string | null, email: string) => await UserModel.count({ email, _id: {$ne: id}}) > 0; 
         
         getAll = async () => await UserModel.find(); 
         
