@@ -1,4 +1,3 @@
-import Message from '../constants/messages';
 import { UserDTO } from '../dtos/user/userDTO';
 import { CRUDResultModel } from '../models/shared/crud/crudResultModel';
 import { MethodResult } from '../models/shared/crud/methodResult';
@@ -18,14 +17,19 @@ import { UpdateUserProfileDTO } from 'src/dtos/user/updateUserProfileDTO';
 import { User } from 'src/models/security/user';
 
 @autoInjectable()
-export default class UserService{
+export default class UserService {
     private _userRepository: UserRepository;
-    constructor(userRepository: UserRepository){
+    constructor(userRepository: UserRepository) {
         this._userRepository = userRepository;
-        
-    }
 
-    addUser = async (addUserDTO: AddUserDTO) => {
+    }
+    /**
+     * add user
+     * 
+     * @param {object} addUserDTO 
+     * @returns {Promise<RequestResult<boolean | null>>}
+     */
+    addUser = async (addUserDTO: AddUserDTO): Promise<RequestResult<boolean | null>> => {
         try {
             const { firstName, lastName, userName, email, password, confirmPassword } = addUserDTO;
             const isExistsUsername = await this._userRepository.isExistsUsername(null, userName);
@@ -42,26 +46,32 @@ export default class UserService{
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
             }
             const hashedPassword = await bcrypt.hash(password, 12);
-            const newUser: User ={
+            const newUser: User = {
                 _id: null,
                 firstName,
                 lastName,
                 email,
                 userName,
                 password: hashedPassword,
-            } 
+            }
             await this._userRepository.add(newUser);
             return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), true));
-            } catch (error) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
-            }
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
     }
-
-    getAllByParams = async (gridParameter: GridParameter) => {
-        try {       
+    
+    /**
+     * get all user list by params
+     * 
+     * @param {object} gridParameter 
+     * @returns {Promise<RequestResult<GridData<UserDTO[]>> | null>}
+     */
+    getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<UserDTO[]> | null>> => {
+        try {
             const totalCount = await this._userRepository.count();
             const users: UserDTO[] = (await this._userRepository.getAllByParams(gridParameter))?.map((user: any) => <UserDTO>{
-                id: user._id?.toString(),         
+                id: user._id?.toString(),
                 fullName: `${user.firstName} ${user.lastName}`,
                 firstName: user.firstName,
                 lastName: user.lastName,
@@ -78,15 +88,21 @@ export default class UserService{
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
-
-    getById = async (id: string) => {
+    
+    /**
+     * get user by Id
+     * 
+     * @param {string} id 
+     * @returns {Promise<RequestResult<UserDTO | null>>}
+     */
+    getById = async (id: string): Promise<RequestResult<UserDTO | null>> => {
         try {
             const user = await this._userRepository.getById(id);
             if (!user) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
             const userDTO: UserDTO = <UserDTO>{
-                id: user._id?.toString(),         
+                id: user._id?.toString(),
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
@@ -98,15 +114,21 @@ export default class UserService{
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
-
-    getByUsername = async (username: string) => {
+    
+    /**
+     * get user by username
+     * 
+     * @param {string} username 
+     * @returns {Promise<RequestResult<UserDTO | null>>}
+     */
+    getByUsername = async (username: string): Promise<RequestResult<UserDTO | null>> => {
         try {
             const user = await this._userRepository.getByUsername(username);
             if (!user) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
             const userDTO: UserDTO = <UserDTO>{
-                id: user._id?.toString(),         
+                id: user._id?.toString(),
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
@@ -118,8 +140,14 @@ export default class UserService{
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
-
-    isExistUserByUsername = async (username: string) => {
+    
+    /**
+     * checks whether or not this username exists
+     * 
+     * @param {string} username 
+     * @returns { Promise<RequestResult<boolean | null>> }
+     */
+    isExistUserByUsername = async (username: string): Promise<RequestResult<boolean | null>> => {
         try {
             const user = await this._userRepository.getByUsername(username);
             return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), user ? true : false));
@@ -127,16 +155,22 @@ export default class UserService{
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
-
-    getCurrent = async (id: string) => {
+    
+    /**
+     * get current user by Id
+     * 
+     * @param {string} id 
+     * @returns {Promise<RequestResult<UserDTO | null>>}
+     */
+    getCurrent = async (id: string): Promise<RequestResult<UserDTO | null>> => {
         try {
             const user = await this._userRepository.getById(id);
             if (!user) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
             const userDTO: UserDTO = <UserDTO>{
-                id: user._id?.toString(),   
-                image: user.image,      
+                id: user._id?.toString(),
+                image: user.image,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 fullName: `${user.firstName} ${user.lastName}`,
@@ -150,32 +184,38 @@ export default class UserService{
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
-
-    update = async (updateUserDTO: UpdateUserDTO) => {
+    
+    /**
+     * update user
+     * 
+     * @param {object} updateUserDTO
+     * @returns {Promise<RequestResult<boolean | null>>} 
+     */
+    update = async (updateUserDTO: UpdateUserDTO): Promise<RequestResult<boolean | null>> => {
         try {
-            const { id , firstName, lastName, userName, email } = updateUserDTO;
+            const { id, firstName, lastName, userName, email } = updateUserDTO;
             let user = await this._userRepository.getById(id);
             if (user === null) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
-            
+
             const isExistsUsername = await this._userRepository.isExistsUsername(id, userName);
             if (isExistsUsername) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userNameAlreadyExists')));
             }
-            
+
             const isExistsEmail = await this._userRepository.isExistsEmail(id, email);
             if (isExistsEmail) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'emailAlreadyExists')));
             }
-            
+
             user.userName = userName;
             user.firstName = firstName;
             user.lastName = lastName;
             user.email = email;
             user.lastUpdateDate = new Date();
-            
-            const  { matchedCount } = await this._userRepository.update(user);
+
+            const { matchedCount } = await this._userRepository.update(user);
             if (matchedCount > 0) {
                 return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
             }
@@ -186,36 +226,42 @@ export default class UserService{
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
-
-    updateProfile = async (updateUserProfile: UpdateUserProfileDTO) => {
+    
+    /**
+     * update user profile
+     * 
+     * @param {object} updateUserProfile 
+     * @returns {Promise<RequestResult<UserDTO | null>>}
+     */
+    updateProfile = async (updateUserProfile: UpdateUserProfileDTO): Promise<RequestResult<UserDTO | null>> => {
         try {
-            const { id , firstName, lastName, userName, email, image } = updateUserProfile;
+            const { id, firstName, lastName, userName, email, image } = updateUserProfile;
             let user = await this._userRepository.getById(id);
             if (user === null) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
-            
+
             const isExistsUsername = await this._userRepository.isExistsUsername(id, userName);
             if (isExistsUsername) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userNameAlreadyExists')));
             }
-            
+
             const isExistsEmail = await this._userRepository.isExistsEmail(id, email);
             if (isExistsEmail) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'emailAlreadyExists')));
             }
-            
+
             user.image = image;
             user.userName = userName;
             user.firstName = firstName;
             user.lastName = lastName;
             user.email = email;
             user.lastUpdateDate = new Date();
-            
-            const  { matchedCount } = await this._userRepository.update(user);
+
+            const { matchedCount } = await this._userRepository.update(user);
             if (matchedCount > 0) {
                 const userDTO: UserDTO = <UserDTO>{
-                    id: user._id?.toString(),         
+                    id: user._id?.toString(),
                     fullName: `${user.firstName} ${user.lastName}`,
                     firstName: user.firstName,
                     lastName: user.lastName,
@@ -234,25 +280,31 @@ export default class UserService{
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
-
-    changePassword = async (changePassword: ChangeUserPasswordDTO) => {
+    
+    /**
+     * change user password
+     * 
+     * @param {object} changePassword 
+     * @returns {Promise<RequestResult<boolean | null>>}
+     */
+    changePassword = async (changePassword: ChangeUserPasswordDTO): Promise<RequestResult<boolean | null>> => {
         try {
-            const { id , currentPassword, newPassword, confirmNewPassword } = changePassword;
+            const { id, currentPassword, newPassword, confirmNewPassword } = changePassword;
             let user = await this._userRepository.getById(id);
             if (user === null) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
             const isPasswordMatch = await bcrypt.compare(currentPassword, user.password as string);
             if (!isPasswordMatch) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'passwordDoesNotMatch')));
             }
-            
+
             if (newPassword !== confirmNewPassword) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
             }
             const hashedPassword = await bcrypt.hash(newPassword, 12);
-            
-            const  { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword);
+
+            const { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword);
             if (modifiedCount > 0) {
                 return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
             }
@@ -261,21 +313,27 @@ export default class UserService{
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
-
-    resetPassword = async (resetPassword: ResetUserPasswordDTO) => {
+    
+    /**
+     * reset user password
+     * 
+     * @param {object} resetPassword 
+     * @returns {Promise<RequestResult<boolean | null>>}
+     */
+    resetPassword = async (resetPassword: ResetUserPasswordDTO): Promise<RequestResult<boolean | null>> => {
         try {
-            const { id , password, confirmPassword } = resetPassword;
+            const { id, password, confirmPassword } = resetPassword;
             let user = await this._userRepository.getById(id);
             if (user === null) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
-            
+
             if (password !== confirmPassword) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
             }
             const hashedPassword = await bcrypt.hash(password, 12);
-            
-            const  { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword);
+
+            const { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword);
             if (modifiedCount > 0) {
                 return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
             }
@@ -284,15 +342,21 @@ export default class UserService{
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
-
-    toggleActive = async (id: string) => {
+    
+    /**
+     * get user by Id
+     * 
+     * @param {string} id 
+     * @returns {Promise<RequestResult<boolean | null>>}
+     */
+    toggleActive = async (id: string): Promise<RequestResult<boolean | null>> => {
         try {
             const user = await this._userRepository.getById(id);
             if (!user) {
-            return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));  
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
             const toggleIsActive = !user.isActive;
-            const  { modifiedCount } = await this._userRepository.toggleIsActive(id, toggleIsActive);
+            const { modifiedCount } = await this._userRepository.toggleIsActive(id, toggleIsActive);
             if (modifiedCount > 0) {
                 return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), toggleIsActive));
             }
@@ -301,7 +365,13 @@ export default class UserService{
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
-
+    
+    /**
+     * delete user
+     * 
+     * @param {string} id 
+     * @returns {Promise<RequestResult<boolean | null>>}
+     */
     delete = async (id: string) => {
         try {
             const { deletedCount } = await this._userRepository.delete(id);
@@ -309,9 +379,9 @@ export default class UserService{
                 return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
             }
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
-            } catch (error) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
-            }
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
     }
 }
 
