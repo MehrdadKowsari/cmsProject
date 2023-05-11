@@ -23,8 +23,13 @@ export default class AuthService{
     constructor(userRepository: UserRepository){
         this._userRepository = userRepository;
     }
-
-    signIn = async (signIn: SignIn) => {
+    /**
+     * signIn
+     * 
+     * @param {object} signIn 
+     * @returns {Promise<RequestResult<ValidateRefreshToken | null>>}
+     */
+    signIn = async (signIn: SignIn): Promise<RequestResult<ValidateRefreshToken | null>> => {
         try {
             const { userName, password } = signIn;
             const user = await this._userRepository.getByUsername(userName);
@@ -49,7 +54,13 @@ export default class AuthService{
         }
     }
     
-    signInByGoogle = async (token: string) => {
+    /**
+     * sign in by Google
+     * 
+     * @param {string} token 
+     * @returns {Promise<RequestResult<ValidateRefreshToken | null>>}
+     */
+    signInByGoogle = async (token: string): Promise<RequestResult<ValidateRefreshToken | null>> => {
         try {
             
             const OAuth2 = google.auth.OAuth2;
@@ -88,7 +99,13 @@ export default class AuthService{
         }
     }
     
-    signUp = async (signUp: SignUp) => {
+    /**
+     * signUp
+     * 
+     * @param {object} signUp 
+     * @returns  {Promise<RequestResult<ValidateRefreshToken | null>>}
+     */
+    signUp = async (signUp: SignUp): Promise<RequestResult<ValidateRefreshToken | null>> => {
         try {
             const { firstName, lastName, userName, email, password, confirmPassword } = signUp;
             const isExistsUsername = await this._userRepository.isExistsUsername(null, userName);
@@ -121,7 +138,13 @@ export default class AuthService{
         }
     }
     
-    getRefreshToken = async (validateRefreshToken: ValidateRefreshToken) => {
+    /**
+     * get refresh token
+     * 
+     * @param {object} validateRefreshToken 
+     * @returns  {Promise<RequestResult<ValidateRefreshToken | null>>}
+     */
+    getRefreshToken = async (validateRefreshToken: ValidateRefreshToken): Promise<RequestResult<ValidateRefreshToken | null>> => {
         try {
             const refreshToken: string = validateRefreshToken?.refreshToken;
             if (refreshToken) {
