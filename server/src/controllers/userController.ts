@@ -18,16 +18,29 @@ export class UserController{
     constructor(userService: UserService){
         this._userService = userService;
     }
-
+    /**
+     * add a user
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {object}
+     */
     add = async (req: Request, res: Response) => {
         try {
             const requestResult = await this._userService.addUser(req.body);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
-            
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
         }
     }
 
+    /**
+     * get all users
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     fetchAll = async (req: Request, res: Response) => {
         try {
             const gridParameter: GridParameter = req.body;
@@ -38,6 +51,13 @@ export class UserController{
         }
     }
 
+    /**
+     * get user by id
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     getById = async (req: Request, res: Response) => {
         try {
             const id = req.body;
@@ -48,6 +68,13 @@ export class UserController{
         }
     }
 
+    /**
+     * get user by username
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     getByUsername = async (req: Request, res: Response) => {
         try {
             const { username } = req.body;
@@ -58,6 +85,13 @@ export class UserController{
         }
     }
 
+    /**
+     * is user exist by username
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     isExistUserByUsername = async (req: Request, res: Response) => {
         try {
             const { username } = req.body;
@@ -68,6 +102,13 @@ export class UserController{
         }
     }
 
+    /**
+     * get current user
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     getCurrent = async (req: Request, res: Response) => {
         try {
             const id: string | undefined = req.user?.id;
@@ -77,7 +118,14 @@ export class UserController{
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
         }
     }
-
+    
+    /**
+     * update user
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     update = async (req: Request, res: Response) => {
         try {
             const updateUserDTO: UpdateUserDTO = req.body;
@@ -89,6 +137,13 @@ export class UserController{
         }
     }
 
+    /**
+     * update user profile
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     updateProfile = async (req: Request, res: Response) => {
         try {
             const updateUserProfileDTO: UpdateUserProfileDTO = req.body;
@@ -99,6 +154,13 @@ export class UserController{
         }
     }
 
+    /**
+     * change user password
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     changePassword = async (req: Request, res: Response) => {
         try {
             const changeUserPasswordDTO: ChangeUserPasswordDTO = req.body;
@@ -109,6 +171,13 @@ export class UserController{
         }
     }
 
+    /**
+     * reset user password
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     resetPassword = async (req: Request, res: Response) => {
         try {
             const resetUserPasswordDTO: ResetUserPasswordDTO = req.body;
@@ -119,6 +188,13 @@ export class UserController{
         }
     }
 
+    /**
+     * toggle user active status by id
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     toggleActive = async (req: Request, res: Response) => {
         try {
             const id = req.body;
@@ -129,6 +205,13 @@ export class UserController{
         }
     }
 
+    /**
+     * delete user by id
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
     delete = async (req: Request, res: Response) => {
         try {
             const id = req.body;

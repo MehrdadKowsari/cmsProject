@@ -18,6 +18,14 @@ export default class AuthController{
     constructor(private authService: AuthService){
         this._authService = authService;
     }
+    
+    /**
+     * signIn
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>}
+     */
     signIn = async (req: Request, res: Response) => {
         try {
             const signIn: SignIn = req.body;
@@ -28,6 +36,13 @@ export default class AuthController{
         }
     }
     
+    /**
+     * signIn by Google
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>}
+     */
     signInByGoogle = async (req: Request, res: Response) => {
         try {           
             const token:string = req.body;
@@ -38,6 +53,13 @@ export default class AuthController{
         }
     }
     
+    /**
+     * signUp
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>}
+     */
     signUp = async (req: Request, res: Response) => {
         try {
             const signUp: SignUp = req.body;
@@ -48,6 +70,13 @@ export default class AuthController{
         }
     }
     
+    /**
+     * get refresh token
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>}
+     */
     getRefreshToken = async (req: Request, res: Response) => {
         try {
             const validateRefreshToken: ValidateRefreshToken = req.body;

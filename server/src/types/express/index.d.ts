@@ -1,6 +1,5 @@
 import { UserType } from "../security/user";
 import { Language } from "../shared/language";
-
 export {}
 
 declare global {
@@ -8,6 +7,7 @@ declare global {
     export interface Request {
       language?: Language;
       user?: UserType;
+      t: (...args: any) => string | undefined;
     }
   }
 }
