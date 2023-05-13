@@ -10,5 +10,9 @@ export interface UserDTO extends BaseModel {
     isCreatedByExternalAccount: boolean;
     isActive: boolean;
     image?: string;
+    createdBy?: string;
+    createdAt?: Date;
+    updatedBy?: string;
+    updatedAt?: Date;
 }
 

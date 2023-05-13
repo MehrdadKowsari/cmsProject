@@ -27,7 +27,7 @@ export class UserController{
      */
     add = async (req: Request, res: Response) => {
         try {
-            const requestResult = await this._userService.addUser(req.body);
+            const requestResult = await this._userService.addUser(req.body, req.user?.id!);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
@@ -129,7 +129,7 @@ export class UserController{
     update = async (req: Request, res: Response) => {
         try {
             const updateUserDTO: UpdateUserDTO = req.body;
-            const requestResult = await this._userService.update(updateUserDTO);
+            const requestResult = await this._userService.update(updateUserDTO, req.user?.id!);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
             
         } catch (error) {
@@ -147,7 +147,7 @@ export class UserController{
     updateProfile = async (req: Request, res: Response) => {
         try {
             const updateUserProfileDTO: UpdateUserProfileDTO = req.body;
-            const requestResult = await this._userService.updateProfile(updateUserProfileDTO);
+            const requestResult = await this._userService.updateProfile(updateUserProfileDTO, req.user?.id!);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
@@ -164,7 +164,7 @@ export class UserController{
     changePassword = async (req: Request, res: Response) => {
         try {
             const changeUserPasswordDTO: ChangeUserPasswordDTO = req.body;
-            const requestResult = await this._userService.changePassword(changeUserPasswordDTO);
+            const requestResult = await this._userService.changePassword(changeUserPasswordDTO, req.user?.id!);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
@@ -181,7 +181,7 @@ export class UserController{
     resetPassword = async (req: Request, res: Response) => {
         try {
             const resetUserPasswordDTO: ResetUserPasswordDTO = req.body;
-            const requestResult = await this._userService.resetPassword(resetUserPasswordDTO);
+            const requestResult = await this._userService.resetPassword(resetUserPasswordDTO, req.user?.id!);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
@@ -198,7 +198,7 @@ export class UserController{
     toggleActive = async (req: Request, res: Response) => {
         try {
             const id = req.body;
-            const requestResult = await this._userService.toggleActive(id);
+            const requestResult = await this._userService.toggleActive(id, req.user?.id!);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));

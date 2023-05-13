@@ -109,7 +109,8 @@ import AppConstant from "src/constants/appConstants";
                     firstName : user.firstName,
                     lastName : user.lastName,
                     email : user.email,
-                    lastUpdateDate: user.lastUpdateDate
+                    updatedBy: user.updatedBy,
+                    updatedAt: user.updatedAt
                 }});
         }
 
@@ -117,27 +118,30 @@ import AppConstant from "src/constants/appConstants";
          * change password
          * 
          * @param {string} id 
-         * @param {string} hashedPassword 
+         * @param {string} hashedPassword
+         * @param {string} userId 
          * @returns {Promise<object>}
          */
-        changePassword = async (id: string, hashedPassword: string) => await UserModel.updateOne({ _id : id },
+        changePassword = async (id: string, hashedPassword: string, userId: string) => await UserModel.updateOne({ _id : id },
             { $set: { 
                 password: hashedPassword,
-                lastUpdateDate: new Date()
+                updatedBy: userId,
+                updatedAt: new Date()
             }}); 
         
         /**
          * toggle user active status
          * 
          * @param {string} id 
-         * @param {boolean} toggleIsActive 
+         * @param {boolean} toggleIsActive
+         * @param {string} userId 
          * @returns {Promise<object>}
          */
-        toggleIsActive = async (id: string, toggleIsActive: boolean) => {
+        toggleIsActive = async (id: string, toggleIsActive: boolean, userId: string) => {
             return await UserModel.updateOne({_id: id}, 
                 { $set: { 
                     isActive: toggleIsActive,
-                    lastUpdateDate: new Date()
+                    updatedAt: new Date()
                 }}); 
         }
 

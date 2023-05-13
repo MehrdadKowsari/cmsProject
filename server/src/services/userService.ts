@@ -26,10 +26,11 @@ export default class UserService {
     /**
      * add user
      * 
-     * @param {object} addUserDTO 
+     * @param {object} addUserDTO
+     * @param {string} userId 
      * @returns {Promise<RequestResult<boolean | null>>}
      */
-    addUser = async (addUserDTO: AddUserDTO): Promise<RequestResult<boolean | null>> => {
+    addUser = async (addUserDTO: AddUserDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
             const { firstName, lastName, userName, email, password, confirmPassword } = addUserDTO;
             const isExistsUsername = await this._userRepository.isExistsUsername(null, userName);
@@ -53,6 +54,8 @@ export default class UserService {
                 email,
                 userName,
                 password: hashedPassword,
+                createdBy: userId,
+                createdAt: new Date()
             }
             await this._userRepository.add(newUser);
             return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), true));
@@ -79,6 +82,10 @@ export default class UserService {
                 isCreatedByExternalAccount: user.isCreatedByExternalAccount,
                 userName: user.userName,
                 isActive: user.isActive,
+                createdBy: user.createdBy,
+                createdAt: user.createdAt,
+                updatedBy: user.updatedBy,
+                updatedAt: user.updatedAt
             });
             return new RequestResult(StatusCodes.OK, new MethodResult<GridData<UserDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), {
                 rows: users,
@@ -189,9 +196,10 @@ export default class UserService {
      * update user
      * 
      * @param {object} updateUserDTO
+     * @param {string} userId
      * @returns {Promise<RequestResult<boolean | null>>} 
      */
-    update = async (updateUserDTO: UpdateUserDTO): Promise<RequestResult<boolean | null>> => {
+    update = async (updateUserDTO: UpdateUserDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
             const { id, firstName, lastName, userName, email } = updateUserDTO;
             let user = await this._userRepository.getById(id);
@@ -213,7 +221,8 @@ export default class UserService {
             user.firstName = firstName;
             user.lastName = lastName;
             user.email = email;
-            user.lastUpdateDate = new Date();
+            user.updatedBy = userId;
+            user.updatedAt = new Date();
 
             const { matchedCount } = await this._userRepository.update(user);
             if (matchedCount > 0) {
@@ -230,10 +239,11 @@ export default class UserService {
     /**
      * update user profile
      * 
-     * @param {object} updateUserProfile 
+     * @param {object} updateUserProfile
+     * @param {string} userId 
      * @returns {Promise<RequestResult<UserDTO | null>>}
      */
-    updateProfile = async (updateUserProfile: UpdateUserProfileDTO): Promise<RequestResult<UserDTO | null>> => {
+    updateProfile = async (updateUserProfile: UpdateUserProfileDTO, userId: string): Promise<RequestResult<UserDTO | null>> => {
         try {
             const { id, firstName, lastName, userName, email, image } = updateUserProfile;
             let user = await this._userRepository.getById(id);
@@ -256,7 +266,8 @@ export default class UserService {
             user.firstName = firstName;
             user.lastName = lastName;
             user.email = email;
-            user.lastUpdateDate = new Date();
+            user.updatedBy = userId;
+            user.updatedAt = new Date();
 
             const { matchedCount } = await this._userRepository.update(user);
             if (matchedCount > 0) {
@@ -284,10 +295,11 @@ export default class UserService {
     /**
      * change user password
      * 
-     * @param {object} changePassword 
+     * @param {object} changePassword
+     * @param {string} userId
      * @returns {Promise<RequestResult<boolean | null>>}
      */
-    changePassword = async (changePassword: ChangeUserPasswordDTO): Promise<RequestResult<boolean | null>> => {
+    changePassword = async (changePassword: ChangeUserPasswordDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
             const { id, currentPassword, newPassword, confirmNewPassword } = changePassword;
             let user = await this._userRepository.getById(id);
@@ -304,7 +316,7 @@ export default class UserService {
             }
             const hashedPassword = await bcrypt.hash(newPassword, 12);
 
-            const { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword);
+            const { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword, userId);
             if (modifiedCount > 0) {
                 return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
             }
@@ -317,10 +329,11 @@ export default class UserService {
     /**
      * reset user password
      * 
-     * @param {object} resetPassword 
+     * @param {object} resetPassword
+     * @param {string} userId
      * @returns {Promise<RequestResult<boolean | null>>}
      */
-    resetPassword = async (resetPassword: ResetUserPasswordDTO): Promise<RequestResult<boolean | null>> => {
+    resetPassword = async (resetPassword: ResetUserPasswordDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
             const { id, password, confirmPassword } = resetPassword;
             let user = await this._userRepository.getById(id);
@@ -333,7 +346,7 @@ export default class UserService {
             }
             const hashedPassword = await bcrypt.hash(password, 12);
 
-            const { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword);
+            const { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword, userId);
             if (modifiedCount > 0) {
                 return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
             }
@@ -347,16 +360,17 @@ export default class UserService {
      * get user by Id
      * 
      * @param {string} id 
+     * @param {string} userId
      * @returns {Promise<RequestResult<boolean | null>>}
      */
-    toggleActive = async (id: string): Promise<RequestResult<boolean | null>> => {
+    toggleActive = async (id: string, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
             const user = await this._userRepository.getById(id);
             if (!user) {
                 return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
             const toggleIsActive = !user.isActive;
-            const { modifiedCount } = await this._userRepository.toggleIsActive(id, toggleIsActive);
+            const { modifiedCount } = await this._userRepository.toggleIsActive(id, toggleIsActive, userId);
             if (modifiedCount > 0) {
                 return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), toggleIsActive));
             }

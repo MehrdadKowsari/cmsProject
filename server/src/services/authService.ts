@@ -127,6 +127,7 @@ export default class AuthService{
                 email,
                 userName,
                 password: hashedPassword,
+                createdAt: new Date()
             };
             const user = await this._userRepository.add(newUser);
             const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});

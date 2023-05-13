@@ -17,29 +17,73 @@ export interface User{
     language?: string,
     isActive?: boolean,
     isCreatedByExternalAccount?: boolean,
-    createDate?: Date,
+    createdAt?: Date,
     createdBy?: string,
-    lastUpdateDate?: Date,
+    updatedAt?: Date,
+    updatedBy?: string,
 };
 
 const userSchema = new mongoose.Schema<User>({
-    firstName: { type: String },
-    lastName: { type: String },
-    email: { type: String, required: true },
-    userName: { type: String, required: true },
-    password: { type: String },
-    passwordSalt: { type: String },
-    image: { type: String },
-    thumbnailImage: { type: String },
-    phoneNumber: { type: String },
-    language: { type: String, default: 'en' },
-    isActive: { type: Boolean, default: true },
-    isCreatedByExternalAccount: { type: Boolean, default: false},
-    createDate: { type: Date, default: Date.now() },
-    createdBy: { type: String },
-    lastUpdateDate: { type: Date },
+    firstName: { 
+        type: String 
+    },
+    lastName: { 
+        type: String 
+    },
+    email: { 
+        type: String, 
+        required: true 
+    },
+    userName: { 
+        type: String, 
+        required: true 
+    },
+    password: { 
+        type: String 
+    },
+    passwordSalt: { 
+        type: String 
+    },
+    image: { 
+        type: String 
+    },
+    thumbnailImage: { 
+        type: String 
+    },
+    phoneNumber: { 
+        type: String 
+    },
+    language: { 
+        type: String, 
+        default: 'en' 
+    },
+    isActive: { 
+        type: Boolean, 
+        default: true 
+    },
+    isCreatedByExternalAccount: { 
+        type: Boolean, 
+        default: false
+    },
+    createdAt: { 
+        type: Date, 
+        default: Date.now() 
+    },
+    createdBy: { 
+        type: Types.ObjectId,
+        ref: 'User' 
+    },
+    updatedAt: { 
+        type: Date 
+    },
+    updatedBy: { 
+        type: Types.ObjectId,
+        ref: 'User' 
+    },
     
-})
+});
+
+userSchema.index({userName: 1})
 
 const UserModel = mongoose.model<User>(DOCUMENT_NAME, userSchema, COLLECTION_NAME);
 export default UserModel;
