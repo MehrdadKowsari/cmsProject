@@ -3,8 +3,8 @@ import { Schema, model, Types } from 'mongoose';
 export const DOCUMENT_NAME = 'PagePermission';
 export const COLLECTION_NAME = 'pagePermissions';
 
-export default interface PagePermission {
-  _id: Types.ObjectId;
+export interface PagePermission {
+  _id: Types.ObjectId | null;
   pageId: Types.ObjectId;
   permissionId: Types.ObjectId;
   createdBy: Types.ObjectId;
@@ -47,4 +47,5 @@ const schema = new Schema<PagePermission>(
 
 schema.index({ pageId: 1, permissionId: 1 });
 
-export const PagePermissionModel = model<PagePermission>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+const PagePermissionModel = model<PagePermission>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+export default PagePermission;
