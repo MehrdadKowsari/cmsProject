@@ -141,6 +141,7 @@ import AppConstant from "src/constants/appConstants";
             return await UserModel.updateOne({_id: id}, 
                 { $set: { 
                     isActive: toggleIsActive,
+                    updatedBy: userId,
                     updatedAt: new Date()
                 }}); 
         }
