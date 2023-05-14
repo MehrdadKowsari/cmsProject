@@ -3,8 +3,8 @@ import { Schema, model, Types } from 'mongoose';
 export const DOCUMENT_NAME = 'Page';
 export const COLLECTION_NAME = 'pages';
 
-export default interface Page {
-  _id: Types.ObjectId;
+export  interface Page {
+  _id: Types.ObjectId | null;
   parentId: Types.ObjectId;
   name: string;
   priority: number;
@@ -35,7 +35,7 @@ const schema = new Schema<Page>(
     iconClass: {
       type: Schema.Types.String,
       required: true,
-      maxlength: 200
+      maxlength: 500
     },
     isActive: {
       type: Schema.Types.Boolean,
@@ -69,4 +69,5 @@ const schema = new Schema<Page>(
   },
 );
 
-export const PageModel = model<Page>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+const PageModel = model<Page>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+export default PageModel;
