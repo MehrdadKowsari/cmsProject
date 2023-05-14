@@ -19,19 +19,7 @@ import AppConstant from "src/constants/appConstants";
          * @returns {Promise<number>}
          */
         count = async (): Promise<number> => await PageModel.count(); 
-        
-        /**
-         * is page exists page by pagename
-         * 
-         * @param {string | null} id 
-         * @param {string} name 
-         * @returns {Promise<boolean>}
-         */
-        isExistsName = async (id: string | null, name: string) : Promise<boolean> => 
-        {
-            return id ? await PageModel.count({ name, _id: {$ne: id}}) > 0 : await PageModel.count({ name}) > 0;  
-        }
-        
+               
         /**
          * get all pages
          * 
