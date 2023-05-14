@@ -83,13 +83,14 @@ import AppConstant from "src/constants/appConstants";
          * 
          * @param {string} id 
          * @param {boolean} toggleIsActive
-         * @param {string} roleId 
+         * @param {string} userId 
          * @returns {Promise<object>}
          */
-        toggleIsActive = async (id: string, toggleIsActive: boolean, roleId: string) => {
+        toggleIsActive = async (id: string, toggleIsActive: boolean, userId: string) => {
             return await RoleModel.updateOne({_id: id}, 
                 { $set: { 
                     isActive: toggleIsActive,
+                    updatedBy: userId,
                     updatedAt: new Date()
                 }}); 
         }
