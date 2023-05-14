@@ -14,7 +14,7 @@ const options = {
      stripUnknown: true 
  };
 
-const signUpValidation = (req: any, res: Response, next: NextFunction) => {
+const signUpValidation = (req: Request, res: Response, next: NextFunction) => {
      const signUpValidationSchema = joi.object({
           firstName: joi.string().alphanum().min(AppConstant.FirstnameMinLenght).max(AppConstant.FirstnameMaxLenght).trim(true).required().label('First Name')
           .messages({ 

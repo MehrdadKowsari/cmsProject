@@ -23,7 +23,7 @@ export interface User{
     updatedBy?: string,
 };
 
-const userSchema = new mongoose.Schema<User>({
+const schema = new mongoose.Schema<User>({
     firstName: { 
         type: String 
     },
@@ -83,7 +83,7 @@ const userSchema = new mongoose.Schema<User>({
     
 });
 
-userSchema.index({userName: 1})
+schema.index({userName: 1})
 
-const UserModel = mongoose.model<User>(DOCUMENT_NAME, userSchema, COLLECTION_NAME);
+const UserModel = mongoose.model<User>(DOCUMENT_NAME, schema, COLLECTION_NAME);
 export default UserModel;
