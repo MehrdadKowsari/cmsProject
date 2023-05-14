@@ -4,7 +4,7 @@ export const DOCUMENT_NAME = 'Permission';
 export const COLLECTION_NAME = 'permissions';
 
 export interface Permission {
-  _id: Types.ObjectId;
+  _id: Types.ObjectId | null;
   name: string;
   description?: string;
   isActive: boolean;
