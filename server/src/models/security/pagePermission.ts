@@ -48,4 +48,4 @@ const schema = new Schema<PagePermission>(
 schema.index({ pageId: 1, permissionId: 1 });
 
 const PagePermissionModel = model<PagePermission>(DOCUMENT_NAME, schema, COLLECTION_NAME);
-export default PagePermission;
+export default PagePermissionModel;
