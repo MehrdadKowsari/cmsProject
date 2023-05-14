@@ -3,7 +3,7 @@ import { Schema, model, Types } from 'mongoose';
 export const DOCUMENT_NAME = 'Permission';
 export const COLLECTION_NAME = 'permissions';
 
-export default interface Permission {
+export interface Permission {
   _id: Types.ObjectId;
   name: string;
   description?: string;
@@ -55,4 +55,5 @@ const schema = new Schema<Permission>(
 
 schema.index({ name: 1 });
 
-export const PermissionModel = model<Permission>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+const PermissionModel = model<Permission>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+export default PermissionModel;
