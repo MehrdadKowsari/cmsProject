@@ -21,11 +21,10 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForFirstNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).required().label('Description')
+               "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
+          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).label('Description')
           .messages({ 
-               "string.base": req.t('descriptionIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForLastNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
+               "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
      });
      
      const { error } = addValidationSchema.validate(req.body, options);
@@ -68,11 +67,10 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForFirstNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).required().label('Description')
+               "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
+          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).label('Description')
           .messages({ 
-               "string.base": req.t('descriptionIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForLastNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
+               "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
      });
      
   
