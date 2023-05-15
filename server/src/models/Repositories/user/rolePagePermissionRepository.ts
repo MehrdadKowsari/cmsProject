@@ -49,6 +49,19 @@ import AppConstant from "src/constants/appConstants";
          * @returns {Promise<RolePagePermission | null>}
          */
         getById = async (id: string): Promise<RolePagePermission | null> => await RolePagePermissionModel.findOne({ _id : id }); 
+
+         /**
+         * is permission exists permission by pageId
+         * 
+         * @param {string | null} id 
+         * @param {string} roleId 
+         * @param {string} pagePermissionId 
+         * @returns {Promise<boolean>}
+         */
+         isDuplicate = async (id: string | null, roleId: string, pagePermissionId: string) : Promise<boolean> => 
+         {
+             return id ? await RolePagePermissionModel.count({ pageId: roleId, permissionId: pagePermissionId, _id: {$ne: id}}) > 0 : await RolePagePermissionModel.count({ name}) > 0;  
+         }
         
         /**
          * update rolePagePermissionRepository
