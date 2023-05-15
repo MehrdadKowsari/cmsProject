@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
-import AppConstant from "src/constants/appConstants";
 import Message from "src/constants/messages";
 import { CRUDResultModel } from "src/models/shared/crud/crudResultModel";
 import { MethodError } from "src/models/shared/crud/methodError";
@@ -16,16 +15,16 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
-          pageId: joi.string().trim(true).required().label('page')
+          pageId: joi.string().trim(true).required().label('role')
           .messages({ 
                "string.base": req.t('pageIdIsRequired', `{{#label}} is required`),
                "string.empty": req.t('pageIdIsRequired', `{{#label}} is required`),
                "string.required": req.t('pageIdIsRequired', `{{#label}} is required`)}),
-          permission: joi.string().trim(true).required().label('Description')
+          permission: joi.string().trim(true).required().label('permission')
           .messages({ 
                "string.base": req.t('permissionIsRequired', `{{#label}} is required`),
                "string.empty": req.t('permissionIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForLastNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
+               "string.required": req.t('permissionIsRequired', `{{#label}} is required`)})          
      });
      
      const { error } = addValidationSchema.validate(req.body, options);
@@ -63,16 +62,16 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          pageId: joi.string().alphanum().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
+          pageId: joi.string().trim(true).required().label('role')
           .messages({ 
                "string.base": req.t('pageIdIsRequired', `{{#label}} is required`),
                "string.empty": req.t('pageIdIsRequired', `{{#label}} is required`),
-               "string.required": req.t('pageIdIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForFirstNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          permission: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).required().label('Description')
+               "string.required": req.t('pageIdIsRequired', `{{#label}} is required`)}),
+          permission: joi.string().trim(true).required().label('permission')
           .messages({ 
                "string.base": req.t('permissionIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForLastNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
+               "string.empty": req.t('permissionIsRequired', `{{#label}} is required`),
+               "string.required": req.t('permissionIsRequired', `{{#label}} is required`)})
      });
      
   

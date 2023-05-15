@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
-import AppConstant from "src/constants/appConstants";
 import Message from "src/constants/messages";
 import { CRUDResultModel } from "src/models/shared/crud/crudResultModel";
 import { MethodError } from "src/models/shared/crud/methodError";
@@ -16,15 +15,16 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
-          name: joi.string().alphanum().max(AppConstant.NameMaxLenght).trim(true).required().label('name')
+          roleId: joi.string().trim(true).required().label('role')
           .messages({ 
-               "string.base": req.t('nameIsRequired', `{{#label}} is required`),
-               "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
-               "string.required": req.t('nameIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).label('description')
+               "string.base": req.t('roleIdIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('roleIdIsRequired', `{{#label}} is required`),
+               "string.required": req.t('roleIdIsRequired', `{{#label}} is required`)}),
+          pagePermission: joi.string().trim(true).required().label('page permission')
           .messages({ 
-               "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
+               "string.base": req.t('pagePermissionIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('pagePermissionIsRequired', `{{#label}} is required`),
+               "string.required": req.t('pagePermissionIsRequired', `{{#label}} is required`)})          
      });
      
      const { error } = addValidationSchema.validate(req.body, options);
@@ -62,39 +62,20 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          name: joi.string().alphanum().max(AppConstant.NameMaxLenght).trim(true).required().label('name')
+          roleId: joi.string().trim(true).required().label('role')
           .messages({ 
-               "string.base": req.t('nameIsRequired', `{{#label}} is required`),
-               "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
-               "string.required": req.t('nameIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).label('description')
+               "string.base": req.t('roleIdIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('roleIdIsRequired', `{{#label}} is required`),
+               "string.required": req.t('roleIdIsRequired', `{{#label}} is required`)}),
+          pagePermission: joi.string().trim(true).required().label('pagePermission')
           .messages({ 
-               "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
+               "string.base": req.t('pagePermissionIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('pagePermissionIsRequired', `{{#label}} is required`),
+               "string.required": req.t('pagePermissionIsRequired', `{{#label}} is required`)})
      });
      
   
       const { error } = updateValidationSchema.validate(req.body, options);
-      
-      if (error) {
-          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened, error.details.map((x:any) => <MethodError>{
-               Title: x.message,
-               Description: x.message
-          }))));
-      } else {
-         next();
-      }
-}
-
-
-const toggleAvtiveValidation = (req: any, res: Response, next: NextFunction) => {
-     const toggleAvtiveSchema = joi.string().trim(true).required().label('Id')
-          .messages({ 
-               "string.base": req.t('idIsRequired', `{{#label}} is required`),
-               "string.empty": req.t('idIsRequired', `{{#label}} is required`),
-               "string.required": req.t('idIsRequired', `{{#label}} is required`)});
-     
-     const { error } = toggleAvtiveSchema.validate(req.body, options);
       
       if (error) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened, error.details.map((x:any) => <MethodError>{
@@ -129,6 +110,5 @@ export {
      addValidation,
      getByIdValidation,
      updateValidation,
-     toggleAvtiveValidation,
      deleteValidation
      };
