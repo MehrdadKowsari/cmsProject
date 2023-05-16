@@ -15,16 +15,16 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
+          userId: joi.string().trim(true).required().label('page permission')
+          .messages({ 
+               "string.base": req.t('userIdIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('userIdIsRequired', `{{#label}} is required`),
+               "string.required": req.t('userIdIsRequired', `{{#label}} is required`)}),          
           roleId: joi.string().trim(true).required().label('role')
           .messages({ 
                "string.base": req.t('roleIdIsRequired', `{{#label}} is required`),
                "string.empty": req.t('roleIdIsRequired', `{{#label}} is required`),
-               "string.required": req.t('roleIdIsRequired', `{{#label}} is required`)}),
-          pagePermissionId: joi.string().trim(true).required().label('page permission')
-          .messages({ 
-               "string.base": req.t('pagePermissionIdIsRequired', `{{#label}} is required`),
-               "string.empty": req.t('pagePermissionIdIsRequired', `{{#label}} is required`),
-               "string.required": req.t('pagePermissionIdIsRequired', `{{#label}} is required`)})          
+               "string.required": req.t('roleIdIsRequired', `{{#label}} is required`)})
      });
      
      const { error } = addValidationSchema.validate(req.body, options);
@@ -62,16 +62,16 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
+          userId: joi.string().trim(true).required().label('page permission')
+          .messages({ 
+               "string.base": req.t('userIdIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('userIdIsRequired', `{{#label}} is required`),
+               "string.required": req.t('userIdIsRequired', `{{#label}} is required`)}),          
           roleId: joi.string().trim(true).required().label('role')
           .messages({ 
                "string.base": req.t('roleIdIsRequired', `{{#label}} is required`),
                "string.empty": req.t('roleIdIsRequired', `{{#label}} is required`),
-               "string.required": req.t('roleIdIsRequired', `{{#label}} is required`)}),
-          pagePermissionId: joi.string().trim(true).required().label('pagePermissionId')
-          .messages({ 
-               "string.base": req.t('pagePermissionIdIsRequired', `{{#label}} is required`),
-               "string.empty": req.t('pagePermissionIdIsRequired', `{{#label}} is required`),
-               "string.required": req.t('pagePermissionIdIsRequired', `{{#label}} is required`)})
+               "string.required": req.t('roleIdIsRequired', `{{#label}} is required`)})
      });
      
   
