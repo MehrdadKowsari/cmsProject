@@ -1,5 +1,5 @@
-export class AddRoleDTO {
-    public Name: string;
-    public Description: string;
+export interface AddRoleDTO {
+    name: string;
+    description?: string;
 }
 
