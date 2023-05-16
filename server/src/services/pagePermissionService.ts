@@ -7,7 +7,7 @@ import { GridData } from '../models/shared/grid/gridData';
 import { AddPagePermissionDTO } from '../dtos/pagePermission/addPagePermissionDTO';
 import { RequestResult } from '../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
-import PagePermissionRepository from '../models/Repositories/user/pagePermissionRepository';
+import PagePermissionRepository from '../models/repositories/user/pagePermissionRepository';
 import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePagePermissionDTO } from 'src/dtos/pagePermission/updatePagePermissionDTO';
 import { PagePermission } from 'src/models/security/pagePermission';

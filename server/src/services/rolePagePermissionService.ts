@@ -7,7 +7,7 @@ import { GridData } from '../models/shared/grid/gridData';
 import { AddRolePagePermissionDTO } from '../dtos/rolePagePermission/addRolePagePermissionDTO';
 import { RequestResult } from '../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
-import RolePagePermissionRepository from '../models/Repositories/user/rolePagePermissionRepository';
+import RolePagePermissionRepository from '../models/repositories/user/rolePagePermissionRepository';
 import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateRolePagePermissionDTO } from 'src/dtos/rolePagePermission/updateRolePagePermissionDTO';
 import { RolePagePermission } from 'src/models/security/rolePagePermission';

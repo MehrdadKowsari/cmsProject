@@ -7,7 +7,7 @@ import { GridData } from '../models/shared/grid/gridData';
 import { AddPermissionDTO } from '../dtos/permission/addPermissionDTO';
 import { RequestResult } from '../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
-import PermissionRepository from '../models/Repositories/user/permissionRepository';
+import PermissionRepository from '../models/repositories/user/permissionRepository';
 import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePermissionDTO } from 'src/dtos/permission/updatePermissionDTO';
 import { Permission } from 'src/models/security/permission';

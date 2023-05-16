@@ -7,7 +7,7 @@ import { GridData } from '../models/shared/grid/gridData';
 import { AddPageDTO } from '../dtos/page/addPageDTO';
 import { RequestResult } from '../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
-import PageRepository from '../models/Repositories/user/pageRepository';
+import PageRepository from '../models/repositories/user/pageRepository';
 import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePageDTO } from 'src/dtos/page/updatePageDTO';
 import { Page } from 'src/models/security/page';
