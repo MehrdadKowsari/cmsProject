@@ -5,7 +5,7 @@ export const COLLECTION_NAME = 'pages';
 
 export  interface Page {
   _id: Types.ObjectId | null;
-  parentId: Types.ObjectId;
+  parentId?: Types.ObjectId;
   name: string;
   priority: number;
   iconClass?: string;

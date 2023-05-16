@@ -2,7 +2,6 @@ import { RoleDTO } from '../dtos/role/roleDTO';
 import { CRUDResultModel } from '../models/shared/crud/crudResultModel';
 import { MethodResult } from '../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
-import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
 import { GridData } from '../models/shared/grid/gridData';
 import { AddRoleDTO } from '../dtos/role/addRoleDTO';
