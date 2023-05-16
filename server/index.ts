@@ -9,6 +9,7 @@ import cors from 'cors';
 import authRouter from './src/routers/security/authRouter'
 import userRouter from './src/routers/security/userRouter'
 import roleRouter from './src/routers/security/roleRouter'
+import userRoleRouter from './src/routers/security/userRoleRouter'
 import pageRouter from './src/routers/security/pageRouter'
 import permissionRouter from './src/routers/security/permissionRouter'
 import pagePermissionRouter from './src/routers/security/pagePermissionRouter'
@@ -30,6 +31,7 @@ i18n.init({ app });
 app.use('/auth', authRouter);
 app.use('/user', authMiddleware, userRouter);
 app.use('/role', authMiddleware, roleRouter);
+app.use('/userRole', authMiddleware, userRoleRouter);
 app.use('/page', authMiddleware, pageRouter);
 app.use('/permission', authMiddleware, permissionRouter);
 app.use('/pagePermission', authMiddleware, pagePermissionRouter);
