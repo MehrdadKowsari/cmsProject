@@ -29,7 +29,7 @@ export default class PermissionService {
      */
     addPermission = async (addPermissionDTO: AddPermissionDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
-            const { name, description } = addPermissionDTO;
+            const { name, type, description } = addPermissionDTO;
             const isExistsName = await this._permissionRepository.isExistsName(null, name);
             if (isExistsName) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'permissionNameAlreadyExists')));
@@ -38,6 +38,7 @@ export default class PermissionService {
             const newPermission: Permission = {
                 _id: null,
                 name,
+                type,
                 description,
                 isActive: true,
                 createdBy: new Types.ObjectId(userId),
@@ -78,8 +79,8 @@ export default class PermissionService {
             const totalCount = await this._permissionRepository.count();
             const permissions: PermissionDTO[] = (await this._permissionRepository.getAllByParams(gridParameter))?.map((permission: any) => <PermissionDTO>{
                 id: permission._id?.toString(),
-                fullName: `${permission.name} ${permission.description}`,
                 name: permission.name,
+                type: permission.type,
                 description: permission.description,
                 isActive: permission.isActive,
                 createdBy: permission.createdBy,
@@ -111,6 +112,7 @@ export default class PermissionService {
             const permissionDTO: PermissionDTO = <PermissionDTO>{
                 id: permission._id?.toString(),
                 name: permission.name,
+                type: permission.type,
                 description: permission.description,
                 isActive: permission.isActive
             };
@@ -129,7 +131,7 @@ export default class PermissionService {
      */
     update = async (updatePermissionDTO: UpdatePermissionDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
-            const { id, name, description } = updatePermissionDTO;
+            const { id, name, type, description } = updatePermissionDTO;
             let permission = await this._permissionRepository.getById(id);
             if (permission === null) {
                 return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'permissionDoesNotExist')));
@@ -140,9 +142,8 @@ export default class PermissionService {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'permissionNameAlreadyExists')));
             }
 
-            
-
             permission.name = name;
+            permission.type = type;
             permission.description = description;
             permission.updatedBy = new Types.ObjectId(userId);
             permission.updatedAt = new Date();

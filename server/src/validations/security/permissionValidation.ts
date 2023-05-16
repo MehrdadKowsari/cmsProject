@@ -22,6 +22,11 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
+          type: joi.number().required().label('type')
+          .messages({ 
+               "number.base": req.t('typeIsRequired', `{{#label}} is required`),
+               "number.empty": req.t('typeIsRequired', `{{#label}} is required`),
+               "number.required": req.t('typeIsRequired', `{{#label}} is required`)}),
           description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).label('description')
           .messages({ 
                "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
@@ -68,6 +73,11 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
+          type: joi.number().required().label('type')
+          .messages({ 
+               "number.base": req.t('typeIsRequired', `{{#label}} is required`),
+               "number.empty": req.t('typeIsRequired', `{{#label}} is required`),
+               "number.required": req.t('typeIsRequired', `{{#label}} is required`)}),
           description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).label('description')
           .messages({ 
                "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})

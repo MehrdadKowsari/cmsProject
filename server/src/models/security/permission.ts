@@ -6,6 +6,7 @@ export const COLLECTION_NAME = 'permissions';
 export interface Permission {
   _id: Types.ObjectId | null;
   name: string;
+  type: PermissionType;
   description?: string;
   isActive: boolean;
   createdAt?: Date;
@@ -20,6 +21,10 @@ const schema = new Schema<Permission>(
       type: Schema.Types.String,
       required: true,
       maxlength: 100
+    },
+    type: {
+      type: Schema.Types.Number,
+      required: true
     },
     isActive: {
       type: Schema.Types.Boolean,

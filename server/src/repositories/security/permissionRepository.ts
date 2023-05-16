@@ -72,6 +72,7 @@ import AppConstant from "src/constants/appConstants";
             return await PermissionModel.updateOne({ _id : permission._id },
                 { $set: { 
                     name: permission.name,
+                    type: permission.type,
                     description : permission.description,
                     updatedBy: permission.updatedBy,
                     updatedAt: permission.updatedAt
