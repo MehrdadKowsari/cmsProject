@@ -162,6 +162,30 @@ export default class PageService {
     }
     
     /**
+     * get page by Id
+     * 
+     * @param {string} id 
+     * @param {string} userId
+     * @returns {Promise<RequestResult<boolean | null>>}
+     */
+    toggleHidden = async (id: string, userId: string): Promise<RequestResult<boolean | null>> => {
+        try {
+            const page = await this._pageRepository.getById(id);
+            if (!page) {
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'pageDoesNotExist')));
+            }
+            const toggleIsHidden = !page.isHidden;
+            const { modifiedCount } = await this._pageRepository.toggleIsHidden(id, toggleIsHidden, userId);
+            if (modifiedCount > 0) {
+                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), toggleIsHidden));
+            }
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+    
+    /**
      * delete page
      * 
      * @param {string} id 
