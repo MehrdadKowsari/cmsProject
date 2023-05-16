@@ -87,14 +87,14 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
 }
 
 
-const toggleAvtiveValidation = (req: any, res: Response, next: NextFunction) => {
-     const toggleAvtiveSchema = joi.string().trim(true).required().label('Id')
+const toggleActiveValidation = (req: any, res: Response, next: NextFunction) => {
+     const toggleActiveSchema = joi.string().trim(true).required().label('Id')
           .messages({ 
                "string.base": req.t('idIsRequired', `{{#label}} is required`),
                "string.empty": req.t('idIsRequired', `{{#label}} is required`),
                "string.required": req.t('idIsRequired', `{{#label}} is required`)});
      
-     const { error } = toggleAvtiveSchema.validate(req.body, options);
+     const { error } = toggleActiveSchema.validate(req.body, options);
       
       if (error) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened, error.details.map((x:any) => <MethodError>{
@@ -129,6 +129,6 @@ export {
      addValidation,
      getByIdValidation,
      updateValidation,
-     toggleAvtiveValidation,
+     toggleActiveValidation,
      deleteValidation
      };

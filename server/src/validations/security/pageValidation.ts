@@ -22,9 +22,9 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).required().label('Description')
+          priority: joi.number().label('Priority')
           .messages({ 
-               "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
+               "number.base": req.t('maxLenghtForPriorityIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
      });
      
      const { error } = addValidationSchema.validate(req.body, options);
@@ -68,9 +68,9 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).required().label('Description')
+          priority: joi.number().label('Priority')
           .messages({ 
-               "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
+               "number.base": req.t('maxLenghtForPriorityIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
      });
      
   
@@ -95,6 +95,25 @@ const toggleActiveValidation = (req: any, res: Response, next: NextFunction) => 
                "string.required": req.t('idIsRequired', `{{#label}} is required`)});
      
      const { error } = toggleActiveSchema.validate(req.body, options);
+      
+      if (error) {
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened, error.details.map((x:any) => <MethodError>{
+               Title: x.message,
+               Description: x.message
+          }))));
+      } else {
+         next();
+      }
+}
+
+const toggleHiddenValidation = (req: any, res: Response, next: NextFunction) => {
+     const toggleHiddenSchema = joi.string().trim(true).required().label('Id')
+          .messages({ 
+               "string.base": req.t('idIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('idIsRequired', `{{#label}} is required`),
+               "string.required": req.t('idIsRequired', `{{#label}} is required`)});
+     
+     const { error } = toggleHiddenSchema.validate(req.body, options);
       
       if (error) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, Message.UnknownErrorHappened, error.details.map((x:any) => <MethodError>{
