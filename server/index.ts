@@ -6,10 +6,15 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import authRouter from './src/routers/authRouter'
-import userRouter from './src/routers/userRouter'
+import authRouter from './src/routers/security/authRouter'
+import userRouter from './src/routers/security/userRouter'
+import roleRouter from './src/routers/security/roleRouter'
+import pageRouter from './src/routers/security/pageRouter'
+import permissionRouter from './src/routers/security/permissionRouter'
+import pagePermissionRouter from './src/routers/security/pagePermissionRouter'
+import rolePagePermissionRouter from './src/routers/security/rolePagePermissionRouter'
 
-import authMiddleware from './src/middleware/authMiddleware';
+import authMiddleware from './src/middleware/seucrity/authMiddleware';
 import { i18n }  from "./i18next";
  
 const app = express();
@@ -24,6 +29,11 @@ i18n.init({ app });
 
 app.use('/auth', authRouter);
 app.use('/user', authMiddleware, userRouter);
+app.use('/role', authMiddleware, roleRouter);
+app.use('/page', authMiddleware, pageRouter);
+app.use('/permission', authMiddleware, permissionRouter);
+app.use('/pagePermission', authMiddleware, pagePermissionRouter);
+app.use('/rolePagePermission', authMiddleware, rolePagePermissionRouter);
 
 
 //const CLOUD_CONNECTION_URL = process.env.CLOUD_CONNECTION_URL;
