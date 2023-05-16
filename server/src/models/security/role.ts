@@ -28,7 +28,6 @@ const schema = new Schema<Role>(
     },
     description: {
       type: Schema.Types.String,
-      required: true,
       maxlength: 500
     },
     createdBy: {

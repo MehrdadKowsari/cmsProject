@@ -36,6 +36,7 @@ export default class CommonMessage {
     public static readonly FullName: string = 'FullName';
     public static readonly Username: string = 'Username';
     public static readonly User: string = 'User';
+    public static readonly Role: string = 'Role';
     public static readonly Password: string = 'Password';
     public static readonly ConfirmPassword: string = 'Confirm Password';
     public static readonly OperationType: string = 'OperationType';
@@ -95,4 +96,5 @@ export default class CommonMessage {
     public static readonly DoNotHaveAccessToThisActionOrSection: string = 'You Do Not Have Access To This Action Or Section';
     public static readonly FormDataIsInvalid: string = 'Form Data Is Invalid';
     public static readonly MinLenghtForThisFieldIsN = (n: number): string => `Min Lenght for This Field Is ${n}`;
+    public static readonly MaxLenghtForThisFieldIsN = (n: number): string => `Max Lenght for This Field Is ${n}`;
 }

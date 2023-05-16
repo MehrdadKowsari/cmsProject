@@ -16,7 +16,7 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
-          name: joi.string().alphanum().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
+          name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
@@ -62,7 +62,7 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          name: joi.string().alphanum().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
+          name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),

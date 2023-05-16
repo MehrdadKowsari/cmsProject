@@ -16,7 +16,7 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
-          name: joi.string().alphanum().max(AppConstant.NameMaxLenght).trim(true).required().label('name')
+          name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
@@ -27,7 +27,7 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
                "number.base": req.t('typeIsRequired', `{{#label}} is required`),
                "number.empty": req.t('typeIsRequired', `{{#label}} is required`),
                "number.required": req.t('typeIsRequired', `{{#label}} is required`)}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).label('description')
+          description:  joi.string().allow(null, '').max(AppConstant.DescriptionMaxLenght).trim(true).label('Description')
           .messages({ 
                "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
      });
@@ -67,7 +67,7 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          name: joi.string().alphanum().max(AppConstant.NameMaxLenght).trim(true).required().label('name')
+          name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
@@ -78,7 +78,7 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
                "number.base": req.t('typeIsRequired', `{{#label}} is required`),
                "number.empty": req.t('typeIsRequired', `{{#label}} is required`),
                "number.required": req.t('typeIsRequired', `{{#label}} is required`)}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).label('description')
+          description:  joi.string().allow(null, '').max(AppConstant.DescriptionMaxLenght).trim(true).label('Description')
           .messages({ 
                "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
      });

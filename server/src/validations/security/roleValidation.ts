@@ -16,13 +16,13 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
-          name: joi.string().alphanum().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
+          name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).required().label('Description')
+          description:  joi.string().allow(null, '').max(AppConstant.DescriptionMaxLenght).trim(true).label('Description')
           .messages({ 
                "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
      });
@@ -62,13 +62,13 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          name: joi.string().alphanum().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
+          name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).trim(true).required().label('Description')
+          description:  joi.string().allow(null, '').max(AppConstant.DescriptionMaxLenght).trim(true).label('Description')
           .messages({ 
                "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
      });

@@ -33,7 +33,6 @@ const schema = new Schema<Permission>(
     },
     description: {
       type: Schema.Types.String,
-      required: true,
       maxlength: 500
     },
     createdBy: {
