@@ -24,10 +24,10 @@ export default class UserRoleService {
      * add userRole
      * 
      * @param {object} addUserRoleDTO
-     * @param {string} userId 
+     * @param {string} currentUserId 
      * @returns {Promise<RequestResult<boolean | null>>}
      */
-    addUserRole = async (addUserRoleDTO: AddUserRoleDTO, userId: string): Promise<RequestResult<boolean | null>> => {
+    addUserRole = async (addUserRoleDTO: AddUserRoleDTO, currentUserId: string): Promise<RequestResult<boolean | null>> => {
         try {
             const { userId, roleId } = addUserRoleDTO;
             const isDuplicate = await this._userRoleRepository.isDuplicate(null, userId, roleId);
@@ -39,7 +39,7 @@ export default class UserRoleService {
                 _id: null,
                 userId: new Types.ObjectId(userId),
                 roleId: new Types.ObjectId(roleId),
-                createdBy: new Types.ObjectId(userId),
+                createdBy: new Types.ObjectId(currentUserId),
                 createdAt: new Date()
             }
             await this._userRoleRepository.add(newUserRole);
@@ -103,10 +103,10 @@ export default class UserRoleService {
      * update userRole
      * 
      * @param {object} updateUserRoleDTO
-     * @param {string} userId
+     * @param {string} currentUserId
      * @returns {Promise<RequestResult<boolean | null>>} 
      */
-    update = async (updateUserRoleDTO: UpdateUserRoleDTO, userId: string): Promise<RequestResult<boolean | null>> => {
+    update = async (updateUserRoleDTO: UpdateUserRoleDTO, currentUserId: string): Promise<RequestResult<boolean | null>> => {
         try {
             const { id, roleId: roleId, userId: userId } = updateUserRoleDTO;
             let userRole = await this._userRoleRepository.getById(id);
@@ -121,7 +121,7 @@ export default class UserRoleService {
 
             userRole.userId = new Types.ObjectId(userId);
             userRole.roleId = new Types.ObjectId(roleId);
-            userRole.updatedBy = new Types.ObjectId(userId);
+            userRole.updatedBy = new Types.ObjectId(currentUserId);
             userRole.updatedAt = new Date();
 
             const { matchedCount } = await this._userRoleRepository.update(userRole);
