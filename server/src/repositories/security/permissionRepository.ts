@@ -1,6 +1,6 @@
 import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import PermissionModel, { Permission } from "../../security/permission";
-import GridUtilityHelper from "../../../helpers/gridUtilityHelper";
+import PermissionModel, { Permission } from "src/models/security/permission";
+import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
 
 

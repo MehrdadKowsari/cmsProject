@@ -7,7 +7,7 @@ import { GridData } from '../models/shared/grid/gridData';
 import { AddRoleDTO } from '../dtos/role/addRoleDTO';
 import { RequestResult } from '../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
-import RoleRepository from '../models/repositories/user/roleRepository';
+import RoleRepository from '../repositories/security/roleRepository';
 import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateRoleDTO } from 'src/dtos/role/updateRoleDTO';
 import { Role } from 'src/models/security/role';

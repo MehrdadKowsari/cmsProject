@@ -1,6 +1,6 @@
 import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import RolePagePermissionModel, { RolePagePermission } from "../../security/rolePagePermission";
-import GridUtilityHelper from "../../../helpers/gridUtilityHelper";
+import RolePagePermissionModel, { RolePagePermission } from "src/models/security/rolePagePermission";
+import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
 
 

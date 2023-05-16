@@ -8,7 +8,7 @@ import { GridData } from '../models/shared/grid/gridData';
 import { AddUserDTO } from '../dtos/user/addUserDTO';
 import { RequestResult } from '../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
-import UserRepository from '../models/repositories/user/userRepository';
+import UserRepository from '../repositories/security/userRepository';
 import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { ChangeUserPasswordDTO } from 'src/dtos/user/changeUserPasswordDTO';
 import { ResetUserPasswordDTO } from 'src/dtos/user/resetUserPasswordDTO';

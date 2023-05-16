@@ -1,6 +1,6 @@
 import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import PageModel, { Page } from "../../security/page";
-import GridUtilityHelper from "../../../helpers/gridUtilityHelper";
+import PageModel, { Page } from "src/models/security/page";
+import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
 
 

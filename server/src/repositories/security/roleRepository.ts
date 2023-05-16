@@ -1,6 +1,6 @@
 import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import RoleModel, { Role } from "../../security/role";
-import GridUtilityHelper from "../../../helpers/gridUtilityHelper";
+import RoleModel, { Role } from "src/models/security/role";
+import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
 
 

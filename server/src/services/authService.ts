@@ -4,7 +4,7 @@ import { CRUDResultEnum } from '../models/shared/enums/crudResultEnum';
 import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
 import { autoInjectable } from 'tsyringe';
-import UserRepository from '../models/repositories/user/userRepository';
+import UserRepository from '../repositories/security/userRepository';
 import { ValidateRefreshToken } from 'src/dtos/auth/validateRefreshToken';
 import { SignIn } from 'src/dtos/auth/SignIn';
 import { google } from 'googleapis/build/src/index';

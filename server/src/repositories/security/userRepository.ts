@@ -1,6 +1,6 @@
 import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import UserModel, { User } from "../../security/user";
-import GridUtilityHelper from "../../../helpers/gridUtilityHelper";
+import UserModel, { User } from "src/models/security/user";
+import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
 
 
