@@ -149,5 +149,6 @@ export {
      getByIdValidation,
      updateValidation,
      toggleActiveValidation,
+     toggleHiddenValidation,
      deleteValidation
      };
