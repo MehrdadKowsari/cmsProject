@@ -58,7 +58,7 @@ import AppConstant from "src/constants/appConstants";
          * @param {string} roleId 
          * @returns {Promise<boolean>}
          */
-         isDuplicate = async (id: string | null, roleId: string, userId: string) : Promise<boolean> => 
+         isDuplicate = async (id: string | null, userId: string, roleId: string) : Promise<boolean> => 
          {
              return id ? await UserRoleModel.count({ userId, roleId, _id: {$ne: id}}) > 0 : await UserRoleModel.count({ name}) > 0;  
          }
