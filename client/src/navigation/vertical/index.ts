@@ -21,12 +21,12 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Roles',
-      icon: 'groups',
+      icon: 'person',
       path: '/admin/security/role'
     },
     {
       title: 'Permissions',
-      icon: 'groups',
+      icon: 'lock',
       path: '/admin/security/permission'
     },
     {
