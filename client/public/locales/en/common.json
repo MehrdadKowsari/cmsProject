@@ -1,3 +1,18 @@
 {
-    "Dashboard": "Dashboard"
+    "Dashboard": "Dashboard",
+    "view": "View",
+    "add": "Add",
+    "update": "Update",
+    "delete": "Delete",
+    "toggleActive": "Active/Deactive",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "confirm": "Confirm",
+    "reject": "Reject",
+    "export": "Export",
+    "import": "Import",
+    "print": "Print",
+    "viewComment": "View Comment",
+    "addComment": "Add Comment",
+    "replyComment": "Reply Comment"
 }

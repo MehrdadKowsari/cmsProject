@@ -3,13 +3,14 @@ import authReducer from './slices/authSlice';
 import confirmReducer from './slices/confirmSlice';
 import userReducer from './slices/userSlice';
 import roleReducer from './slices/roleSlice';
-
+import permissionReducer from './slices/permissionSlice';
 
 export const store = configureStore({
     reducer: {
         auth: authReducer,
         user: userReducer,
         role: roleReducer,
+        permission: permissionReducer,
         confirm: confirmReducer
     },
     devTools: true

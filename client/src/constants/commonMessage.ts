@@ -37,6 +37,7 @@ export default class CommonMessage {
     public static readonly Username: string = 'Username';
     public static readonly User: string = 'User';
     public static readonly Role: string = 'Role';
+    public static readonly Permission: string = 'Permission';
     public static readonly Password: string = 'Password';
     public static readonly ConfirmPassword: string = 'Confirm Password';
     public static readonly OperationType: string = 'OperationType';
@@ -78,6 +79,7 @@ export default class CommonMessage {
     public static readonly New: string = 'New';  
     public static readonly Save: string = 'Save';
     public static readonly Update: string = 'Update';
+    public static readonly Add: string = 'Add';
     public static readonly Clear: string = 'Clear';
     public static readonly Reset: string = 'Reset';
     public static readonly Delete: string = 'Delete';
@@ -97,4 +99,13 @@ export default class CommonMessage {
     public static readonly FormDataIsInvalid: string = 'Form Data Is Invalid';
     public static readonly MinLenghtForThisFieldIsN = (n: number): string => `Min Lenght for This Field Is ${n}`;
     public static readonly MaxLenghtForThisFieldIsN = (n: number): string => `Max Lenght for This Field Is ${n}`;
+    public static readonly View: string = 'View';
+    public static readonly Publish: string = 'Publish';
+    public static readonly Unpublish: string = 'Unpublish';
+    public static readonly Reject: string = 'Reject';
+    public static readonly Export: string = 'Export';
+    public static readonly Import: string = 'Import';
+    public static readonly ViewComment: string = 'ViewComment';
+    public static readonly AddComment: string = 'AddComment';
+    public static readonly ReplyComment: string = 'ReplyComment';
 }
