@@ -68,6 +68,35 @@ export default class UserService {
      * get all user list by params
      * 
      * @param {object} gridParameter 
+     * @returns {Promise<RequestResult<UserDTO[]> | null>}
+     */
+    getAll = async (): Promise<RequestResult<UserDTO[] | null>> => {
+        try {
+            const totalCount = await this._userRepository.count();
+            const users: UserDTO[] = (await this._userRepository.getAll())?.map((user: any) => <UserDTO>{
+                id: user._id?.toString(),
+                fullName: `${user.firstName} ${user.lastName}`,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                isCreatedByExternalAccount: user.isCreatedByExternalAccount,
+                userName: user.userName,
+                isActive: user.isActive,
+                createdBy: user.createdBy,
+                createdAt: user.createdAt,
+                updatedBy: user.updatedBy,
+                updatedAt: user.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<UserDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), users));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+
+    /**
+     * get all user list by params
+     * 
+     * @param {object} gridParameter 
      * @returns {Promise<RequestResult<GridData<UserDTO[]>> | null>}
      */
     getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<UserDTO[]> | null>> => {

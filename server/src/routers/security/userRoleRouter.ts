@@ -7,7 +7,7 @@ const userRoleController = container.resolve(UserRoleController);
 const router = express.Router();
 
 router.post('/add', addValidation, userRoleController.add);
-router.post('/fetchAll', userRoleController.getAll);
+router.post('/getAllByParams', userRoleController.getAllByParams);
 router.post('/getById', getByIdValidation, userRoleController.getById);
 router.post('/update', updateValidation, userRoleController.update);
 router.post('/delete', deleteValidation, userRoleController.delete);

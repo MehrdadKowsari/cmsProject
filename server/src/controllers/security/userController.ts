@@ -41,7 +41,23 @@ export class UserController{
      * @param {object} res 
      * @returns {Promise<object>} return
      */
-    fetchAll = async (req: Request, res: Response) => {
+    getAll = async (req: Request, res: Response) => {
+        try {
+            const requestResult = await this._userService.getAll();
+            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
+
+    /**
+     * get all users by params
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
+    getAllByParams = async (req: Request, res: Response) => {
         try {
             const gridParameter: GridParameter = req.body;
             const requestResult = await this._userService.getAllByParams(gridParameter);

@@ -7,7 +7,8 @@ const userController = container.resolve(UserController);
 const router = express.Router();
 
 router.post('/add', addValidation, userController.add);
-router.post('/fetchAll', userController.fetchAll);
+router.post('/getAll', userController.getAll);
+router.post('/getAllByParams', userController.getAllByParams);
 router.post('/getById', getByIdValidation, userController.getById);
 router.post('/getCurrent', userController.getCurrent);
 router.post('/update', updateValidation, userController.update);

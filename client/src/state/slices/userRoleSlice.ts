@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios';
 import axios from 'src/api/axios';
-import { AddPermissionDTO } from 'src/models/security/permission/addPermissionDTO';
-import { UpdatePermissionDTO } from 'src/models/security/permission/updatePermissionDTO';
-import { PermissionDTO } from 'src/models/security/permission/permissionDTO';
+import { AddUserRoleDTO } from 'src/models/security/userRole/addUserRoleDTO';
+import { UpdateUserRoleDTO } from 'src/models/security/userRole/updateUserRoleDTO';
+import { UserRoleDTO } from 'src/models/security/userRole/userRoleDTO';
 import { IntialState } from '../interfaces/intialState';
 import { GridParameter } from 'src/models/shared/grid/gridPrameter';
 
-const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/permission`;
+const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/userRole`;
 
 export const add = createAsyncThunk(
-  "permissions/add", 
-  async (permission: AddPermissionDTO, { rejectWithValue }) => {
+  "userRole/add", 
+  async (userRole: AddUserRoleDTO, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/add`, permission)
+      const { data } = await axios.post(`${API_URL}/add`, userRole)
       return data?.result;;
     } catch (err) {
         const error= err as AxiosError;
@@ -21,11 +21,11 @@ export const add = createAsyncThunk(
     }
 });
 
-export const getAll = createAsyncThunk(
-  "permissions/getAll", 
+export const getAllByParams = createAsyncThunk(
+  "userRole/getAllByParams", 
   async (gridParameter: GridParameter, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/fetchAll`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
       return data?.result;;
     } catch (err) {
       const error= err as AxiosError;
@@ -34,7 +34,7 @@ export const getAll = createAsyncThunk(
 });
 
 export const getById = createAsyncThunk(
-  'permissions/getById',
+  'userRole/getById',
   async (id: string | number, { rejectWithValue }) => {
       try {
           const { data } = await axios.post(`${API_URL}/getById`, id);
@@ -46,12 +46,11 @@ export const getById = createAsyncThunk(
   }
 )
 
-
 export const update = createAsyncThunk(
-  "permissions/update", 
-  async (permission: UpdatePermissionDTO, { rejectWithValue }) => {
+  "userRole/update", 
+  async (userRole: UpdateUserRoleDTO, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/update`, permission)
+      const { data } = await axios.post(`${API_URL}/update`, userRole)
       return data?.result;;
     } catch (err) {
         const error= err as AxiosError;
@@ -59,21 +58,8 @@ export const update = createAsyncThunk(
     }
 });
 
-export const toggleActive = createAsyncThunk(
-  'permissions/toggleActive',
-  async (id: string | number, { rejectWithValue }) => {
-      try {
-          const { data } = await axios.post(`${API_URL}/toggleActive`, id);
-          return data?.result;
-      } catch (err) {
-          const error= err as AxiosError;
-          return rejectWithValue(error.message);
-      }
-  }
-)
-
 export const remove = createAsyncThunk(
-  'permissions/delete',
+  'userRole/delete',
   async (id: string | number, { rejectWithValue }) => {
       try {
           const { data } = await axios.post(`${API_URL}/delete`, id);
@@ -85,14 +71,14 @@ export const remove = createAsyncThunk(
   }
 )
 
-interface PermissionState extends IntialState {
-  permissions: PermissionDTO[] | null,
-  permission: PermissionDTO | null
+interface UserRoleState extends IntialState {
+  userRoles: UserRoleDTO[] | null,
+  userRole: UserRoleDTO | null
 }
 
-const initialState: PermissionState = {
-    permissions: null,
-    permission: null,
+const initialState: UserRoleState = {
+    userRoles: null,
+    userRole: null,
     isLoading: false,
     hasError: false,
     totalCount: 0,
@@ -101,8 +87,8 @@ const initialState: PermissionState = {
     error: ''
 }
 
-const permissionSlice = createSlice({
-    name: 'permissions',
+const userRoleSlice = createSlice({
+    name: 'userRole',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -112,7 +98,7 @@ const permissionSlice = createSlice({
             state.hasError = false;
           })
           .addCase(add.fulfilled, (state, { payload }) => {
-            state.permission = payload;
+            state.userRole = payload;
             state.isLoading = false;
             state.hasError = false;
           })
@@ -122,18 +108,18 @@ const permissionSlice = createSlice({
             state.error = <string>payload;
           })
 
-          .addCase(getAll.pending, (state) => {
+          .addCase(getAllByParams.pending, (state) => {
             state.isLoading = true;
             state.hasError = false;
           })
-          .addCase(getAll.fulfilled, (state, { payload }) => {
-            state.permissions = payload.rows;
+          .addCase(getAllByParams.fulfilled, (state, { payload }) => {
+            state.userRole = payload.rows;
             state.totalCount = payload.totalCount;
             state.isLoading = false;
             state.hasError = false;
           })
-          .addCase(getAll.rejected, (state, { payload }) => {
-            state.permissions = null;
+          .addCase(getAllByParams.rejected, (state, { payload }) => {
+            state.userRole = null;
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;
@@ -144,7 +130,7 @@ const permissionSlice = createSlice({
             state.hasError = false;
           })
           .addCase(getById.fulfilled, (state, { payload }) => {
-            state.permission = payload;
+            state.userRole = payload;
             state.isLoading = false;
             state.hasError = false;
           })
@@ -159,7 +145,7 @@ const permissionSlice = createSlice({
             state.hasError = false;
           })
           .addCase(update.fulfilled, (state, { payload }) => {
-            state.permission = payload;
+            state.userRole = payload;
             state.isLoading = false;
             state.hasError = false;
             state.error = <string>payload;
@@ -170,20 +156,6 @@ const permissionSlice = createSlice({
             state.error = <string>payload;
           })
           
-          .addCase(toggleActive.pending, (state) => {
-            state.isLoading = true;
-            state.hasError = false;
-          })
-          .addCase(toggleActive.fulfilled, (state) => {
-            state.isLoading = false;
-            state.hasError = false;
-          })
-          .addCase(toggleActive.rejected, (state, { payload }) => {
-            state.hasError = true;
-            state.isLoading = false;
-            state.error = <string>payload;
-          })
-
           .addCase(remove.pending, (state) => {
             state.isLoading = true;
             state.hasError = false;
@@ -200,4 +172,4 @@ const permissionSlice = createSlice({
     }
 });
 
-export default permissionSlice.reducer;
+export default userRoleSlice.reducer;

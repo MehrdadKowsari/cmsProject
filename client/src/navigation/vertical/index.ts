@@ -25,6 +25,11 @@ const navigation = (): VerticalNavItemsType => {
       path: '/admin/security/role'
     },
     {
+      title: 'User In Role',
+      icon: 'person',
+      path: '/admin/security/userRole'
+    },
+    {
       title: 'Permissions',
       icon: 'lock',
       path: '/admin/security/permission'

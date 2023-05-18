@@ -46,19 +46,6 @@ export const getById = createAsyncThunk(
   }
 )
 
-export const getByRolename = createAsyncThunk(
-  'roles/getByRolename',
-  async (rolename: string, { rejectWithValue }) => {
-      try {
-          const { data } = await axios.post(`${API_URL}/getByRolename`, rolename);
-          return data?.result;
-      } catch (err) {
-          const error= err as AxiosError;
-          return rejectWithValue(error.message);
-      }
-  }
-)
-
 export const update = createAsyncThunk(
   "roles/update", 
   async (role: UpdateRoleDTO, { rejectWithValue }) => {
@@ -70,19 +57,6 @@ export const update = createAsyncThunk(
         return rejectWithValue(error.message);
     }
 });
-
-export const remove = createAsyncThunk(
-  'roles/delete',
-  async (id: string | number, { rejectWithValue }) => {
-      try {
-          const { data } = await axios.post(`${API_URL}/delete`, id);
-          return data?.result;
-      } catch (err) {
-          const error= err as AxiosError;
-          return rejectWithValue(error.message);
-      }
-  }
-)
 
 export const toggleActive = createAsyncThunk(
   'roles/toggleActive',
@@ -97,11 +71,11 @@ export const toggleActive = createAsyncThunk(
   }
 )
 
-export const getCurrent = createAsyncThunk(
-  'roles/getCurrent',
-  async (_, { rejectWithValue }) => {
+export const remove = createAsyncThunk(
+  'roles/delete',
+  async (id: string | number, { rejectWithValue }) => {
       try {
-          const { data } = await axios.post(`${API_URL}/getCurrent`);
+          const { data } = await axios.post(`${API_URL}/delete`, id);
           return data?.result;
       } catch (err) {
           const error= err as AxiosError;
@@ -110,18 +84,6 @@ export const getCurrent = createAsyncThunk(
   }
 )
 
-export const isExistRoleByRolename = createAsyncThunk(
-  'roles/isExistRoleByRolename',
-  async (rolename: string, { rejectWithValue }) => {
-      try {
-          const { data } = await axios.post(`${API_URL}/isExistRoleByRolename`, rolename);
-          return data?.result;
-      } catch (err) {
-          const error= err as AxiosError;
-          return rejectWithValue(error.message);
-      }
-  }
-)
 
 interface RoleState extends IntialState {
   roles: RoleDTO[] | null,
@@ -192,50 +154,6 @@ const roleSlice = createSlice({
             state.error = <string>payload;
           })
           
-          .addCase(getByRolename.pending, (state) => {
-            state.isLoading = true;
-            state.hasError = false;
-          })
-          .addCase(getByRolename.fulfilled, (state, { payload }) => {
-            state.role = payload;
-            state.isLoading = false;
-            state.hasError = false;
-          })
-          .addCase(getByRolename.rejected, (state, { payload }) => {
-            state.hasError = true;
-            state.isLoading = false;
-            state.error = <string>payload;
-          })
-
-          .addCase(getCurrent.pending, (state) => {
-            state.isLoading = true;
-            state.hasError = false;
-          })
-          .addCase(getCurrent.fulfilled, (state, { payload }) => {
-            state.role = payload;
-            state.isLoading = false;
-            state.hasError = false;
-          })
-          .addCase(getCurrent.rejected, (state, { payload }) => {
-            state.hasError = true;
-            state.isLoading = false;
-            state.error = <string>payload;
-          })
-          
-          .addCase(isExistRoleByRolename.pending, (state) => {
-            state.isLoading = true;
-            state.hasError = false;
-          })
-          .addCase(isExistRoleByRolename.fulfilled, (state) => {
-            state.isLoading = false;
-            state.hasError = false;
-          })
-          .addCase(isExistRoleByRolename.rejected, (state, { payload }) => {
-            state.hasError = true;
-            state.isLoading = false;
-            state.error = <string>payload;
-          })
-
           .addCase(update.pending, (state) => {
             state.isLoading = true;
             state.hasError = false;

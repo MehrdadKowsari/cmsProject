@@ -26,9 +26,21 @@ export const add = createAsyncThunk(
 
 export const getAll = createAsyncThunk(
   "users/getAll", 
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/getAll`);
+      return data?.result;;
+    } catch (err) {
+      const error= err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+});
+
+export const getAllByParams = createAsyncThunk(
+  "users/getAllByParams", 
   async (gridParameter: GridParameter, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/fetchAll`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
       return data?.result;;
     } catch (err) {
       const error= err as AxiosError;
@@ -54,6 +66,32 @@ export const getByUsername = createAsyncThunk(
   async (username: string, { rejectWithValue }) => {
       try {
           const { data } = await axios.post(`${API_URL}/getByUsername`, username);
+          return data?.result;
+      } catch (err) {
+          const error= err as AxiosError;
+          return rejectWithValue(error.message);
+      }
+  }
+)
+
+export const getCurrent = createAsyncThunk(
+  'users/getCurrent',
+  async (_, { rejectWithValue }) => {
+      try {
+          const { data } = await axios.post(`${API_URL}/getCurrent`);
+          return data?.result;
+      } catch (err) {
+          const error= err as AxiosError;
+          return rejectWithValue(error.message);
+      }
+  }
+)
+
+export const isExistUserByUsername = createAsyncThunk(
+  'users/isExistUserByUsername',
+  async (username: string, { rejectWithValue }) => {
+      try {
+          const { data } = await axios.post(`${API_URL}/isExistUserByUsername`, username);
           return data?.result;
       } catch (err) {
           const error= err as AxiosError;
@@ -110,19 +148,6 @@ export const resetPassword = createAsyncThunk(
     }
 });
 
-export const remove = createAsyncThunk(
-  'users/delete',
-  async (id: string | number, { rejectWithValue }) => {
-      try {
-          const { data } = await axios.post(`${API_URL}/delete`, id);
-          return data?.result;
-      } catch (err) {
-          const error= err as AxiosError;
-          return rejectWithValue(error.message);
-      }
-  }
-)
-
 export const toggleActive = createAsyncThunk(
   'users/toggleActive',
   async (id: string | number, { rejectWithValue }) => {
@@ -136,24 +161,11 @@ export const toggleActive = createAsyncThunk(
   }
 )
 
-export const getCurrent = createAsyncThunk(
-  'users/getCurrent',
-  async (_, { rejectWithValue }) => {
+export const remove = createAsyncThunk(
+  'users/delete',
+  async (id: string | number, { rejectWithValue }) => {
       try {
-          const { data } = await axios.post(`${API_URL}/getCurrent`);
-          return data?.result;
-      } catch (err) {
-          const error= err as AxiosError;
-          return rejectWithValue(error.message);
-      }
-  }
-)
-
-export const isExistUserByUsername = createAsyncThunk(
-  'users/isExistUserByUsername',
-  async (username: string, { rejectWithValue }) => {
-      try {
-          const { data } = await axios.post(`${API_URL}/isExistUserByUsername`, username);
+          const { data } = await axios.post(`${API_URL}/delete`, id);
           return data?.result;
       } catch (err) {
           const error= err as AxiosError;
@@ -199,6 +211,23 @@ const userSlice = createSlice({
             state.error = <string>payload;
           })
 
+          .addCase(getAllByParams.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getAllByParams.fulfilled, (state, { payload }) => {
+            state.users = payload.rows;
+            state.totalCount = payload.totalCount;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getAllByParams.rejected, (state, { payload }) => {
+            state.users = null;
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
           .addCase(getAll.pending, (state) => {
             state.isLoading = true;
             state.hasError = false;
