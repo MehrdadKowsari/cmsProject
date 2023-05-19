@@ -21,11 +21,23 @@ export const add = createAsyncThunk(
     }
 });
 
-export const getAll = createAsyncThunk(
+export const getAllPermissions = createAsyncThunk(
   "permissions/getAll", 
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/getAll`);
+      return data?.result;;
+    } catch (err) {
+      const error= err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+});
+
+export const getAllByParams = createAsyncThunk(
+  "permissions/getAllByParams", 
   async (gridParameter: GridParameter, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/fetchAll`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
       return data?.result;;
     } catch (err) {
       const error= err as AxiosError;
@@ -122,17 +134,34 @@ const permissionSlice = createSlice({
             state.error = <string>payload;
           })
 
-          .addCase(getAll.pending, (state) => {
+          .addCase(getAllPermissions.pending, (state) => {
             state.isLoading = true;
             state.hasError = false;
           })
-          .addCase(getAll.fulfilled, (state, { payload }) => {
+          .addCase(getAllPermissions.fulfilled, (state, { payload }) => {
             state.permissions = payload.rows;
             state.totalCount = payload.totalCount;
             state.isLoading = false;
             state.hasError = false;
           })
-          .addCase(getAll.rejected, (state, { payload }) => {
+          .addCase(getAllPermissions.rejected, (state, { payload }) => {
+            state.permissions = null;
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
+          .addCase(getAllByParams.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getAllByParams.fulfilled, (state, { payload }) => {
+            state.permissions = payload.rows;
+            state.totalCount = payload.totalCount;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getAllByParams.rejected, (state, { payload }) => {
             state.permissions = null;
             state.hasError = true;
             state.isLoading = false;

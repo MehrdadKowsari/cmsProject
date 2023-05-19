@@ -3,5 +3,7 @@
     "signUp": "ثبت نام",
     "confirmPasswordDoNotMatch": "کلمه عبور و تایید آن تطابق ندارد",   
     "isCreatedByExternalAccount": "ایجاد شده با اکانت خارجی",
-    "userInRole": "نقش کاربر"
+    "userInRole": "نقش کاربر",
+    "pagePermission": "دسترسی صفحه",
+    "rolePagePermission": "دسترسی صفحه نقش"
 }

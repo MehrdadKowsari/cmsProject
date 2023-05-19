@@ -4,6 +4,8 @@ import confirmReducer from './slices/confirmSlice';
 import userReducer from './slices/userSlice';
 import roleReducer from './slices/roleSlice';
 import permissionReducer from './slices/permissionSlice';
+import pagePermissionReducer from './slices/pagePermissionSlice';
+import rolePagePermissionReducer from './slices/rolePagePermissionSlice';
 import pageReducer from './slices/pageSlice';
 import userRoleReducer from './slices/userRoleSlice';
 
@@ -14,6 +16,8 @@ export const store = configureStore({
         role: roleReducer,
         permission: permissionReducer,
         page: pageReducer,
+        pagePermission: pagePermissionReducer,
+        rolePagePermission: rolePagePermissionReducer,
         userRole: userRoleReducer,
         confirm: confirmReducer
     },

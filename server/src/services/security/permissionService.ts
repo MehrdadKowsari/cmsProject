@@ -71,6 +71,30 @@ export default class PermissionService {
     /**
      * get all permission list by params
      * 
+     * @returns {Promise<RequestResult<PermissionDTO[]> | null>}
+     */
+    getAll = async (): Promise<RequestResult<PermissionDTO[] | null>> => {
+        try {
+            const permissions: PermissionDTO[] = (await this._permissionRepository.getAll())?.map((permission: any) => <PermissionDTO>{
+                id: permission._id?.toString(),
+                name: permission.name,
+                type: permission.type,
+                description: permission.description,
+                isActive: permission.isActive,
+                createdBy: permission.createdBy,
+                createdAt: permission.createdAt,
+                updatedBy: permission.updatedBy,
+                updatedAt: permission.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<PermissionDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), permissions));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+    
+    /**
+     * get all permission list by params
+     * 
      * @param {object} gridParameter 
      * @returns {Promise<RequestResult<GridData<PermissionDTO[]>> | null>}
      */

@@ -20,7 +20,7 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
                "string.base": req.t('pageIdIsRequired', `{{#label}} is required`),
                "string.empty": req.t('pageIdIsRequired', `{{#label}} is required`),
                "string.required": req.t('pageIdIsRequired', `{{#label}} is required`)}),
-          permission: joi.string().trim(true).required().label('permission')
+          permissionId: joi.string().trim(true).required().label('permission')
           .messages({ 
                "string.base": req.t('permissionIsRequired', `{{#label}} is required`),
                "string.empty": req.t('permissionIsRequired', `{{#label}} is required`),
@@ -62,12 +62,12 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          pageId: joi.string().trim(true).required().label('role')
+          pageId: joi.string().trim(true).required().label('Role')
           .messages({ 
                "string.base": req.t('pageIdIsRequired', `{{#label}} is required`),
                "string.empty": req.t('pageIdIsRequired', `{{#label}} is required`),
                "string.required": req.t('pageIdIsRequired', `{{#label}} is required`)}),
-          permission: joi.string().trim(true).required().label('permission')
+          permissionId: joi.string().trim(true).required().label('Permission')
           .messages({ 
                "string.base": req.t('permissionIsRequired', `{{#label}} is required`),
                "string.empty": req.t('permissionIsRequired', `{{#label}} is required`),

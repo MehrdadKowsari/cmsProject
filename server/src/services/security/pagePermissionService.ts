@@ -50,6 +50,31 @@ export default class PagePermissionService {
     }
 
     /**
+     * get all pagePermission list
+     * 
+     * @returns {Promise<RequestResult<PagePermissionDTO[]> | null>}
+     */
+    getAll = async (): Promise<RequestResult<PagePermissionDTO[] | null>> => {
+        try {
+            const totalCount = await this._pagePermissionRepository.count();
+            const pagePermissions: PagePermissionDTO[] = (await this._pagePermissionRepository.getAll())?.map((pagePermission: any) => <PagePermissionDTO>{
+                id: pagePermission._id?.toString(),
+                pageId: pagePermission.pageId,
+                pageName: pagePermission.pageId.name,
+                permissionId: pagePermission.permissionId,
+                permissionName: pagePermission.permissionId.name,
+                createdBy: pagePermission.createdBy,
+                createdAt: pagePermission.createdAt,
+                updatedBy: pagePermission.updatedBy,
+                updatedAt: pagePermission.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<PagePermissionDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), pagePermissions));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+
+    /**
      * get all pagePermission list by params
      * 
      * @param {object} gridParameter 
@@ -61,7 +86,9 @@ export default class PagePermissionService {
             const pagePermissions: PagePermissionDTO[] = (await this._pagePermissionRepository.getAllByParams(gridParameter))?.map((pagePermission: any) => <PagePermissionDTO>{
                 id: pagePermission._id?.toString(),
                 pageId: pagePermission.pageId,
+                pageName: pagePermission.pageId.name,
                 permissionId: pagePermission.permissionId,
+                permissionName: pagePermission.permissionId.name,
                 createdBy: pagePermission.createdBy,
                 createdAt: pagePermission.createdAt,
                 updatedBy: pagePermission.updatedBy,

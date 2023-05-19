@@ -7,7 +7,8 @@ const permissionController = container.resolve(PermissionController);
 const router = express.Router();
 
 router.post('/add', addValidation, permissionController.add);
-router.post('/fetchAll', permissionController.getAll);
+router.post('/getAll', permissionController.getAll);
+router.post('/getAllByParams', permissionController.getAllByParams);
 router.post('/getById', getByIdValidation, permissionController.getById);
 router.post('/update', updateValidation, permissionController.update);
 router.post('/toggleActive', toggleActiveValidation, permissionController.toggleActive);

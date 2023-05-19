@@ -32,13 +32,29 @@ export class PermissionController{
     }
 
     /**
-     * get all permissions
+     * get all permissions by params
      * 
      * @param {object} req 
      * @param {object} res 
      * @returns {Promise<object>} return
      */
     getAll = async (req: Request, res: Response) => {
+        try {
+            const requestResult = await this._permissionService.getAll();
+            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
+    
+    /**
+     * get all permissions
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
+    getAllByParams = async (req: Request, res: Response) => {
         try {
             const gridParameter: GridParameter = req.body;
             const requestResult = await this._permissionService.getAllByParams(gridParameter);

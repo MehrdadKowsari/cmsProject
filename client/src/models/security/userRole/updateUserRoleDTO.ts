@@ -1,6 +1,6 @@
 import { BaseModel } from "../../shared/base/baseModel";
 
-export class UpdatePagePermissionDTO extends BaseModel {
+export class UpdateUserRoleDTO extends BaseModel {
     userId: string;
     roleId: string;
 }

@@ -25,7 +25,10 @@ import AppConstant from "src/constants/appConstants";
          * 
          * @returns {Promise<PagePermission[]>}
          */
-        getAll = async () => await PagePermissionModel.find(); 
+        getAll = async () => await PagePermissionModel.find()
+        .populate('pageId')
+        .populate('permissionId')
+        .exec();; 
         
         /**
          * get all pagePermissions by parameters
@@ -38,7 +41,10 @@ import AppConstant from "src/constants/appConstants";
             const limitCount: number = (pageSize || AppConstant.pageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await PagePermissionModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await PagePermissionModel.find().sort(sort).skip(skipCount).limit(limitCount)
+            .populate('pageId')
+            .populate('permissionId')
+            .exec();
             return list;
         }  
         
