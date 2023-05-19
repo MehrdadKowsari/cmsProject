@@ -13,7 +13,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Button, CardContent, CardHeader } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useAppDispatch } from "src/state/hooks/hooks";
-import { getAll, remove, toggleActive } from "src/state/slices/roleSlice";
+import { getAllByParams, remove, toggleActive } from "src/state/slices/roleSlice";
 import CustomDialog from "src/components/Modal/Modal";
 import RoleForm from "./form";
 import { GetStaticProps } from "next";
@@ -95,7 +95,7 @@ const Role = ({Component, pageProps}: AppProps) => {
         pageSize: queryOptions.pageSize,
         sortModel: sortModel
       }
-      dispatch(getAll(gridparameter))
+      dispatch(getAllByParams(gridparameter))
     }
   
     const columns: GridColumns = [

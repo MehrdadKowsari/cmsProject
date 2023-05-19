@@ -61,7 +61,9 @@ export default class UserRoleService {
             const userRoles: UserRoleDTO[] = (await this._userRoleRepository.getAllByParams(gridParameter))?.map((userRole: any) => <UserRoleDTO>{
                 id: userRole._id?.toString(),
                 userId: userRole.userId,
+                userFullName: `${userRole.userId.firstName} ${userRole.userId.lastName}`,
                 roleId: userRole.roleId,
+                roleName: userRole.roleId.name,
                 createdBy: userRole.createdBy,
                 createdAt: userRole.createdAt,
                 updatedBy: userRole.updatedBy,

@@ -60,7 +60,7 @@ import AppConstant from "src/constants/appConstants";
          */
          isDuplicate = async (id: string | null, roleId: string, pagePermissionId: string) : Promise<boolean> => 
          {
-             return id ? await RolePagePermissionModel.count({ roleId, pagePermissionId, _id: {$ne: id}}) > 0 : await RolePagePermissionModel.count({ name}) > 0;  
+             return id ? await RolePagePermissionModel.count({ roleId, pagePermissionId, _id: {$ne: id}}) > 0 : await RolePagePermissionModel.count({ roleId, pagePermissionId}) > 0;  
          }
         
         /**

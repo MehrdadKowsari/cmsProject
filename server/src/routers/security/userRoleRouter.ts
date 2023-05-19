@@ -1,7 +1,7 @@
 import express from 'express';
 import { UserRoleController } from '../../controllers/security/userRoleController';
 import {container} from 'tsyringe'; 
-import { addValidation, deleteValidation, getByIdValidation, updateValidation } from 'src/validations/security/rolePagePermissionValidation';
+import { addValidation, deleteValidation, getByIdValidation, updateValidation } from 'src/validations/security/userRoleValidation';
 
 const userRoleController = container.resolve(UserRoleController);
 const router = express.Router();

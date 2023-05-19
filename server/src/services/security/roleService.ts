@@ -68,6 +68,30 @@ export default class RoleService {
     
     
     /**
+     * get all role list
+     * 
+     * @returns {Promise<RequestResult<GridData<RoleDTO[]>> | null>}
+     */
+    getAll = async (): Promise<RequestResult<RoleDTO[] | null>> => {
+        try {
+            const roles: RoleDTO[] = (await this._roleRepository.getAll())?.map((role: any) => <RoleDTO>{
+                id: role._id?.toString(),
+                fullName: `${role.name} ${role.description}`,
+                name: role.name,
+                description: role.description,
+                isActive: role.isActive,
+                createdBy: role.createdBy,
+                createdAt: role.createdAt,
+                updatedBy: role.updatedBy,
+                updatedAt: role.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<RoleDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), roles));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+
+    /**
      * get all role list by params
      * 
      * @param {object} gridParameter 

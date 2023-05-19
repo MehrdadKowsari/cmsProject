@@ -24,7 +24,7 @@ export const add = createAsyncThunk(
     }
 });
 
-export const getAll = createAsyncThunk(
+export const getAllUsers = createAsyncThunk(
   "users/getAll", 
   async (_, { rejectWithValue }) => {
     try {
@@ -228,17 +228,17 @@ const userSlice = createSlice({
             state.error = <string>payload;
           })
           
-          .addCase(getAll.pending, (state) => {
+          .addCase(getAllUsers.pending, (state) => {
             state.isLoading = true;
             state.hasError = false;
           })
-          .addCase(getAll.fulfilled, (state, { payload }) => {
+          .addCase(getAllUsers.fulfilled, (state, { payload }) => {
             state.users = payload.rows;
             state.totalCount = payload.totalCount;
             state.isLoading = false;
             state.hasError = false;
           })
-          .addCase(getAll.rejected, (state, { payload }) => {
+          .addCase(getAllUsers.rejected, (state, { payload }) => {
             state.users = null;
             state.hasError = true;
             state.isLoading = false;

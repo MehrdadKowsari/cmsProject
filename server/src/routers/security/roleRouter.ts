@@ -7,7 +7,8 @@ const roleController = container.resolve(RoleController);
 const router = express.Router();
 
 router.post('/add', addValidation, roleController.add);
-router.post('/fetchAll', roleController.getAll);
+router.post('/getAll', roleController.getAll);
+router.post('/getAllByParams', roleController.getAllByParams);
 router.post('/getById', getByIdValidation, roleController.getById);
 router.post('/update', updateValidation, roleController.update);
 router.post('/toggleActive', toggleActiveValidation, roleController.toggleActive);

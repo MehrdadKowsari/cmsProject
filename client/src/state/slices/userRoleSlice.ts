@@ -98,7 +98,7 @@ const userRoleSlice = createSlice({
             state.hasError = false;
           })
           .addCase(add.fulfilled, (state, { payload }) => {
-            state.userRole = payload;
+            state.userRoles = payload;
             state.isLoading = false;
             state.hasError = false;
           })
@@ -113,13 +113,13 @@ const userRoleSlice = createSlice({
             state.hasError = false;
           })
           .addCase(getAllByParams.fulfilled, (state, { payload }) => {
-            state.userRole = payload.rows;
+            state.userRoles = payload.rows;
             state.totalCount = payload.totalCount;
             state.isLoading = false;
             state.hasError = false;
           })
           .addCase(getAllByParams.rejected, (state, { payload }) => {
-            state.userRole = null;
+            state.userRoles = null;
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;

@@ -38,7 +38,10 @@ import AppConstant from "src/constants/appConstants";
             const limitCount: number = (pageSize || AppConstant.pageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await UserRoleModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await UserRoleModel.find().sort(sort).skip(skipCount).limit(limitCount)
+            .populate('userId')
+            .populate('roleId')
+            .exec();
             return list;
         }  
         
@@ -60,7 +63,7 @@ import AppConstant from "src/constants/appConstants";
          */
          isDuplicate = async (id: string | null, userId: string, roleId: string) : Promise<boolean> => 
          {
-             return id ? await UserRoleModel.count({ userId, roleId, _id: {$ne: id}}) > 0 : await UserRoleModel.count({ name}) > 0;  
+             return id ? await UserRoleModel.count({ userId, roleId, _id: {$ne: id}}) > 0 : await UserRoleModel.count({ userId, roleId}) > 0;  
          }
         
         /**

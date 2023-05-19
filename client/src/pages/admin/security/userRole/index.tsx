@@ -89,9 +89,8 @@ const UserRole = ({Component, pageProps}: AppProps) => {
     }
   
     const columns: GridColumns = [
-      { field: 'fullName', headerName: t('fullName', CommonMessage.FullName)!, width: 130 },
+      { field: 'userFullName', headerName: t('fullName', CommonMessage.FullName)!, width: 130 },
       { field: 'roleName', headerName: t('role', CommonMessage.Role)!, width: 130 },
-      { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
       {
           field: 'actions',
           type: 'actions',
@@ -135,7 +134,7 @@ const UserRole = ({Component, pageProps}: AppProps) => {
         <>
         <Card>
             <CardHeader 
-            title={t('userInRole', SecurityMessage.UserInRole)} 
+            title={t('security:userInRole', SecurityMessage.UserInRole)} 
             titleTypographyProps={{ variant: 'h6' }}/>
             <CardContent>
             <Box mx={1}>
@@ -171,7 +170,7 @@ const UserRole = ({Component, pageProps}: AppProps) => {
           </div>}  
         </Box>  
         <CustomDialog 
-        title={t('userInRole', SecurityMessage.UserInRole)} 
+        title={t('security:userInRole', SecurityMessage.UserInRole)} 
         isOpen={isOpenModal}
         onClose={() => handleCloseModal()}>
           <UserRoleForm id={rowId}

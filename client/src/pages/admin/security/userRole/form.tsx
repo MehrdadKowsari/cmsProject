@@ -24,7 +24,9 @@ import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
 import { UserDTO } from 'src/models/security/user/userDTO';
-import { getAll } from 'src/state/slices/userSlice';
+import { getAllUsers } from 'src/state/slices/userSlice';
+import { getAllRoles } from 'src/state/slices/roleSlice';
+import { RoleDTO } from 'src/models/security/role/roleDTO';
 
 const UserRoleForm = ({id, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
@@ -39,6 +41,7 @@ useEffect(() => {
     getItemById(id);
   }
   getAllUserList();
+  getAllRoleList();
 }, []);
 
 const getItemById = async (id: string | number) => {
@@ -58,12 +61,21 @@ const validationSchema = object({
 });
 
 const getAllUserList = async () => {
-  const users: UserDTO[] = await dispatch(getAll()).unwrap();
+  const users: UserDTO[] = await dispatch(getAllUsers()).unwrap();
   const mappedUsers = users?.map(p => ({
     text: p.fullName,
     value: p.id
   } as TextValueDTO));
   setUsers(mappedUsers);
+}
+
+const getAllRoleList = async () => {
+  const roles: RoleDTO[] = await dispatch(getAllRoles()).unwrap();
+  const mappedRoles = roles?.map(p => ({
+    text: p.name,
+    value: p.id
+  } as TextValueDTO));
+  setRoles(mappedRoles);
 }
 
 type initialValuesType = {
@@ -123,8 +135,9 @@ const initialValues: initialValuesType = {
                 <Grid item lg={12}>
                   <TextField
                   select
-                  fullWidth 
+                  fullWidth
                   id="userId"
+                  name="userId"
                   label={t('user', CommonMessage.User)}
                   value={formik.values.userId}
                   onChange={formik.handleChange} 
@@ -149,7 +162,7 @@ const initialValues: initialValuesType = {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.roleId && Boolean(formik.errors.roleId)}
-                  helperText={formik.errors.userId}>
+                  helperText={formik.errors.roleId}>
                     {roles?.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.text}
