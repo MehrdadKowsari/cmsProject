@@ -29,12 +29,13 @@ export default class PageService {
      */
     addPage = async (addPageDTO: AddPageDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try { 
-            const { parentId, name, priority } = addPageDTO;
+            const { parentId, name, priority, iconClass } = addPageDTO;
             const newPage: Page = {
                 _id: null,
                 parentId: new Types.ObjectId(parentId),
                 name,
                 priority,
+                iconClass,
                 isActive: true,
                 isHidden: true,
                 createdBy: new Types.ObjectId(userId),
@@ -42,6 +43,35 @@ export default class PageService {
             }
             await this._pageRepository.add(newPage);
             return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), true));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+
+       
+    /**
+     * get all page list by params
+     * 
+     * @returns {Promise<RequestResult<PageDTO[]> | null>}
+     */
+    getAll = async (): Promise<RequestResult<PageDTO[] | null>> => {
+        try {
+            const totalCount = await this._pageRepository.count();
+            const pages: PageDTO[] = (await this._pageRepository.getAll())?.map((page: any) => <PageDTO>{
+                id: page._id?.toString(),
+                parentId: page.parentId,
+                parentName: page.parentId?.name,
+                name: page.name,
+                priority: page.priority,
+                iconClass: page.iconClass,
+                isActive: page.isActive,
+                isHidden: page.isHidden,
+                createdBy: page.createdBy,
+                createdAt: page.createdAt,
+                updatedBy: page.updatedBy,
+                updatedAt: page.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<PageDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), pages));
         } catch (error) {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
@@ -60,8 +90,10 @@ export default class PageService {
             const pages: PageDTO[] = (await this._pageRepository.getAllByParams(gridParameter))?.map((page: any) => <PageDTO>{
                 id: page._id?.toString(),
                 parentId: page.parentId,
+                parentName: page.parentId?.name,
                 name: page.name,
                 priority: page.priority,
+                iconClass: page.iconClass,
                 isActive: page.isActive,
                 isHidden: page.isHidden,
                 createdBy: page.createdBy,
@@ -95,6 +127,7 @@ export default class PageService {
                 parentId: page.parentId?.toString(),
                 name: page.name,
                 priority: page.priority,
+                iconClass: page.iconClass,
                 isActive: page.isActive,
                 isHidden: page.isHidden,
             };
@@ -113,7 +146,7 @@ export default class PageService {
      */
     update = async (updatePageDTO: UpdatePageDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
-            const { id, parentId, name, priority } = updatePageDTO;
+            const { id, parentId, name, priority, iconClass } = updatePageDTO;
             let page = await this._pageRepository.getById(id);
             if (page === null) {
                 return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'pageDoesNotExist')));
@@ -122,6 +155,7 @@ export default class PageService {
             page.parentId = new Types.ObjectId(parentId);
             page.name = name;
             page.priority = priority;
+            page.iconClass = iconClass;
             page.updatedBy = new Types.ObjectId(userId);
             page.updatedAt = new Date();
 

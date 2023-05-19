@@ -7,7 +7,8 @@ const pageController = container.resolve(PageController);
 const router = express.Router();
 
 router.post('/add', addValidation, pageController.add);
-router.post('/fetchAll', pageController.getAll);
+router.post('/getAll', pageController.getAll);
+router.post('/getAllByParams', pageController.getAllByParams);
 router.post('/getById', getByIdValidation, pageController.getById);
 router.post('/update', updateValidation, pageController.update);
 router.post('/toggleActive', toggleActiveValidation, pageController.toggleActive);

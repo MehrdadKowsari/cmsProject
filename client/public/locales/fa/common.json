@@ -4,6 +4,7 @@
     "Security": "امنیت",
     "Users": "کاربران",
     "Roles": "نقش ها",
+    "Pages": "صفحه ها",
     "Permissions": "دسترسی ها",
     "User Profile": "پروفایل کاربر",
     "User In Roles": "نقش های کاربر",
@@ -50,6 +51,7 @@
     "detail": "جزئیات",
     "edit": "ویرایش",
     "isActive": "فعال",
+    "isHidden": "مخفی",
     "startDate": "تاریخ شروع",
     "endDate": "تاریخ پایان",
     "address": "آدرس",
@@ -58,6 +60,7 @@
     "mobile": "موبایل",
     "fax": "فکس",
     "property": "مشخصه",
+    "priority": "الویت",
     "amount": "مقدار",
     "selectRow": "انتخاب",
     "lastName": "نام خانوادگی",
@@ -92,6 +95,7 @@
     "delete": "حذف",
     "hotkeys": "کلیدهای میانبر",
     "toggleActive": "فعال/غیرفعال",
+    "toggleHidden": "نمایش/مخفی",
     "formDataIsInvalid": "اطلاعات فرم معتبر نمی باشد",
     "dateDidNotEnterCorrectly": "تاریخ به درستی وارد نشده است",
     "noFileSelected": "فایل انتخاب نشده است",
@@ -111,5 +115,7 @@
     "import": "درون ریزی",
     "viewComment": "نمایش نظر",
     "addComment": "افزودن نظر",
-    "replyComment": "پاسخ به نظر"
+    "replyComment": "پاسخ به نظر",
+    "parent": "والد",
+    "iconClass": "کلاس آیکون"
 }

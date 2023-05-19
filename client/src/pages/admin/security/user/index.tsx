@@ -2,7 +2,7 @@ import { AppProps } from "next/app";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as React from 'react';
-import { DataGrid, GridActionsCellItem, GridColDef, GridColumns, GridRowId, GridSortModel, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColumns, GridRowId, GridSortModel, GridValueGetterParams } from '@mui/x-data-grid';
 import UserLayout from "src/layouts/admin/UserLayout";
 import useConfirm from "src/state/hooks/useConfirm";
 

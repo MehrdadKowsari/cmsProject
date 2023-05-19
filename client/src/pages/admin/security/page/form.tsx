@@ -9,12 +9,12 @@ import ClearIcon from '@mui/icons-material/Clear'
 import { useFormik } from 'formik';
 import {object, string} from 'yup';
 import notification from '../../../../services/notificationService';
-import { AddPermissionDTO } from 'src/models/security/permission/addPermissionDTO';
-import { UpdatePermissionDTO } from 'src/models/security/permission/updatePermissionDTO';
+import { AddPageDTO } from 'src/models/security/page/addPageDTO';
+import { UpdatePageDTO } from 'src/models/security/page/updatePageDTO';
 import { FormProps } from 'src/types/shared/formType';
 import { useAppDispatch } from 'src/state/hooks/hooks';
-import { add, getById, update } from 'src/state/slices/permissionSlice';
-import { PermissionDTO } from 'src/models/security/permission/permissionDTO';
+import { add, getAllPages, getById, update } from 'src/state/slices/pageSlice';
+import { PageDTO } from 'src/models/security/page/pageDTO';
 import CommonMessage from 'src/constants/commonMessage';
 import { useTranslation } from 'react-i18next';
 import Card from '@mui/material/Card';
@@ -23,12 +23,11 @@ import CardContent from '@mui/material/CardContent';
 import ApplicationParams from 'src/constants/applicationParams';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { PermissionEnum, PermissionEnumLabelMapping } from 'src/models/shared/enums/permissionEnum';
 import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
 
-const PermissionForm = ({id, onClose}: FormProps) => {
+const PageForm = ({id, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
-const [types, setTypes] = useState<TextValueDTO[]>([]);
+const [pages, setPages] = useState<TextValueDTO[]>([]);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common', 'security']);
@@ -37,43 +36,46 @@ useEffect(() => {
   if (id) {
     getItemById(id);
   }
-  getTypeList();
+  getAllPageList();
 }, []);
 
 const getItemById = async (id: string | number) => {
-  const permissionDTO: PermissionDTO = await dispatch(getById(id)).unwrap();
-  if (permissionDTO) {
+  const pageDTO: PageDTO = await dispatch(getById(id)).unwrap();
+  if (pageDTO) {
     await formik.setValues({
-        name: permissionDTO.name,
-        type: permissionDTO.type.toString(),
-        description: permissionDTO.description
+        name: pageDTO.name,
+        parentId: pageDTO.parentId,
+        priority: pageDTO.priority,
+        iconClass: pageDTO.iconClass
       } as initialValuesType);
   }
 }
 
-const getTypeList = () => {
-  const typeList: TextValueDTO[] = Object.values(PermissionEnum).filter(p => typeof p === 'number').map(j => ({
-    text: t(PermissionEnumLabelMapping[j as PermissionEnum]),
-    value: j.toString()
+const getAllPageList = async () => {
+  const pages: PageDTO[] = await dispatch(getAllPages()).unwrap();
+  const mappedPages = pages?.map(p => ({
+    text: p.name,
+    value: p.id
   } as TextValueDTO));
-  setTypes(typeList);
+  setPages(mappedPages);
 }
 
 const validationSchema = object({
   name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  type: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  description: string().max(ApplicationParams.DescriptionMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.DescriptionMaxLenght), { n: `${ApplicationParams.DescriptionMaxLenght}`})!)
-  
+  priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
 });
 
 type initialValuesType = {
   name: string,
-  type: string,
-  description?: string
+  parentId?: string | null,
+  iconClass?: string | null,
+  priority: number
 };
 const initialValues: initialValuesType = {
   name: '',
-  type: ''
+  parentId: '',
+  iconClass: '',
+  priority: 1
 };
   const formik = useFormik({
     initialValues: initialValues,
@@ -81,23 +83,25 @@ const initialValues: initialValuesType = {
     onSubmit: async (values) => {
       if(formik.isValid){
         if (isUpdate) {
-          const updatePermissionData: UpdatePermissionDTO = {
+          const updatePageData: UpdatePageDTO = {
             id: id!,
             name: values.name,
-            type: Number(values.type) as PermissionEnum,
-            description: values.description
+            parentId: values.parentId ? values.parentId : null,
+            iconClass: values.iconClass,
+            priority: values.priority
           };
-          const result = await dispatch(update(updatePermissionData)).unwrap();
+          const result = await dispatch(update(updatePageData)).unwrap();
           if (result) {
             onClose();
           }
         } else {
-          const addPermissionData: AddPermissionDTO = {
+          const addPageData: AddPageDTO = {
             name: values.name,
-            type: Number(values.type) as PermissionEnum,
-            description: values.description
+            parentId: values.parentId ? values.parentId : null,
+            iconClass: values.iconClass,
+            priority: values.priority
           }
-          const result = await dispatch(add(addPermissionData)).unwrap();
+          const result = await dispatch(add(addPageData)).unwrap();
           if (result) {
             onClose();
           }         
@@ -124,6 +128,25 @@ const initialValues: initialValuesType = {
             spacing={3}
             justifyContent="center">
                 <Grid item lg={12}>
+                  <TextField
+                  select 
+                  fullWidth
+                  id="parentId"
+                  name="parentId"
+                  label={t('parent', CommonMessage.Parent)}
+                  value={formik.values.parentId} 
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.parentId && Boolean(formik.errors.parentId)}
+                  helperText={formik.errors.parentId}>
+                    {pages.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.text}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item lg={12}>
                   <TextField 
                   fullWidth 
                   id="name"
@@ -135,34 +158,26 @@ const initialValues: initialValuesType = {
                   helperText={formik.errors.name}/> 
                 </Grid>
                 <Grid item lg={12}>
-                  <TextField
-                  select 
-                  fullWidth
-                  id="type"
-                  name="type"
-                  label={t('type', CommonMessage.Type)}
-                  value={formik.values.type} 
-                  onChange={formik.handleChange}
+                  <TextField 
+                  fullWidth 
+                  id="priority"
+                  label={t('priority', CommonMessage.Priority)}
+                  value={formik.values.priority}
+                  onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
-                  error={formik.touched.type && Boolean(formik.errors.type)}
-                  helperText={formik.errors.type}>
-                    {types.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.text}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                  error={formik.touched.priority && Boolean(formik.errors.priority)}
+                  helperText={formik.errors.priority}/> 
                 </Grid>
                 <Grid item lg={12}>
                   <TextField 
                   fullWidth 
-                  id="description"
-                  label={t('description', CommonMessage.Description)}
-                  value={formik.values.description}
+                  id="iconClass"
+                  label={t('iconClass', CommonMessage.Description)}
+                  value={formik.values.iconClass}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
-                  error={formik.touched.description && Boolean(formik.errors.description)}
-                  helperText={formik.errors.description}/> 
+                  error={formik.touched.iconClass && Boolean(formik.errors.iconClass)}
+                  helperText={formik.errors.iconClass}/> 
                 </Grid>
                 <Grid item lg={12}>
                   <Button
@@ -193,7 +208,7 @@ const initialValues: initialValuesType = {
   )
 }
 
-export default PermissionForm
+export default PageForm
 type Props = {
   // Add custom props here
 }

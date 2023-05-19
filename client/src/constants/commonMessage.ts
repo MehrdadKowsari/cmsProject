@@ -24,7 +24,9 @@ export default class CommonMessage {
     public static readonly Code: string = 'Code';
     public static readonly Title: string = 'Title';
     public static readonly Type: string = 'Type';
+    public static readonly Parent: string = 'Parent';
     public static readonly Description: string = 'Description';
+    public static readonly IconClass: string = 'Icon Class';
     public static readonly LastModifiedDate: string = 'Last Modified Date';
     public static readonly Actions: string = 'Actions';
     public static readonly Status: string = 'Status';
@@ -33,6 +35,7 @@ export default class CommonMessage {
     public static readonly Attachment: string = 'Attachment';
     public static readonly Download: string = 'Download';
     public static readonly Preview: string = 'Preview';
+    public static readonly Priority: string = 'Priority';
     public static readonly FullName: string = 'FullName';
     public static readonly Username: string = 'Username';
     public static readonly User: string = 'User';
@@ -43,7 +46,8 @@ export default class CommonMessage {
     public static readonly OperationType: string = 'OperationType';
     public static readonly Detail: string = 'Detail';
     public static readonly Edit: string = 'Edit';
-    public static readonly IsActive: string = 'IsActive';
+    public static readonly IsActive: string = 'Is Active';
+    public static readonly IsHidden: string = 'Is Hidden';
     public static readonly StartDate: string = 'Start Date';
     public static readonly EndDate: string = 'End Date';
     public static readonly PostalCode: string = 'PostalCode';
@@ -87,6 +91,7 @@ export default class CommonMessage {
     public static readonly RequiredFiled: string = 'This Field Is Required';
     public static readonly FiledFormatIsInvalid: string = 'Filed Format Is Invalid';
     public static readonly ToggleActive: string = 'Active/InActive';  
+    public static readonly ToggleHidden: string = 'Show/Hide';  
     public static readonly DateDidNotEnterCorrectly: string = 'Date Did Not Enter Correctly';
     public static readonly NoFileSelected: string = 'No File Selected';
     public static readonly AnyDataDidNotEnter: string = 'Any Data Did Not Enter';

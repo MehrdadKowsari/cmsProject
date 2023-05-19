@@ -2,6 +2,7 @@ import { BaseModel } from "../../../models/shared/base/baseModel";
 
 export interface PageDTO extends BaseModel {
     parentId?: string;
+    parentName: string;
     name: string;
     priority: number;
     iconClass?: string;

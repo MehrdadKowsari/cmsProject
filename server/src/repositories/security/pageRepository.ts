@@ -25,7 +25,9 @@ import AppConstant from "src/constants/appConstants";
          * 
          * @returns {Promise<Page[]>}
          */
-        getAll = async () => await PageModel.find(); 
+        getAll = async () => await PageModel.find()
+        .populate('parentId')
+        .exec(); 
         
         /**
          * get all pages by parameters
@@ -38,7 +40,9 @@ import AppConstant from "src/constants/appConstants";
             const limitCount: number = (pageSize || AppConstant.pageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await PageModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await PageModel.find().sort(sort).skip(skipCount).limit(limitCount)
+            .populate('parentId')
+            .exec();
             return list;
         }  
         

@@ -34,7 +34,6 @@ const schema = new Schema<Page>(
     },
     iconClass: {
       type: Schema.Types.String,
-      required: true,
       maxlength: 500
     },
     isActive: {
@@ -63,10 +62,7 @@ const schema = new Schema<Page>(
       type: Schema.Types.ObjectId,
       ref:'User'
     },
-  },
-  {
-    versionKey: false,
-  },
+  }
 );
 
 const PageModel = model<Page>(DOCUMENT_NAME, schema, COLLECTION_NAME);

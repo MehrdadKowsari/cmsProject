@@ -2,19 +2,20 @@ import { AppProps } from "next/app";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as React from 'react';
-import { DataGrid, GridActionsCellItem, GridColumns, GridRowId, GridSortModel } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColumns, GridRowId, GridSortModel, GridValueGetterParams } from '@mui/x-data-grid';
 import UserLayout from "src/layouts/admin/UserLayout";
 import useConfirm from "src/state/hooks/useConfirm";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import SecurityIcon from '@mui/icons-material/Security';
 import { Button, CardContent, CardHeader } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useAppDispatch } from "src/state/hooks/hooks";
-import { getAllByParams, remove } from "src/state/slices/userRoleSlice";
+import { getAllByParams, remove, toggleActive, toggleHidden } from "src/state/slices/pageSlice";
 import CustomDialog from "src/components/Modal/Modal";
-import UserRoleForm from "./form";
+import PageForm from "./form";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Card from "@mui/material/Card";
@@ -22,11 +23,10 @@ import CommonMessage from "src/constants/commonMessage";
 import { useTranslation } from "next-i18next";
 import { GridParameter } from "src/models/shared/grid/gridPrameter";
 import ApplicationParams from "src/constants/applicationParams";
-import SecurityMessage from "src/constants/securityMessage";
  
-const UserRole = ({Component, pageProps}: AppProps) => {
+const Page = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
-  const { userRoles, totalCount, isLoading} = useSelector((state:any) => state?.userRole);
+  const { pages, totalCount, isLoading} = useSelector((state:any) => state?.page);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number| string | null>(null);
   const [page, setPage] = React.useState(0);
@@ -58,7 +58,7 @@ const UserRole = ({Component, pageProps}: AppProps) => {
       return isConfirmed;
     }
     
-    const deleteUserRole = useCallback( 
+    const deletePage = useCallback( 
     (id: string | number) => async() => {
         const isConfirmed = await showConfirm();
         if (isConfirmed) {
@@ -71,10 +71,30 @@ const UserRole = ({Component, pageProps}: AppProps) => {
       []
     )
   
-    const updateUserRole = useCallback(
+    const updatePage = useCallback(
       (id: GridRowId) => async () => {
         setRowId(id);
         setIsOpenModal(true);
+      },
+      [],
+    );
+
+    const toggleIsActive = useCallback(
+      (id: GridRowId) => async () => {
+        const result: boolean = await dispatch(toggleActive(id)).unwrap();
+        if(result !== null){
+          getGridData();
+        }
+      },
+      [],
+    );
+    
+    const toggleIsHidden = useCallback(
+      (id: GridRowId) => async () => {
+        const result: boolean = await dispatch(toggleHidden(id)).unwrap();
+        if(result !== null){
+          getGridData();
+        }
       },
       [],
     );
@@ -89,8 +109,12 @@ const UserRole = ({Component, pageProps}: AppProps) => {
     }
   
     const columns: GridColumns = [
-      { field: 'userFullName', headerName: t('fullName', CommonMessage.FullName)!, width: 130 },
-      { field: 'roleName', headerName: t('role', CommonMessage.Role)!, width: 130 },
+      { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
+      { field: 'parentName', headerName: t('parent', CommonMessage.Name)!, width: 130 },
+      { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
+      { field: 'iconClass', headerName: t('iconClass', CommonMessage.IconClass)!, width: 130 },
+      { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean'},
+      { field: 'isHidden', headerName: t('isHidden', CommonMessage.IsHidden)!, width: 130, type: 'boolean'},
       {
           field: 'actions',
           type: 'actions',
@@ -100,13 +124,27 @@ const UserRole = ({Component, pageProps}: AppProps) => {
               key={params.id}
               icon={<EditIcon color="success" />}
               label={t('update', CommonMessage.Update)}
-              onClick={updateUserRole(params.id)}
+              onClick={updatePage(params.id)}
             />,
             <GridActionsCellItem
               key={params.id}
               icon={<DeleteIcon color="error" />}
               label={t('delete', CommonMessage.Delete)}
-              onClick={deleteUserRole(params.id)}
+              onClick={deletePage(params.id)}
+            />,
+            <GridActionsCellItem
+              key={params.id}
+              icon={<SecurityIcon />}
+              label={t('toggleActive', CommonMessage.ToggleActive)}
+              onClick={toggleIsActive(params.id)}
+              showInMenu
+            />,
+            <GridActionsCellItem
+              key={params.id}
+              icon={<SecurityIcon />}
+              label={t('toggleHidden', CommonMessage.ToggleHidden)}
+              onClick={toggleIsHidden(params.id)}
+              showInMenu
             />
           ],
         },
@@ -134,7 +172,7 @@ const UserRole = ({Component, pageProps}: AppProps) => {
         <>
         <Card>
             <CardHeader 
-            title={t('userInRole', SecurityMessage.UserInRole)} 
+            title={t('page', CommonMessage.Page)} 
             titleTypographyProps={{ variant: 'h6' }}/>
             <CardContent>
             <Box mx={1}>
@@ -148,9 +186,9 @@ const UserRole = ({Component, pageProps}: AppProps) => {
           </Button>
         </Box>
         <Box mt={2}>
-          {userRoles && userRoles.length > 0 ? <div style={{ height: 400, width: '100%' }}>
+          {pages && pages.length > 0 ? <div style={{ height: 400, width: '100%' }}>
           <DataGrid
-            rows={userRoles}
+            rows={pages}
             columns={columns}
             page={page}
             pageSize={pageSize}
@@ -170,10 +208,10 @@ const UserRole = ({Component, pageProps}: AppProps) => {
           </div>}  
         </Box>  
         <CustomDialog 
-        title={t('security:userInRole', SecurityMessage.UserInRole)} 
+        title={t('page', CommonMessage.Page)} 
         isOpen={isOpenModal}
         onClose={() => handleCloseModal()}>
-          <UserRoleForm id={rowId}
+          <PageForm id={rowId}
           onClose={handleCloseForm}/>
         </CustomDialog>
             </CardContent>
@@ -182,13 +220,13 @@ const UserRole = ({Component, pageProps}: AppProps) => {
     )
 }
 
-UserRole.getLayout = (page: React.ReactNode) => <UserLayout>{page}</UserLayout>
+Page.getLayout = (page: React.ReactNode) => <UserLayout>{page}</UserLayout>
 
-export default UserRole;
-type UserRoleProps = {
+export default Page;
+type PageProps = {
 
 }
-export const getStaticProps: GetStaticProps<UserRoleProps> = async ({
+export const getStaticProps: GetStaticProps<PageProps> = async ({
   locale,
 }) => ({
   props: {
