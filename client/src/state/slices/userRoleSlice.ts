@@ -14,7 +14,7 @@ export const add = createAsyncThunk(
   async (userRole: AddUserRoleDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/add`, userRole)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);
@@ -26,7 +26,7 @@ export const getAllByParams = createAsyncThunk(
   async (gridParameter: GridParameter, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
-      return data?.result;;
+      return data?.result;
     } catch (err) {
       const error= err as AxiosError;
       return rejectWithValue(error.message);
@@ -51,7 +51,7 @@ export const update = createAsyncThunk(
   async (userRole: UpdateUserRoleDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/update`, userRole)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);

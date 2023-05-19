@@ -14,7 +14,7 @@ export const add = createAsyncThunk(
   async (pagePermission: AddPagePermissionDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/add`, pagePermission)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);
@@ -26,7 +26,7 @@ export const getAllByParams = createAsyncThunk(
   async (gridParameter: GridParameter, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
-      return data?.result;;
+      return data?.result;
     } catch (err) {
       const error= err as AxiosError;
       return rejectWithValue(error.message);
@@ -51,7 +51,7 @@ export const update = createAsyncThunk(
   async (pagePermission: UpdatePagePermissionDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/update`, pagePermission)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);

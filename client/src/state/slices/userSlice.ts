@@ -17,7 +17,7 @@ export const add = createAsyncThunk(
   async (user: AddUserDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/add`, user)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);
@@ -29,7 +29,7 @@ export const getAllUsers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/getAll`);
-      return data?.result;;
+      return data?.result;
     } catch (err) {
       const error= err as AxiosError;
       return rejectWithValue(error.message);
@@ -41,7 +41,7 @@ export const getAllByParams = createAsyncThunk(
   async (gridParameter: GridParameter, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
-      return data?.result;;
+      return data?.result;
     } catch (err) {
       const error= err as AxiosError;
       return rejectWithValue(error.message);
@@ -105,7 +105,7 @@ export const update = createAsyncThunk(
   async (user: UpdateUserDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/update`, user)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);
@@ -117,7 +117,7 @@ export const updateProfile = createAsyncThunk(
   async (user: UpdateUserProfileDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/updateProfile`, user)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);
@@ -129,7 +129,7 @@ export const changePassword = createAsyncThunk(
   async (changePassword: ChangeUserPasswordDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/changePassword`, changePassword)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);
@@ -141,7 +141,7 @@ export const resetPassword = createAsyncThunk(
   async (resetPassword: ResetUserPasswordDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/resetPassword`, resetPassword)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);

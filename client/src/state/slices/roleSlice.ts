@@ -14,7 +14,7 @@ export const add = createAsyncThunk(
   async (role: AddRoleDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/add`, role)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);
@@ -26,7 +26,7 @@ export const getAllRoles = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/getAll`);
-      return data?.result;;
+      return data?.result;
     } catch (err) {
       const error= err as AxiosError;
       return rejectWithValue(error.message);
@@ -38,7 +38,7 @@ export const getAllByParams = createAsyncThunk(
   async (gridParameter: GridParameter, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
-      return data?.result;;
+      return data?.result;
     } catch (err) {
       const error= err as AxiosError;
       return rejectWithValue(error.message);
@@ -63,7 +63,7 @@ export const update = createAsyncThunk(
   async (role: UpdateRoleDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/update`, role)
-      return data?.result;;
+      return data?.result;
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);
