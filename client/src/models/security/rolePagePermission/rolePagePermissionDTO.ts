@@ -1,6 +1,6 @@
 import { BaseModel } from "../../shared/base/baseModel";
 
-export interface PagePermissionDTO extends BaseModel {
+export interface RolePagePermissionDTO extends BaseModel {
     roleId: string;
     roleName: string;
     pagePermissionId: string;
