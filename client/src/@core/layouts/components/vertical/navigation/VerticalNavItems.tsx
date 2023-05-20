@@ -1,5 +1,4 @@
 // ** Types Import
-import { GetStaticProps } from 'next'
 import { useTranslation, Trans } from 'next-i18next'
 import { Settings } from 'src/@core/context/settingsContext'
 import { NavLink, NavSectionTitle, VerticalNavItemsType } from 'src/@core/layouts/types'
@@ -33,7 +32,7 @@ const VerticalNavItems = (props: Props) => {
   }
   const RenderMenuItems = verticalNavItems?.map((item: NavLink | NavSectionTitle, index: number) => {
     const TagName: any = resolveNavItemComponent(item)
-    return <Trans>
+    return <Trans key={index}>
       <TagName {...props} key={index} item={(item as NavSectionTitle).sectionTitle ? { ...item, sectionTitle: t((item as NavSectionTitle).sectionTitle) } : {...item, title: t((item as NavLink).title)}} />
     </Trans>
   })
