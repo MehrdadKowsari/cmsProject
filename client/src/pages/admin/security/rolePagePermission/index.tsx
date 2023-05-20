@@ -12,9 +12,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { Button, CardContent, CardHeader } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useAppDispatch } from "src/state/hooks/hooks";
-import { getAllByParams, remove } from "src/state/slices/userRoleSlice";
+import { getAllByParams, remove } from "src/state/slices/rolePagePermissionSlice";
 import CustomDialog from "src/components/Modal/Modal";
-import UserRoleForm from "./form";
+import RolepagePermissionForm from "./form";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Card from "@mui/material/Card";
@@ -24,9 +24,9 @@ import { GridParameter } from "src/models/shared/grid/gridPrameter";
 import ApplicationParams from "src/constants/applicationParams";
 import SecurityMessage from "src/constants/securityMessage";
  
-const UserRole = ({Component, pageProps}: AppProps) => {
+const RolepagePermission = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
-  const { userRoles, totalCount, isLoading} = useSelector((state:any) => state?.userRole);
+  const { rolePagePermissions, totalCount, isLoading} = useSelector((state:any) => state?.rolePagePermission);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number| string | null>(null);
   const [page, setPage] = React.useState(0);
@@ -58,7 +58,7 @@ const UserRole = ({Component, pageProps}: AppProps) => {
       return isConfirmed;
     }
     
-    const deleteUserRole = useCallback( 
+    const deleteRolepagePermission = useCallback( 
     (id: string | number) => async() => {
         const isConfirmed = await showConfirm();
         if (isConfirmed) {
@@ -71,7 +71,7 @@ const UserRole = ({Component, pageProps}: AppProps) => {
       []
     )
   
-    const updateUserRole = useCallback(
+    const updateRolepagePermission = useCallback(
       (id: GridRowId) => async () => {
         setRowId(id);
         setIsOpenModal(true);
@@ -89,8 +89,8 @@ const UserRole = ({Component, pageProps}: AppProps) => {
     }
   
     const columns: GridColumns = [
-      { field: 'userFullName', headerName: t('fullName', CommonMessage.FullName)!, width: 130 },
       { field: 'roleName', headerName: t('role', CommonMessage.Role)!, width: 130 },
+      { field: 'pagePermissionName', headerName: t('security:pagePermission', SecurityMessage.PagePermission)!, width: 130 },
       {
           field: 'actions',
           type: 'actions',
@@ -100,13 +100,13 @@ const UserRole = ({Component, pageProps}: AppProps) => {
               key={params.id}
               icon={<EditIcon color="success" />}
               label={t('update', CommonMessage.Update)}
-              onClick={updateUserRole(params.id)}
+              onClick={updateRolepagePermission(params.id)}
             />,
             <GridActionsCellItem
               key={params.id}
               icon={<DeleteIcon color="error" />}
               label={t('delete', CommonMessage.Delete)}
-              onClick={deleteUserRole(params.id)}
+              onClick={deleteRolepagePermission(params.id)}
             />
           ],
         },
@@ -134,7 +134,7 @@ const UserRole = ({Component, pageProps}: AppProps) => {
         <>
         <Card>
             <CardHeader 
-            title={t('security:userInRole', SecurityMessage.UserInRole)} 
+            title={t('security:rolePagePermission', SecurityMessage.RolePagePermission)} 
             titleTypographyProps={{ variant: 'h6' }}/>
             <CardContent>
             <Box mx={1}>
@@ -148,9 +148,9 @@ const UserRole = ({Component, pageProps}: AppProps) => {
           </Button>
         </Box>
         <Box mt={2}>
-          {userRoles && userRoles.length > 0 ? <div style={{ height: 400, width: '100%' }}>
+          {rolePagePermissions && rolePagePermissions.length > 0 ? <div style={{ height: 400, width: '100%' }}>
           <DataGrid
-            rows={userRoles}
+            rows={rolePagePermissions}
             columns={columns}
             page={page}
             pageSize={pageSize}
@@ -170,10 +170,10 @@ const UserRole = ({Component, pageProps}: AppProps) => {
           </div>}  
         </Box>  
         <CustomDialog 
-        title={t('security:userInRole', SecurityMessage.UserInRole)} 
+        title={t('security:rolePagePermission', SecurityMessage.RolePagePermission)} 
         isOpen={isOpenModal}
         onClose={() => handleCloseModal()}>
-          <UserRoleForm id={rowId}
+          <RolepagePermissionForm id={rowId}
           onClose={handleCloseForm}/>
         </CustomDialog>
             </CardContent>
@@ -182,13 +182,13 @@ const UserRole = ({Component, pageProps}: AppProps) => {
     )
 }
 
-UserRole.getLayout = (page: React.ReactNode) => <UserLayout>{page}</UserLayout>
+RolepagePermission.getLayout = (page: React.ReactNode) => <UserLayout>{page}</UserLayout>
 
-export default UserRole;
-type UserRoleProps = {
+export default RolepagePermission;
+type RolepagePermissionProps = {
 
 }
-export const getStaticProps: GetStaticProps<UserRoleProps> = async ({
+export const getStaticProps: GetStaticProps<RolepagePermissionProps> = async ({
   locale,
 }) => ({
   props: {

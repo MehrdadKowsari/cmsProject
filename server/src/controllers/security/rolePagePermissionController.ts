@@ -38,7 +38,7 @@ export class RolePagePermissionController{
      * @param {object} res 
      * @returns {Promise<object>} return
      */
-    getAll = async (req: Request, res: Response) => {
+    getAllByParams = async (req: Request, res: Response) => {
         try {
             const gridParameter: GridParameter = req.body;
             const requestResult = await this._rolePagePermissionService.getAllByParams(gridParameter);

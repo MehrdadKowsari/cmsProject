@@ -21,6 +21,18 @@ export const add = createAsyncThunk(
     }
 });
 
+export const getAllPagePermissions = createAsyncThunk(
+  "pagePermission/getAll", 
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/getAll`);
+      return data?.result;
+    } catch (err) {
+      const error= err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+});
+
 export const getAllByParams = createAsyncThunk(
   "pagePermission/getAllByParams", 
   async (gridParameter: GridParameter, { rejectWithValue }) => {
@@ -108,6 +120,23 @@ const pagePermissionSlice = createSlice({
             state.error = <string>payload;
           })
 
+          .addCase(getAllPagePermissions.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getAllPagePermissions.fulfilled, (state, { payload }) => {
+            state.pagePermissions = payload.rows;
+            state.totalCount = payload.totalCount;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getAllPagePermissions.rejected, (state, { payload }) => {
+            state.pagePermissions = null;
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
           .addCase(getAllByParams.pending, (state) => {
             state.isLoading = true;
             state.hasError = false;

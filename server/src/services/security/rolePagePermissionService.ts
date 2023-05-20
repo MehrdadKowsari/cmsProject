@@ -61,7 +61,9 @@ export default class RolePagePermissionService {
             const rolePagePermissions: RolePagePermissionDTO[] = (await this._rolePagePermissionRepository.getAllByParams(gridParameter))?.map((rolePagePermission: any) => <RolePagePermissionDTO>{
                 id: rolePagePermission._id?.toString(),
                 roleId: rolePagePermission.roleId,
+                roleName: rolePagePermission.roleId.name,
                 pagePermissionId: rolePagePermission.pagePermissionId,
+                pagePermissionName: rolePagePermission.pagePermissionId.pageId.name,
                 createdBy: rolePagePermission.createdBy,
                 createdAt: rolePagePermission.createdAt,
                 updatedBy: rolePagePermission.updatedBy,

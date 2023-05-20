@@ -38,7 +38,9 @@ import AppConstant from "src/constants/appConstants";
             const limitCount: number = (pageSize || AppConstant.pageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await RolePagePermissionModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await RolePagePermissionModel.find().sort(sort).skip(skipCount).limit(limitCount)
+            .populate('pagePermissionId pagePermissionId.pageId')
+            .populate('roleId');
             return list;
         }  
         
