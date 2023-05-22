@@ -63,7 +63,7 @@ export default class RolePagePermissionService {
                 roleId: rolePagePermission.roleId,
                 roleName: rolePagePermission.roleId.name,
                 pagePermissionId: rolePagePermission.pagePermissionId,
-                pagePermissionName: rolePagePermission.pagePermissionId.pageId.name,
+                pagePermissionName: `${rolePagePermission.pagePermissionId.pageId.name} - ${rolePagePermission.pagePermissionId.permissionId.name}`,
                 createdBy: rolePagePermission.createdBy,
                 createdAt: rolePagePermission.createdAt,
                 updatedBy: rolePagePermission.updatedBy,

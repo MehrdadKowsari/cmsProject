@@ -28,7 +28,7 @@ import AppConstant from "src/constants/appConstants";
         getAll = async () => await PagePermissionModel.find()
         .populate('pageId')
         .populate('permissionId')
-        .exec();; 
+        .exec(); 
         
         /**
          * get all pagePermissions by parameters

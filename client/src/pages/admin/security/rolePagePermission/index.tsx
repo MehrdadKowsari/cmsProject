@@ -89,8 +89,8 @@ const RolepagePermission = ({Component, pageProps}: AppProps) => {
     }
   
     const columns: GridColumns = [
-      { field: 'roleName', headerName: t('role', CommonMessage.Role)!, width: 130 },
-      { field: 'pagePermissionName', headerName: t('security:pagePermission', SecurityMessage.PagePermission)!, width: 130 },
+      { field: 'roleName', headerName: t('role', CommonMessage.Role)!, width: 150 },
+      { field: 'pagePermissionName', headerName: t('security:pagePermission', SecurityMessage.PagePermission)!, width: 200 },
       {
           field: 'actions',
           type: 'actions',
