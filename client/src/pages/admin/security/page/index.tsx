@@ -23,6 +23,7 @@ import CommonMessage from "src/constants/commonMessage";
 import { useTranslation } from "next-i18next";
 import { GridParameter } from "src/models/shared/grid/gridPrameter";
 import ApplicationParams from "src/constants/applicationParams";
+import { PageTypeEnum, PageTypeEnumLabelMapping } from "src/models/security/enums/pageTypeEnum";
  
 const Page = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
@@ -109,8 +110,11 @@ const Page = ({Component, pageProps}: AppProps) => {
     }
   
     const columns: GridColumns = [
-      { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
       { field: 'parentName', headerName: t('parent', CommonMessage.Name)!, width: 130 },
+      { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
+      { field: 'type', headerName: t('type', CommonMessage.Type)!, valueFormatter(params) {
+        return t(PageTypeEnumLabelMapping[params.value as PageTypeEnum]) 
+       }, width: 130 },
       { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
       { field: 'iconClass', headerName: t('iconClass', CommonMessage.IconClass)!, width: 130 },
       { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean'},

@@ -23,7 +23,7 @@ import CardContent from '@mui/material/CardContent';
 import ApplicationParams from 'src/constants/applicationParams';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { PermissionEnum, PermissionEnumLabelMapping } from 'src/models/shared/enums/permissionEnum';
+import { PermissionTypeEnum, PermissionTypeEnumLabelMapping } from 'src/models/shared/enums/permissionTypeEnum';
 import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
 
 const PermissionForm = ({id, onClose}: FormProps) => {
@@ -52,8 +52,8 @@ const getItemById = async (id: string | number) => {
 }
 
 const getTypeList = () => {
-  const typeList: TextValueDTO[] = Object.values(PermissionEnum).filter(p => typeof p === 'number').map(j => ({
-    text: t(PermissionEnumLabelMapping[j as PermissionEnum]),
+  const typeList: TextValueDTO[] = Object.values(PermissionTypeEnum).filter(p => typeof p === 'number').map(j => ({
+    text: t(PermissionTypeEnumLabelMapping[j as PermissionTypeEnum]),
     value: j.toString()
   } as TextValueDTO));
   setTypes(typeList);
@@ -84,7 +84,7 @@ const initialValues: initialValuesType = {
           const updatePermissionData: UpdatePermissionDTO = {
             id: id!,
             name: values.name,
-            type: Number(values.type) as PermissionEnum,
+            type: Number(values.type) as PermissionTypeEnum,
             description: values.description
           };
           const result = await dispatch(update(updatePermissionData)).unwrap();
@@ -94,7 +94,7 @@ const initialValues: initialValuesType = {
         } else {
           const addPermissionData: AddPermissionDTO = {
             name: values.name,
-            type: Number(values.type) as PermissionEnum,
+            type: Number(values.type) as PermissionTypeEnum,
             description: values.description
           }
           const result = await dispatch(add(addPermissionData)).unwrap();

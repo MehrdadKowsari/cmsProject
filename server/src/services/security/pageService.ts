@@ -29,11 +29,12 @@ export default class PageService {
      */
     addPage = async (addPageDTO: AddPageDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try { 
-            const { parentId, name, priority, iconClass } = addPageDTO;
+            const { parentId, type, name, priority, iconClass } = addPageDTO;
             const newPage: Page = {
                 _id: null,
                 parentId: new Types.ObjectId(parentId),
                 name,
+                type,
                 priority,
                 iconClass,
                 isActive: true,
@@ -56,12 +57,12 @@ export default class PageService {
      */
     getAll = async (): Promise<RequestResult<PageDTO[] | null>> => {
         try {
-            const totalCount = await this._pageRepository.count();
             const pages: PageDTO[] = (await this._pageRepository.getAll())?.map((page: any) => <PageDTO>{
                 id: page._id?.toString(),
                 parentId: page.parentId,
                 parentName: page.parentId?.name,
                 name: page.name,
+                type: page.type,
                 priority: page.priority,
                 iconClass: page.iconClass,
                 isActive: page.isActive,
@@ -92,6 +93,7 @@ export default class PageService {
                 parentId: page.parentId,
                 parentName: page.parentId?.name,
                 name: page.name,
+                type: page.type,
                 priority: page.priority,
                 iconClass: page.iconClass,
                 isActive: page.isActive,
@@ -146,7 +148,7 @@ export default class PageService {
      */
     update = async (updatePageDTO: UpdatePageDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
-            const { id, parentId, name, priority, iconClass } = updatePageDTO;
+            const { id, parentId, name, type, priority, iconClass } = updatePageDTO;
             let page = await this._pageRepository.getById(id);
             if (page === null) {
                 return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'pageDoesNotExist')));
@@ -154,6 +156,7 @@ export default class PageService {
 
             page.parentId = new Types.ObjectId(parentId);
             page.name = name;
+            page.type = type;
             page.priority = priority;
             page.iconClass = iconClass;
             page.updatedBy = new Types.ObjectId(userId);

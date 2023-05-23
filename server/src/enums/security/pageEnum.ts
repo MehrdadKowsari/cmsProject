@@ -1,0 +1,23 @@
+enum PageTypeEnum{
+    Home = 1,
+    Security = 100,
+    User = 101,
+    Role = 102,
+    UserRole = 103,
+    Page = 104,
+    Permission = 105,
+    PagePermission = 106,
+    RolePagePermission = 107,
+    UserProfile = 108,
+    ContentManagement = 200,
+    PostCategory = 201,
+    Post = 202,
+    Link = 203,
+    Slider = 204,
+    Menue = 205,
+    GalleyCategory = 206,
+    Gallery = 207,
+    Brand = 208,
+    Event = 209,
+    EventRegister = 210
+}

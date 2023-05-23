@@ -24,10 +24,12 @@ import ApplicationParams from 'src/constants/applicationParams';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
+import { PageTypeEnum, PageTypeEnumLabelMapping } from 'src/models/security/enums/pageTypeEnum';
 
 const PageForm = ({id, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [pages, setPages] = useState<TextValueDTO[]>([]);
+const [pageTypes, setPageTypes] = useState<TextValueDTO[]>([]);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common', 'security']);
@@ -37,6 +39,7 @@ useEffect(() => {
     getItemById(id);
   }
   getAllPageList();
+  getAllPageTypeList();
 }, []);
 
 const getItemById = async (id: string | number) => {
@@ -44,6 +47,7 @@ const getItemById = async (id: string | number) => {
   if (pageDTO) {
     await formik.setValues({
         name: pageDTO.name,
+        type: pageDTO.type?.toString(),
         parentId: pageDTO.parentId,
         priority: pageDTO.priority,
         iconClass: pageDTO.iconClass
@@ -60,6 +64,14 @@ const getAllPageList = async () => {
   setPages(mappedPages);
 }
 
+const getAllPageTypeList = () => {
+  const pageTypes: TextValueDTO[] = Object.values(PageTypeEnum).filter(p => typeof p === 'number').map(p => ({
+    text: t(PageTypeEnumLabelMapping[p as PageTypeEnum]),
+    value: p.toString()
+  } as TextValueDTO));
+  setPageTypes(pageTypes);
+}
+
 const validationSchema = object({
   name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
@@ -67,12 +79,14 @@ const validationSchema = object({
 
 type initialValuesType = {
   name: string,
+  type: string,
   parentId?: string | null,
   iconClass?: string | null,
   priority: number
 };
 const initialValues: initialValuesType = {
   name: '',
+  type: '',
   parentId: '',
   iconClass: '',
   priority: 1
@@ -86,6 +100,7 @@ const initialValues: initialValuesType = {
           const updatePageData: UpdatePageDTO = {
             id: id!,
             name: values.name,
+            type: Number(values.type) as PageTypeEnum,
             parentId: values.parentId ? values.parentId : null,
             iconClass: values.iconClass,
             priority: values.priority
@@ -97,6 +112,7 @@ const initialValues: initialValuesType = {
         } else {
           const addPageData: AddPageDTO = {
             name: values.name,
+            type: Number(values.type) as PageTypeEnum,
             parentId: values.parentId ? values.parentId : null,
             iconClass: values.iconClass,
             priority: values.priority
@@ -156,6 +172,25 @@ const initialValues: initialValuesType = {
                   onBlur={formik.handleBlur}
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.errors.name}/> 
+                </Grid>
+                <Grid item lg={12}>
+                  <TextField
+                  select 
+                  fullWidth
+                  id="type"
+                  name="type"
+                  label={t('type', CommonMessage.Type)}
+                  value={formik.values.type} 
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.type && Boolean(formik.errors.type)}
+                  helperText={formik.errors.type}>
+                    {pageTypes.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.text}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid>
                 <Grid item lg={12}>
                   <TextField 

@@ -1,9 +1,9 @@
-import { PermissionEnum } from "src/enums/security/permissionType";
+import { PermissionTypeEnum } from "src/enums/security/permissionTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
 export interface UpdatePermissionDTO extends BaseModel {
   name: string;
-  type: PermissionEnum;
+  type: PermissionTypeEnum;
   description?: string;
 }
 

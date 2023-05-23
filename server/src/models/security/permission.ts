@@ -1,5 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
-import { PermissionEnum } from 'src/enums/security/permissionType';
+import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
 
 export const DOCUMENT_NAME = 'Permission';
 export const COLLECTION_NAME = 'permissions';
@@ -7,7 +7,7 @@ export const COLLECTION_NAME = 'permissions';
 export interface Permission {
   _id: Types.ObjectId | null;
   name: string;
-  type: PermissionEnum;
+  type: PermissionTypeEnum;
   description?: string;
   isActive: boolean;
   createdAt?: Date;

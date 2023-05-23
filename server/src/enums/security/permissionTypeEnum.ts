@@ -1,4 +1,4 @@
-export enum PermissionEnum {
+export enum PermissionTypeEnum {
     View = 1,
     Add = 2,
     Update = 3,

@@ -7,6 +7,7 @@ export  interface Page {
   _id: Types.ObjectId | null;
   parentId?: Types.ObjectId;
   name: string;
+  type: PageTypeEnum;
   priority: number;
   iconClass?: string;
   isActive: boolean;
@@ -27,6 +28,10 @@ const schema = new Schema<Page>(
       type: Schema.Types.String,
       required: true,
       maxlength: 100
+    },
+    type: {
+      type: Schema.Types.Number,
+      required: true
     },
     priority: {
       type: Schema.Types.Number,

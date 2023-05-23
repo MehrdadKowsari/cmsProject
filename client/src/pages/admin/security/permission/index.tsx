@@ -22,7 +22,7 @@ import CommonMessage from "src/constants/commonMessage";
 import { useTranslation } from "next-i18next";
 import { GridParameter } from "src/models/shared/grid/gridPrameter";
 import ApplicationParams from "src/constants/applicationParams";
-import { PermissionEnum, PermissionEnumLabelMapping } from "src/models/shared/enums/permissionEnum";
+import { PermissionTypeEnum, PermissionTypeEnumLabelMapping } from "src/models/shared/enums/permissionTypeEnum";
  
 const Permission = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
@@ -100,8 +100,8 @@ const Permission = ({Component, pageProps}: AppProps) => {
   
     const columns: GridColumns = [
       { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
-      { field: 'type', headerName: t('type', CommonMessage.Name)!, valueFormatter(params) {
-       return t(PermissionEnumLabelMapping[params.value as PermissionEnum]) 
+      { field: 'type', headerName: t('type', CommonMessage.Type)!, valueFormatter(params) {
+       return t(PermissionTypeEnumLabelMapping[params.value as PermissionTypeEnum]) 
       }, width: 130 },
       { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
       {

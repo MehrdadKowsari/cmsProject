@@ -1,8 +1,8 @@
-import { PermissionEnum } from "src/enums/security/permissionType";
+import { PermissionTypeEnum } from "src/enums/security/permissionTypeEnum";
 
 export interface AddPermissionDTO{
   name: string;
-  type: PermissionEnum;
+  type: PermissionTypeEnum;
   description?: string;
 }
 
