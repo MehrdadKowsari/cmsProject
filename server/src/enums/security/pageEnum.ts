@@ -1,4 +1,4 @@
-enum PageTypeEnum{
+export enum PageTypeEnum{
     Home = 1,
     Security = 100,
     User = 101,

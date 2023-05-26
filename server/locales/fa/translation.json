@@ -138,5 +138,6 @@
     "confirmPasswordDoesNotMatch": "کلمه عبور و تایید آن تطابق ندارد",
     "passwordDoesNotMatch": "کلمه عبور و تایید آن تطابق ندارد",
     "dataIsNotEnteredCorrectly": "داده ها به درستی وارد نشده است",
-    "tokenExpired": "توکن منقضی شده است"
+    "tokenExpired": "توکن منقضی شده است",
+    "youHaveNotAccessToThePageOrAction": "شما به این صفحه/عملیات دسترسی ندارید"
 }

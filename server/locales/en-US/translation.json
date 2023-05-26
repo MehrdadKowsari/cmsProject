@@ -10,5 +10,6 @@
     "confirmPasswordDoesNotMatch": "Confirm Password Does Not Match",
     "passwordDoesNotMatch": "Password Does Not Match",
     "dataIsNotEnteredCorrectly": "Password Does Not Match",
-    "tokenExpired": "Token Expired"
+    "tokenExpired": "Token Expired",
+    "youHaveNotAccessToThePageOrAction":"You Have Not Access To The Page Or Action"
 }

@@ -1,4 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
+import { PageTypeEnum } from 'src/enums/security/pageEnum';
 
 export const DOCUMENT_NAME = 'Page';
 export const COLLECTION_NAME = 'pages';

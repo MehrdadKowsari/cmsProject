@@ -74,6 +74,7 @@ const getAllPageTypeList = () => {
 
 const validationSchema = object({
   name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  type: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
 });
 
