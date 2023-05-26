@@ -65,9 +65,8 @@ export default class UserService {
     }
     
     /**
-     * get all user list by params
+     * get all user list
      * 
-     * @param {object} gridParameter 
      * @returns {Promise<RequestResult<UserDTO[]> | null>}
      */
     getAll = async (): Promise<RequestResult<UserDTO[] | null>> => {
