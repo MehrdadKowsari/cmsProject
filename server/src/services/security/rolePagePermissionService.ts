@@ -12,6 +12,8 @@ import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateRolePagePermissionDTO } from 'src/dtos/security/rolePagePermission/updateRolePagePermissionDTO';
 import { RolePagePermission } from 'src/models/security/rolePagePermission';
 import { Types } from 'mongoose';
+import { PageTypeEnum } from 'src/enums/security/pageEnum';
+import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
 
 @autoInjectable()
 export default class RolePagePermissionService {
@@ -96,6 +98,23 @@ export default class RolePagePermissionService {
                 pagePermissionId: rolePagePermission.pagePermissionId.toString()
             };
             return new RequestResult(StatusCodes.OK, new MethodResult<RolePagePermissionDTO>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), rolePagePermissionDTO));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+    
+    /**
+     * get rolePagePermission by Id
+     * 
+     * @param {string} pageId 
+     * @param {string} permissionId 
+     * @param {string} userId 
+     * @returns {Promise<RequestResult<boolean | null>>}
+     */
+    hasPermissionByPageIdAndPermissionIdAndRoleList = async (pageId: PageTypeEnum, permissionId: PermissionTypeEnum, userId: string): Promise<RequestResult<boolean | null>> => {
+        try {
+            const hasPermission = await this._rolePagePermissionRepository.hasPermissionByPageIdAndPermissionIdAndRoleList(pageId, permissionId, userId);
+            return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), hasPermission));
         } catch (error) {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
