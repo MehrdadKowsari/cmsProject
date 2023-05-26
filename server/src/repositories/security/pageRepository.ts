@@ -65,6 +65,7 @@ import AppConstant from "src/constants/appConstants";
                 { $set: { 
                     parentId: page.parentId,
                     name: page.name,
+                    type: page.type,
                     priority : page.priority,
                     iconClass : page.iconClass,
                     updatedBy: page.updatedBy,
