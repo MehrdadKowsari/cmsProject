@@ -54,8 +54,8 @@ axiosInstance.interceptors.request.use(
             {
               let originalRequest = error.config;
               const locale: string = BrowserStorageService.getLocal('locale') || 'en';
-                if (error.config && !error.config.__isRetryRequest) {
-                  originalRequest._retry = true;
+                if (error.config && !error.config._isRetry) {
+                  originalRequest._isRetry = true;
                   const token = await getRefreshToken()
                   if (token) {
                     originalRequest.headers = {
@@ -66,14 +66,8 @@ axiosInstance.interceptors.request.use(
                     };
                     return axiosInstance.request(originalRequest); 
                   }
-                  else{
-                    Router.push('/login'); 
-                }
-                  
               }
-              else{
-                Router.push('/login')
-              }
+              Router.push('/login')
           }
             break
           case 404:
