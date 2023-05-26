@@ -43,10 +43,21 @@ import AppConstant from "src/constants/appConstants";
             .populate('roleId')
             .exec();
             return list;
+        } 
+        
+        /**
+         * get all userRoles by userId
+         * 
+         * @param {string} userId 
+         * @returns {Promise<UserRole[]>}
+         */
+        getAllByUserId = async (userId: string) : Promise<UserRole[]> =>{
+            const list = await UserRoleModel.find({userId: userId}).populate('roleId');
+            return list;
         }  
         
         /**
-         * get userRoleRepository by id
+         * get userRole by id
          * 
          * @param {string} id 
          * @returns {Promise<UserRole | null>}
