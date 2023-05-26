@@ -77,6 +77,30 @@ export default class UserRoleService {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
+
+        /**
+     * get all user list by params
+     * 
+     * @param {string} userId 
+     * @returns {Promise<RequestResult<UserRoleDTO[]> | null>}
+     */
+        getAllByUserId = async (userId: string): Promise<RequestResult<UserRoleDTO[] | null>> => {
+            try {
+                const userRoles: UserRoleDTO[] = (await this._userRoleRepository.getAllByUserId(userId))?.map((userRole: any) => <UserRoleDTO>{
+                    id: userRole._id?.toString(),
+                    userId: userRole.userId,
+                    roleId: userRole.roleId,
+                    roleName: userRole.roleId.name,
+                    createdBy: userRole.createdBy,
+                    createdAt: userRole.createdAt,
+                    updatedBy: userRole.updatedBy,
+                    updatedAt: userRole.updatedAt
+                });
+                return new RequestResult(StatusCodes.OK, new MethodResult<UserRoleDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), userRoles));
+            } catch (error) {
+                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+            }
+        }
     
     /**
      * get userRole by Id
