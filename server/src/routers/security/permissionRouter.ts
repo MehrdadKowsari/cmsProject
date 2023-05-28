@@ -9,12 +9,12 @@ import { PageTypeEnum } from 'src/enums/security/pageEnum';
 const permissionController = container.resolve(PermissionController);
 const router = express.Router();
 
-router.post('/add', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Add), addValidation, permissionController.add);
+router.post('/add', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Permission, PermissionTypeEnum.Add), addValidation, permissionController.add);
 router.post('/getAll', permissionController.getAll);
-router.post('/getAllByParams', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.View), permissionController.getAllByParams);
-router.post('/getById', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.View), getByIdValidation, permissionController.getById);
-router.post('/update', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Update), updateValidation, permissionController.update);
-router.post('/toggleActive', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.ToggleActive), toggleActiveValidation, permissionController.toggleActive);
-router.post('/delete', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Delete), deleteValidation, permissionController.delete);
+router.post('/getAllByParams', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Permission, PermissionTypeEnum.View), permissionController.getAllByParams);
+router.post('/getById', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Permission, PermissionTypeEnum.View), getByIdValidation, permissionController.getById);
+router.post('/update', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Permission, PermissionTypeEnum.Update), updateValidation, permissionController.update);
+router.post('/toggleActive', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Permission, PermissionTypeEnum.ToggleActive), toggleActiveValidation, permissionController.toggleActive);
+router.post('/delete', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Permission, PermissionTypeEnum.Delete), deleteValidation, permissionController.delete);
 
 export default router;

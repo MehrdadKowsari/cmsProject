@@ -9,11 +9,11 @@ import permissionMiddleware from 'src/middleware/shared/permissionMiddleware';
 const pagePermissionController = container.resolve(PagePermissionController);
 const router = express.Router();
 
-router.post('/add', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Add), addValidation, pagePermissionController.add);
+router.post('/add', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.PagePermission, PermissionTypeEnum.Add), addValidation, pagePermissionController.add);
 router.post('/getAll', pagePermissionController.getAll);
-router.post('/getAllByParams', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.View), pagePermissionController.getAllByParams);
-router.post('/getById', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.View), getByIdValidation, pagePermissionController.getById);
-router.post('/update', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Update), updateValidation, pagePermissionController.update);
-router.post('/delete', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Delete), deleteValidation, pagePermissionController.delete);
+router.post('/getAllByParams', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.PagePermission, PermissionTypeEnum.View), pagePermissionController.getAllByParams);
+router.post('/getById', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.PagePermission, PermissionTypeEnum.View), getByIdValidation, pagePermissionController.getById);
+router.post('/update', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.PagePermission, PermissionTypeEnum.Update), updateValidation, pagePermissionController.update);
+router.post('/delete', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.PagePermission, PermissionTypeEnum.Delete), deleteValidation, pagePermissionController.delete);
 
 export default router;

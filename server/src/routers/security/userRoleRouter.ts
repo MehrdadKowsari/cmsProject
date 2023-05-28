@@ -9,10 +9,10 @@ import { PageTypeEnum } from 'src/enums/security/pageEnum';
 const userRoleController = container.resolve(UserRoleController);
 const router = express.Router();
 
-router.post('/add', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Add), addValidation, userRoleController.add);
-router.post('/getAllByParams', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.View), userRoleController.getAllByParams);
-router.post('/getById', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.View), getByIdValidation, userRoleController.getById);
-router.post('/update', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Update), updateValidation, userRoleController.update);
-router.post('/delete', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Delete), deleteValidation, userRoleController.delete);
+router.post('/add', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.UserRole, PermissionTypeEnum.Add), addValidation, userRoleController.add);
+router.post('/getAllByParams', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.UserRole, PermissionTypeEnum.View), userRoleController.getAllByParams);
+router.post('/getById', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.UserRole, PermissionTypeEnum.View), getByIdValidation, userRoleController.getById);
+router.post('/update', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.UserRole, PermissionTypeEnum.Update), updateValidation, userRoleController.update);
+router.post('/delete', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.UserRole, PermissionTypeEnum.Delete), deleteValidation, userRoleController.delete);
 
 export default router;

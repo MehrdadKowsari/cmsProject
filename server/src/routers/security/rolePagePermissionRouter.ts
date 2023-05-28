@@ -9,10 +9,11 @@ import { PageTypeEnum } from 'src/enums/security/pageEnum';
 const rolePagePermissionController = container.resolve(RolePagePermissionController);
 const router = express.Router();
 
-router.post('/add', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Add), addValidation, rolePagePermissionController.add);
-router.post('/getAllByParams', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.View), rolePagePermissionController.getAllByParams);
-router.post('/getById', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.View), getByIdValidation, rolePagePermissionController.getById);
-router.post('/update', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Update), updateValidation, rolePagePermissionController.update);
-router.post('/delete', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.User, PermissionTypeEnum.Delete), deleteValidation, rolePagePermissionController.delete);
+router.post('/add', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.RolePagePermission, PermissionTypeEnum.Add), addValidation, rolePagePermissionController.add);
+router.post('/getAllByParams', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.RolePagePermission, PermissionTypeEnum.View), rolePagePermissionController.getAllByParams);
+router.post('/getAllByPageId', rolePagePermissionController.getAllByPageId);
+router.post('/getById', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.RolePagePermission, PermissionTypeEnum.View), getByIdValidation, rolePagePermissionController.getById);
+router.post('/update', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.RolePagePermission, PermissionTypeEnum.Update), updateValidation, rolePagePermissionController.update);
+router.post('/delete', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.RolePagePermission, PermissionTypeEnum.Delete), deleteValidation, rolePagePermissionController.delete);
 
 export default router;
