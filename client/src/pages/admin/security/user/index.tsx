@@ -23,14 +23,20 @@ import CommonMessage from "src/constants/commonMessage";
 import { useTranslation } from "next-i18next";
 import { GridParameter } from "src/models/shared/grid/gridPrameter";
 import ApplicationParams from "src/constants/applicationParams";
+import { getAllByPageId } from "src/state/slices/rolePagePermissionSlice";
+import { PageTypeEnum } from "src/models/security/enums/pageTypeEnum";
+import { PermissionTypeEnum } from "src/models/shared/enums/permissionTypeEnum";
+import { PermissionDTO } from "src/models/security/permission/permissionDTO";
  
 const User = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
   const { users, totalCount, isLoading} = useSelector((state:any) => state?.user);
+  const userPagePermissions: PermissionDTO[] = useSelector((state:any) => state?.rolePagePermission?.userPagePermissions);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number| string | null>(null);
   const [page, setPage] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(ApplicationParams.GridDefaultPageSize);
+  const [hasViewPermission, setHasViewPermission] = useState<boolean>(false)
   const [sortModel, setSortModel] = React.useState<GridSortModel>([
     {
       field: '_id',
@@ -52,6 +58,21 @@ const User = ({Component, pageProps}: AppProps) => {
     useEffect(() => {
       getGridData();
     }, [queryOptions])
+    
+    useEffect(() => {
+      getRolePagePermissions();
+    }, [])
+    
+    useEffect(() => {
+      const hasViewPermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.View);
+      setHasViewPermission(hasViewPermission);
+
+    }, [userPagePermissions])
+
+    const getRolePagePermissions = async () => {
+      await dispatch(getAllByPageId(PageTypeEnum.User));
+    }
+    
 
     const showConfirm =  async () =>{
       const isConfirmed = await confirm();
@@ -160,7 +181,7 @@ const User = ({Component, pageProps}: AppProps) => {
 
     return(
         <>
-        <Card>
+       { hasViewPermission && <Card>
             <CardHeader 
             title={t('user', CommonMessage.User)} 
             titleTypographyProps={{ variant: 'h6' }}/>
@@ -205,7 +226,8 @@ const User = ({Component, pageProps}: AppProps) => {
           onClose={handleCloseForm}/>
         </CustomDialog>
             </CardContent>
-          </Card>
+          </Card> 
+        }
         </>
     )
 }

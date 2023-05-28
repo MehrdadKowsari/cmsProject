@@ -6,6 +6,8 @@ import { UpdateRolePagePermissionDTO } from 'src/models/security/rolePagePermiss
 import { RolePagePermissionDTO } from 'src/models/security/rolePagePermission/rolePagePermissionDTO';
 import { IntialState } from '../interfaces/intialState';
 import { GridParameter } from 'src/models/shared/grid/gridPrameter';
+import { PageTypeEnum } from 'src/models/security/enums/pageTypeEnum';
+import { PermissionDTO } from 'src/models/security/permission/permissionDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/rolePagePermission`;
 
@@ -26,6 +28,19 @@ export const getAllByParams = createAsyncThunk(
   async (gridParameter: GridParameter, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
+      return data?.result;
+    } catch (err) {
+      const error= err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+});
+
+
+export const getAllByPageId = createAsyncThunk(
+  "users/getAllByPageId", 
+  async (pageId: PageTypeEnum, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/getAllByPageId`, pageId);
       return data?.result;
     } catch (err) {
       const error= err as AxiosError;
@@ -74,11 +89,13 @@ export const remove = createAsyncThunk(
 interface RolePagePermissionState extends IntialState {
   rolePagePermissions: RolePagePermissionDTO[] | null,
   rolePagePermission: RolePagePermissionDTO | null
+  userPagePermissions: PermissionDTO[] | null,
 }
 
 const initialState: RolePagePermissionState = {
     rolePagePermissions: null,
     rolePagePermission: null,
+    userPagePermissions: null,
     isLoading: false,
     hasError: false,
     totalCount: 0,
@@ -120,6 +137,22 @@ const rolePagePermissionSlice = createSlice({
           })
           .addCase(getAllByParams.rejected, (state, { payload }) => {
             state.rolePagePermissions = null;
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+
+          .addCase(getAllByPageId.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getAllByPageId.fulfilled, (state, { payload }) => {
+            state.userPagePermissions = payload;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getAllByPageId.rejected, (state, { payload }) => {
+            state.userPagePermissions = null;
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;
