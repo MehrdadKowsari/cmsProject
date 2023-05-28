@@ -71,7 +71,6 @@ export default class UserService {
      */
     getAll = async (): Promise<RequestResult<UserDTO[] | null>> => {
         try {
-            const totalCount = await this._userRepository.count();
             const users: UserDTO[] = (await this._userRepository.getAll())?.map((user: any) => <UserDTO>{
                 id: user._id?.toString(),
                 fullName: `${user.firstName} ${user.lastName}`,

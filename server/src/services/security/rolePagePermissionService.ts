@@ -14,6 +14,8 @@ import { RolePagePermission } from 'src/models/security/rolePagePermission';
 import { Types } from 'mongoose';
 import { PageTypeEnum } from 'src/enums/security/pageEnum';
 import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
+import { PagePermissionDTO } from 'src/dtos/security/pagePermission/pagePermissionDTO';
+import { PermissionDTO } from 'src/dtos/security/permission/permissionDTO';
 
 @autoInjectable()
 export default class RolePagePermissionService {
@@ -75,6 +77,30 @@ export default class RolePagePermissionService {
                 rows: rolePagePermissions,
                 totalCount: totalCount
             }));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+
+    /**
+     * get all permission list by pageId and userId
+     * 
+     * @param {string} userId 
+     * @param {string} pageId 
+     * @returns {Promise<RequestResult<PermissionDTO[]> | null>}
+     */
+    getAllByPageIdAndUserId = async (pageId: PageTypeEnum, userId: string): Promise<RequestResult<PermissionDTO[] | null>> => {
+        try {
+            const pagePermissions: PermissionDTO[] | undefined = (await this._rolePagePermissionRepository.getAllByUserIdAndPageId(pageId, userId))?.map((rolePagePermission: any) => <PermissionDTO>{
+                id: rolePagePermission.pagePermissionId.permissionId._id?.toString(),
+                name: rolePagePermission.pagePermissionId.permissionId.name,
+                type: rolePagePermission.pagePermissionId.permissionId.type,
+                createdBy: rolePagePermission.pagePermissionId.permissionId.createdBy,
+                createdAt: rolePagePermission.pagePermissionId.permissionId.createdAt,
+                updatedBy: rolePagePermission.pagePermissionId.permissionId.updatedBy,
+                updatedAt: rolePagePermission.pagePermissionId.permissionId.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<PermissionDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), pagePermissions));
         } catch (error) {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }

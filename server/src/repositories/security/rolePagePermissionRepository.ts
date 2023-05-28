@@ -45,8 +45,7 @@ import { Types } from "mongoose";
             const limitCount: number = (pageSize || AppConstant.pageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await RolePagePermissionModel.find().sort(sort).skip(skipCount).limit(limitCount)
-            
+            const list = await RolePagePermissionModel.find().sort(sort).skip(skipCount).limit(limitCount)          
             .populate({
                 path : 'pagePermissionId',
                 populate : {
@@ -64,16 +63,51 @@ import { Types } from "mongoose";
          * @returns {Promise<RolePagePermission | null>}
          */
         getById = async (id: string): Promise<RolePagePermission | null> => await RolePagePermissionModel.findOne({ _id : id }); 
-
-         /**
-         * is permission exists permission by pageId
+       
+        /**
+         *  get all by pageId and userId
          * 
-         * @param {string | null} id 
-         * @param {string} roleId 
-         * @param {string} pagePermissionId 
-         * @returns {Promise<boolean>}
+         * @param {string} pageId 
+         * @param {string} userId 
+         * @returns {Promise<RolePagePermission[] | null>}
          */
          
+         getAllByUserIdAndPageId = async (pageId: PageTypeEnum, userId: string) : Promise<RolePagePermission[] | null> => 
+         {
+            const userRoles: UserRole[] | null = (await UserRoleModel.find({userId: userId}));
+            if (!userRoles || userRoles.length === 0) {
+                return Promise.resolve(null);
+            }
+            
+            const page: Page | null = (await PageModel.findOne({type: pageId}));
+            if (!page || !page.isActive) {
+                return Promise.resolve(null);
+            }
+            
+            const pagePermissions: PagePermission[] | null = await PagePermissionModel.find({pageId: page._id});
+            if (!pagePermissions) {
+                return Promise.resolve(null);
+            }
+            const pagePermissionIds: Types.ObjectId[] = pagePermissions.map(p => new Types.ObjectId(p._id!.toString()));
+            const roleIds: Types.ObjectId[] = userRoles.map(p => new Types.ObjectId(p.roleId!.toString()));
+
+            return await RolePagePermissionModel.find({ pagePermissionId: { $in: pagePermissionIds}, roleId: {$in: roleIds}})
+            .populate({
+                path : 'pagePermissionId',
+                populate : {
+                  path : 'pageId permissionId'
+                },
+              });  
+        }
+        
+        /**
+        * is permission exists permission by pageId
+        * 
+        * @param {string | null} id 
+        * @param {string} roleId 
+        * @param {string} pagePermissionId 
+        * @returns {Promise<boolean>}
+        */
          isDuplicate = async (id: string | null, roleId: string, pagePermissionId: string) : Promise<boolean> => 
          {
              return id ? await RolePagePermissionModel.count({ roleId, pagePermissionId, _id: {$ne: id}}) > 0 : await RolePagePermissionModel.count({ roleId, pagePermissionId}) > 0;  

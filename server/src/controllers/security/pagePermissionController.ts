@@ -8,6 +8,7 @@ import { autoInjectable } from 'tsyringe';
 import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePagePermissionDTO } from 'src/dtos/security/pagePermission/updatePagePermissionDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
+import { PageTypeEnum } from 'src/enums/security/pageEnum';
 
 @autoInjectable()
 export class PagePermissionController{
@@ -63,7 +64,7 @@ export class PagePermissionController{
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
         }
     }
-
+    
     /**
      * get pagePermission by id
      * 

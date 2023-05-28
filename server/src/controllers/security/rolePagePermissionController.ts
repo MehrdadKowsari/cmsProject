@@ -8,6 +8,7 @@ import { autoInjectable } from 'tsyringe';
 import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateRolePagePermissionDTO } from 'src/dtos/security/rolePagePermission/updateRolePagePermissionDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
+import { PageTypeEnum } from 'src/enums/security/pageEnum';
 
 @autoInjectable()
 export class RolePagePermissionController{
@@ -47,6 +48,25 @@ export class RolePagePermissionController{
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
         }
     }
+
+    /**
+     * get all pagePermissions by params
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
+    getAllByPageId = async (req: Request, res: Response) => {
+        try {
+            const pageId: PageTypeEnum = req.body;
+            const userId: string = req.user!.id;
+            const requestResult = await this._rolePagePermissionService.getAllByPageIdAndUserId(pageId, userId);
+            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
+
 
     /**
      * get rolePagePermission by id

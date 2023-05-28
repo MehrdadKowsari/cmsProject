@@ -2,6 +2,11 @@ import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import PagePermissionModel, { PagePermission } from "src/models/security/pagePermission";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { PageTypeEnum } from "src/enums/security/pageEnum";
+import RolePagePermissionModel from "src/models/security/rolePagePermission";
+import { Types } from "mongoose";
+import PageModel, { Page } from "src/models/security/page";
+import UserRoleModel, { UserRole } from "src/models/security/userRole";
 
 
     export default class PagePermissionRepository{
@@ -47,6 +52,46 @@ import AppConstant from "src/constants/appConstants";
             .exec();
             return list;
         }  
+
+        /**
+         * get all by pageId and userId
+         * 
+         * @param {string} pageId 
+         * @param {string} userId 
+         * @returns {Promise<PagePermission[] | null>}
+         */ 
+        getAllByUserIdAndPageId = async (pageId: PageTypeEnum, userId: string) : Promise<PagePermission[] | null> => 
+        {
+           const userRoles: UserRole[] | null = (await UserRoleModel.find({userId: userId}));
+           if (!userRoles || userRoles.length === 0) {
+               return Promise.resolve(null);
+           }
+           
+           const page: Page | null = (await PageModel.findOne({type: pageId}));
+           if (!page || !page.isActive) {
+               return Promise.resolve(null);
+           }
+           
+           const pagePermissions: PagePermission[] | null = await PagePermissionModel.find({pageId: page._id})
+           .populate('pageId')
+            .populate('permissionId');
+
+           if (!pagePermissions) {
+               return Promise.resolve(null);
+           }
+           const pagePermissionIds: Types.ObjectId[] = pagePermissions.map(p => new Types.ObjectId(p._id!.toString()));
+           const roleIds: Types.ObjectId[] = userRoles.map(p => new Types.ObjectId(p.roleId!.toString()));
+           
+           const rolePagePermissions = await RolePagePermissionModel.find({ pagePermissionId: { $in: pagePermissionIds}, roleId: {$in: roleIds}});
+           if (!rolePagePermissions) {
+               return Promise.resolve(null);
+            }
+            
+            const rolePagePermissionsIds: Types.ObjectId[] = rolePagePermissions.map(p => new Types.ObjectId(p.pagePermissionId!.toString()));
+            const resultList = await PagePermissionModel.find({_id: {$in: rolePagePermissionsIds}});
+            
+            return resultList;
+       }
         
         /**
          * get pagePermission by id

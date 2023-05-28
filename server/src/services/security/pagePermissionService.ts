@@ -12,6 +12,7 @@ import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePagePermissionDTO } from 'src/dtos/security/pagePermission/updatePagePermissionDTO';
 import { PagePermission } from 'src/models/security/pagePermission';
 import { Types } from 'mongoose';
+import { PageTypeEnum } from 'src/enums/security/pageEnum';
 
 @autoInjectable()
 export default class PagePermissionService {
@@ -56,7 +57,6 @@ export default class PagePermissionService {
      */
     getAll = async (): Promise<RequestResult<PagePermissionDTO[] | null>> => {
         try {
-            const totalCount = await this._pagePermissionRepository.count();
             const pagePermissions: PagePermissionDTO[] = (await this._pagePermissionRepository.getAll())?.map((pagePermission: any) => <PagePermissionDTO>{
                 id: pagePermission._id?.toString(),
                 pageId: pagePermission.pageId,
@@ -87,8 +87,10 @@ export default class PagePermissionService {
                 id: pagePermission._id?.toString(),
                 pageId: pagePermission.pageId,
                 pageName: pagePermission.pageId.name,
+                pageType: pagePermission.pageId.type,
                 permissionId: pagePermission.permissionId,
                 permissionName: pagePermission.permissionId.name,
+                permissionType: pagePermission.permissionId.type,
                 createdBy: pagePermission.createdBy,
                 createdAt: pagePermission.createdAt,
                 updatedBy: pagePermission.updatedBy,
