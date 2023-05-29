@@ -139,5 +139,8 @@
     "passwordDoesNotMatch": "کلمه عبور و تایید آن تطابق ندارد",
     "dataIsNotEnteredCorrectly": "داده ها به درستی وارد نشده است",
     "tokenExpired": "توکن منقضی شده است",
-    "youHaveNotAccessToThePageOrAction": "شما به این صفحه/عملیات دسترسی ندارید"
+    "youHaveNotAccessToThePageOrAction": "شما به این صفحه/عملیات دسترسی ندارید",
+    "permissionNameAlreadyExists": "نام دسترسی تکراری می باشد",
+    "pagePermissionNameAlreadyExists": "دسترسی صفحه تکراری است",
+    "rolePagePermissionNameAlreadyExists": "دسترسی صفحه نقش تکراری است"
 }

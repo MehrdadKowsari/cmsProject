@@ -89,8 +89,8 @@ const PagePermission = ({Component, pageProps}: AppProps) => {
     }
   
     const columns: GridColumns = [
-      { field: 'pageName', headerName: t('page', CommonMessage.Page)!, width: 130 },
-      { field: 'permissionName', headerName: t('permission', CommonMessage.Permission)!, width: 130 },
+      { field: 'pageName', headerName: t('page', CommonMessage.Page)!, width: 200 },
+      { field: 'permissionName', headerName: t('permission', CommonMessage.Permission)!, width: 150 },
       {
           field: 'actions',
           type: 'actions',

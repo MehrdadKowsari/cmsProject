@@ -11,5 +11,8 @@
     "passwordDoesNotMatch": "Password Does Not Match",
     "dataIsNotEnteredCorrectly": "Password Does Not Match",
     "tokenExpired": "Token Expired",
-    "youHaveNotAccessToThePageOrAction":"You Have Not Access To The Page Or Action"
+    "youHaveNotAccessToThePageOrAction":"You Have Not Access To The Page Or Action",
+    "permissionNameAlreadyExists": "Permission Name Already Exists",
+    "pagePermissionNameAlreadyExists": "Page Permission Already Exists",
+    "rolePagePermissionNameAlreadyExists": "Role Page Permission Already Exists"
 }
