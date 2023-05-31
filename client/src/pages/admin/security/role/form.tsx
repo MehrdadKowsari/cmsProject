@@ -22,11 +22,13 @@ import CardContent from '@mui/material/CardContent';
 import ApplicationParams from 'src/constants/applicationParams';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 
 
-const RoleForm = ({id, onClose}: FormProps) => {
+const RoleForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
-
+const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
+const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common', 'security']);
 
@@ -141,6 +143,7 @@ const initialValues: initialValuesType = {
                   variant="contained" 
                   size="small"
                   color="success"
+                  disabled={(isUpdate && !hasUpdatePermission) || (!isUpdate && !hasInsertPermission)}
                   startIcon={<SaveIcon/>}>
                     <span>{t('save', CommonMessage.Save)}</span>
                   </Button>  
