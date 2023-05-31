@@ -32,15 +32,15 @@ const User = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
   const { users, totalCount, isLoading} = useSelector((state:any) => state?.user);
   const userPagePermissions: PermissionDTO[] = useSelector((state:any) => state?.rolePagePermission?.userPagePermissions);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [rowId, setRowId] = useState<number| string | null>(null);
-  const [page, setPage] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(ApplicationParams.GridDefaultPageSize);
   const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
   const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
   const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(false);
   const [hasDeletePermission, setHasDeletePermission] = useState<boolean>(false);
   const [hasToggleActivePermission, setHasToggleActivePermission] = useState<boolean>(false);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [rowId, setRowId] = useState<number| string | null>(null);
+  const [page, setPage] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(ApplicationParams.GridDefaultPageSize);
   const [sortModel, setSortModel] = React.useState<GridSortModel>([
     {
       field: '_id',
