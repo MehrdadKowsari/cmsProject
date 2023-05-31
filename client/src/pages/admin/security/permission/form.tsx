@@ -26,8 +26,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { PermissionTypeEnum, PermissionTypeEnumLabelMapping } from 'src/models/shared/enums/permissionTypeEnum';
 import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
 
-const PermissionForm = ({id, onClose}: FormProps) => {
+const PermissionForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
+const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
+const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [types, setTypes] = useState<TextValueDTO[]>([]);
 
 const dispatch = useAppDispatch();
@@ -170,6 +172,7 @@ const initialValues: initialValuesType = {
                   variant="contained" 
                   size="small"
                   color="success"
+                  disabled={(isUpdate && !hasUpdatePermission) || (!isUpdate && !hasInsertPermission)}
                   startIcon={<SaveIcon/>}>
                     <span>{t('save', CommonMessage.Save)}</span>
                   </Button>  

@@ -23,11 +23,20 @@ import { useTranslation } from "next-i18next";
 import { GridParameter } from "src/models/shared/grid/gridPrameter";
 import ApplicationParams from "src/constants/applicationParams";
 import { PermissionTypeEnum, PermissionTypeEnumLabelMapping } from "src/models/shared/enums/permissionTypeEnum";
+import { PermissionDTO } from "src/models/security/permission/permissionDTO";
+import { getAllByPageId } from "src/state/slices/rolePagePermissionSlice";
+import { PageTypeEnum } from "src/models/security/enums/pageTypeEnum";
  
 const Permission = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
   const { permissions, totalCount, isLoading} = useSelector((state:any) => state?.permission);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const userPagePermissions: PermissionDTO[] = useSelector((state:any) => state?.rolePagePermission?.userPagePermissions);
+  const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
+  const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
+  const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(false);
+  const [hasDeletePermission, setHasDeletePermission] = useState<boolean>(false);
+  const [hasToggleActivePermission, setHasToggleActivePermission] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number| string | null>(null);
   const [page, setPage] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(ApplicationParams.GridDefaultPageSize);
@@ -45,14 +54,36 @@ const Permission = ({Component, pageProps}: AppProps) => {
       pageSize,
       sortModel
     }),
-    [page, pageSize,sortModel],
+    [page, pageSize, sortModel, hasViewPermission],
   );
   
   const { confirm } = useConfirm();
     useEffect(() => {
-      getGridData();
+      if (hasViewPermission) {
+        getGridData();
+      }
     }, [queryOptions])
+    
+    useEffect(() => {
+      getRolePagePermissions();
+    }, [])
+    
+    useEffect(() => {
+      const hasViewPermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.View);
+      setHasViewPermission(hasViewPermission);
+      const hasInsertPermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.Add);
+      setHasInsertPermission(hasInsertPermission);
+      const hasUpdatePermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.Update);
+      setHasUpdatePermission(hasUpdatePermission);
+      const hasDeletePermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.Delete);
+      setHasDeletePermission(hasDeletePermission);
+      const hasToggleActivePermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.ToggleActive);
+      setHasToggleActivePermission(hasToggleActivePermission);
+    }, [userPagePermissions])
 
+    const getRolePagePermissions = async () => {
+      await dispatch(getAllByPageId(PageTypeEnum.User));
+    }
     const showConfirm =  async () =>{
       const isConfirmed = await confirm();
       return isConfirmed;
@@ -113,12 +144,14 @@ const Permission = ({Component, pageProps}: AppProps) => {
               key={params.id}
               icon={<EditIcon color="success" />}
               label={t('update', CommonMessage.Update)}
+              disabled={!hasUpdatePermission}
               onClick={updatePermission(params.id)}
             />,
             <GridActionsCellItem
               key={params.id}
               icon={<DeleteIcon color="error" />}
               label={t('delete', CommonMessage.Delete)}
+              disabled={!hasDeletePermission}
               onClick={deletePermission(params.id)}
             />
           ],
@@ -145,7 +178,7 @@ const Permission = ({Component, pageProps}: AppProps) => {
 
     return(
         <>
-        <Card>
+        { hasViewPermission && <Card>
             <CardHeader 
             title={t('permission', CommonMessage.Permission)} 
             titleTypographyProps={{ variant: 'h6' }}/>
@@ -155,6 +188,7 @@ const Permission = ({Component, pageProps}: AppProps) => {
             variant="contained" 
             size="small"
             color="success"
+            disabled={!hasInsertPermission}
             startIcon={<AddIcon/>}
             onClick={handleAddNew}>
               <span>{t('new', CommonMessage.New)}</span>
@@ -186,11 +220,14 @@ const Permission = ({Component, pageProps}: AppProps) => {
         title={t('permission', CommonMessage.Permission)} 
         isOpen={isOpenModal}
         onClose={() => handleCloseModal()}>
-          <PermissionForm id={rowId}
+          <PermissionForm 
+          id={rowId}
+          permissions={userPagePermissions}
           onClose={handleCloseForm}/>
         </CustomDialog>
             </CardContent>
           </Card>
+        }
         </>
     )
 }
