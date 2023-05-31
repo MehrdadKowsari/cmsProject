@@ -12,7 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Button, CardContent, CardHeader } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useAppDispatch } from "src/state/hooks/hooks";
-import { getAllByParams, remove } from "src/state/slices/rolePagePermissionSlice";
+import { getAllByPageId, getAllByParams, remove } from "src/state/slices/rolePagePermissionSlice";
 import CustomDialog from "src/components/Modal/Modal";
 import RolepagePermissionForm from "./form";
 import { GetStaticProps } from "next";
@@ -23,11 +23,19 @@ import { useTranslation } from "next-i18next";
 import { GridParameter } from "src/models/shared/grid/gridPrameter";
 import ApplicationParams from "src/constants/applicationParams";
 import SecurityMessage from "src/constants/securityMessage";
+import { PermissionDTO } from "src/models/security/permission/permissionDTO";
+import { PageTypeEnum } from "src/models/security/enums/pageTypeEnum";
+import { PermissionTypeEnum } from "src/models/shared/enums/permissionTypeEnum";
  
 const RolepagePermission = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
   const { rolePagePermissions, totalCount, isLoading} = useSelector((state:any) => state?.rolePagePermission);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const userPagePermissions: PermissionDTO[] = useSelector((state:any) => state?.rolePagePermission?.userPagePermissions);
+  const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
+  const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
+  const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(false);
+  const [hasDeletePermission, setHasDeletePermission] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number| string | null>(null);
   const [page, setPage] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(ApplicationParams.GridDefaultPageSize);
@@ -45,14 +53,34 @@ const RolepagePermission = ({Component, pageProps}: AppProps) => {
       pageSize,
       sortModel
     }),
-    [page, pageSize,sortModel],
+    [page, pageSize, sortModel, hasViewPermission],
   );
   
   const { confirm } = useConfirm();
     useEffect(() => {
-      getGridData();
+      if (hasViewPermission) {
+        getGridData();
+      }
     }, [queryOptions])
+    
+    useEffect(() => {
+      getRolePagePermissions();
+    }, [])
+    
+    useEffect(() => {
+      const hasViewPermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.View);
+      setHasViewPermission(hasViewPermission);
+      const hasInsertPermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.Add);
+      setHasInsertPermission(hasInsertPermission);
+      const hasUpdatePermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.Update);
+      setHasUpdatePermission(hasUpdatePermission);
+      const hasDeletePermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.Delete);
+      setHasDeletePermission(hasDeletePermission);
+    }, [userPagePermissions])
 
+    const getRolePagePermissions = async () => {
+      await dispatch(getAllByPageId(PageTypeEnum.User));
+    }
     const showConfirm =  async () =>{
       const isConfirmed = await confirm();
       return isConfirmed;
@@ -100,12 +128,14 @@ const RolepagePermission = ({Component, pageProps}: AppProps) => {
               key={params.id}
               icon={<EditIcon color="success" />}
               label={t('update', CommonMessage.Update)}
+              disabled={!hasUpdatePermission}
               onClick={updateRolepagePermission(params.id)}
             />,
             <GridActionsCellItem
               key={params.id}
               icon={<DeleteIcon color="error" />}
               label={t('delete', CommonMessage.Delete)}
+              disabled={!hasDeletePermission}
               onClick={deleteRolepagePermission(params.id)}
             />
           ],
@@ -132,7 +162,7 @@ const RolepagePermission = ({Component, pageProps}: AppProps) => {
 
     return(
         <>
-        <Card>
+        { hasViewPermission && <Card>
             <CardHeader 
             title={t('security:rolePagePermission', SecurityMessage.RolePagePermission)} 
             titleTypographyProps={{ variant: 'h6' }}/>
@@ -142,6 +172,7 @@ const RolepagePermission = ({Component, pageProps}: AppProps) => {
             variant="contained" 
             size="small"
             color="success"
+            disabled={!hasInsertPermission}
             startIcon={<AddIcon/>}
             onClick={handleAddNew}>
               <span>{t('new', CommonMessage.New)}</span>
@@ -173,11 +204,14 @@ const RolepagePermission = ({Component, pageProps}: AppProps) => {
         title={t('security:rolePagePermission', SecurityMessage.RolePagePermission)} 
         isOpen={isOpenModal}
         onClose={() => handleCloseModal()}>
-          <RolepagePermissionForm id={rowId}
+          <RolepagePermissionForm 
+          id={rowId}
+          permissions={userPagePermissions}
           onClose={handleCloseForm}/>
         </CustomDialog>
             </CardContent>
           </Card>
+        }
         </>
     )
 }

@@ -30,9 +30,12 @@ import { RoleDTO } from 'src/models/security/role/roleDTO';
 import { getAllPagePermissions } from 'src/state/slices/pagePermissionSlice';
 import { PagePermissionDTO } from 'src/models/security/pagePermission/pagePermissionDTO';
 import SecurityMessage from 'src/constants/securityMessage';
+import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 
-const RolePagePermissionForm = ({id, onClose}: FormProps) => {
+const RolePagePermissionForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
+const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
+const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [pagePermissions, setPagePermissions] = useState<TextValueDTO[]>([]);
 const [roles, setRoles] = useState<TextValueDTO[]>([]);
 
@@ -179,6 +182,7 @@ const initialValues: initialValuesType = {
                   variant="contained" 
                   size="small"
                   color="success"
+                  disabled={(isUpdate && !hasUpdatePermission) || (!isUpdate && !hasInsertPermission)}
                   startIcon={<SaveIcon/>}>
                     <span>{t('save', CommonMessage.Save)}</span>
                   </Button>  
