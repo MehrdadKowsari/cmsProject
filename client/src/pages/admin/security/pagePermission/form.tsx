@@ -27,11 +27,14 @@ import { getAllPages } from 'src/state/slices/pageSlice';
 import { PageDTO } from 'src/models/security/page/pageDTO';
 import { PermissionDTO } from 'src/models/security/permission/permissionDTO';
 import { getAllPermissions } from 'src/state/slices/permissionSlice';
+import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 
-const PagePermissionForm = ({id, onClose}: FormProps) => {
+const PagePermissionForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
+const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
+const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [pages, setPages] = useState<TextValueDTO[]>([]);
-const [permissions, setPermissions] = useState<TextValueDTO[]>([]);
+const [permissionList, setPermissionList] = useState<TextValueDTO[]>([]);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common', 'security']);
@@ -70,12 +73,12 @@ const getAllPageList = async () => {
 }
 
 const getAllPermissionList = async () => {
-  const permissions: PermissionDTO[] = await dispatch(getAllPermissions()).unwrap();
-  const mappedPermissions = permissions?.map(p => ({
+  const permissionList: PermissionDTO[] = await dispatch(getAllPermissions()).unwrap();
+  const mappedPermissions = permissionList?.map(p => ({
     text: p.name,
     value: p.id
   } as TextValueDTO));
-  setPermissions(mappedPermissions);
+  setPermissionList(mappedPermissions);
 }
 
 type initialValuesType = {
@@ -163,7 +166,7 @@ const initialValues: initialValuesType = {
                   onBlur={formik.handleBlur}
                   error={formik.touched.permissionId && Boolean(formik.errors.permissionId)}
                   helperText={formik.errors.permissionId}>
-                    {permissions?.map((option) => (
+                    {permissionList?.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.text}
                       </MenuItem>
@@ -176,6 +179,7 @@ const initialValues: initialValuesType = {
                   variant="contained" 
                   size="small"
                   color="success"
+                  disabled={(isUpdate && !hasUpdatePermission) || (!isUpdate && !hasInsertPermission)}
                   startIcon={<SaveIcon/>}>
                     <span>{t('save', CommonMessage.Save)}</span>
                   </Button>  
