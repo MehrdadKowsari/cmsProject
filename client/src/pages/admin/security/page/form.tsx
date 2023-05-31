@@ -25,9 +25,12 @@ import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
 import { PageTypeEnum, PageTypeEnumLabelMapping } from 'src/models/security/enums/pageTypeEnum';
+import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 
-const PageForm = ({id, onClose}: FormProps) => {
+const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
+const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
+const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [pages, setPages] = useState<TextValueDTO[]>([]);
 const [pageTypes, setPageTypes] = useState<TextValueDTO[]>([]);
 
@@ -221,6 +224,7 @@ const initialValues: initialValuesType = {
                   variant="contained" 
                   size="small"
                   color="success"
+                  disabled={(isUpdate && !hasUpdatePermission) || (!isUpdate && !hasInsertPermission)}
                   startIcon={<SaveIcon/>}>
                     <span>{t('save', CommonMessage.Save)}</span>
                   </Button>  
