@@ -41,6 +41,11 @@ const TabName = styled('span')(({ theme }) => ({
   }
 }))
 
+  const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
+  const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
+  const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(false);
+
+
 const UserProfile = () => {
   // ** State
   const [value, setValue] = useState<string>('account')

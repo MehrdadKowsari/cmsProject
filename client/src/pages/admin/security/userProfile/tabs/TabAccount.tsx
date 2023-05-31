@@ -51,6 +51,8 @@ const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
 const TabAccount = () => {
   // ** State
   const { user, setUserInfo } = useAuth();
+  //const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
+  //const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
   const [userIamge, setUserImage] = useState<string>(user?.image);
   const dispatch = useAppDispatch();
   const { t } = useTranslation(['common', 'security'])

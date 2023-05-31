@@ -45,6 +45,8 @@ const TabSecurity = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState<boolean>(false)
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState<boolean>(false)
+  //const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
+  //const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 
   const { t } = useTranslation(['common, security']);
   const useDispatch = useAppDispatch();
@@ -64,9 +66,7 @@ const TabSecurity = () => {
     confirmPassword: string().min(ApplicationParams.PasswordMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch, { ns: 'security' })!)
   });
   
-  const { user } = useAuth()
-  
-  ;
+  const { user } = useAuth();
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
