@@ -252,9 +252,7 @@ export default PageForm
 type Props = {
   // Add custom props here
 }
-export const getStaticProps: GetStaticProps<Props> = async ({
-  locale,
-}) => ({
+export const getStaticProps: GetStaticProps<Props> = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale ?? 'en', ['common','security'])),
   },

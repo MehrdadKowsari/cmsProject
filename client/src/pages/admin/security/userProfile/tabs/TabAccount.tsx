@@ -14,7 +14,6 @@ import Button, { ButtonProps } from '@mui/material/Button'
 import { useAuth } from 'src/state/providers/AuthProvider'
 import { object, string } from 'yup'
 import CommonMessage from 'src/constants/commonMessage'
-import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
 import { UpdateUserProfileDTO } from 'src/models/security/user/updateUserProfileDTO'
 import notificationService from 'src/services/notificationService'
@@ -22,7 +21,12 @@ import { useAppDispatch } from 'src/state/hooks/hooks'
 import { updateProfile } from 'src/state/slices/userSlice'
 import { UserDTO } from 'src/models/security/user/userDTO'
 import ApplicationParams from 'src/constants/applicationParams'
+import { useTranslation } from 'next-i18next'
 import SecurityMessage from 'src/constants/securityMessage'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { PermissionDTO } from 'src/models/security/permission/permissionDTO'
+import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -46,17 +50,19 @@ const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
     textAlign: 'center',
     marginTop: theme.spacing(4)
   }
-}))
+}));
 
-const TabAccount = () => {
-  // ** State
+type TabAccountProps = {
+  permissions: PermissionDTO[]
+}
+
+const TabAccount = (props: TabAccountProps) => {
   const { user, setUserInfo } = useAuth();
-  //const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
-  //const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
+  const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(props?.permissions?.some(p => p.type === PermissionTypeEnum.Update));
   const [userIamge, setUserImage] = useState<string>(user?.image);
   const dispatch = useAppDispatch();
   const { t } = useTranslation(['common', 'security'])
-  
+
   const onChange = (file: ChangeEvent) => {
     const reader = new FileReader()
     const { files } = file.target as HTMLInputElement
@@ -127,7 +133,7 @@ const TabAccount = () => {
               <ImgStyled src={userIamge} alt='Profile Pic' />
               <Box>
                 <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
-                  Upload New Photo
+                  {t('upload','Upload')}
                   <input
                     hidden
                     type='file'
@@ -136,12 +142,9 @@ const TabAccount = () => {
                     id='account-settings-upload-image'
                   />
                 </ButtonStyled>
-                <ResetButtonStyled color='error' variant='outlined' onClick={handleResetUserImage}>
-                  Reset
+                <ResetButtonStyled sx={{ mx: 3 }} color='error' variant='outlined' onClick={handleResetUserImage}>
+                  {t('reset', 'Reset')}
                 </ResetButtonStyled>
-                <Typography variant='body2' sx={{ marginTop: 5 }}>
-                  Allowed PNG or JPEG. Max size of 800K.
-                </Typography>
               </Box>
             </Box>
           </Grid>
@@ -191,16 +194,17 @@ const TabAccount = () => {
           <Grid item xs={12}>
             <Button 
             type='submit'
-            variant='contained' 
-            sx={{ marginRight: 3.5 }}>
-              Save Changes
+            variant='contained'
+            disabled={!hasUpdatePermission}>
+              {t('save','Save')}
             </Button>
             <Button 
             type='reset' 
             variant='outlined' 
             color='secondary'
-            onClick={handleResetForm}>
-              Reset
+            onClick={handleResetForm} 
+            sx={{ mx: 3 }}>
+              {t('reset','Reset')}
             </Button>
           </Grid>
         </Grid>
@@ -210,3 +214,5 @@ const TabAccount = () => {
 }
 
 export default TabAccount
+
+

@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode, SyntheticEvent, useState } from 'react'
+import { ReactNode, SyntheticEvent, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -11,17 +11,21 @@ import MuiTab, { TabProps } from '@mui/material/Tab'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
 
-// ** Demo Tabs Imports
-
-
 // ** Third Party Styles Imports
 import TabAccount from './tabs/TabAccount'
 import TabSecurity from './tabs/TabSecurity'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import UserLayout from 'src/layouts/admin/UserLayout'
 
-import { GetStaticProps } from 'next/types'
+import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from "next-i18next";
+import { PermissionDTO } from 'src/models/security/permission/permissionDTO'
+import { useSelector } from 'react-redux'
+import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum'
+import { getAllByPageId } from 'src/state/slices/rolePagePermissionSlice'
+import { PageTypeEnum } from 'src/models/security/enums/pageTypeEnum'
+import { useAppDispatch } from 'src/state/hooks/hooks'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -41,20 +45,32 @@ const TabName = styled('span')(({ theme }) => ({
   }
 }))
 
-  const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
-  const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
-  const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(false);
-
-
 const UserProfile = () => {
-  // ** State
   const [value, setValue] = useState<string>('account')
+  const userPagePermissions: PermissionDTO[] = useSelector((state:any) => state?.rolePagePermission?.userPagePermissions);
+  const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    getRolePagePermissions();
+  }, [])
+  
+  useEffect(() => {
+    const hasViewPermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.View);
+    setHasViewPermission(hasViewPermission);
+  }, [userPagePermissions])
+
+  const getRolePagePermissions = async () => {
+    await dispatch(getAllByPageId(PageTypeEnum.UserProfile));
+  }
 
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
-
+  const { t } = useTranslation(['common', 'security'])
   return (
+    <>
+    { hasViewPermission && 
     <Card>
       <TabContext value={value}>
         <TabList
@@ -67,7 +83,7 @@ const UserProfile = () => {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <AccountOutline />
-                <TabName>Account</TabName>
+                <TabName>{t('account', 'Account')}</TabName>
               </Box>
             }
           />
@@ -76,32 +92,31 @@ const UserProfile = () => {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <LockOpenOutline />
-                <TabName>Security</TabName>
+                <TabName>{t('security','Security')}</TabName>
               </Box>
             }
           />
         </TabList>
 
         <TabPanel sx={{ p: 0 }} value='account'>
-          <TabAccount />
+          <TabAccount permissions={userPagePermissions} />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='security'>
-          <TabSecurity />
+          <TabSecurity permissions={userPagePermissions} />
         </TabPanel>
       </TabContext>
     </Card>
+    }
+    </>
   )
 }
 
 UserProfile.getLayout = (page: ReactNode) => <UserLayout>{ page }</UserLayout>
-export default UserProfile
-type UserProfileProps = {
-  
-}
-export const getStaticProps: GetStaticProps<UserProfileProps> = async ({
+export default UserProfile;
+export const getStaticProps: GetStaticProps<{}> = async ({
   locale,
 }) => ({
   props: {
-    ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+    ...(await serverSideTranslations(locale ?? 'en', ['common', 'security'])),
   },
 })

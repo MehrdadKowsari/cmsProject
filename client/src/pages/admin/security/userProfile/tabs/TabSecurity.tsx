@@ -1,16 +1,11 @@
-// ** React Imports
 import { useState, MouseEvent } from 'react'
 
-// ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import InputLabel from '@mui/material/InputLabel'
 import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
 import InputAdornment from '@mui/material/InputAdornment'
 import Avatar from '@mui/material/Avatar'
 
@@ -23,13 +18,17 @@ import { useFormik } from 'formik'
 import CommonMessage from 'src/constants/commonMessage'
 import { object, string } from 'yup'
 import * as yup from 'yup'
-import { useTranslation } from 'react-i18next'
 import { ChangeUserPasswordDTO } from 'src/models/security/user/changeUserPasswordDTO'
 import { useAppDispatch } from 'src/state/hooks/hooks'
 import { changePassword } from 'src/state/slices/userSlice'
 import SecurityMessage from 'src/constants/securityMessage'
 import TextField from '@mui/material/TextField'
 import ApplicationParams from 'src/constants/applicationParams'
+import { useTranslation } from 'next-i18next'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { PermissionDTO } from 'src/models/security/permission/permissionDTO'
+import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum'
 
 interface State {
   newPassword: string
@@ -39,17 +38,18 @@ interface State {
   showCurrentPassword: boolean
   showConfirmNewPassword: boolean
 }
+type TabSecurityProps = {
+  permissions: PermissionDTO[]
+}
 
-const TabSecurity = () => {
-  // ** States
+const TabSecurity = (props: TabSecurityProps) => {
   const [showCurrentPassword, setShowCurrentPassword] = useState<boolean>(false)
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState<boolean>(false)
-  //const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
-  //const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
+  const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(props?.permissions?.some(p => p.type === PermissionTypeEnum.Update));
 
-  const { t } = useTranslation(['common, security']);
   const useDispatch = useAppDispatch();
+  const { t } = useTranslation(['common, security']);
   
   const initialValues: State = {
     newPassword: '',
@@ -61,9 +61,9 @@ const TabSecurity = () => {
   }
 
   const validationSchema = object({
-    currentPassword: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-    password: string().min(ApplicationParams.PasswordMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-    confirmPassword: string().min(ApplicationParams.PasswordMinLenght, t('minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch, { ns: 'security' })!)
+    currentPassword: string().required(t('common:filedIsRequired', CommonMessage.RequiredFiled)!),
+    newPassword: string().min(ApplicationParams.PasswordMinLenght, t('common:minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('common:filedIsRequired', CommonMessage.RequiredFiled)!),
+    confirmNewPassword: string().min(ApplicationParams.PasswordMinLenght, t('common:minLenghtForThisFieldIsN', CommonMessage.MinLenghtForThisFieldIsN(ApplicationParams.PasswordMinLenght), { n: `${ApplicationParams.PasswordMinLenght}`})!).required(t('common:filedIsRequired', CommonMessage.RequiredFiled)!).oneOf([yup.ref("password")], t('confirmPasswordDoNotMatch', SecurityMessage.ConfirmPasswordDoesNotMatch, { ns: 'security' })!)
   });
   
   const { user } = useAuth();
@@ -118,9 +118,9 @@ const TabSecurity = () => {
               <Grid item xs={12} sx={{ marginTop: 4.75 }}>
                 <FormControl fullWidth>
                   <TextField
-                    label='Current Password'
                     value={formik.values.currentPassword}
                     id='currentPassword'
+                    label={t('security:currentPassword','Current Password')}
                     type={showCurrentPassword ? 'text' : 'password'}
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
@@ -148,7 +148,7 @@ const TabSecurity = () => {
                 <FormControl fullWidth>
                   <TextField
                     id='newPassword'
-                    label='New Password'
+                    label={t('security:newPassword','New Password')}
                     type={showNewPassword ? 'text' : 'password'}
                     value={formik.values.newPassword}
                     onBlur={formik.handleBlur}
@@ -177,7 +177,7 @@ const TabSecurity = () => {
                 <FormControl fullWidth>
                   <TextField
                     id='confirmNewPassword'
-                    label='Confirm New Password'
+                    label={t('security:confirmNewPassword','Confirm New Password')}
                     type={showConfirmNewPassword ? 'text' : 'password'}
                     value={formik.values.confirmNewPassword}
                     onBlur={formik.handleBlur}
@@ -221,19 +221,27 @@ const TabSecurity = () => {
         <Box sx={{ mt: 7 }}>
           <Button
           type='submit' 
-          variant='contained'>
-            Save Changes
+          variant='contained'
+          disabled={!hasUpdatePermission}>
+            {t('common:save','Save')}
           </Button>
           <Button
           type='reset'
           variant='outlined'
           color='secondary'
-          sx={{ mx: 3.5 }}>
-            Reset
+          sx={{ mx: 3 }}>
+            {t('common:reset','Reset')}
           </Button>
         </Box>
       </CardContent>
     </form>
   )
 }
-export default TabSecurity
+export default TabSecurity;
+export const getStaticProps: GetStaticProps<{}> = async ({
+  locale,
+}) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? 'en', ['common', 'security'])),
+  },
+})

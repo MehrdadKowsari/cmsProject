@@ -82,7 +82,7 @@ const Permission = ({Component, pageProps}: AppProps) => {
     }, [userPagePermissions])
 
     const getRolePagePermissions = async () => {
-      await dispatch(getAllByPageId(PageTypeEnum.User));
+      await dispatch(getAllByPageId(PageTypeEnum.Permission));
     }
     const showConfirm =  async () =>{
       const isConfirmed = await confirm();

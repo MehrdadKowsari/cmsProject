@@ -5,5 +5,8 @@
     "isCreatedByExternalAccount": "ایجاد شده با اکانت خارجی",
     "userInRole": "نقش کاربر",
     "pagePermission": "دسترسی صفحه",
-    "rolePagePermission": "دسترسی صفحه نقش"
+    "rolePagePermission": "دسترسی صفحه نقش",
+    "currentPassword": "کلمه عبور فعلی",
+    "newPassword": "کلمه عبور جدید",
+    "confirmNewPassword": "تایید کلمه عبور جدید"
 }
