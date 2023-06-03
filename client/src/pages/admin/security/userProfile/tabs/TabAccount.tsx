@@ -1,16 +1,11 @@
-// ** React Imports
 import { useState, ElementType, ChangeEvent, SyntheticEvent } from 'react'
 
-// ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Button, { ButtonProps } from '@mui/material/Button'
-
-// ** Icons Imports
 import { useAuth } from 'src/state/providers/AuthProvider'
 import { object, string } from 'yup'
 import CommonMessage from 'src/constants/commonMessage'
@@ -22,9 +17,6 @@ import { updateProfile } from 'src/state/slices/userSlice'
 import { UserDTO } from 'src/models/security/user/userDTO'
 import ApplicationParams from 'src/constants/applicationParams'
 import { useTranslation } from 'next-i18next'
-import SecurityMessage from 'src/constants/securityMessage'
-import { GetStaticProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { PermissionDTO } from 'src/models/security/permission/permissionDTO'
 import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum'
 

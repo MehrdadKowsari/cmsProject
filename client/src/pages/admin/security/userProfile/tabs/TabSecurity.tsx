@@ -1,5 +1,4 @@
 import { useState, MouseEvent } from 'react'
-
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
@@ -8,11 +7,8 @@ import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import InputAdornment from '@mui/material/InputAdornment'
 import Avatar from '@mui/material/Avatar'
-
-// ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
-
 import { useAuth } from 'src/state/providers/AuthProvider'
 import { useFormik } from 'formik'
 import CommonMessage from 'src/constants/commonMessage'
@@ -25,8 +21,6 @@ import SecurityMessage from 'src/constants/securityMessage'
 import TextField from '@mui/material/TextField'
 import ApplicationParams from 'src/constants/applicationParams'
 import { useTranslation } from 'next-i18next'
-import { GetStaticProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { PermissionDTO } from 'src/models/security/permission/permissionDTO'
 import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum'
 
@@ -238,10 +232,3 @@ const TabSecurity = (props: TabSecurityProps) => {
   )
 }
 export default TabSecurity;
-export const getStaticProps: GetStaticProps<{}> = async ({
-  locale,
-}) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? 'en', ['common', 'security'])),
-  },
-})
