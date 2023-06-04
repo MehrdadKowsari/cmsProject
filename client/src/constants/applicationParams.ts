@@ -6,5 +6,7 @@ export default class ApplicationParams {
     public static readonly NameMaxLenght:number = 100;
     public static readonly DescriptionMaxLenght:number = 500;
     public static readonly PasswordMinLenght:number = 6;
+    public static readonly GridDefaultSortColumn:string = '_id';
+    public static readonly GridDefaultSortDirection: 'asc' | 'desc' | null | undefined = 'desc';
     
 }
