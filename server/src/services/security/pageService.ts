@@ -128,6 +128,7 @@ export default class PageService {
                 id: page._id?.toString(),
                 parentId: page.parentId?.toString(),
                 name: page.name,
+                type: page.type,
                 priority: page.priority,
                 iconClass: page.iconClass,
                 isActive: page.isActive,
