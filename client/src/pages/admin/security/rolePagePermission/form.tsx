@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ClearIcon from '@mui/icons-material/Clear'
 import { useFormik } from 'formik';
 import {object, string} from 'yup';
-import notification from '../../../../services/notificationService';
+import notification from '../../../../services/shared/notificationService';
 import { AddRolePagePermissionDTO } from 'src/models/security/rolePagePermission/addRolePagePermissionDTO';
 import { UpdateRolePagePermissionDTO } from 'src/models/security/rolePagePermission/updateRolePagePermissionDTO';
 import { useAppDispatch } from 'src/state/hooks/hooks';
@@ -23,14 +23,14 @@ import CardContent from '@mui/material/CardContent';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
-import { UserDTO } from 'src/models/security/user/userDTO';
-import { getAllUsers } from 'src/state/slices/userSlice';
 import { getAllRoles } from 'src/state/slices/roleSlice';
 import { RoleDTO } from 'src/models/security/role/roleDTO';
 import { getAllPagePermissions } from 'src/state/slices/pagePermissionSlice';
 import { PagePermissionDTO } from 'src/models/security/pagePermission/pagePermissionDTO';
 import SecurityMessage from 'src/constants/securityMessage';
 import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
+import { useHotkeys } from 'react-hotkeys-hook';
+import Hotkey from 'src/constants/hotkey';
 
 const RolePagePermissionForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
@@ -83,6 +83,11 @@ const getAllRoleList = async () => {
   } as TextValueDTO));
   setRoles(mappedRoles);
 }
+
+//#region hotkey
+useHotkeys(Hotkey.Save,() => formik.submitForm())
+useHotkeys(Hotkey.Reset,() => formik.resetForm())
+//#endregion
 
 type initialValuesType = {
   pagePermissionId: string,
@@ -181,7 +186,7 @@ const initialValues: initialValuesType = {
                   type="submit"
                   variant="contained" 
                   size="small"
-                  color="success"
+                  title={Hotkey.Save.toLocaleUpperCase()}
                   disabled={(isUpdate && !hasUpdatePermission) || (!isUpdate && !hasInsertPermission)}
                   startIcon={<SaveIcon/>}>
                     <span>{t('save', CommonMessage.Save)}</span>
@@ -191,6 +196,7 @@ const initialValues: initialValuesType = {
                   variant="outlined" 
                   size="small"
                   color="secondary"
+                  title={Hotkey.Reset.toLocaleUpperCase()}
                   sx={{mx: 3}}
                   startIcon={<ClearIcon/>}>
                     <span>{t('reset', CommonMessage.Reset)}</span>

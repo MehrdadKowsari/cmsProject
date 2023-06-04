@@ -1,7 +1,7 @@
 import { MethodError } from "../../models/shared/crud/methodError";
 import { MethodResult } from "../../models/shared/crud/methodResult";
 import { CRUDResultEnum } from "../../models/shared/enums/crudResultEnum";
-import NotificationService from "../notificationService"
+import NotificationService from "./notificationService"
 import CommonMessage from "../../constants/commonMessage";
 import React, { ReactNode } from "react";
 

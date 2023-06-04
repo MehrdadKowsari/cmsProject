@@ -1,11 +1,10 @@
 import { AppProps } from "next/app";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import * as React from 'react';
-import { DataGrid, GridActionsCellItem, GridColumns, GridRowId, GridSortModel, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef, GridPaginationModel, GridRowId, GridSortModel } from '@mui/x-data-grid';
 import UserLayout from "src/layouts/admin/UserLayout";
 import useConfirm from "src/state/hooks/useConfirm";
-
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
@@ -27,240 +26,284 @@ import { PageTypeEnum, PageTypeEnumLabelMapping } from "src/models/security/enum
 import { PermissionDTO } from "src/models/security/permission/permissionDTO";
 import { PermissionTypeEnum } from "src/models/shared/enums/permissionTypeEnum";
 import { getAllByPageId } from "src/state/slices/rolePagePermissionSlice";
- 
-const Page = ({Component, pageProps}: AppProps) => {
+import Hotkey from 'src/constants/hotkey';
+import { useHotkeys } from "react-hotkeys-hook";
+import NotificationService from "src/services/shared/notificationService";
+import PermissionService from "src/services/security/permissionService";
+
+const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
-  const { pages, totalCount, isLoading} = useSelector((state:any) => state?.page);
+  const { pages, totalCount, isLoading } = useSelector((state: any) => state?.page?.pages ? state?.page : { pages: [], totalCount: 0, isLoading: false });
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const userPagePermissions: PermissionDTO[] = useSelector((state:any) => state?.rolePagePermission?.userPagePermissions);
+  const [userPagePermissions, setUserPagePermissions] = useState<PermissionDTO[]>([]);
   const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
   const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
   const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(false);
   const [hasDeletePermission, setHasDeletePermission] = useState<boolean>(false);
   const [hasToggleActivePermission, setHasToggleActivePermission] = useState<boolean>(false);
-  const [rowId, setRowId] = useState<number| string | null>(null);
-  const [page, setPage] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(ApplicationParams.GridDefaultPageSize);
+  const [rowId, setRowId] = useState<number | string | null>(null);
+  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
+  const [paginationModel, setPaginationModel] = React.useState<GridPaginationModel>({
+    page: 0,
+    pageSize: ApplicationParams.GridDefaultPageSize
+  });
   const [sortModel, setSortModel] = React.useState<GridSortModel>([
     {
-      field: '_id',
-      sort: 'desc',
+      field: ApplicationParams.GridDefaultSortColumn,
+      sort: ApplicationParams.GridDefaultSortDirection
     },
   ]);
+
   const { t } = useTranslation(['common', 'security'])
-  
-  const queryOptions = React.useMemo(
+
+  const queryOptions = useMemo(
     () => ({
-      page,
-      pageSize,
+      paginationModel,
       sortModel
     }),
-    [page, pageSize, sortModel, hasViewPermission],
+    [paginationModel, sortModel, hasViewPermission],
   );
-  
+
   const { confirm } = useConfirm();
-    useEffect(() => {
-      if (hasViewPermission) {
+  useEffect(() => {
+    if (hasViewPermission) {
+      getGridData();
+    }
+  }, [queryOptions])
+
+  useEffect(() => {
+    getRolePagePermissions();
+  }, [])
+
+  useEffect(() => {
+    const hasViewPermission: boolean = PermissionService.hasPermission(userPagePermissions, PermissionTypeEnum.View);
+    setHasViewPermission(hasViewPermission);
+    const hasInsertPermission: boolean = PermissionService.hasPermission(userPagePermissions, PermissionTypeEnum.Add);
+    setHasInsertPermission(hasInsertPermission);
+    const hasUpdatePermission: boolean = PermissionService.hasPermission(userPagePermissions, PermissionTypeEnum.Update);
+    setHasUpdatePermission(hasUpdatePermission);
+    const hasDeletePermission: boolean = PermissionService.hasPermission(userPagePermissions, PermissionTypeEnum.Delete);
+    setHasDeletePermission(hasDeletePermission);
+    const hasToggleActivePermission: boolean = PermissionService.hasPermission(userPagePermissions, PermissionTypeEnum.ToggleActive);
+    setHasToggleActivePermission(hasToggleActivePermission);
+  }, [userPagePermissions])
+
+  const getRolePagePermissions = async () => {
+    const permissions: PermissionDTO[] = await dispatch(getAllByPageId(PageTypeEnum.Page)).unwrap();
+    if (permissions?.length > 0) {
+      setUserPagePermissions(permissions);
+    }
+    else {
+      NotificationService.showErrorMessage(t('youHaveNotAccessToThePageOrAction', CommonMessage.DoNotHaveAccessToThisActionOrSection));
+    }
+  }
+
+  const showConfirm = async () => {
+    const isConfirmed = await confirm();
+    return isConfirmed;
+  }
+
+  const handleDelete = useCallback(
+    async (id: GridRowId) => {
+      const isConfirmed = await showConfirm();
+      if (isConfirmed) {
+        const result: boolean = await dispatch(remove(id)).unwrap();
+        if (result) {
+          getGridData();
+        }
+      }
+    },
+    []
+  );
+
+  const handleUpdate = useCallback(
+    async (id: GridRowId) => {
+      setRowId(id);
+      setIsOpenModal(true);
+    },
+    []
+  );
+
+  const handleToggleIsActive = useCallback(
+    async (id: GridRowId) => {
+      const result: boolean = await dispatch(toggleActive(id)).unwrap();
+      if (result !== null) {
         getGridData();
       }
-    }, [queryOptions])
-    
-    useEffect(() => {
-      getRolePagePermissions();
-    }, [])
-    
-    useEffect(() => {
-      const hasViewPermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.View);
-      setHasViewPermission(hasViewPermission);
-      const hasInsertPermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.Add);
-      setHasInsertPermission(hasInsertPermission);
-      const hasUpdatePermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.Update);
-      setHasUpdatePermission(hasUpdatePermission);
-      const hasDeletePermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.Delete);
-      setHasDeletePermission(hasDeletePermission);
-      const hasToggleActivePermission: boolean = userPagePermissions?.some(p => p.type === PermissionTypeEnum.ToggleActive);
-      setHasToggleActivePermission(hasToggleActivePermission);
-    }, [userPagePermissions])
+    },
+    [],
+  );
 
-    const getRolePagePermissions = async () => {
-      await dispatch(getAllByPageId(PageTypeEnum.Page));
-    }
-
-    const showConfirm =  async () =>{
-      const isConfirmed = await confirm();
-      return isConfirmed;
-    }
-    
-    const deletePage = useCallback( 
-    (id: string | number) => async() => {
-        const isConfirmed = await showConfirm();
-        if (isConfirmed) {
-          const result: boolean = await dispatch(remove(id)).unwrap();
-          if(result){
-            getGridData();
-          }
-        }
-      },
-      []
-    )
-  
-    const updatePage = useCallback(
-      (id: GridRowId) => async () => {
-        setRowId(id);
-        setIsOpenModal(true);
-      },
-      [],
-    );
-
-    const toggleIsActive = useCallback(
-      (id: GridRowId) => async () => {
-        const result: boolean = await dispatch(toggleActive(id)).unwrap();
-        if(result !== null){
-          getGridData();
-        }
-      },
-      [],
-    );
-    
-    const toggleIsHidden = useCallback(
-      (id: GridRowId) => async () => {
-        const result: boolean = await dispatch(toggleHidden(id)).unwrap();
-        if(result !== null){
-          getGridData();
-        }
-      },
-      [],
-    );
-
-    const getGridData = () => {
-      const gridparameter: GridParameter = {
-        currentPage: queryOptions.page,
-        pageSize: queryOptions.pageSize,
-        sortModel: sortModel
+  const handleToggleIsHiddenPage = useCallback(
+    async (id: GridRowId) => {
+      const result: boolean = await dispatch(toggleHidden(id)).unwrap();
+      if (result !== null) {
+        getGridData();
       }
-      dispatch(getAllByParams(gridparameter))
-    }
-  
-    const columns: GridColumns = [
-      { field: 'parentName', headerName: t('parent', CommonMessage.Name)!, width: 130 },
-      { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
-      { field: 'type', headerName: t('type', CommonMessage.Type)!, valueFormatter(params) {
-        return t(PageTypeEnumLabelMapping[params.value as PageTypeEnum]) 
-       }, width: 130 },
-      { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
-      { field: 'iconClass', headerName: t('iconClass', CommonMessage.IconClass)!, width: 130 },
-      { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean'},
-      { field: 'isHidden', headerName: t('isHidden', CommonMessage.IsHidden)!, width: 130, type: 'boolean'},
-      {
-          field: 'actions',
-          type: 'actions',
-          width: 100,
-          getActions: (params) => [
-            <GridActionsCellItem
-              key={params.id}
-              icon={<EditIcon color="success" />}
-              label={t('update', CommonMessage.Update)}
-              disabled={!hasUpdatePermission}
-              onClick={updatePage(params.id)}
-            />,
-            <GridActionsCellItem
-              key={params.id}
-              icon={<DeleteIcon color="error" />}
-              label={t('delete', CommonMessage.Delete)}
-              disabled={!hasDeletePermission}
-              onClick={deletePage(params.id)}
-            />,
-            <GridActionsCellItem
-              key={params.id}
-              icon={<SecurityIcon />}
-              label={t('toggleActive', CommonMessage.ToggleActive)}
-              disabled={!hasToggleActivePermission}
-              onClick={toggleIsActive(params.id)}
-              showInMenu
-            />,
-            <GridActionsCellItem
-              key={params.id}
-              icon={<SecurityIcon />}
-              label={t('toggleHidden', CommonMessage.ToggleHidden)}
-              onClick={toggleIsHidden(params.id)}
-              showInMenu
-            />
-          ],
-        },
-    ];
-    const handleAddNew = () => {
-      setRowId(null);
-      handleOpenModal();
-    }
+    },
+    []
+  );
 
-    const handleOpenModal = () => {
-      setIsOpenModal(true);
+  const getGridData = () => {
+    const gridparameter: GridParameter = {
+      currentPage: queryOptions.paginationModel.page,
+      pageSize: queryOptions.paginationModel.pageSize,
+      sortModel: sortModel
     }
+    dispatch(getAllByParams(gridparameter))
+  }
 
-    const handleCloseModal = () => {
-      setIsOpenModal(false);
-      setRowId(null);
+  //#region hotkey
+  useHotkeys(Hotkey.New, () => handleAddNew())
+  useHotkeys(Hotkey.Update, async () => {
+    if (selectedRows?.length === 1 && hasUpdatePermission) {
+      const rowId: GridRowId = selectedRows[0];
+      await handleUpdate(rowId);
     }
-
-    const handleCloseForm = () => {
-      getGridData();
-      handleCloseModal();
+    else {
+      NotificationService.showErrorMessage(t('youHaveNotAccessToThePageOrAction', CommonMessage.DoNotHaveAccessToThisActionOrSection));
     }
+  })
+  useHotkeys(Hotkey.Delete, async () => {
+    if (selectedRows?.length === 1 && hasDeletePermission) {
+      const rowId: GridRowId = selectedRows[0];
+      await handleDelete(rowId);
+    }
+    else {
+      NotificationService.showErrorMessage(t('youHaveNotAccessToThePageOrAction', CommonMessage.DoNotHaveAccessToThisActionOrSection));
+    }
+  })
+  useHotkeys(Hotkey.ToggleActive, async () => {
+    if (selectedRows?.length === 1 && hasToggleActivePermission) {
+      const rowId: GridRowId = selectedRows[0];
+      await handleToggleIsActive(rowId);
+    }
+    else {
+      NotificationService.showErrorMessage(t('youHaveNotAccessToThePageOrAction', CommonMessage.DoNotHaveAccessToThisActionOrSection));
+    }
+  })
+  //#endregion
 
-    return(
-        <>
-        { hasViewPermission && <Card>
-            <CardHeader 
-            title={t('page', CommonMessage.Page)} 
-            titleTypographyProps={{ variant: 'h6' }}/>
-            <CardContent>
-            <Box mx={1}>
-          <Button
-            variant="contained" 
-            size="small"
-            color="success"
-            disabled={!hasInsertPermission}
-            startIcon={<AddIcon/>}
-            onClick={handleAddNew}>
+  const columns: GridColDef[] = [
+    { field: 'parentName', headerName: t('parent', CommonMessage.Name)!, width: 130 },
+    { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
+    {
+      field: 'type', headerName: t('type', CommonMessage.Type)!, valueFormatter(params: any) {
+        return t(PageTypeEnumLabelMapping[params.value as PageTypeEnum])
+      }, width: 130
+    },
+    { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
+    { field: 'iconClass', headerName: t('iconClass', CommonMessage.IconClass)!, width: 130 },
+    { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean' },
+    { field: 'isHidden', headerName: t('isHidden', CommonMessage.IsHidden)!, width: 130, type: 'boolean' },
+    {
+      field: 'actions',
+      type: 'actions',
+      width: 100,
+      getActions: (params: any) => [
+        <GridActionsCellItem
+          key={params.id}
+          icon={<EditIcon color="success" />}
+          label={t('update', CommonMessage.Update)}
+          disabled={!hasUpdatePermission}
+          title={Hotkey.Update.toUpperCase()}
+          onClick={() => handleUpdate(params.id)}
+        />,
+        <GridActionsCellItem
+          key={params.id}
+          icon={<DeleteIcon color="error" />}
+          label={t('delete', CommonMessage.Delete)}
+          disabled={!hasDeletePermission}
+          title={Hotkey.Delete.toUpperCase()}
+          onClick={() => handleDelete(params.id)}
+        />,
+        <GridActionsCellItem
+          key={params.id}
+          icon={<SecurityIcon />}
+          label={t('toggleActive', CommonMessage.ToggleActive)}
+          disabled={!hasToggleActivePermission}
+          title={Hotkey.ToggleActive.toUpperCase()}
+          onClick={() => handleToggleIsActive(params.id)}
+          showInMenu
+        />,
+        <GridActionsCellItem
+          key={params.id}
+          icon={<SecurityIcon />}
+          label={t('toggleHidden', CommonMessage.ToggleHidden)}
+          onClick={() => handleToggleIsHiddenPage(params.id)}
+          showInMenu
+        />
+      ],
+    },
+  ];
+  const handleAddNew = async () => {
+    setRowId(null);
+    handleOpenModal();
+  }
+
+  const handleOpenModal = () => {
+    setIsOpenModal(true);
+  }
+
+  const handleCloseModal = () => {
+    setIsOpenModal(false);
+    setRowId(null);
+  }
+
+  const handleCloseForm = () => {
+    getGridData();
+    handleCloseModal();
+  }
+
+  return (
+    <>
+      {hasViewPermission && <Card>
+        <CardHeader
+          title={t('page', CommonMessage.Page)}
+          titleTypographyProps={{ variant: 'h6' }} />
+        <CardContent>
+          <Box mx={1}>
+            <Button
+              variant="contained"
+              size="small"
+              disabled={!hasInsertPermission}
+              title={Hotkey.New.toLocaleUpperCase()}
+              startIcon={<AddIcon />}
+              onClick={handleAddNew}>
               <span>{t('new', CommonMessage.New)}</span>
-          </Button>
-        </Box>
-        <Box mt={2}>
-          {pages && pages.length > 0 ? <div style={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={pages}
-            columns={columns}
-            page={page}
-            pageSize={pageSize}
-            rowCount={totalCount}
-            loading={isLoading}
-            paginationMode="server"
-            onPageChange={(newPage) => setPage(newPage)}
-            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={ApplicationParams.GridPageSize}
-            onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
-            checkboxSelection
-            getRowId={(row: any) => row?.id}
-          />
-          </div>
-          : <div>
-          {t('noDataExist', CommonMessage.NoDataExist)}
-          </div>}  
-        </Box>  
-        <CustomDialog 
-        title={t('page', CommonMessage.Page)} 
-        isOpen={isOpenModal}
-        onClose={() => handleCloseModal()}>
-          <PageForm 
-          id={rowId}
-          permissions={userPagePermissions}
-          onClose={handleCloseForm}/>
-        </CustomDialog>
-            </CardContent>
-          </Card>
-        }
-        </>
-    )
+            </Button>
+          </Box>
+          <Box mt={2}>
+            <div style={{ height: 400, width: '100%' }}>
+              <DataGrid
+                rows={pages}
+                columns={columns}
+                rowCount={totalCount}
+                loading={isLoading}
+                pageSizeOptions={ApplicationParams.GridPageSize}
+                paginationModel={paginationModel}
+                paginationMode="server"
+                onPaginationModelChange={setPaginationModel}
+                onSortModelChange={setSortModel}
+                onRowSelectionModelChange={setSelectedRows}
+                getRowId={(row: any) => row?.id}
+              />
+            </div>
+          </Box>
+          <CustomDialog
+            title={t('page', CommonMessage.Page)}
+            isOpen={isOpenModal}
+            onClose={() => handleCloseModal()}>
+            <PageForm
+              id={rowId}
+              permissions={userPagePermissions}
+              onClose={handleCloseForm} />
+          </CustomDialog>
+        </CardContent>
+      </Card>
+      }
+    </>
+  )
 }
 
 Page.getLayout = (page: React.ReactNode) => <UserLayout>{page}</UserLayout>

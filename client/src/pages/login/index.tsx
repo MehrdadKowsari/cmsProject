@@ -19,7 +19,7 @@ import * as yup from 'yup';
 import { SignUp } from '../../models/auth/SignUp';
 import { SignIn } from '../../models/auth/SignIn';
 import { useRouter } from 'next/router';
-import notification from '../../services/notificationService';
+import notification from '../../services/shared/notificationService';
 import { signIn, signUp, signInByGoogle } from 'src/state/slices/authSlice';
 import useStyles from 'src/styles/jss/pages/login';
 import InputAdornment from '@mui/material/InputAdornment/InputAdornment';

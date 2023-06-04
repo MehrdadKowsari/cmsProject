@@ -1,8 +1,8 @@
 import { AppProps } from "next/app";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import * as React from 'react';
-import { DataGrid, GridActionsCellItem, GridColumns, GridRowId, GridSortModel, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef, GridPaginationModel, GridRowId, GridSortModel, GridValueGetterParams } from '@mui/x-data-grid';
 import UserLayout from "src/layouts/admin/UserLayout";
 import useConfirm from "src/state/hooks/useConfirm";
 
@@ -27,11 +27,14 @@ import { getAllByPageId } from "src/state/slices/rolePagePermissionSlice";
 import { PageTypeEnum } from "src/models/security/enums/pageTypeEnum";
 import { PermissionTypeEnum } from "src/models/shared/enums/permissionTypeEnum";
 import { PermissionDTO } from "src/models/security/permission/permissionDTO";
- 
+import Hotkey from 'src/constants/hotkey';
+import notificationService from "src/services/shared/notificationService";
+import { useHotkeys } from "react-hotkeys-hook";
+
 const User = ({Component, pageProps}: AppProps) => {
   const dispatch = useAppDispatch();
-  const { users, totalCount, isLoading} = useSelector((state:any) => state?.user);
-  const userPagePermissions: PermissionDTO[] = useSelector((state:any) => state?.rolePagePermission?.userPagePermissions);
+  const { users, totalCount, isLoading } = useSelector((state: any) => state?.user?.users ? state?.user : { users: [], totalCount: 0, isLoading: false });
+  const [userPagePermissions, setUserPagePermissions] = useState<PermissionDTO[]>([]);
   const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
   const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
   const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(false);
@@ -39,23 +42,26 @@ const User = ({Component, pageProps}: AppProps) => {
   const [hasToggleActivePermission, setHasToggleActivePermission] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number| string | null>(null);
-  const [page, setPage] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(ApplicationParams.GridDefaultPageSize);
+  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
+  const [paginationModel, setPaginationModel] = React.useState<GridPaginationModel>({
+    page: 0,
+    pageSize: ApplicationParams.GridDefaultPageSize
+  });
   const [sortModel, setSortModel] = React.useState<GridSortModel>([
     {
-      field: '_id',
-      sort: 'desc',
+      field: ApplicationParams.GridDefaultSortColumn,
+      sort: ApplicationParams.GridDefaultSortDirection
     },
   ]);
+
   const { t } = useTranslation(['common', 'security'])
   
-  const queryOptions = React.useMemo(
+  const queryOptions = useMemo(
     () => ({
-      page,
-      pageSize,
+      paginationModel,
       sortModel
     }),
-    [page, pageSize, sortModel, hasViewPermission],
+    [paginationModel, sortModel, hasViewPermission],
   );
   
   const { confirm } = useConfirm();
@@ -83,7 +89,13 @@ const User = ({Component, pageProps}: AppProps) => {
     }, [userPagePermissions])
 
     const getRolePagePermissions = async () => {
-      await dispatch(getAllByPageId(PageTypeEnum.User));
+      const permissions: PermissionDTO[] = await dispatch(getAllByPageId(PageTypeEnum.User)).unwrap();
+      if (permissions?.length > 0) {
+        setUserPagePermissions(permissions);
+      }
+      else {
+        notificationService.showErrorMessage(t('youHaveNotAccessToThePageOrAction', CommonMessage.DoNotHaveAccessToThisActionOrSection));
+      }
     }
     
     const showConfirm =  async () =>{
@@ -91,8 +103,8 @@ const User = ({Component, pageProps}: AppProps) => {
       return isConfirmed;
     }
     
-    const deleteUser = useCallback( 
-    (id: string | number) => async() => {
+    const handleDelete = useCallback( 
+    async(id: GridRowId) => {
         const isConfirmed = await showConfirm();
         if (isConfirmed) {
           const result: boolean = await dispatch(remove(id)).unwrap();
@@ -104,16 +116,16 @@ const User = ({Component, pageProps}: AppProps) => {
       []
     )
   
-    const updateUser = useCallback(
-      (id: GridRowId) => async () => {
+    const handleUpdate = useCallback(
+      async(id: GridRowId) => {
         setRowId(id);
         setIsOpenModal(true);
       },
       [],
     );
 
-    const toggleIsActive = useCallback(
-      (id: GridRowId) => async () => {
+    const handleToggleIsActive = useCallback(
+      async(id: GridRowId) => {
         const result: boolean = await dispatch(toggleActive(id)).unwrap();
         if(result !== null){
           getGridData();
@@ -124,14 +136,45 @@ const User = ({Component, pageProps}: AppProps) => {
 
     const getGridData = () => {
       const gridparameter: GridParameter = {
-        currentPage: queryOptions.page,
-        pageSize: queryOptions.pageSize,
+        currentPage: queryOptions.paginationModel.page,
+        pageSize: queryOptions.paginationModel.pageSize,
         sortModel: sortModel
       }
       dispatch(getAllByParams(gridparameter))
     }
-  
-    const columns: GridColumns = [
+
+  //#region hotkey
+  useHotkeys(Hotkey.New, () => handleAddNew())
+  useHotkeys(Hotkey.Update, async () => {
+    if (selectedRows?.length === 1 && hasUpdatePermission) {
+      const rowId: GridRowId = selectedRows[0];
+      await handleUpdate(rowId);
+    }
+    else {
+      notificationService.showErrorMessage(t('youHaveNotAccessToThePageOrAction', CommonMessage.DoNotHaveAccessToThisActionOrSection));
+    }
+  })
+  useHotkeys(Hotkey.Delete, async () => {
+    if (selectedRows?.length === 1 && hasDeletePermission) {
+      const rowId: GridRowId = selectedRows[0];
+      await handleDelete(rowId);
+    }
+    else {
+      notificationService.showErrorMessage(t('youHaveNotAccessToThePageOrAction', CommonMessage.DoNotHaveAccessToThisActionOrSection));
+    }
+  })
+  useHotkeys(Hotkey.ToggleActive, async () => {
+    if (selectedRows?.length === 1 && hasToggleActivePermission) {
+      const rowId: GridRowId = selectedRows[0];
+      await handleToggleIsActive(rowId);
+    }
+    else {
+      notificationService.showErrorMessage(t('youHaveNotAccessToThePageOrAction', CommonMessage.DoNotHaveAccessToThisActionOrSection));
+    }
+  })
+  //#endregion
+
+    const columns: GridColDef[] = [
       { field: 'userName', headerName: t('username', CommonMessage.Username)!, width: 130 },
       { field: 'firstName', headerName: t('firstName', CommonMessage.FirstName)!, width: 130 },
       { field: 'lastName', headerName: t('lastName', CommonMessage.LastName)!, width: 130 },
@@ -155,21 +198,24 @@ const User = ({Component, pageProps}: AppProps) => {
               icon={<EditIcon color="success" />}
               label={t('update', CommonMessage.Update)}
               disabled={!hasUpdatePermission}
-              onClick={updateUser(params.id)}
+              title={Hotkey.Update.toUpperCase()}
+              onClick={() => handleUpdate(params.id)}
             />,
             <GridActionsCellItem
               key={params.id}
               icon={<DeleteIcon color="error" />}
               label={t('delete', CommonMessage.Delete)}
               disabled={!hasDeletePermission}
-              onClick={deleteUser(params.id)}
+              title={Hotkey.Delete.toUpperCase()}
+              onClick={() => handleDelete(params.id)}
             />,
             <GridActionsCellItem
               key={params.id}
               icon={<SecurityIcon />}
               label={t('toggleActive', CommonMessage.ToggleActive)}
               disabled={!hasToggleActivePermission}
-              onClick={toggleIsActive(params.id)}
+              title={Hotkey.ToggleActive.toUpperCase()}
+              onClick={() => handleToggleIsActive(params.id)}
               showInMenu
             />
           ],
@@ -205,7 +251,6 @@ const User = ({Component, pageProps}: AppProps) => {
           <Button
             variant="contained" 
             size="small"
-            color="success"
             disabled={!hasInsertPermission}
             startIcon={<AddIcon/>}
             onClick={handleAddNew}>
@@ -213,26 +258,21 @@ const User = ({Component, pageProps}: AppProps) => {
           </Button>
         </Box>
         <Box mt={2}>
-          {users && users.length > 0 ? <div style={{ height: 400, width: '100%' }}>
+          <div style={{ height: 400, width: '100%' }}>
           <DataGrid
             rows={users}
             columns={columns}
-            page={page}
-            pageSize={pageSize}
             rowCount={totalCount}
             loading={isLoading}
+            pageSizeOptions={ApplicationParams.GridPageSize}
+            paginationModel={paginationModel}
             paginationMode="server"
-            onPageChange={(newPage) => setPage(newPage)}
-            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={ApplicationParams.GridPageSize}
-            onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
-            checkboxSelection
+            onPaginationModelChange={setPaginationModel}
+            onSortModelChange={setSortModel}
+            onRowSelectionModelChange={setSelectedRows}
             getRowId={(row: any) => row?.id}
           />
           </div>
-          : <div>
-          {t('noDataExist', CommonMessage.NoDataExist)}
-          </div>}  
         </Box>  
         <CustomDialog 
         title={t('user', CommonMessage.User)} 

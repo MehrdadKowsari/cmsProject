@@ -1,28 +1,30 @@
-import { useState, MouseEvent } from 'react'
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import InputAdornment from '@mui/material/InputAdornment'
-import Avatar from '@mui/material/Avatar'
-import EyeOutline from 'mdi-material-ui/EyeOutline'
-import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
-import { useAuth } from 'src/state/providers/AuthProvider'
-import { useFormik } from 'formik'
-import CommonMessage from 'src/constants/commonMessage'
-import { object, string } from 'yup'
-import * as yup from 'yup'
-import { ChangeUserPasswordDTO } from 'src/models/security/user/changeUserPasswordDTO'
-import { useAppDispatch } from 'src/state/hooks/hooks'
-import { changePassword } from 'src/state/slices/userSlice'
-import SecurityMessage from 'src/constants/securityMessage'
-import TextField from '@mui/material/TextField'
-import ApplicationParams from 'src/constants/applicationParams'
-import { useTranslation } from 'next-i18next'
-import { PermissionDTO } from 'src/models/security/permission/permissionDTO'
-import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum'
+import { useState, MouseEvent } from 'react';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import CardContent from '@mui/material/CardContent';
+import FormControl from '@mui/material/FormControl';
+import InputAdornment from '@mui/material/InputAdornment';
+import Avatar from '@mui/material/Avatar';
+import EyeOutline from 'mdi-material-ui/EyeOutline';
+import EyeOffOutline from 'mdi-material-ui/EyeOffOutline';
+import { useAuth } from 'src/state/providers/AuthProvider';
+import { useFormik } from 'formik';
+import CommonMessage from 'src/constants/commonMessage';
+import { object, string } from 'yup';
+import * as yup from 'yup';
+import { ChangeUserPasswordDTO } from 'src/models/security/user/changeUserPasswordDTO';
+import { useAppDispatch } from 'src/state/hooks/hooks';
+import { changePassword } from 'src/state/slices/userSlice';
+import SecurityMessage from 'src/constants/securityMessage';
+import TextField from '@mui/material/TextField';
+import ApplicationParams from 'src/constants/applicationParams';
+import { useTranslation } from 'next-i18next';
+import { PermissionDTO } from 'src/models/security/permission/permissionDTO';
+import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
+import { useHotkeys } from 'react-hotkeys-hook';
+import Hotkey from 'src/constants/hotkey';
 
 interface State {
   newPassword: string
@@ -101,6 +103,11 @@ const TabSecurity = (props: TabSecurityProps) => {
   const handleMouseDownConfirmNewPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
   }
+
+//#region hotkey
+useHotkeys(Hotkey.Save,() => formik.submitForm())
+useHotkeys(Hotkey.Reset,() => formik.resetForm())
+//#endregion
 
   return (
 
@@ -216,6 +223,7 @@ const TabSecurity = (props: TabSecurityProps) => {
           <Button
           type='submit' 
           variant='contained'
+          title={Hotkey.Save.toLocaleUpperCase()}
           disabled={!hasUpdatePermission}>
             {t('common:save','Save')}
           </Button>
@@ -223,6 +231,7 @@ const TabSecurity = (props: TabSecurityProps) => {
           type='reset'
           variant='outlined'
           color='secondary'
+          title={Hotkey.Reset.toLocaleUpperCase()}
           sx={{ mx: 3 }}>
             {t('common:reset','Reset')}
           </Button>

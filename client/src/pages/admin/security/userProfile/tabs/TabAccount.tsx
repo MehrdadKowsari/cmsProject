@@ -1,24 +1,26 @@
 import { useState, ElementType, ChangeEvent, SyntheticEvent } from 'react'
 
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import { styled } from '@mui/material/styles'
-import TextField from '@mui/material/TextField'
-import CardContent from '@mui/material/CardContent'
-import Button, { ButtonProps } from '@mui/material/Button'
-import { useAuth } from 'src/state/providers/AuthProvider'
-import { object, string } from 'yup'
-import CommonMessage from 'src/constants/commonMessage'
-import { useFormik } from 'formik'
-import { UpdateUserProfileDTO } from 'src/models/security/user/updateUserProfileDTO'
-import notificationService from 'src/services/notificationService'
-import { useAppDispatch } from 'src/state/hooks/hooks'
-import { updateProfile } from 'src/state/slices/userSlice'
-import { UserDTO } from 'src/models/security/user/userDTO'
-import ApplicationParams from 'src/constants/applicationParams'
-import { useTranslation } from 'next-i18next'
-import { PermissionDTO } from 'src/models/security/permission/permissionDTO'
-import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum'
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import CardContent from '@mui/material/CardContent';
+import Button, { ButtonProps } from '@mui/material/Button';
+import { useAuth } from 'src/state/providers/AuthProvider';
+import { object, string } from 'yup';
+import CommonMessage from 'src/constants/commonMessage';
+import { useFormik } from 'formik';
+import { UpdateUserProfileDTO } from 'src/models/security/user/updateUserProfileDTO';
+import notificationService from 'src/services/shared/notificationService';
+import { useAppDispatch } from 'src/state/hooks/hooks';
+import { updateProfile } from 'src/state/slices/userSlice';
+import { UserDTO } from 'src/models/security/user/userDTO';
+import ApplicationParams from 'src/constants/applicationParams';
+import { useTranslation } from 'next-i18next';
+import { PermissionDTO } from 'src/models/security/permission/permissionDTO';
+import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
+import { useHotkeys } from 'react-hotkeys-hook';
+import Hotkey from 'src/constants/hotkey';
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -71,6 +73,10 @@ const TabAccount = (props: TabAccountProps) => {
   const handleResetUserImage = () => {
     setUserImage(user?.image);
   }
+//#region hotkey
+useHotkeys(Hotkey.Save,() => formik.submitForm())
+useHotkeys(Hotkey.Reset,() => formik.resetForm())
+//#endregion
   
   const initialValues: UpdateUserProfileDTO = {
     id: user?.id,
@@ -187,6 +193,7 @@ const TabAccount = (props: TabAccountProps) => {
             <Button 
             type='submit'
             variant='contained'
+            title={Hotkey.Save.toLocaleUpperCase()}
             disabled={!hasUpdatePermission}>
               {t('save','Save')}
             </Button>
@@ -194,6 +201,7 @@ const TabAccount = (props: TabAccountProps) => {
             type='reset' 
             variant='outlined' 
             color='secondary'
+            title={Hotkey.Reset.toLocaleUpperCase()}
             onClick={handleResetForm} 
             sx={{ mx: 3 }}>
               {t('reset','Reset')}

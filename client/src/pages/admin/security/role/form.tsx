@@ -7,7 +7,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ClearIcon from '@mui/icons-material/Clear'
 import { useFormik } from 'formik';
 import {object, string} from 'yup';
-import notification from '../../../../services/notificationService';
+import notification from '../../../../services/shared/notificationService';
 import { AddRoleDTO } from 'src/models/security/role/addRoleDTO';
 import { UpdateRoleDTO } from 'src/models/security/role/updateRoleDTO';
 import { FormProps } from 'src/types/shared/formType';
@@ -23,7 +23,8 @@ import ApplicationParams from 'src/constants/applicationParams';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
-
+import { useHotkeys } from 'react-hotkeys-hook';
+import Hotkey from 'src/constants/hotkey';
 
 const RoleForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
@@ -48,6 +49,11 @@ const getItemById = async (id: string | number) => {
       } as initialValuesType);
   }
 }
+
+//#region hotkey
+useHotkeys(Hotkey.Save,() => formik.submitForm())
+useHotkeys(Hotkey.Reset,() => formik.resetForm())
+//#endregion
 
 const newItemValidationSchema = object({
   name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
@@ -142,7 +148,7 @@ const initialValues: initialValuesType = {
                   type="submit"
                   variant="contained" 
                   size="small"
-                  color="success"
+                  title={Hotkey.Save.toLocaleUpperCase()}
                   disabled={(isUpdate && !hasUpdatePermission) || (!isUpdate && !hasInsertPermission)}
                   startIcon={<SaveIcon/>}>
                     <span>{t('save', CommonMessage.Save)}</span>
@@ -152,6 +158,7 @@ const initialValues: initialValuesType = {
                   variant="outlined" 
                   size="small"
                   color="secondary"
+                  title={Hotkey.Reset.toLocaleUpperCase()}
                   sx={{mx: 3}}
                   startIcon={<ClearIcon/>}>
                     <span>{t('reset', CommonMessage.Reset)}</span>

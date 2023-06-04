@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ClearIcon from '@mui/icons-material/Clear'
 import { useFormik } from 'formik';
 import {object, string} from 'yup';
-import notification from '../../../../services/notificationService';
+import notification from '../../../../services/shared/notificationService';
 import { AddPagePermissionDTO } from 'src/models/security/pagePermission/addPagePermissionDTO';
 import { UpdatePagePermissionDTO } from 'src/models/security/pagePermission/updatePagePermissionDTO';
 import { useAppDispatch } from 'src/state/hooks/hooks';
@@ -28,6 +28,8 @@ import { PageDTO } from 'src/models/security/page/pageDTO';
 import { PermissionDTO } from 'src/models/security/permission/permissionDTO';
 import { getAllPermissions } from 'src/state/slices/permissionSlice';
 import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
+import { useHotkeys } from 'react-hotkeys-hook';
+import Hotkey from 'src/constants/hotkey';
 
 const PagePermissionForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
@@ -80,6 +82,11 @@ const getAllPermissionList = async () => {
   } as TextValueDTO));
   setPermissionList(mappedPermissions);
 }
+
+//#region hotkey
+useHotkeys(Hotkey.Save,() => formik.submitForm())
+useHotkeys(Hotkey.Reset,() => formik.resetForm())
+//#endregion
 
 type initialValuesType = {
   pageId: string,
@@ -178,7 +185,7 @@ const initialValues: initialValuesType = {
                   type="submit"
                   variant="contained" 
                   size="small"
-                  color="success"
+                  title={Hotkey.Save.toLocaleUpperCase()}
                   disabled={(isUpdate && !hasUpdatePermission) || (!isUpdate && !hasInsertPermission)}
                   startIcon={<SaveIcon/>}>
                     <span>{t('save', CommonMessage.Save)}</span>
@@ -188,6 +195,7 @@ const initialValues: initialValuesType = {
                   variant="outlined" 
                   size="small"
                   color="secondary"
+                  title={Hotkey.Reset.toLocaleUpperCase()}
                   sx={{mx: 3}}
                   startIcon={<ClearIcon/>}>
                     <span>{t('reset', CommonMessage.Reset)}</span>
