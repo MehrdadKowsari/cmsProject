@@ -18,7 +18,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/lab": "^5.0.0-alpha.124",
     "@mui/material": "^5.10.10",
-    "@mui/x-data-grid": "^5.17.16",
+    "@mui/x-data-grid": "^6.6.0",
     "@react-oauth/google": "^0.7.0",
     "@reduxjs/toolkit": "^1.9.2",
     "accept-language": "^3.0.18",
