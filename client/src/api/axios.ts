@@ -1,4 +1,4 @@
-import NotificationService from '../services/notificationService';
+import NotificationService from '../services/shared/notificationService';
 import CommonMessage from '../constants/commonMessage';
 import { ValidateRefreshToken } from '../models/auth/validateRefreshToken';
 import axios from 'axios';
