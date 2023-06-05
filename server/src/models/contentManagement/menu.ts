@@ -1,4 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
+import { MenuItem } from './menuItem';
 
 export const DOCUMENT_NAME = 'Menu';
 export const COLLECTION_NAME = 'menus';
@@ -14,6 +15,7 @@ export  interface Menu {
   createdBy?: Types.ObjectId;
   updatedAt?: Date;
   updatedBy?: Types.ObjectId;
+  menuItems?: MenuItem[] 
 }
 
 const schema = new Schema<Menu>(
