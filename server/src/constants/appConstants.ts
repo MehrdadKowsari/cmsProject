@@ -1,5 +1,5 @@
 export default class AppConstant {
-    public static readonly pageSize: number = 10;
+    public static readonly PageSize: number = 10;
     public static readonly FirstnameMinLenght:number = 2;
     public static readonly FirstnameMaxLenght:number = 50;
     public static readonly LastnameMinLenght:number = 2;

@@ -43,7 +43,7 @@ import UserRoleModel, { UserRole } from "src/models/security/userRole";
          */
         getAllByParams = async (gridParameter: GridParameter) : Promise<PagePermission[]> =>{
             const { currentPage, pageSize, sortModel } = gridParameter;
-            const limitCount: number = (pageSize || AppConstant.pageSize);
+            const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
             const list = await PagePermissionModel.find().sort(sort).skip(skipCount).limit(limitCount)

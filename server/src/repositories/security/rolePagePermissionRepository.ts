@@ -42,7 +42,7 @@ import { Types } from "mongoose";
          */
         getAllByParams = async (gridParameter: GridParameter) : Promise<RolePagePermission[]> =>{
             const { currentPage, pageSize, sortModel } = gridParameter;
-            const limitCount: number = (pageSize || AppConstant.pageSize);
+            const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
             const list = await RolePagePermissionModel.find().sort(sort).skip(skipCount).limit(limitCount)          

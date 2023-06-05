@@ -56,7 +56,7 @@ import AppConstant from "src/constants/appConstants";
          */
         getAllByParams = async (gridParameter: GridParameter) : Promise<User[]> =>{
             const { currentPage, pageSize, sortModel } = gridParameter;
-            const limitCount: number = (pageSize || AppConstant.pageSize);
+            const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
             const list = await UserModel.find().sort(sort).skip(skipCount).limit(limitCount);
