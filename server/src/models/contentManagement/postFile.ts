@@ -5,11 +5,10 @@ export const COLLECTION_NAME = 'postFiles';
 
 export  interface PostFile {
   _id: Types.ObjectId | null;
-  parentId?: Types.ObjectId;
   postId: Types.ObjectId;
   name: string | null;
-  file: string | null;
   description: string | null;
+  file: string | null;
   fileSavePath: string | null;
   downloadCount: number;
   priority: number | null;
@@ -21,10 +20,6 @@ export  interface PostFile {
 
 const schema = new Schema<PostFile>(
   {
-    parentId: {
-      type: Schema.Types.ObjectId,
-      ref:'PostFile'
-    },
     postId: {
       type: Schema.Types.ObjectId,
       required: true,
