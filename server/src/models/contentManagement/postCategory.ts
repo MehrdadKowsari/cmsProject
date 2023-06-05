@@ -31,7 +31,7 @@ const schema = new Schema<PostCategory>(
     },
     description: {
       type: Schema.Types.String,
-      maxlength: 100
+      maxlength: 500
     },
     priority: {
       type: Schema.Types.Number,
