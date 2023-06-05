@@ -7,7 +7,7 @@ export const COLLECTION_NAME = 'postComments';
 export  interface PostComment {
   _id: Types.ObjectId | null;
   parentId?: Types.ObjectId;
-  postId?: Types.ObjectId;
+  postId: Types.ObjectId;
   title: string | null;
   comment: string | null;
   name: string | null;
@@ -32,6 +32,7 @@ const schema = new Schema<PostComment>(
     },
     postId: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref:'Post'
     },
     title: {
