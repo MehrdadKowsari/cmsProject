@@ -8,7 +8,7 @@ export  interface PostCategory {
   parentId?: Types.ObjectId;
   name: string;
   priority: number;
-  iconClass?: string;
+  iconCssClass?: string;
   isActive: boolean;
   isHidden: boolean;
   createdAt?: Date;
@@ -32,7 +32,7 @@ const schema = new Schema<PostCategory>(
       type: Schema.Types.Number,
       required: true
     },
-    iconClass: {
+    iconCssClass: {
       type: Schema.Types.String,
       maxlength: 100
     },
