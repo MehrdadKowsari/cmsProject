@@ -11,6 +11,7 @@ export  interface Menu {
   sectionName: string | null;
   priority: number | null;
   isActive: boolean;
+  locale: string | null;
   createdAt?: Date;
   createdBy?: Types.ObjectId;
   updatedAt?: Date;
@@ -31,6 +32,10 @@ const schema = new Schema<Menu>(
     sectionName: {
       type: Schema.Types.String,
       maxlength: 200
+    },
+    locale: {
+      type: Schema.Types.String,
+      maxlength: 10
     },
     isActive: {
       type: Schema.Types.Boolean,
