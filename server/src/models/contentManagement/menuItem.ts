@@ -16,7 +16,7 @@ export  interface MenuItem {
   slugUrl: string | null;
   target: string;
   rel: string | null;
-  iconClass: string | null;
+  iconCssClass: string | null;
   iconSavePath: string | null;
   type: MenuItemType,
   isActive: boolean,
@@ -65,7 +65,7 @@ const schema = new Schema<MenuItem>(
     rel: {
       type: Schema.Types.String
     },
-    iconClass: {
+    iconCssClass: {
       type: Schema.Types.String
     },
     iconSavePath: {
