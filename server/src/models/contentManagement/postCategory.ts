@@ -7,6 +7,7 @@ export  interface PostCategory {
   _id: Types.ObjectId | null;
   parentId?: Types.ObjectId;
   name: string;
+  description: string;
   priority: number;
   iconCssClass?: string;
   isActive: boolean;
@@ -26,6 +27,10 @@ const schema = new Schema<PostCategory>(
     name: {
       type: Schema.Types.String,
       required: true,
+      maxlength: 200
+    },
+    description: {
+      type: Schema.Types.String,
       maxlength: 100
     },
     priority: {

@@ -28,7 +28,7 @@ const schema = new Schema<GalleyCategory>(
     name: {
       type: Schema.Types.String,
       required: true,
-      maxlength: 100
+      maxlength: 200
     },
     priority: {
       type: Schema.Types.Number,
