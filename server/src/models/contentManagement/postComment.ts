@@ -44,16 +44,20 @@ const schema = new Schema<PostComment>(
       type: Schema.Types.String
     },
     email: {
-      type: Schema.Types.String
+      type: Schema.Types.String,
+      maxlength: 200
     },
     name: {
-      type: Schema.Types.String
+      type: Schema.Types.String,
+      maxlength: 200
     },
     website: {
-      type: Schema.Types.String
+      type: Schema.Types.String,
+      maxlength: 200
     },
     ip: {
-      type: Schema.Types.String
+      type: Schema.Types.String,
+      maxlength: 100
     },
     likeCount: {
       type: Schema.Types.Number,
