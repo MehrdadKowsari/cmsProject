@@ -1,13 +1,14 @@
 import { Schema, model, Types } from 'mongoose';
 import { Gallery } from './gallery';
 
-export const DOCUMENT_NAME = 'GalleyCategory';
+export const DOCUMENT_NAME = 'GalleryCategory';
 export const COLLECTION_NAME = 'galleryCategories';
 
-export  interface GalleyCategory {
+export  interface GalleryCategory {
   _id: Types.ObjectId | null;
   parentId?: Types.ObjectId;
   name: string;
+  description: string | null;
   priority: number;
   iconCssClass?: string;
   isActive: boolean;
@@ -19,16 +20,20 @@ export  interface GalleyCategory {
   galleries?: Gallery[] | null;
 }
 
-const schema = new Schema<GalleyCategory>(
+const schema = new Schema<GalleryCategory>(
   {
     parentId: {
       type: Schema.Types.ObjectId,
-      ref:'GalleyCategory'
+      ref:'GalleryCategory'
     },
     name: {
       type: Schema.Types.String,
       required: true,
       maxlength: 200
+    },
+    description: {
+      type: Schema.Types.String,
+      maxlength: 500
     },
     priority: {
       type: Schema.Types.Number,
@@ -67,5 +72,5 @@ const schema = new Schema<GalleyCategory>(
   }
 );
 
-const GalleyCategoryModel = model<GalleyCategory>(DOCUMENT_NAME, schema, COLLECTION_NAME);
-export default GalleyCategoryModel;
+const GalleryCategoryModel = model<GalleryCategory>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+export default GalleryCategoryModel;
