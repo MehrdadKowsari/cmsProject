@@ -16,7 +16,7 @@ export  interface Menu {
   createdBy?: Types.ObjectId;
   updatedAt?: Date;
   updatedBy?: Types.ObjectId;
-  menuItems?: MenuItem[] 
+  menuItems?: MenuItem[] | null
 }
 
 const schema = new Schema<Menu>(
