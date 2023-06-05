@@ -1,4 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
+import { Gallery } from './gallery';
 
 export const DOCUMENT_NAME = 'GalleyCategory';
 export const COLLECTION_NAME = 'galleryCategories';
@@ -15,6 +16,7 @@ export  interface GalleyCategory {
   createdBy?: Types.ObjectId;
   updatedAt?: Date;
   updatedBy?: Types.ObjectId;
+  galleries?: Gallery[] | null;
 }
 
 const schema = new Schema<GalleyCategory>(

@@ -1,5 +1,6 @@
 import { Schema, model, Types } from 'mongoose';
 import { GalleryTypeEnum } from 'src/enums/contentManagement/galleryTypeEnum';
+import { GalleryFile } from './galleryFile';
 
 export const DOCUMENT_NAME = 'Gallery';
 export const COLLECTION_NAME = 'galleries';
@@ -16,7 +17,8 @@ export  interface Gallery {
   visitNumber: number;
   likeCount: number;
   dislikeCount: number;
-  slugUrl: string;
+  slugUrl: string | null;
+  allowedFileExtension: string | null;
   priority: number | number;
   isActive: boolean;
   locale: string | null;
@@ -24,6 +26,7 @@ export  interface Gallery {
   createdBy?: Types.ObjectId;
   updatedAt?: Date;
   updatedBy?: Types.ObjectId;
+  galleryFiles?: GalleryFile[] | null;
 }
 
 const schema = new Schema<Gallery>(
@@ -68,6 +71,10 @@ const schema = new Schema<Gallery>(
     slugUrl: {
       type: Schema.Types.String,
       maxlength: 2000
+    },
+    allowedFileExtension: {
+      type: Schema.Types.String,
+      maxlength: 200
     },
     priority: {
       type: Schema.Types.Number,
