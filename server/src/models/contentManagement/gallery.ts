@@ -8,10 +8,10 @@ export const COLLECTION_NAME = 'galleries';
 export  interface Gallery {
   _id: Types.ObjectId | null;
   galleryCategoryId?: Types.ObjectId;
+  name: string;
+  description: string | null;
+  params: string | null;
   type: GalleryTypeEnum;
-  title: string;
-  shortDescription: string | null;
-  content: string | null;
   image: string | null;
   thumbnailImage: string | null;
   visitNumber: number;
@@ -35,16 +35,16 @@ const schema = new Schema<Gallery>(
       type: Schema.Types.ObjectId,
       ref:'GalleryCategory'
     },
-    title: {
+    name: {
       type: Schema.Types.String,
       required: true,
       maxlength: 2000
     },
-    shortDescription: {
+    description: {
       type: Schema.Types.String,
       maxlength: 5000
     },
-    content: {
+    params: {
       type: Schema.Types.String
     },
     image: {
