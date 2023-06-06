@@ -7,7 +7,7 @@ export const COLLECTION_NAME = 'galleries';
 
 export  interface Gallery {
   _id: Types.ObjectId | null;
-  galleryCategoryId?: Types.ObjectId;
+  postCategoryId?: Types.ObjectId;
   name: string;
   description: string | null;
   params: string | null;
@@ -31,7 +31,7 @@ export  interface Gallery {
 
 const schema = new Schema<Gallery>(
   {
-    galleryCategoryId: {
+    postCategoryId: {
       type: Schema.Types.ObjectId,
       ref:'GalleryCategory'
     },
