@@ -8,10 +8,10 @@ export const COLLECTION_NAME = 'posts';
 export  interface Post {
   _id: Types.ObjectId | null;
   postCategoryId?: Types.ObjectId;
-  type: PostTypeEnum;
   title: string;
   shortDescription: string | null;
   content: string | null;
+  type: PostTypeEnum;
   image: string | null;
   thumbnailImage: string | null;
   videoUrl: string | null;
@@ -54,6 +54,10 @@ const schema = new Schema<Post>(
     },
     content: {
       type: Schema.Types.String
+    },
+    type: {
+      type: Schema.Types.Number,
+      required: true
     },
     image: {
       type: Schema.Types.String
