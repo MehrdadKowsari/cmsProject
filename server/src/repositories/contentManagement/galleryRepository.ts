@@ -59,7 +59,7 @@ import AppConstant from "src/constants/appConstants";
         update = async (gallery: Gallery) => {
             return await GalleryModel.updateOne({ _id : gallery._id },
                 { $set: { 
-                    galleryCategoryId: gallery.galleryCategoryId,
+                    postCategoryId: gallery.postCategoryId,
                     name: gallery.name,
                     description: gallery.description,
                     type : gallery.type,
