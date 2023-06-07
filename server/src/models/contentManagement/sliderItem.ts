@@ -13,6 +13,7 @@ export  interface SliderItem {
   fileExtension: string | null;
   linkUrl: string | null;
   linkTarget: string | null;
+  isActive:boolean;
   priority: number | null;
   createdAt?: Date;
   createdBy?: Types.ObjectId;
@@ -51,6 +52,11 @@ const schema = new Schema<SliderItem>(
     },
     linkTarget: {
       type: Schema.Types.String
+    },
+    isActive: {
+      type: Schema.Types.Boolean,
+      required: true,
+      default: true
     },
     priority: {
       type: Schema.Types.Number
