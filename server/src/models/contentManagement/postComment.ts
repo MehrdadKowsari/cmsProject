@@ -10,7 +10,7 @@ export  interface PostComment {
   postId: Types.ObjectId;
   title: string | null;
   comment: string | null;
-  name: string | null;
+  fullName: string | null;
   email: string | null;
   website: string | null;
   ip: string | null;
@@ -47,7 +47,7 @@ const schema = new Schema<PostComment>(
       type: Schema.Types.String,
       maxlength: 200
     },
-    name: {
+    fullName: {
       type: Schema.Types.String,
       maxlength: 200
     },
