@@ -9,9 +9,7 @@ export  interface PostCategory {
   name: string;
   description: string;
   priority: number;
-  iconCssClass?: string;
   isActive: boolean;
-  isHidden: boolean;
   createdAt?: Date;
   createdBy?: Types.ObjectId;
   updatedAt?: Date;
@@ -37,18 +35,9 @@ const schema = new Schema<PostCategory>(
       type: Schema.Types.Number,
       required: true
     },
-    iconCssClass: {
-      type: Schema.Types.String,
-      maxlength: 100
-    },
     isActive: {
       type: Schema.Types.Boolean,
       default: true,
-      required: true
-    },
-    isHidden: {
-      type: Schema.Types.Boolean,
-      default: false,
       required: true
     },
     createdBy: {

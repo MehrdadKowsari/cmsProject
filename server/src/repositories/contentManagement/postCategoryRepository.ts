@@ -67,29 +67,11 @@ import AppConstant from "src/constants/appConstants";
                     name: postCategory.name,
                     description: postCategory.description,
                     priority : postCategory.priority,
-                    iconCssClass : postCategory.iconCssClass,
                     updatedBy: postCategory.updatedBy,
                     updatedAt: postCategory.updatedAt
                 }});
         }
 
-        /**
-         * toggle postCategory hidden status
-         * 
-         * @param {string} id 
-         * @param {boolean} toggleIsHidden
-         * @param {string} userId 
-         * @returns {Promise<object>}
-         */
-        toggleIsHidden = async (id: string, toggleIsHidden: boolean, userId: string) => {
-            return await PostCategoryModel.updateOne({_id: id}, 
-                { $set: { 
-                    isHidden: toggleIsHidden,
-                    updatedBy: userId,
-                    updatedAt: new Date()
-                }}); 
-        }
-        
         /**
          * toggle postCategory active status
          * 
