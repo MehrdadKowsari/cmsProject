@@ -67,29 +67,11 @@ import AppConstant from "src/constants/appConstants";
                     name: galleryCategory.name,
                     description: galleryCategory.description,
                     priority : galleryCategory.priority,
-                    iconCssClass : galleryCategory.iconCssClass,
                     updatedBy: galleryCategory.updatedBy,
                     updatedAt: galleryCategory.updatedAt
                 }});
         }
 
-        /**
-         * toggle galleryCategory hidden status
-         * 
-         * @param {string} id 
-         * @param {boolean} toggleIsHidden
-         * @param {string} userId 
-         * @returns {Promise<object>}
-         */
-        toggleIsHidden = async (id: string, toggleIsHidden: boolean, userId: string) => {
-            return await GalleryCategoryModel.updateOne({_id: id}, 
-                { $set: { 
-                    isHidden: toggleIsHidden,
-                    updatedBy: userId,
-                    updatedAt: new Date()
-                }}); 
-        }
-        
         /**
          * toggle galleryCategory active status
          * 

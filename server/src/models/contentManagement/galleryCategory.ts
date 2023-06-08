@@ -10,9 +10,7 @@ export  interface GalleryCategory {
   name: string;
   description: string | null;
   priority: number;
-  iconCssClass?: string;
   isActive: boolean;
-  isHidden: boolean;
   createdAt?: Date;
   createdBy?: Types.ObjectId;
   updatedAt?: Date;
@@ -39,18 +37,9 @@ const schema = new Schema<GalleryCategory>(
       type: Schema.Types.Number,
       required: true
     },
-    iconCssClass: {
-      type: Schema.Types.String,
-      maxlength: 100
-    },
     isActive: {
       type: Schema.Types.Boolean,
       default: true,
-      required: true
-    },
-    isHidden: {
-      type: Schema.Types.Boolean,
-      default: false,
       required: true
     },
     createdBy: {
