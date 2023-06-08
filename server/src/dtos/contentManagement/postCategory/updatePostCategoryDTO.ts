@@ -1,9 +1,9 @@
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
-export interface UpdatePageDTO extends BaseModel {
+export interface UpdatePostCategoryDTO extends BaseModel {
   parentId?: string;
   name: string;
+  description: string;
   priority: number;
-  iconClass?: string;
 }
 
