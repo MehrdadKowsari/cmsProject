@@ -6,7 +6,7 @@ export const COLLECTION_NAME = 'sliderItems';
 export  interface SliderItem {
   _id: Types.ObjectId | null;
   sliderId: Types.ObjectId;
-  name: string | null;
+  name: string;
   description: string | null;
   file: string | null;
   fileSavePath: string | null;
@@ -30,6 +30,7 @@ const schema = new Schema<SliderItem>(
     },
     name: {
       type: Schema.Types.String,
+      required: true,
       maxlength: 2000
     },
     description: {
