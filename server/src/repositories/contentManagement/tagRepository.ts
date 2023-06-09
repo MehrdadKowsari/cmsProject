@@ -19,6 +19,18 @@ import AppConstant from "src/constants/appConstants";
          * @returns {Promise<number>}
          */
         count = async (): Promise<number> => await TagModel.count(); 
+
+        /**
+         * is role exists role by rolename
+         * 
+         * @param {string | null} id 
+         * @param {string} name 
+         * @returns {Promise<boolean>}
+         */
+        isExistsName = async (id: string | null, name: string) : Promise<boolean> => 
+        {
+            return id ? await TagModel.count({ name, _id: {$ne: id}}) > 0 : await TagModel.count({ name}) > 0;  
+        }
                
         /**
          * get all tags

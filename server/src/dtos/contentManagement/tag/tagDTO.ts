@@ -1,6 +1,6 @@
 import { BaseModel } from "src/models/shared/base/baseModel";
 
-export interface RoleDTO extends BaseModel {
+export interface TagDTO extends BaseModel {
     name: string;
     isActive: boolean;
     locale: string | null;
