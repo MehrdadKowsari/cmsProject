@@ -6,9 +6,9 @@ export const COLLECTION_NAME = 'menus';
 
 export  interface Menu {
   _id: Types.ObjectId | null;
-  name: string | null;
+  name: string;
   description: string | null;
-  sectionName: string | null;
+  sectionName: string;
   priority: number | null;
   isActive: boolean;
   locale: string | null;
@@ -23,6 +23,7 @@ const schema = new Schema<Menu>(
   {
     name: {
       type: Schema.Types.String,
+      required: true,
       maxlength: 200
     },
     description: {
@@ -31,6 +32,7 @@ const schema = new Schema<Menu>(
     },
     sectionName: {
       type: Schema.Types.String,
+      required: true,
       maxlength: 200
     },
     locale: {
