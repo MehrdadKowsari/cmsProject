@@ -7,7 +7,7 @@ export const COLLECTION_NAME = 'posts';
 
 export  interface Post {
   _id: Types.ObjectId | null;
-  postCategoryId?: Types.ObjectId;
+  postCategoryId: Types.ObjectId;
   title: string;
   shortDescription: string | null;
   content: string | null;
