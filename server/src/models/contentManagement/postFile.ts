@@ -6,7 +6,7 @@ export const COLLECTION_NAME = 'postFiles';
 export  interface PostFile {
   _id: Types.ObjectId | null;
   postId: Types.ObjectId;
-  name: string | null;
+  name: string;
   description: string | null;
   file: string | null;
   fileSavePath: string | null;
@@ -27,6 +27,7 @@ const schema = new Schema<PostFile>(
     },
     name: {
       type: Schema.Types.String,
+      required: true,
       maxlength: 2000
     },
     description: {
