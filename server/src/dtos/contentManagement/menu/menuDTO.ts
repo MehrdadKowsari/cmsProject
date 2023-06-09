@@ -1,6 +1,6 @@
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
-export interface GalleryCategoryDTO extends BaseModel {
+export interface MenuDTO extends BaseModel {
     name: string;
     description: string | null;
     sectionName: string;
