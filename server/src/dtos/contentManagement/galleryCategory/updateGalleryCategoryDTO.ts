@@ -5,5 +5,6 @@ export interface UpdateGalleryCategoryDTO extends BaseModel {
   name: string;
   description: string;
   priority: number;
+  locale: string | null;
 }
 

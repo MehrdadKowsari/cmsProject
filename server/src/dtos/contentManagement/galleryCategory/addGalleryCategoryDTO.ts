@@ -3,5 +3,6 @@ export interface AddGalleryCategoryDTO{
   name: string;
   description: string;
   priority: number;
+  locale: string | null;
 }
 

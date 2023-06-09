@@ -7,6 +7,7 @@ export interface PostCategoryDTO extends BaseModel {
     description: string;
     priority: number;
     isActive: boolean;
+    locale: string | null;
     createdBy?: string;
     createdAt?: Date;
     updatedBy?: string;

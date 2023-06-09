@@ -3,5 +3,6 @@ export interface AddPostCategoryDTO{
   name: string;
   description: string;
   priority: number;
+  locale: string | null;
 }
 
