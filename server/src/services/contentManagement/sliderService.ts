@@ -101,6 +101,8 @@ export default class SliderService {
                 id: slider._id?.toString(),
                 articleCategoryId: slider.articleCategoryId,
                 articleCategoryName: slider.articleCategoryId?.name,
+                galleryId: slider.galleryId,
+                galleryName: slider.galleryId?.name,
                 name: slider.name,
                 sectionName: slider.sectionName,
                 type: slider.type,
