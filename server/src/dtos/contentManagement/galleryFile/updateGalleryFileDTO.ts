@@ -2,7 +2,7 @@ import { BaseModel } from "../../../models/shared/base/baseModel";
 
 export interface UpdateGalleryFileDTO extends BaseModel {
   galleryId: string;
-  name: string | null;
+  name: string;
   description: string | null;
   file: string | null;
   fileSavePath: string | null;

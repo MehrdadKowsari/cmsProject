@@ -1,6 +1,6 @@
 export interface AddGalleryFileDTO{
   galleryId: string;
-  name: string | null;
+  name: string;
   description: string | null;
   file: string | null;
   fileSavePath: string | null;

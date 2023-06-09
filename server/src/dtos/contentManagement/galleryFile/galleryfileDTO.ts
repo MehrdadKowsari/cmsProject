@@ -3,7 +3,7 @@ import { BaseModel } from "../../../models/shared/base/baseModel";
 export interface GalleryFileDTO extends BaseModel {
   galleryId: string;
   galleryName: string;
-  name: string | null;
+  name: string;
   description: string | null;
   file: string | null;
   fileSavePath: string | null;

@@ -6,7 +6,7 @@ export const COLLECTION_NAME = 'galleryFiles';
 export  interface GalleryFile {
   _id: Types.ObjectId | null;
   galleryId: Types.ObjectId;
-  name: string | null;
+  name: string;
   description: string | null;
   file: string | null;
   fileSavePath: string | null;
@@ -29,6 +29,7 @@ const schema = new Schema<GalleryFile>(
     },
     name: {
       type: Schema.Types.String,
+      required: true,
       maxlength: 2000
     },
     description: {
