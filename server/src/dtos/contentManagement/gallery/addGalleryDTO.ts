@@ -1,11 +1,11 @@
-import { PostTypeEnum } from "src/enums/contentManagement/postTypeEnum";
+import { GalleryTypeEnum } from "src/enums/contentManagement/galleryTypeEnum";
 
-export interface AddPostDTO{
+export interface AddGalleryDTO{
   galleryCategoryId: string;
   name: string;
   description: string | null;
   params: string | null;
-  type: PostTypeEnum;
+  type: GalleryTypeEnum;
   image: string | null;
   thumbnailImage: string | null;
   slugUrl: string | null;
