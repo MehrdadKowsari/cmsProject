@@ -8,7 +8,6 @@ export interface UpdateGalleryFileDTO extends BaseModel {
   fileSavePath: string | null;
   fileExtension: string | null;
   fileSize: number | null;
-  downloadCount: number;
   priority: number | null;
 }
 
