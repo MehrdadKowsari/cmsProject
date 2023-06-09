@@ -1,6 +1,6 @@
 import { SliderTypeEnum } from "src/enums/contentManagement/sliderTypeEnum";
 
-export interface AddGalleryCategoryDTO{
+export interface AddSliderDTO{
   articleCategoryId?: string | null;
   galleryId?: string | null;
   name: string;

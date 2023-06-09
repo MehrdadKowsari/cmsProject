@@ -1,7 +1,7 @@
 import { SliderTypeEnum } from "src/enums/contentManagement/sliderTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
-export interface UpdateGalleryCategoryDTO extends BaseModel {
+export interface UpdateSliderDTO extends BaseModel {
   articleCategoryId?: string | null;
   galleryId?: string | null;
   name: string;
