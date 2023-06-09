@@ -1,4 +1,3 @@
-import { SliderTypeEnum } from "src/enums/contentManagement/sliderTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
 export interface UpdateSliderItemDTO extends BaseModel {
