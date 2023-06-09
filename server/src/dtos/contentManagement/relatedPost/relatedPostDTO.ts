@@ -1,10 +1,10 @@
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
-export interface PostTagDTO extends BaseModel {
+export interface RelatedPostDTO extends BaseModel {
   postId: string;
   postTitle: string | null;
-  tagId: string;
-  tagTitle: string | null;
+  relatedPostId: string;
+  relatedPostTitle: string | null;
   createdBy?: string;
   createdAt?: Date;
   updatedBy?: string;
