@@ -5,7 +5,6 @@ export interface UpdateMenuDTO extends BaseModel {
   description: string | null;
   sectionName: string;
   priority: number | null;
-  isActive: boolean;
   locale: string | null;
 }
 

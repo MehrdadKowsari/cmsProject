@@ -6,7 +6,7 @@ export const COLLECTION_NAME = 'menueItems';
 
 export  interface MenuItem {
   _id: Types.ObjectId | null;
-  menuId: Types.ObjectId | null;
+  menuId: Types.ObjectId;
   parentId: Types.ObjectId | null;
   name: string | null;
   description: string | null;
@@ -32,6 +32,7 @@ const schema = new Schema<MenuItem>(
   {
     menuId: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref:'Menu'
     },
     parentId: {
