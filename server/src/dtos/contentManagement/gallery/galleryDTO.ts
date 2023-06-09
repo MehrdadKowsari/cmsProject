@@ -8,11 +8,14 @@ export interface GalleryDTO extends BaseModel {
     description: string | null;
     params: string | null;
     type: GalleryTypeEnum;
-    typeName: string;
+    typeName: string | null;
     image: string | null;
     thumbnailImage: string | null;
     slugUrl: string | null;
     allowedFileExtension: string | null;
+    visitNumber: number;
+    likeCount: number;
+    dislikeCount: number;
     priority: number | number;
     isActive: boolean;
     locale: string;
