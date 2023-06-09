@@ -10,7 +10,7 @@ export interface SliderDTO extends BaseModel {
     description: string;
     type: SliderTypeEnum;
     typeName: string;
-    param: string;
+    params: string;
     sectionName: string;
     allowedFileExtension: string;
     priority: number;
