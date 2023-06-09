@@ -6,7 +6,7 @@ export const COLLECTION_NAME = 'postComments';
 
 export  interface PostComment {
   _id: Types.ObjectId | null;
-  parentId?: Types.ObjectId;
+  parentId?: Types.ObjectId | null;
   postId: Types.ObjectId;
   title: string | null;
   comment: string | null;
