@@ -1,7 +1,7 @@
 import { MenuItemType } from "src/enums/contentManagement/menuItemTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
-export interface GalleryCategoryDTO extends BaseModel {
+export interface MenuItemDTO extends BaseModel {
   menuId: string;
   menuName: string | null;
   parentId: string | null;
