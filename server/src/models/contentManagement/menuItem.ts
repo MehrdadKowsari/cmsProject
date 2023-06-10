@@ -10,6 +10,7 @@ export  interface MenuItem {
   parentId: Types.ObjectId | null;
   name: string | null;
   description: string | null;
+  type: MenuItemType,
   image: string | null;
   imageSavePath: string | null;
   level: number | null;
@@ -19,7 +20,6 @@ export  interface MenuItem {
   rel: string | null;
   iconCssClass: string | null;
   iconSavePath: string | null;
-  type: MenuItemType,
   isActive: boolean,
   priority: number | null;
   createdAt?: Date;
@@ -46,6 +46,10 @@ const schema = new Schema<MenuItem>(
     description: {
       type: Schema.Types.String,
       maxlength: 5000
+    },
+    type: {
+      type: Schema.Types.Number,
+      required: true
     },
     image: {
       type: Schema.Types.String
@@ -76,10 +80,6 @@ const schema = new Schema<MenuItem>(
     },
     iconSavePath: {
       type: Schema.Types.String
-    },
-    type: {
-      type: Schema.Types.Number,
-      required: true
     },
     priority: {
       type: Schema.Types.Number
