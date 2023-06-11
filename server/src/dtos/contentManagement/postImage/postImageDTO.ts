@@ -7,6 +7,8 @@ export interface PostImageDTO extends BaseModel {
   description: string | null;
   image: string | null;
   imageSavePath: string | null;
+  imageExtension: string | null;
+  imageSize: number | null;
   downloadCount: number;
   priority: number | null;
   createdBy?: string;
