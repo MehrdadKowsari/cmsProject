@@ -10,6 +10,8 @@ export  interface PostFile {
   description: string | null;
   file: string | null;
   fileSavePath: string | null;
+  fileExtension: string | null;
+  fileSize: number | null;
   downloadCount: number;
   priority: number | null;
   createdAt?: Date;
@@ -40,6 +42,13 @@ const schema = new Schema<PostFile>(
     fileSavePath: {
       type: Schema.Types.String,
       maxlength: 5000
+    },
+    fileExtension: {
+      type: Schema.Types.String,
+      maxlength: 200
+    },
+    fileSize: {
+      type: Schema.Types.Number
     },
     downloadCount: {
       type: Schema.Types.Number,
