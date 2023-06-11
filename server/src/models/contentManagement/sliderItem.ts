@@ -31,11 +31,11 @@ const schema = new Schema<SliderItem>(
     name: {
       type: Schema.Types.String,
       required: true,
-      maxlength: 2000
+      maxlength: 200
     },
     description: {
       type: Schema.Types.String,
-      maxlength: 5000
+      maxlength: 500
     },
     file: {
       type: Schema.Types.String
@@ -46,7 +46,7 @@ const schema = new Schema<SliderItem>(
     },
     fileExtension: {
       type: Schema.Types.String,
-      maxlength: 200
+      maxlength: 10
     },
     linkUrl: {
       type: Schema.Types.String

@@ -30,11 +30,11 @@ const schema = new Schema<GalleryFile>(
     name: {
       type: Schema.Types.String,
       required: true,
-      maxlength: 2000
+      maxlength: 200
     },
     description: {
       type: Schema.Types.String,
-      maxlength: 5000
+      maxlength: 500
     },
     file: {
       type: Schema.Types.String
@@ -45,7 +45,7 @@ const schema = new Schema<GalleryFile>(
     },
     fileExtension: {
       type: Schema.Types.String,
-      maxlength: 200
+      maxlength: 10
     },
     fileSize: {
       type: Schema.Types.Number

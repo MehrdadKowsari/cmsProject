@@ -41,11 +41,11 @@ const schema = new Schema<MenuItem>(
     },
     name: {
       type: Schema.Types.String,
-      maxlength: 500
+      maxlength: 200
     },
     description: {
       type: Schema.Types.String,
-      maxlength: 5000
+      maxlength: 500
     },
     type: {
       type: Schema.Types.Number,
