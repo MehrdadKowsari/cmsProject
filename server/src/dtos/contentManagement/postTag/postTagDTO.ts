@@ -4,7 +4,7 @@ export interface PostTagDTO extends BaseModel {
   postId: string;
   postTitle: string | null;
   tagId: string;
-  tagTitle: string | null;
+  tagName: string | null;
   createdBy?: string;
   createdAt?: Date;
   updatedBy?: string;
