@@ -10,6 +10,8 @@ export  interface PostImage {
   description: string | null;
   image: string | null;
   imageSavePath: string | null;
+  imageExtension: string | null;
+  imageSize: number | null;
   downloadCount: number;
   priority: number | null;
   createdAt?: Date;
@@ -27,11 +29,11 @@ const schema = new Schema<PostImage>(
     },
     name: {
       type: Schema.Types.String,
-      maxlength: 2000
+      maxlength: 200
     },
     description: {
       type: Schema.Types.String,
-      maxlength: 5000
+      maxlength: 500
     },
     image: {
       type: Schema.Types.String
@@ -39,6 +41,13 @@ const schema = new Schema<PostImage>(
     imageSavePath: {
       type: Schema.Types.String,
       maxlength: 5000
+    },
+    imageExtension: {
+      type: Schema.Types.String,
+      maxlength: 10
+    },
+    imageSize: {
+      type: Schema.Types.Number
     },
     downloadCount: {
       type: Schema.Types.Number,
