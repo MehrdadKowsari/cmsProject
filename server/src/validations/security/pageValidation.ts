@@ -25,10 +25,11 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
           type: joi.number().required().label('Type')
           .messages({ 
                "number.base": req.t('typeIsRequired', `{{#label}} is required`),
-               "string.required": req.t('typeIsRequired', `{{#label}} is required`)}),
-          priority: joi.number().label('Priority')
-          .messages({ 
-               "number.base": req.t('maxLenghtForPriorityIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
+               "number.required": req.t('typeIsRequired', `{{#label}} is required`)}),
+               priority: joi.number().label('Priority')
+               .messages({ 
+                    "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
+                    "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
      });
      
      const { error } = addValidationSchema.validate(req.body, options);
@@ -75,10 +76,11 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
           type: joi.number().required().label('Type')
           .messages({ 
                "number.base": req.t('typeIsRequired', `{{#label}} is required`),
-               "string.required": req.t('typeIsRequired', `{{#label}} is required`)}),
-          priority: joi.number().label('Priority')
-          .messages({ 
-               "number.base": req.t('maxLenghtForPriorityIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
+               "number.required": req.t('typeIsRequired', `{{#label}} is required`)}),
+               priority: joi.number().label('Priority')
+               .messages({ 
+                    "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
+                    "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),
      });
      
   
