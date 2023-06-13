@@ -15,7 +15,7 @@ export enum PageTypeEnum{
     Link = 203,
     Slider = 204,
     Menue = 205,
-    GalleyCategory = 206,
+    GalleryCategory = 206,
     Gallery = 207,
     Brand = 208,
     Event = 209,
