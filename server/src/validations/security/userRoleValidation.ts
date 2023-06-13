@@ -62,12 +62,12 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          userId: joi.string().trim(true).required().label('page permission')
+          userId: joi.string().trim(true).required().label('UserId')
           .messages({ 
                "string.base": req.t('userIdIsRequired', `{{#label}} is required`),
                "string.empty": req.t('userIdIsRequired', `{{#label}} is required`),
                "string.required": req.t('userIdIsRequired', `{{#label}} is required`)}),          
-          roleId: joi.string().trim(true).required().label('role')
+          roleId: joi.string().trim(true).required().label('RoleId')
           .messages({ 
                "string.base": req.t('roleIdIsRequired', `{{#label}} is required`),
                "string.empty": req.t('roleIdIsRequired', `{{#label}} is required`),
