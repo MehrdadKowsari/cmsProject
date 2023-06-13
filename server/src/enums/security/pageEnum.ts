@@ -12,12 +12,13 @@ export enum PageTypeEnum{
     ContentManagement = 200,
     PostCategory = 201,
     Post = 202,
-    Link = 203,
-    Slider = 204,
-    Menue = 205,
-    GalleryCategory = 206,
-    Gallery = 207,
-    Brand = 208,
-    Event = 209,
-    EventRegister = 210
+    Tag = 203,
+    Link = 204,
+    Slider = 205,
+    Menue = 206,
+    GalleryCategory = 207,
+    Gallery = 208,
+    Brand = 209,
+    Event = 210,
+    EventRegister = 211
 }
