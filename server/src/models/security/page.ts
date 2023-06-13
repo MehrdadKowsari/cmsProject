@@ -28,7 +28,7 @@ const schema = new Schema<Page>(
     name: {
       type: Schema.Types.String,
       required: true,
-      maxlength: 100
+      maxlength: 200
     },
     type: {
       type: Schema.Types.Number,
