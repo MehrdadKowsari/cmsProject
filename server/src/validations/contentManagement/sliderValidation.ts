@@ -30,12 +30,12 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          slugUrl: joi.number().label('SlugUrl')
+          slugUrl: joi.string().max(AppConstant.SlugUrlMaxLength).label('Slug Url')
           .messages({ 
-               "number.base": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          allowedFileExtension: joi.number().label('Allowed File Extension')
+               "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
+          allowedFileExtension: joi.string().max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
           .messages({ 
-               "number.base": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
+               "string.max": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
      });
      
      const { error } = addValidationSchema.validate(req.body, options);
@@ -87,12 +87,12 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          slugUrl: joi.number().label('SlugUrl')
+          slugUrl: joi.string().max(AppConstant.SlugUrlMaxLength).label('Slug Url')
           .messages({ 
-               "number.base": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          allowedFileExtension: joi.number().label('Allowed File Extension')
+               "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
+          allowedFileExtension: joi.string().max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
           .messages({ 
-               "number.base": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
+               "string.max": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
      });
      
   
