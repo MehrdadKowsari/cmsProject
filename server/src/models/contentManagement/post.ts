@@ -46,7 +46,7 @@ const schema = new Schema<Post>(
     title: {
       type: Schema.Types.String,
       required: true,
-      maxlength: 2000
+      maxlength: 1000
     },
     shortDescription: {
       type: Schema.Types.String,
