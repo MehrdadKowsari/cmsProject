@@ -113,6 +113,8 @@
     "idIsRequired": "'شناسه' ضروری است",
     "typeIsRequired": "'نوع' ضروری است",
     "priorityIsRequired": "'الویت' ضروری است",
+    "relatedPostIdIsRequired": "'پست مرتبط' ضروری است",
+    "postIdIsRequired": "'پست' ضروری است",
     "minLenghtForUsernameIsN": "طول 'نام کاربری' باید حداقل {{n}} کاراکتر باشد",
     "minLenghtForFirstNameIsN": "طول 'نام' باید حداقل {{n}} کاراکتر باشد",
     "minLenghtForLastNameIsN": "طول 'نام خانوادگی' باید حداقل {{n}} کاراکتر باشد",
