@@ -16,6 +16,10 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
+          postId: joi.number().required().label('PostId')
+          .messages({ 
+               "number.base": req.t('postIdIsRequired', `{{#label}} is required`),
+               "number.required": req.t('postIdIsRequired', `{{#label}} is required`)}),
           title: joi.string().max(AppConstant.TitleMaxLenght).trim(true).required().label('Title')
           .messages({ 
                "string.base": req.t('titleIsRequired', `{{#label}} is required`),
@@ -73,6 +77,10 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
+          postId: joi.number().required().label('PostId')
+          .messages({ 
+               "number.base": req.t('postIdIsRequired', `{{#label}} is required`),
+               "number.required": req.t('postIdIsRequired', `{{#label}} is required`)}),
           title: joi.string().max(AppConstant.TitleMaxLenght).trim(true).required().label('Title')
           .messages({ 
                "string.base": req.t('titleIsRequired', `{{#label}} is required`),
