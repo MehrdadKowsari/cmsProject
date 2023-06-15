@@ -28,7 +28,7 @@ const schema = new Schema<Menu>(
     },
     description: {
       type: Schema.Types.String,
-      maxlength: 2000
+      maxlength: 500
     },
     sectionName: {
       type: Schema.Types.String,
