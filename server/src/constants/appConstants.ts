@@ -11,7 +11,8 @@ export default class AppConstant {
     public static readonly TitleMaxLenght:number = 1000;
     public static readonly DescriptionMaxLenght:number = 500;
     public static readonly AllowedFileExtensionMaxLength:number = 200;
-    public static readonly SlugUrlMaxLength:number = 200;
+    public static readonly SlugUrlMaxLength:number = 2000;
+    public static readonly UrlMaxLength:number = 2000;
     public static readonly FileSavePathMaxLength:number = 5000;
     public static readonly FileExtensionMaxLength:number = 100;
     public static readonly SectionNameMaxLength:number = 200;

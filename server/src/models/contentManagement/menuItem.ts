@@ -16,8 +16,7 @@ export  interface MenuItem {
   level: number | null;
   url: string;
   slugUrl: string | null;
-  target: string;
-  rel: string | null;
+  target: string | null;
   iconCssClass: string | null;
   iconSavePath: string | null;
   isActive: boolean,
@@ -63,20 +62,19 @@ const schema = new Schema<MenuItem>(
     },
     url: {
       type: Schema.Types.String,
-      required: true
+      maxlength: 2000
     },
     slugUrl: {
-      type: Schema.Types.String
+      type: Schema.Types.String,
+      maxlength: 5000
     },
     target: {
       type: Schema.Types.String,
-      required: true
-    },
-    rel: {
-      type: Schema.Types.String
+      maxlength: 50
     },
     iconCssClass: {
-      type: Schema.Types.String
+      type: Schema.Types.String,
+      maxlength: 500
     },
     iconSavePath: {
       type: Schema.Types.String

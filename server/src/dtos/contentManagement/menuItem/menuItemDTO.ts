@@ -14,7 +14,6 @@ export interface MenuItemDTO extends BaseModel {
   url: string;
   slugUrl: string | null;
   target: string;
-  rel: string | null;
   iconCssClass: string | null;
   iconSavePath: string | null;
   type: MenuItemType,

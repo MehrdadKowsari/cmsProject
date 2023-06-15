@@ -68,7 +68,6 @@ import AppConstant from "src/constants/appConstants";
                     url : menuItem.url,
                     slugUrl : menuItem.slugUrl,
                     target : menuItem.target,
-                    rel : menuItem.rel,
                     iconCssClass : menuItem.iconCssClass,
                     iconSavePath : menuItem.iconSavePath,
                     type : menuItem.type,
