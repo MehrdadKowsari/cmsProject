@@ -1,7 +1,7 @@
 import express from 'express';
 import { PostController } from '../../controllers/contentManagement/postController';
 import {container} from 'tsyringe'; 
-import { addValidation, deleteValidation, getByIdValidation, toggleActiveValidation, updateValidation } from 'src/validations/contentManagement/postValidation';
+import { addValidation, deleteValidation, getByIdValidation, updateValidation } from 'src/validations/contentManagement/postValidation';
 import permissionMiddleware from 'src/middleware/shared/permissionMiddleware';
 import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
 import { PageTypeEnum } from 'src/enums/security/pageEnum';
