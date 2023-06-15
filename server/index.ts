@@ -15,6 +15,22 @@ import permissionRouter from './src/routers/security/permissionRouter'
 import pagePermissionRouter from './src/routers/security/pagePermissionRouter'
 import rolePagePermissionRouter from './src/routers/security/rolePagePermissionRouter'
 
+import postCategoryRouter from './src/routers/contentManagement/postCategoryRouter';
+import postRouter from './src/routers/contentManagement/postRouter';
+import postImageRouter from './src/routers/contentManagement/postImageRouter';
+import postFileRouter from './src/routers/contentManagement/postFileRouter';
+import postTagRouter from './src/routers/contentManagement/postTagRouter';
+import postCommentRouter from './src/routers/contentManagement/postCommentRouter';
+import relatedPostRouter from './src/routers/contentManagement/relatedPostRouter';
+import tagRouter from './src/routers/contentManagement/tagRouter';
+import galleryCategoryRouter from './src/routers/contentManagement/galleryCategoryRouter';
+import galleryRouter from './src/routers/contentManagement/galleryRouter';
+import galleryFileRouter from './src/routers/contentManagement/galleryFileRouter';
+import sliderRouter from './src/routers/contentManagement/sliderRouter';
+import sliderItemRouter from './src/routers/contentManagement/slideritemRouter';
+import menuRouter from './src/routers/contentManagement/menuRouter';
+import menuItemRouter from './src/routers/contentManagement/menuitemRouter';
+
 import authMiddleware from './src/middleware/seucrity/authMiddleware';
 import { i18n }  from "./i18next";
  
@@ -36,6 +52,22 @@ app.use('/page', authMiddleware, pageRouter);
 app.use('/permission', authMiddleware, permissionRouter);
 app.use('/pagePermission', authMiddleware, pagePermissionRouter);
 app.use('/rolePagePermission', authMiddleware, rolePagePermissionRouter);
+
+app.use('/postCategory', authMiddleware, postCategoryRouter);
+app.use('/post', authMiddleware, postRouter);
+app.use('/tag', authMiddleware, tagRouter);
+app.use('/postTag', authMiddleware, postTagRouter);
+app.use('/postFile', authMiddleware, postFileRouter);
+app.use('/postImage', authMiddleware, postImageRouter);
+app.use('/postComment', authMiddleware, postCommentRouter);
+app.use('/relatedPost', authMiddleware, relatedPostRouter);
+app.use('/galleryCategory', authMiddleware, galleryCategoryRouter);
+app.use('/gallery', authMiddleware, galleryRouter);
+app.use('/galleryFile', authMiddleware, galleryFileRouter);
+app.use('/slider', authMiddleware, sliderRouter);
+app.use('/sliderItem', authMiddleware, sliderItemRouter);
+app.use('/menu', authMiddleware, menuRouter);
+app.use('/menuItem', authMiddleware, menuItemRouter);
 
 
 //const CLOUD_CONNECTION_URL = process.env.CLOUD_CONNECTION_URL;
