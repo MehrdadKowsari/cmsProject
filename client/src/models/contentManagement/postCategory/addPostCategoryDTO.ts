@@ -1,8 +1,8 @@
 export interface AddPostCategoryDTO{
-  parentId?: string;
+  parentId: string | null;
   name: string;
-  description: string;
+  description: string | null;
   priority: number;
-  locale: string | null;
+  locale?: string | null;
 }
 
