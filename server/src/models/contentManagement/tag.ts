@@ -6,10 +6,10 @@ export const COLLECTION_NAME = 'tags';
 export interface Tag {
   _id: Types.ObjectId | null;
   name: string;
-  locale?: string | null;
+  locale: string | null;
   isActive: boolean;
-  createdAt?: Date;
-  createdBy?: Types.ObjectId;
+  createdAt: Date;
+  createdBy: Types.ObjectId;
   updatedAt?: Date;
   updatedBy?: Types.ObjectId;
 }
@@ -31,6 +31,7 @@ const schema = new Schema<Tag>(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref:'User'
     },
     createdAt: {
