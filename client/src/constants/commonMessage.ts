@@ -26,6 +26,7 @@ export default class CommonMessage {
     public static readonly Type: string = 'Type';
     public static readonly Parent: string = 'Parent';
     public static readonly Description: string = 'Description';
+    public static readonly Locale: string = 'Local Code';
     public static readonly IconClass: string = 'Icon Class';
     public static readonly LastModifiedDate: string = 'Last Modified Date';
     public static readonly Actions: string = 'Actions';
@@ -113,4 +114,5 @@ export default class CommonMessage {
     public static readonly ViewComment: string = 'ViewComment';
     public static readonly AddComment: string = 'AddComment';
     public static readonly ReplyComment: string = 'ReplyComment';
+    public static readonly Tag: string = 'Tag';
 }
