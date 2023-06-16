@@ -21,15 +21,7 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          type: joi.number().required().label('Type')
-          .messages({ 
-               "number.base": req.t('typeIsRequired', `{{#label}} is required`),
-               "number.required": req.t('typeIsRequired', `{{#label}} is required`)}),
-          priority: joi.number().label('Priority')
-          .messages({ 
-               "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
-               "number.required": req.t('priorityIsRequired', `{{#label}} is required`)})        
+               "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),     
      });
      
      const { error } = addValidationSchema.validate(req.body, options);
@@ -72,15 +64,7 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          type: joi.number().required().label('Type')
-          .messages({ 
-               "number.base": req.t('typeIsRequired', `{{#label}} is required`),
-               "number.required": req.t('typeIsRequired', `{{#label}} is required`)}),
-          priority: joi.number().label('Priority')
-          .messages({ 
-               "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
-               "number.required": req.t('priorityIsRequired', `{{#label}} is required`)})
+               "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
      });
      
   
