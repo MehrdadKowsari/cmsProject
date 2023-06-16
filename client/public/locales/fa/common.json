@@ -10,6 +10,7 @@
     "User In Roles": "نقش های کاربر",
     "Page Permissions": "دسترسی های صفحه",
     "Role Page Permissions": "دسترسی های صفحه نقش",
+    "Tags": "برچسب ها",
     "home": "خانه",
     "security": "امنیت",
     "account": "حساب کاربری",
@@ -139,5 +140,6 @@
     "gallery": "گالری",
     "brand": "برند",
     "event": "رخداد",
-    "eventRegister": "ثبت رخداد"
+    "eventRegister": "ثبت رخداد",
+    "locale": "کد زبان"
 }
