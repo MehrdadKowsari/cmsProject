@@ -111,8 +111,9 @@ export default class CommonMessage {
     public static readonly Reject: string = 'Reject';
     public static readonly Export: string = 'Export';
     public static readonly Import: string = 'Import';
-    public static readonly ViewComment: string = 'ViewComment';
-    public static readonly AddComment: string = 'AddComment';
-    public static readonly ReplyComment: string = 'ReplyComment';
+    public static readonly ViewComment: string = 'View Comment';
+    public static readonly AddComment: string = 'Add Comment';
+    public static readonly ReplyComment: string = 'Reply Comment';
     public static readonly Tag: string = 'Tag';
+    public static readonly PostCategory: string = 'Post Category';
 }

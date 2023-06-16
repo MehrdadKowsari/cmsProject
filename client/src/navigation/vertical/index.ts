@@ -12,6 +12,11 @@ const navigation = (): VerticalNavItemsType => {
       sectionTitle: 'Content Management'
     },
     {
+      title: 'Post Categories',
+      icon: 'folder',
+      path: '/admin/contentManagement/postCategory'
+    },
+    {
       title: 'Tags',
       icon: 'tag',
       path: '/admin/contentManagement/tag'
