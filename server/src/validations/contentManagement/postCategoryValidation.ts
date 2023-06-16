@@ -22,10 +22,9 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          type: joi.number().required().label('Type')
+          description: joi.string().max(AppConstant.DescriptionMaxLenght).label('Description')
           .messages({ 
-               "number.base": req.t('typeIsRequired', `{{#label}} is required`),
-               "number.required": req.t('typeIsRequired', `{{#label}} is required`)}),
+                    "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
           priority: joi.number().label('Priority')
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
@@ -73,10 +72,9 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          type: joi.number().required().label('Type')
+          description: joi.string().max(AppConstant.DescriptionMaxLenght).label('Description')
           .messages({ 
-               "number.base": req.t('typeIsRequired', `{{#label}} is required`),
-               "number.required": req.t('typeIsRequired', `{{#label}} is required`)}),
+                    "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
           priority: joi.number().label('Priority')
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
