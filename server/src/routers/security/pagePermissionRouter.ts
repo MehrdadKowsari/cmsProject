@@ -2,7 +2,7 @@ import express from 'express';
 import { PagePermissionController } from '../../controllers/security/pagePermissionController';
 import {container} from 'tsyringe'; 
 import { addValidation, deleteValidation, getByIdValidation, updateValidation } from 'src/validations/security/pagePermissionValidation';
-import { PageTypeEnum } from 'src/enums/security/pageEnum';
+import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
 import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
 import permissionMiddleware from 'src/middleware/shared/permissionMiddleware';
 

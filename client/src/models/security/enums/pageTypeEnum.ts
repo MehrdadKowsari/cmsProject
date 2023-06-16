@@ -12,14 +12,15 @@ export enum PageTypeEnum{
     ContentManagement = 200,
     PostCategory = 201,
     Post = 202,
-    Link = 203,
-    Slider = 204,
-    Menue = 205,
-    GalleyCategory = 206,
-    Gallery = 207,
-    Brand = 208,
-    Event = 209,
-    EventRegister = 210
+    Tag = 203,
+    Link = 204,
+    Slider = 205,
+    Menu = 206,
+    GalleryCategory = 207,
+    Gallery = 208,
+    Brand = 209,
+    Event = 210,
+    EventRegister = 211
 }
 
 export const PageTypeEnumLabelMapping:Record<PageTypeEnum, string> = {
@@ -36,10 +37,11 @@ export const PageTypeEnumLabelMapping:Record<PageTypeEnum, string> = {
     [PageTypeEnum.ContentManagement]: 'contentManagement',
     [PageTypeEnum.PostCategory]: 'postCategory',
     [PageTypeEnum.Post]: 'post',
+    [PageTypeEnum.Tag]: 'tag',
     [PageTypeEnum.Link]: 'link',
     [PageTypeEnum.Slider]: 'slider',
-    [PageTypeEnum.Menue]: 'menu',
-    [PageTypeEnum.GalleyCategory]: 'galleryCategory',
+    [PageTypeEnum.Menu]: 'menu',
+    [PageTypeEnum.GalleryCategory]: 'galleryCategory',
     [PageTypeEnum.Gallery]: 'gallery',
     [PageTypeEnum.Brand]: 'brand',
     [PageTypeEnum.Event]: 'event',

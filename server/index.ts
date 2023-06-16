@@ -27,9 +27,9 @@ import galleryCategoryRouter from './src/routers/contentManagement/galleryCatego
 import galleryRouter from './src/routers/contentManagement/galleryRouter';
 import galleryFileRouter from './src/routers/contentManagement/galleryFileRouter';
 import sliderRouter from './src/routers/contentManagement/sliderRouter';
-import sliderItemRouter from './src/routers/contentManagement/slideritemRouter';
+import sliderItemRouter from './src/routers/contentManagement/sliderItemRouter';
 import menuRouter from './src/routers/contentManagement/menuRouter';
-import menuItemRouter from './src/routers/contentManagement/menuitemRouter';
+import menuItemRouter from './src/routers/contentManagement/menuItemRouter';
 
 import authMiddleware from './src/middleware/seucrity/authMiddleware';
 import { i18n }  from "./i18next";

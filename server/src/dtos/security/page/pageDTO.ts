@@ -1,4 +1,4 @@
-import { PageTypeEnum } from "src/enums/security/pageEnum";
+import { PageTypeEnum } from "src/enums/security/pageTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
 export interface PageDTO extends BaseModel {

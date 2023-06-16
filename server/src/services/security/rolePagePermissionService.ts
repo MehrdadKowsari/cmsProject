@@ -12,7 +12,7 @@ import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateRolePagePermissionDTO } from 'src/dtos/security/rolePagePermission/updateRolePagePermissionDTO';
 import { RolePagePermission } from 'src/models/security/rolePagePermission';
 import { Types } from 'mongoose';
-import { PageTypeEnum } from 'src/enums/security/pageEnum';
+import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
 import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
 import { PagePermissionDTO } from 'src/dtos/security/pagePermission/pagePermissionDTO';
 import { PermissionDTO } from 'src/dtos/security/permission/permissionDTO';

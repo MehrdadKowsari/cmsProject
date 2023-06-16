@@ -8,7 +8,7 @@ import { autoInjectable } from 'tsyringe';
 import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePagePermissionDTO } from 'src/dtos/security/pagePermission/updatePagePermissionDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
-import { PageTypeEnum } from 'src/enums/security/pageEnum';
+import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
 
 @autoInjectable()
 export class PagePermissionController{

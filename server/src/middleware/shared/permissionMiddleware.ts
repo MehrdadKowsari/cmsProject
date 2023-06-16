@@ -9,7 +9,7 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import localizeHelper from 'src/helpers/localizeHelper';
 import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
-import { PageTypeEnum } from 'src/enums/security/pageEnum';
+import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
 import RolePagePermissionService from 'src/services/security/rolePagePermissionService';
 
 const rolePagePermissionService = container.resolve(RolePagePermissionService);

@@ -12,7 +12,7 @@ import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePagePermissionDTO } from 'src/dtos/security/pagePermission/updatePagePermissionDTO';
 import { PagePermission } from 'src/models/security/pagePermission';
 import { Types } from 'mongoose';
-import { PageTypeEnum } from 'src/enums/security/pageEnum';
+import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
 
 @autoInjectable()
 export default class PagePermissionService {

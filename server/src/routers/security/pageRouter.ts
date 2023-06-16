@@ -4,7 +4,7 @@ import {container} from 'tsyringe';
 import { addValidation, deleteValidation, getByIdValidation, toggleActiveValidation, toggleHiddenValidation, updateValidation } from 'src/validations/security/pageValidation';
 import permissionMiddleware from 'src/middleware/shared/permissionMiddleware';
 import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
-import { PageTypeEnum } from 'src/enums/security/pageEnum';
+import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
 
 const pageController = container.resolve(PageController);
 const router = express.Router();

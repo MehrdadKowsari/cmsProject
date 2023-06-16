@@ -3,7 +3,7 @@ import { UserController } from '../../controllers/security/userController';
 import {container} from 'tsyringe'; 
 import { addValidation, changePasswordValidation, deleteValidation, getByIdValidation, resetPasswordValidation, toggleActiveValidation, updateValidation } from 'src/validations/security/userValidation';
 import permissionMiddleware from 'src/middleware/shared/permissionMiddleware';
-import { PageTypeEnum } from 'src/enums/security/pageEnum';
+import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
 import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
 
 const userController = container.resolve(UserController);
