@@ -8,6 +8,7 @@ import pagePermissionReducer from './slices/pagePermissionSlice';
 import rolePagePermissionReducer from './slices/rolePagePermissionSlice';
 import pageReducer from './slices/pageSlice';
 import userRoleReducer from './slices/userRoleSlice';
+import tagReducer from './slices/contentManagement/tagSlice';
 
 export const store = configureStore({
     reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
         pagePermission: pagePermissionReducer,
         rolePagePermission: rolePagePermissionReducer,
         userRole: userRoleReducer,
+        tag: tagReducer,
         confirm: confirmReducer
     },
     devTools: true
