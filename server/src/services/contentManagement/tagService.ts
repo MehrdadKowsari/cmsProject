@@ -29,7 +29,7 @@ export default class TagService {
      */
     addTag = async (addTagDTO: AddTagDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
-            const { name } = addTagDTO;
+            const { name, locale } = addTagDTO;
             const isExistsName = await this._tagRepository.isExistsName(null, name);
             if (isExistsName) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'tagNameAlreadyExists')));
@@ -39,6 +39,7 @@ export default class TagService {
                 _id: null,
                 name,
                 isActive: true,
+                locale,
                 createdBy: new Types.ObjectId(userId),
                 createdAt: new Date()
             }
@@ -77,6 +78,7 @@ export default class TagService {
                 id: tag._id?.toString(),
                 name: tag.name,
                 isActive: tag.isActive,
+                locale: tag.locale,
                 createdBy: tag.createdBy,
                 createdAt: tag.createdAt,
                 updatedBy: tag.updatedBy,
@@ -101,6 +103,7 @@ export default class TagService {
                 id: tag._id?.toString(),
                 name: tag.name,
                 isActive: tag.isActive,
+                locale: tag.locale,
                 createdBy: tag.createdBy,
                 createdAt: tag.createdAt,
                 updatedBy: tag.updatedBy,
@@ -130,7 +133,8 @@ export default class TagService {
             const tagDTO: TagDTO = <TagDTO>{
                 id: tag._id?.toString(),
                 name: tag.name,
-                isActive: tag.isActive
+                isActive: tag.isActive,
+                locale: tag.locale
             };
             return new RequestResult(StatusCodes.OK, new MethodResult<TagDTO>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), tagDTO));
         } catch (error) {
@@ -147,7 +151,7 @@ export default class TagService {
      */
     update = async (updateTagDTO: UpdateTagDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
-            const { id, name } = updateTagDTO;
+            const { id, name, locale } = updateTagDTO;
             let tag = await this._tagRepository.getById(id);
             if (tag === null) {
                 return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'tagDoesNotExist')));
@@ -158,9 +162,8 @@ export default class TagService {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'tagNameAlreadyExists')));
             }
 
-            
-
             tag.name = name;
+            tag.locale = locale;
             tag.updatedBy = new Types.ObjectId(userId);
             tag.updatedAt = new Date();
 
