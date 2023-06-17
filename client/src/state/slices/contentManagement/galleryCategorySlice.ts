@@ -21,7 +21,7 @@ export const add = createAsyncThunk(
     }
 });
 
-export const getAllGalleryCategorys = createAsyncThunk(
+export const getAllGalleryCategories = createAsyncThunk(
   "postCategories/getAll", 
   async (_, { rejectWithValue }) => {
     try {
