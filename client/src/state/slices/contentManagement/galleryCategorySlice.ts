@@ -10,7 +10,7 @@ import { GridParameter } from 'src/models/shared/grid/gridPrameter';
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/galleryCategory`;
 
 export const add = createAsyncThunk(
-  "postCategories/add", 
+  "galleryCategories/add", 
   async (galleryCategory: AddGalleryCategoryDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/add`, galleryCategory)
@@ -22,7 +22,7 @@ export const add = createAsyncThunk(
 });
 
 export const getAllGalleryCategories = createAsyncThunk(
-  "postCategories/getAll", 
+  "galleryCategories/getAll", 
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/getAll`);
@@ -34,7 +34,7 @@ export const getAllGalleryCategories = createAsyncThunk(
 });
 
 export const getAllByParams = createAsyncThunk(
-  "postCategories/getAllByParams", 
+  "galleryCategories/getAllByParams", 
   async (gridParameter: GridParameter, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
@@ -46,7 +46,7 @@ export const getAllByParams = createAsyncThunk(
 });
 
 export const getById = createAsyncThunk(
-  'postCategories/getById',
+  'galleryCategories/getById',
   async (id: string | number, { rejectWithValue }) => {
       try {
           const { data } = await axios.post(`${API_URL}/getById`, id);
@@ -59,7 +59,7 @@ export const getById = createAsyncThunk(
 )
 
 export const update = createAsyncThunk(
-  "postCategories/update", 
+  "galleryCategories/update", 
   async (galleryCategory: UpdateGalleryCategoryDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/update`, galleryCategory)
@@ -71,7 +71,7 @@ export const update = createAsyncThunk(
 });
 
 export const toggleActive = createAsyncThunk(
-  'postCategories/toggleActive',
+  'galleryCategories/toggleActive',
   async (id: string | number, { rejectWithValue }) => {
       try {
           const { data } = await axios.post(`${API_URL}/toggleActive`, id);
@@ -84,7 +84,7 @@ export const toggleActive = createAsyncThunk(
 )
 
 export const remove = createAsyncThunk(
-  'postCategories/delete',
+  'galleryCategories/delete',
   async (id: string | number, { rejectWithValue }) => {
       try {
           const { data } = await axios.post(`${API_URL}/delete`, id);
@@ -98,12 +98,12 @@ export const remove = createAsyncThunk(
 
 
 interface GalleryCategoryState extends IntialState {
-  postCategories: GalleryCategoryDTO[] | null,
+  galleryCategories: GalleryCategoryDTO[] | null,
   galleryCategory: GalleryCategoryDTO | null
 }
 
 const initialState: GalleryCategoryState = {
-    postCategories: null,
+    galleryCategories: null,
     galleryCategory: null,
     isLoading: false,
     hasError: false,
@@ -114,7 +114,7 @@ const initialState: GalleryCategoryState = {
 }
 
 const galleryCategorySlice = createSlice({
-    name: 'postCategories',
+    name: 'galleryCategories',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -139,13 +139,13 @@ const galleryCategorySlice = createSlice({
             state.hasError = false;
           })
           .addCase(getAllByParams.fulfilled, (state, { payload }) => {
-            state.postCategories = payload.rows;
+            state.galleryCategories = payload.rows;
             state.totalCount = payload.totalCount;
             state.isLoading = false;
             state.hasError = false;
           })
           .addCase(getAllByParams.rejected, (state, { payload }) => {
-            state.postCategories = null;
+            state.galleryCategories = null;
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;
