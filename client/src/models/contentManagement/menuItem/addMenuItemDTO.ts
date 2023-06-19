@@ -1,4 +1,4 @@
-import { MenuItemType } from "src/enums/contentManagement/menuItemTypeEnum";
+import { MenuItemType } from "../enums//menuItemTypeEnum";
 
 export interface AddMenuItemDTO{
   menuId: string;

@@ -1,4 +1,4 @@
-import { MenuItemType } from "src/enums/contentManagement/menuItemTypeEnum";
+import { MenuItemType } from "../enums//menuItemTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
 export interface MenuItemDTO extends BaseModel {

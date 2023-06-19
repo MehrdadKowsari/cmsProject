@@ -1,4 +1,4 @@
-import { SliderTypeEnum } from "src/enums/contentManagement/sliderTypeEnum";
+import { SliderTypeEnum } from "../enums/sliderTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
 export interface SliderDTO extends BaseModel {

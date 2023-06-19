@@ -1,5 +1,5 @@
 import { BaseModel } from "../../../models/shared/base/baseModel";
-import { GalleryTypeEnum } from "src/enums/contentManagement/galleryTypeEnum";
+import { GalleryTypeEnum } from "../enums//galleryTypeEnum";
 
 export interface UpdateGalleryDTO extends BaseModel {
   galleryCategoryId: string;

@@ -1,5 +1,5 @@
-import { PostStatusTypeEnum } from "src/enums/contentManagement/postStatusTypeEnum";
-import { PostTypeEnum } from "src/enums/contentManagement/postTypeEnum";
+import { PostStatusTypeEnum } from "../enums//postStatusTypeEnum";
+import { PostTypeEnum } from "../enums//postTypeEnum";
 
 
 export interface AddPostDTO{
