@@ -117,4 +117,7 @@ export default class CommonMessage {
     public static readonly Tag: string = 'Tag';
     public static readonly PostCategory: string = 'Post Category';
     public static readonly GalleryCategory: string = 'Gallery Category';
+    public static readonly SectionName: string = 'Section Name';
+    public static readonly AllowedFileExtension: string = 'Allowed File Extension';
+    public static readonly Params: string = 'Params';
 }

@@ -13,6 +13,7 @@
     "Post Categories": "دسته بندی نوشته",
     "Gallery Categories": "دسته بندی گالری",
     "Tags": "برچسب ها",
+    "Sliders": "اسلایدر ها",
     "home": "خانه",
     "security": "امنیت",
     "account": "حساب کاربری",
@@ -143,5 +144,6 @@
     "brand": "برند",
     "event": "رخداد",
     "eventRegister": "ثبت رخداد",
-    "locale": "کد زبان"
+    "locale": "کد زبان",
+    "caroucel": "کروسل"
 }
