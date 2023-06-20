@@ -30,6 +30,7 @@ import Hotkey from 'src/constants/hotkey';
 import { useHotkeys } from "react-hotkeys-hook";
 import NotificationService from "src/services/shared/notificationService";
 import PermissionService from "src/services/security/permissionService";
+import { SliderTypeEnum, SliderTypeEnumLabelMapping } from "src/models/contentManagement/enums/sliderTypeEnum";
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
@@ -176,7 +177,11 @@ const Page = ({ Component, pageProps }: AppProps) => {
 
   const columns: GridColDef[] = [
     { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
-    { field: 'type', headerName: t('type', CommonMessage.Type)!, width: 130 },
+    { field: 'type', headerName: t('type', CommonMessage.Type)!, 
+    valueFormatter(params: any) {
+      return t(SliderTypeEnumLabelMapping[params.value as SliderTypeEnum])
+    },
+    width: 130 },
     { field: 'sectionName', headerName: t('sectionName', CommonMessage.SectionName)!, width: 130 },
     { field: 'params', headerName: t('params', CommonMessage.Params)!, width: 130 },
     { field: 'allowedFileExtension', headerName: t('allowedFileExtension', CommonMessage.AllowedFileExtension)!, width: 130 },

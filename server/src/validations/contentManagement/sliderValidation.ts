@@ -30,9 +30,9 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          slugUrl: joi.string().max(AppConstant.SlugUrlMaxLength).label('Slug Url')
+          sectionName: joi.string().max(200).label('Section Name')
           .messages({ 
-               "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
+               "string.max": req.t('maxLenghtForSectionNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
           allowedFileExtension: joi.string().max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
           .messages({ 
                "string.max": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
@@ -87,9 +87,9 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          slugUrl: joi.string().max(AppConstant.SlugUrlMaxLength).label('Slug Url')
+          sectionName: joi.string().max(200).label('Section Name')
           .messages({ 
-               "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
+                    "string.max": req.t('maxLenghtForSectionNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
           allowedFileExtension: joi.string().max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
           .messages({ 
                "string.max": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})

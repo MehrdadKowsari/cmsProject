@@ -145,5 +145,8 @@
     "event": "رخداد",
     "eventRegister": "ثبت رخداد",
     "locale": "کد زبان",
-    "caroucel": "کروسل"
+    "caroucel": "کروسل",
+    "params": "پارامترها",
+    "sectionName": "نام قسمت",
+    "allowedFileExtension": "فرمت های فایل مجاز"
 }

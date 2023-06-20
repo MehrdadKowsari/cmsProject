@@ -38,17 +38,22 @@ const schema = new Schema<Slider>(
     name: {
       type: Schema.Types.String,
       required: true,
-      maxlength: 2000
+      maxlength: 200
+    },
+    type: {
+      type: Schema.Types.Number,
+      required: true
     },
     description: {
       type: Schema.Types.String,
-      maxlength: 5000
+      maxlength: 500
     },
     params: {
       type: Schema.Types.String
     },
     sectionName: {
-      type: Schema.Types.String
+      type: Schema.Types.String,
+      maxlength: 200
     },
     allowedFileExtension: {
       type: Schema.Types.String,

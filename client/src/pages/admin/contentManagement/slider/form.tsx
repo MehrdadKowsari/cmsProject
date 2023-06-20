@@ -128,7 +128,7 @@ const initialValues: initialValuesType = {
             allowedFileExtension: values.allowedFileExtension,
             params: values.params,
             priority: values.priority,
-            locale: null
+            locale: values.locale
           };
           const result = await dispatch(update(updateSliderDTO)).unwrap();
           if (result) {
@@ -143,7 +143,7 @@ const initialValues: initialValuesType = {
             allowedFileExtension: values.allowedFileExtension,
             params: values.params,
             priority: values.priority,
-            locale: null
+            locale: values.locale
           }
           const result = await dispatch(add(addGalleryaCategoryDTO)).unwrap();
           if (result) {
@@ -251,18 +251,7 @@ const initialValues: initialValuesType = {
                   error={formik.touched.priority && Boolean(formik.errors.priority)}
                   helperText={formik.errors.priority}/> 
                 </Grid>
-                <Grid item lg={12}>
-                  <TextField 
-                  fullWidth 
-                  id="description"
-                  label={t('description', CommonMessage.Description)}
-                  value={formik.values.description}
-                  onChange={formik.handleChange} 
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.description && Boolean(formik.errors.description)}
-                  helperText={formik.errors.description}/> 
-                </Grid>
-                <Grid item lg={12}>
+                <Grid item lg={6}>
                   <TextField
                   fullWidth
                   id="locale "
@@ -274,6 +263,17 @@ const initialValues: initialValuesType = {
                   error={formik.touched.locale && Boolean(formik.errors.locale)}
                   helperText={formik.errors.locale}>
                   </TextField>
+                </Grid>
+                <Grid item lg={6}>
+                  <TextField 
+                  fullWidth 
+                  id="description"
+                  label={t('description', CommonMessage.Description)}
+                  value={formik.values.description}
+                  onChange={formik.handleChange} 
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.description && Boolean(formik.errors.description)}
+                  helperText={formik.errors.description}/> 
                 </Grid>
                 <Grid item lg={12}>
                   <Button
