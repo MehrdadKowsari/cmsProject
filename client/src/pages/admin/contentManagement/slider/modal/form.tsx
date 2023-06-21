@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ClearIcon from '@mui/icons-material/Clear'
 import { useFormik } from 'formik';
 import {object, string} from 'yup';
-import notification from '../../../../services/shared/notificationService';
+import notification from 'src/services/shared/notificationService';
 import { AddSliderDTO } from 'src/models/contentManagement/slider/addSliderDTO';
 import { UpdateSliderDTO } from 'src/models/contentManagement/slider/updateSliderDTO';
 import { FormProps } from 'src/types/shared/formType';
@@ -33,7 +33,6 @@ const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
-const [sliders, setSliders] = useState<TextValueDTO[]>([]);
 const [sliderTypes, setSliderTypes] = useState<TextValueDTO[]>([]);
 const [locales, setLocales] = useState<TextValueDTO[]>([]);
 
@@ -44,7 +43,6 @@ useEffect(() => {
   if (id) {
     getItemById(id);
   }
-  getAllSliderList();
   getAllSliderTypeList();
 }, []);
 
@@ -62,15 +60,6 @@ const getItemById = async (id: string | number) => {
         locale: sliderDTO.locale
       } as initialValuesType);
   }
-}
-
-const getAllSliderList = async () => {
-  const sliders: SliderDTO[] = await dispatch(getAllGalleryCategories()).unwrap();
-  const mappedPages = sliders?.map(p => ({
-    text: p.name,
-    value: p.id
-  } as TextValueDTO));
-  setSliders(mappedPages);
 }
 
 const getAllSliderTypeList = () => {
