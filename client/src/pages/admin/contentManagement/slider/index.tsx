@@ -8,13 +8,14 @@ import useConfirm from "src/state/hooks/useConfirm";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import ImageIcon from '@mui/icons-material/Image';
 import SecurityIcon from '@mui/icons-material/Security';
 import { Button, CardContent, CardHeader } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useAppDispatch } from "src/state/hooks/hooks";
 import { getAllByParams, remove, toggleActive } from "src/state/slices/contentManagement/sliderSlice";
 import CustomDialog from "src/components/Modal/Modal";
-import PageForm from "./form";
+import PageForm from "./modal/form";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -31,11 +32,13 @@ import { useHotkeys } from "react-hotkeys-hook";
 import NotificationService from "src/services/shared/notificationService";
 import PermissionService from "src/services/security/permissionService";
 import { SliderTypeEnum, SliderTypeEnumLabelMapping } from "src/models/contentManagement/enums/sliderTypeEnum";
+import SliderItem from "./modal/sliderItem";
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
   const { sliders, totalCount, isLoading } = useSelector((state: any) => state?.slider?.sliders ? state?.slider : { sliders: [], totalCount: 0, isLoading: false });
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOpenFormModal, setIsOpenFormModal] = useState<boolean>(false);
+  const [isOpenItemModal, setIsOpenItemModal] = useState<boolean>(false);
   const [userPagePermissions, setUserPagePermissions] = useState<PermissionDTO[]>([]);
   const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
   const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
@@ -120,7 +123,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
   const handleUpdate = useCallback(
     async (id: GridRowId) => {
       setRowId(id);
-      setIsOpenModal(true);
+      setIsOpenFormModal(true);
     },
     []
   );
@@ -192,7 +195,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
     {
       field: 'actions',
       type: 'actions',
-      width: 100,
+      width: 150,
       getActions: (params: any) => [
         <GridActionsCellItem
           key={params.id}
@@ -212,6 +215,12 @@ const Page = ({ Component, pageProps }: AppProps) => {
         />,
         <GridActionsCellItem
           key={params.id}
+          icon={<ImageIcon />}
+          label={t('items', CommonMessage.Items)}
+          onClick={() => handleOpenItemModal(params.id)}
+        />,
+        <GridActionsCellItem
+          key={params.id}
           icon={<SecurityIcon />}
           label={t('toggleActive', CommonMessage.ToggleActive)}
           disabled={!hasToggleActivePermission}
@@ -228,17 +237,27 @@ const Page = ({ Component, pageProps }: AppProps) => {
   }
 
   const handleOpenModal = () => {
-    setIsOpenModal(true);
+    setIsOpenFormModal(true);
+  }
+  
+  const handleOpenItemModal = (id: GridRowId) => {
+    setRowId(id);
+    setIsOpenItemModal(true);
   }
 
-  const handleCloseModal = () => {
-    setIsOpenModal(false);
+  const handleCloseFormModal = () => {
+    setIsOpenFormModal(false);
+    setRowId(null);
+  }
+
+  const handleCloseItemModal = () => {
+    setIsOpenItemModal(false);
     setRowId(null);
   }
 
   const handleCloseForm = () => {
     getGridData();
-    handleCloseModal();
+    handleCloseFormModal();
   }
 
   return (
@@ -278,13 +297,23 @@ const Page = ({ Component, pageProps }: AppProps) => {
           </Box>
           <CustomDialog
             title={t('slider', CommonMessage.GalleryCategory)}
-            isOpen={isOpenModal}
+            isOpen={isOpenFormModal}
             size="lg"
-            onClose={() => handleCloseModal()}>
+            onClose={() => handleCloseFormModal()}>
             <PageForm
               id={rowId}
               permissions={userPagePermissions}
               onClose={handleCloseForm} />
+          </CustomDialog>
+          <CustomDialog
+            title={t('sliderItem', CommonMessage.SliderItem)}
+            isOpen={isOpenItemModal}
+            size="lg"
+            onClose={() => handleCloseItemModal()}>
+            <SliderItem
+              id={rowId}
+              permissions={userPagePermissions}
+              onClose={() => handleCloseItemModal()} />
           </CustomDialog>
         </CardContent>
       </Card>

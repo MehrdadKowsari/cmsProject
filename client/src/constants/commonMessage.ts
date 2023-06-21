@@ -88,6 +88,7 @@ export default class CommonMessage {
     public static readonly Clear: string = 'Clear';
     public static readonly Reset: string = 'Reset';
     public static readonly Delete: string = 'Delete';
+    public static readonly Items: string = 'Items';
     public static readonly Hotkeys: string = 'Hotkeys';
     public static readonly RequiredFiled: string = 'This Field Is Required';
     public static readonly FiledFormatIsInvalid: string = 'Filed Format Is Invalid';
@@ -117,6 +118,7 @@ export default class CommonMessage {
     public static readonly Tag: string = 'Tag';
     public static readonly PostCategory: string = 'Post Category';
     public static readonly GalleryCategory: string = 'Gallery Category';
+    public static readonly SliderItem: string = 'Slider File';
     public static readonly SectionName: string = 'Section Name';
     public static readonly AllowedFileExtension: string = 'Allowed File Extension';
     public static readonly Params: string = 'Params';
