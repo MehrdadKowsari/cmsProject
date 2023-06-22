@@ -33,7 +33,6 @@ const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [pages, setPages] = useState<TextValueDTO[]>([]);
-const [pageTypes, setPageTypes] = useState<TextValueDTO[]>([]);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
@@ -58,8 +57,8 @@ const getItemById = async (id: string | number) => {
 }
 
 const getAllPostCategoryList = async () => {
-  const pages: PostCategoryDTO[] = await dispatch(getAllPostCategories()).unwrap();
-  const mappedPages = pages?.map(p => ({
+  const postCategories: PostCategoryDTO[] = await dispatch(getAllPostCategories()).unwrap();
+  const mappedPages = postCategories?.map(p => ({
     text: p.name,
     value: p.id
   } as TextValueDTO));
