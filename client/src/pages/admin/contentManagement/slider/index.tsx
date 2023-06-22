@@ -23,7 +23,7 @@ import Card from "@mui/material/Card";
 import CommonMessage from "src/constants/commonMessage";
 import { GridParameter } from "src/models/shared/grid/gridPrameter";
 import ApplicationParams from "src/constants/applicationParams";
-import { PageTypeEnum, PageTypeEnumLabelMapping } from "src/models/security/enums/pageTypeEnum";
+import { PageTypeEnum } from "src/models/security/enums/pageTypeEnum";
 import { PermissionDTO } from "src/models/security/permission/permissionDTO";
 import { PermissionTypeEnum } from "src/models/shared/enums/permissionTypeEnum";
 import { getAllByPageId } from "src/state/slices/rolePagePermissionSlice";
@@ -93,7 +93,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
   }, [userPagePermissions])
 
   const getRolePagePermissions = async () => {
-    const permissions: PermissionDTO[] = await dispatch(getAllByPageId(PageTypeEnum.GalleryCategory)).unwrap();
+    const permissions: PermissionDTO[] = await dispatch(getAllByPageId(PageTypeEnum.Slider)).unwrap();
     if (permissions?.length > 0) {
       setUserPagePermissions(permissions);
     }

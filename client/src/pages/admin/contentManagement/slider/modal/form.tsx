@@ -13,7 +13,7 @@ import { AddSliderDTO } from 'src/models/contentManagement/slider/addSliderDTO';
 import { UpdateSliderDTO } from 'src/models/contentManagement/slider/updateSliderDTO';
 import { FormProps } from 'src/types/shared/formType';
 import { useAppDispatch } from 'src/state/hooks/hooks';
-import { add, getAllGalleryCategories, getById, update } from 'src/state/slices/contentManagement/sliderSlice';
+import { add, getById, update } from 'src/state/slices/contentManagement/sliderSlice';
 import { SliderDTO } from 'src/models/contentManagement/slider/sliderDTO';
 import CommonMessage from 'src/constants/commonMessage';
 import { useTranslation } from 'react-i18next';

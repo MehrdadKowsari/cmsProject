@@ -9,12 +9,9 @@ import ClearIcon from '@mui/icons-material/Clear'
 import { useFormik } from 'formik';
 import {object, string} from 'yup';
 import notification from 'src/services/shared/notificationService';
-import { AddSliderDTO } from 'src/models/contentManagement/slider/addSliderDTO';
-import { UpdateSliderDTO } from 'src/models/contentManagement/slider/updateSliderDTO';
 import { FormProps } from 'src/types/shared/formType';
 import { useAppDispatch } from 'src/state/hooks/hooks';
-import { add, getById, update } from 'src/state/slices/contentManagement/sliderSlice';
-import { SliderDTO } from 'src/models/contentManagement/slider/sliderDTO';
+import { add, getById, update } from 'src/state/slices/contentManagement/sliderItemSlice';
 import CommonMessage from 'src/constants/commonMessage';
 import { useTranslation } from 'react-i18next';
 import Card from '@mui/material/Card';
@@ -28,9 +25,12 @@ import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Hotkey from 'src/constants/hotkey';
 import { SliderTypeEnum, SliderTypeEnumLabelMapping } from 'src/models/contentManagement/enums/sliderTypeEnum';
+import { AddSliderItemDTO } from 'src/models/contentManagement/sliderItem/addSliderItemDTO';
+import { UpdateSliderItemDTO } from 'src/models/contentManagement/sliderItem/updateSliderItemDTO';
+import { SliderItemDTO } from 'src/models/contentManagement/sliderItem/sliderItemDTO';
 
-const SliderItem = ({id, permissions, onClose}: FormProps) => {
-const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
+const SliderItem = ({id , permissions, onClose}: FormProps) => {
+const [isUpdate, setIsUpdate] = useState<boolean>(false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [sliderTypes, setSliderTypes] = useState<TextValueDTO[]>([]);
@@ -46,17 +46,15 @@ useEffect(() => {
 }, []);
 
 const getItemById = async (id: string | number) => {
-  const sliderDTO: SliderDTO = await dispatch(getById(id)).unwrap();
-  if (sliderDTO) {
+  const sliderItemDTO: SliderItemDTO = await dispatch(getById(id)).unwrap();
+  if (sliderItemDTO) {
     await formik.setValues({
-        name: sliderDTO.name,
-        sectionName: sliderDTO.sectionName,
-        type: sliderDTO.type.toString(),
-        allowedFileExtension: sliderDTO.allowedFileExtension,
-        params: sliderDTO.params,
-        description: sliderDTO.description,
-        priority: sliderDTO.priority,
-        locale: sliderDTO.locale
+        name: sliderItemDTO.name,
+        linkUrl: sliderItemDTO.linkUrl,
+        linkTarget: sliderItemDTO.linkTarget,
+        file: sliderItemDTO.file,
+        description: sliderItemDTO.description,
+        priority: sliderItemDTO.priority
       } as initialValuesType);
   }
 }
@@ -84,22 +82,20 @@ type initialValuesType = {
   galleryId?:  string | null;
   name: string,
   type: string,
-  sectionName: string | null,
-  allowedFileExtension: string | null,
+  linkUrl: string | null,
+  linkTarget: string | null,
   description: string | null,
-  params: string | null,
-  priority: number,
-  locale: string | null
+  file: string | null,
+  priority: number
 };
 const initialValues: initialValuesType = {
   name: '',
   type: '',
-  sectionName: null,
-  allowedFileExtension: null,
-  params: null,
+  linkUrl: null,
+  linkTarget: null,
+  file: null,
   description: null,
-  priority: 1,
-  locale: ''
+  priority: 1
 };
   const formik = useFormik({
     initialValues: initialValues,
@@ -107,33 +103,35 @@ const initialValues: initialValuesType = {
     onSubmit: async (values) => {
       if(formik.isValid){
         if (isUpdate) {
-          const updateSliderDTO: UpdateSliderDTO = {
+          const updateSliderItemDTO: UpdateSliderItemDTO = {
             id: id!,
+            sliderId: id!,
             name: values.name,
-            sectionName: values.sectionName,
+            linkUrl: values.linkUrl,
             description: values.description,
-            type: Number(values.type) as SliderTypeEnum,
-            allowedFileExtension: values.allowedFileExtension,
-            params: values.params,
-            priority: values.priority,
-            locale: values.locale
+            file: values.file,
+            fileSavePath: null,
+            fileExtension: null,
+            linkTarget: values.linkTarget,
+            priority: values.priority
           };
-          const result = await dispatch(update(updateSliderDTO)).unwrap();
+          const result = await dispatch(update(updateSliderItemDTO)).unwrap();
           if (result) {
             onClose();
           }
         } else {
-          const addGalleryaCategoryDTO: AddSliderDTO = {
+          const addSliderItemDTO: AddSliderItemDTO = {
+            sliderId: id!,
             name: values.name,
-            sectionName: values.sectionName,
+            linkUrl: values.linkUrl,
             description: values.description,
-            type: Number(values.type) as SliderTypeEnum,
-            allowedFileExtension: values.allowedFileExtension,
-            params: values.params,
-            priority: values.priority,
-            locale: values.locale
+            file: values.file,
+            fileSavePath: null,
+            fileExtension: null,
+            linkTarget: values.linkTarget,
+            priority: values.priority
           }
-          const result = await dispatch(add(addGalleryaCategoryDTO)).unwrap();
+          const result = await dispatch(add(addSliderItemDTO)).unwrap();
           if (result) {
             onClose();
           }         
@@ -174,14 +172,14 @@ const initialValues: initialValuesType = {
                   <TextField
                   select 
                   fullWidth
-                  id="type"
-                  name="type"
-                  label={t('type', CommonMessage.Type)}
-                  value={formik.values.type} 
+                  id="linkTarget"
+                  name="linkTarget"
+                  label={t('linkTarget', CommonMessage.Type)}
+                  value={formik.values.linkTarget} 
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.type && Boolean(formik.errors.type)}
-                  helperText={formik.errors.type}>
+                  error={formik.touched.linkTarget && Boolean(formik.errors.linkTarget)}
+                  helperText={formik.errors.linkTarget}>
                     {sliderTypes.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.text}
@@ -192,40 +190,40 @@ const initialValues: initialValuesType = {
                 <Grid item lg={6}>
                   <TextField
                   fullWidth
-                  id="sectionName"
-                  name="sectionName"
-                  label={t('sectionName', CommonMessage.SectionName)}
-                  value={formik.values.sectionName} 
+                  id="linkUrl"
+                  name="linkUrl"
+                  label={t('linkUrl', CommonMessage.SectionName)}
+                  value={formik.values.linkUrl} 
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.sectionName && Boolean(formik.errors.sectionName)}
-                  helperText={formik.errors.sectionName}>
+                  error={formik.touched.linkUrl && Boolean(formik.errors.linkUrl)}
+                  helperText={formik.errors.linkUrl}>
                   </TextField>
                 </Grid>
                 <Grid item lg={6}>
                   <TextField
                   fullWidth
-                  id="allowedFileExtension"
-                  name="allowedFileExtension"
-                  label={t('allowedFileExtension', CommonMessage.AllowedFileExtension)}
-                  value={formik.values.allowedFileExtension} 
+                  id="linkTarget"
+                  name="linkTarget"
+                  label={t('linkTarget', CommonMessage.AllowedFileExtension)}
+                  value={formik.values.linkTarget} 
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.allowedFileExtension && Boolean(formik.errors.allowedFileExtension)}
-                  helperText={formik.errors.allowedFileExtension}>
+                  error={formik.touched.linkTarget && Boolean(formik.errors.linkTarget)}
+                  helperText={formik.errors.linkTarget}>
                   </TextField>
                 </Grid>
                 <Grid item lg={6}>
                   <TextField
                   fullWidth
-                  id="params"
-                  name="params"
-                  label={t('params', CommonMessage.Params)}
-                  value={formik.values.params} 
+                  id="file"
+                  name="file"
+                  label={t('file', CommonMessage.Params)}
+                  value={formik.values.file} 
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.params && Boolean(formik.errors.params)}
-                  helperText={formik.errors.params}>
+                  error={formik.touched.file && Boolean(formik.errors.file)}
+                  helperText={formik.errors.file}>
                   </TextField>
                 </Grid>
                 <Grid item lg={6}>
@@ -238,19 +236,6 @@ const initialValues: initialValuesType = {
                   onBlur={formik.handleBlur}
                   error={formik.touched.priority && Boolean(formik.errors.priority)}
                   helperText={formik.errors.priority}/> 
-                </Grid>
-                <Grid item lg={6}>
-                  <TextField
-                  fullWidth
-                  id="locale "
-                  name="locale"
-                  label={t('locale', CommonMessage.Locale)}
-                  value={formik.values.locale} 
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.locale && Boolean(formik.errors.locale)}
-                  helperText={formik.errors.locale}>
-                  </TextField>
                 </Grid>
                 <Grid item lg={6}>
                   <TextField 
