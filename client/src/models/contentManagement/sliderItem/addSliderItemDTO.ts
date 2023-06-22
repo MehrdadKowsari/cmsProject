@@ -1,5 +1,5 @@
 export interface AddSliderItemDTO{
-  sliderId: string;
+  sliderId: string | number;
   name: string;
   description: string | null;
   file: string | null;
