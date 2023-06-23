@@ -16,10 +16,10 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
-          sliderId: joi.number().required().label('SliderId')
+          sliderId: joi.string().required().label('SliderId')
           .messages({ 
-               "number.base": req.t('sliderIdIsRequired', `{{#label}} is required`),
-               "number.required": req.t('sliderIdIsRequired', `{{#label}} is required`)}),
+               "string.base": req.t('sliderIdIsRequired', `{{#label}} is required`),
+               "string.required": req.t('sliderIdIsRequired', `{{#label}} is required`)}),
           name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
@@ -76,10 +76,10 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          sliderId: joi.number().required().label('SliderId')
+          sliderId: joi.string().required().label('SliderId')
           .messages({ 
-               "number.base": req.t('sliderIdIsRequired', `{{#label}} is required`),
-               "number.required": req.t('sliderIdIsRequired', `{{#label}} is required`)}),
+               "string.base": req.t('sliderIdIsRequired', `{{#label}} is required`),
+               "string.required": req.t('sliderIdIsRequired', `{{#label}} is required`)}),
           name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),

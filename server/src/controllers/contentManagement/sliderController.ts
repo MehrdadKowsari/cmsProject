@@ -99,7 +99,7 @@ export class SliderController{
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
         }
     }
-
+    
      /**
      * toggle slider active status by id
      * 

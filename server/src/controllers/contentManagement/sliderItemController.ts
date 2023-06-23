@@ -100,6 +100,24 @@ export class SliderItemController{
         }
     }
 
+    
+     /**
+     * toggle slider active status by id
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
+     toggleActive = async (req: Request, res: Response) => {
+        try {
+            const id = req.body;
+            const requestResult = await this._sliderItemService.toggleActive(id, req.user?.id!);
+            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
+
     /**
      * delete sliderItem by id
      * 

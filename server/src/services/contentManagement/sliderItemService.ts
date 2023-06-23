@@ -105,6 +105,7 @@ export default class SliderItemService {
                 linkUrl: sliderItem.linkUrl,
                 linkTarget: sliderItem.linkTarget,               
                 priority: sliderItem.priority,
+                isActive: sliderItem.isActive,
                 createdBy: sliderItem.createdBy,
                 createdAt: sliderItem.createdAt,
                 updatedBy: sliderItem.updatedBy,
