@@ -73,11 +73,11 @@ const Page = ({ Component, pageProps }: AppProps) => {
     if (hasViewPermission) {
       getGridData();
     }
-  }, [queryOptions])
+  }, [queryOptions]);
 
   useEffect(() => {
     getRolePagePermissions();
-  }, [])
+  }, []);
 
   useEffect(() => {
     const hasViewPermission: boolean = PermissionService.hasPermission(userPagePermissions, PermissionTypeEnum.View);
@@ -148,7 +148,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
   }
 
   //#region hotkey
-  useHotkeys(Hotkey.New, () => handleAddNew())
+  useHotkeys(Hotkey.New, () => handleAddNew());
   useHotkeys(Hotkey.Update, async () => {
     if (selectedRows?.length === 1 && hasUpdatePermission) {
       const rowId: GridRowId = selectedRows[0];
