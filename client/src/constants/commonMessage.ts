@@ -118,8 +118,16 @@ export default class CommonMessage {
     public static readonly Tag: string = 'Tag';
     public static readonly PostCategory: string = 'Post Category';
     public static readonly GalleryCategory: string = 'Gallery Category';
-    public static readonly SliderItem: string = 'Slider File';
+    public static readonly SliderItem: string = 'Slider Item';
     public static readonly SectionName: string = 'Section Name';
     public static readonly AllowedFileExtension: string = 'Allowed File Extension';
     public static readonly Params: string = 'Params';
+    public static readonly List: string = 'List';
+    public static readonly FileExtension: string = 'File Extension';
+    public static readonly Url: string = 'Url';
+    public static readonly LinkUrl: string = 'Url';
+    public static readonly LinkTarget: string = 'Link Target';
+    public static readonly OpenInTheSameWindow: string = 'Open In The Same Window';
+    public static readonly OpenINNewWindow: string = 'Open IN New Window';
+    public static readonly File: string = 'File';
 }

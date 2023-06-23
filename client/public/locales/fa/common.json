@@ -27,6 +27,7 @@
     "no": "خیر",
     "cancel": "انصراف",
     "close": "بستن",
+    "list": "لیست",
     "successOperation": "عملیات با موفقیت انجام شد",
     "successWithWarningOperation": "عملیات با هشدار موفقیت انجام شد",
     "confirmOperation": "آیا این عملیات را تایید می کنید؟",
@@ -138,6 +139,7 @@
     "tag": "برچسب",
     "link": "لینک",
     "slider": "اسلایدر",
+    "sliderItem": "آیتم های اسلایدر",
     "menu": "فهرست",
     "galleryCategory": "طبقه بندی گالری",
     "gallery": "گالری",
@@ -148,5 +150,9 @@
     "caroucel": "کروسل",
     "params": "پارامترها",
     "sectionName": "نام قسمت",
-    "allowedFileExtension": "فرمت های فایل مجاز"
+    "allowedFileExtension": "فرمت های فایل مجاز",
+    "file": "فایل",
+    "fileExtension": "فرمت فایل",
+    "linkUrl": "آدرس لینک",
+    "linkTarget": "نحوه باز شدن لینک"
 }
