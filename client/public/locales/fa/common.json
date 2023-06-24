@@ -31,6 +31,7 @@
     "successOperation": "عملیات با موفقیت انجام شد",
     "successWithWarningOperation": "عملیات با هشدار موفقیت انجام شد",
     "confirmOperation": "آیا این عملیات را تایید می کنید؟",
+    "Are You Sure Confirm The Action?": "آیا این عملیات را تایید می کنید؟",
     "errorOperation": "عملیات با خطا انجام شد",
     "warningOperation": "عملیات با هشدار انجام شد",
     "unknownErrorHappened": "خطایی رخ داده است",
