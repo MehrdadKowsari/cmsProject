@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useTransition } from 'react';
 // material-ui components
 import Slide from "@mui/material/Slide";
 import Dialog from "@mui/material/Dialog";
@@ -17,6 +17,8 @@ import Close from "@mui/icons-material/Close";
 import useConfirm from 'src/state/hooks/useConfirm';
 import { TransitionProps } from '@mui/material/transitions/transition';
 import confirmModalStyle from '../../../styles/jss/components/confirm/modalStyle';
+import { useTranslation } from 'react-i18next';
+import CommonMessage from 'src/constants/commonMessage';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -31,9 +33,11 @@ const Transition = React.forwardRef(function Transition(
 export default function ConfirmModal() {
   const { onConfirm, onCancel, confirmState } = useConfirm();
   const { classes } = confirmModalStyle();
+  const { t }  = useTranslation(['common']);
+
   return (
     <>
-        <Dialog
+        <Dialog sx={{zIndex: 9999999}}
         classes={{
           //paper: classes.modal
         }}
@@ -57,13 +61,13 @@ export default function ConfirmModal() {
           >
             <Close className={classes.modalClose} />
           </IconButton>
-          <p className={classes.modalTitle}>Confirm</p>
+          <p className={classes.modalTitle}>{t('confirm', CommonMessage.Confirm)}</p>
         </DialogTitle>
         <DialogContent
           id="modal-slide-description"
           className={classes.modalBody}
         >
-          <p>{confirmState?.text}</p>
+          <p>{t(confirmState?.text)}</p>
         </DialogContent>
         <DialogActions
           className={`${classes.modalFooter} ${classes.modalFooterCenter}`}
@@ -74,7 +78,7 @@ export default function ConfirmModal() {
             startIcon={<ClearIcon/>}
             size="small" 
             onClick={onCancel}>
-              Cancel
+              {t('cancel', CommonMessage.Cancel)}
           </Button>
           <Button
             variant="contained"
@@ -82,7 +86,7 @@ export default function ConfirmModal() {
             size="small"
             color="success"
             onClick={onConfirm}> 
-            Yes
+            {t('yes', CommonMessage.Yes)}
           </Button>
         </DialogActions>
       </Dialog>
