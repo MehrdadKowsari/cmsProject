@@ -35,6 +35,7 @@ import { GridParameter } from 'src/models/shared/grid/gridPrameter';
 import { getAllByParams, remove, toggleActive } from 'src/state/slices/contentManagement/sliderItemSlice';
 import { useSelector } from 'react-redux';
 import notificationService from 'src/services/shared/notificationService';
+import useConfirm from 'src/state/hooks/useConfirm';
 
 const SliderItem = ({id , permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -60,6 +61,7 @@ const [sortModel, setSortModel] = React.useState<GridSortModel>([
 const [file, setFile] = useState<string | null>(null);
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
+const { confirm } = useConfirm();
 
 const getItemById = async (id: string | number) => {
   const sliderItemDTO: SliderItemDTO = await dispatch(getById(id)).unwrap();
@@ -154,10 +156,10 @@ type initialValuesType = {
 const initialValues: initialValuesType = {
   name: '',
   type: '',
-  linkUrl: null,
+  linkUrl: '',
   linkTarget: '',
   file: null,
-  description: null,
+  description: '',
   priority: 1
 };
   const formik = useFormik({
