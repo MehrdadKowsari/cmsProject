@@ -155,5 +155,6 @@
     "file": "فایل",
     "fileExtension": "فرمت فایل",
     "linkUrl": "آدرس لینک",
-    "linkTarget": "نحوه باز شدن لینک"
+    "linkTarget": "نحوه باز شدن لینک",
+    "uploadAFile": "بارگذاری فایل"
 }

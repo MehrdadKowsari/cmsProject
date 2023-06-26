@@ -130,4 +130,5 @@ export default class CommonMessage {
     public static readonly OpenInTheSameWindow: string = 'Open In The Same Window';
     public static readonly OpenINNewWindow: string = 'Open IN New Window';
     public static readonly File: string = 'File';
+    public static readonly UploadAFile: string = 'Upload A File';
 }

@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
+import FileUploadOutlined from '@mui/icons-material/FileUploadOutlined';
 import { useFormik } from 'formik';
 import {object, string} from 'yup';
 import notification from 'src/services/shared/notificationService';
@@ -36,6 +37,8 @@ import { getAllByParams, remove, toggleActive } from 'src/state/slices/contentMa
 import { useSelector } from 'react-redux';
 import notificationService from 'src/services/shared/notificationService';
 import useConfirm from 'src/state/hooks/useConfirm';
+import FileUpload from 'src/components/FileUpload/FileUpload';
+import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWithImagePreview';
 
 const SliderItem = ({id , permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -344,12 +347,12 @@ const initialValues: initialValuesType = {
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.errors.name}/> 
                 </Grid>
-                <Grid item xs={6}>
-                  <input
-                  type='file'
-                  onChange={onChangeInputFileSelection}
-                  accept='image/png, image/jpeg'
-                  id='account-settings-upload-image'
+                <Grid item lg={6}>
+                  <FileUploadWithImagePreview
+                  id='upload-file'
+                  name='upload-file'
+                  imageWidth={50}
+                  imageHeight={50}
                   />
                 </Grid>
                 <Grid item lg={6}>
@@ -365,10 +368,10 @@ const initialValues: initialValuesType = {
                   error={formik.touched.linkTarget && Boolean(formik.errors.linkTarget)}
                   helperText={formik.errors.linkTarget}>
                     <MenuItem key='_self' value='_self'>
-                        {t('blank', CommonMessage.OpenInTheSameWindow)}
+                        {t('openInTheSameWindow', CommonMessage.OpenInTheSameWindow)}
                     </MenuItem>
                     <MenuItem key='_blank' value='_blank'>
-                        {t('blank', CommonMessage.OpenINNewWindow)}
+                        {t('openINNewWindow', CommonMessage.OpenINNewWindow)}
                     </MenuItem>
                   </TextField>
                 </Grid>
