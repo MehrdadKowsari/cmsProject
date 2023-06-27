@@ -86,6 +86,7 @@ const setFormData = async (sliderItemDTO: SliderItemDTO | null) =>{
   }
   else{
     await formik.setValues(initialValues);
+    setFile(null);
   }
 }
 
@@ -353,6 +354,8 @@ const initialValues: initialValuesType = {
                   name='upload-file'
                   imageWidth={50}
                   imageHeight={50}
+                  file={file}
+                  setFile={setFile}
                   />
                 </Grid>
                 <Grid item lg={6}>
