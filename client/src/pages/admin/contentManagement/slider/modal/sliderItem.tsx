@@ -338,7 +338,8 @@ const initialValues: initialValuesType = {
             spacing={3}
             justifyContent='center'>
                 <Grid item lg={6}>
-                  <TextField 
+                  <TextField
+                  autoFocus
                   fullWidth 
                   id='name'
                   label={t('name', CommonMessage.Name)}
