@@ -1,4 +1,4 @@
-import React,  { useState, useEffect } from 'react';
+import React,  { useState, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -35,6 +35,7 @@ const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissi
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [sliderTypes, setSliderTypes] = useState<TextValueDTO[]>([]);
 const [locales, setLocales] = useState<TextValueDTO[]>([]);
+const firstFieldRef = useRef(null);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
@@ -143,6 +144,11 @@ const initialValues: initialValuesType = {
       else{
         notification.showErrorMessage(t('formDataIsInvalid', CommonMessage.FormDataIsInvalid)!)
       }
+    },
+    onReset: () => {
+      if (firstFieldRef && firstFieldRef.current) {
+       
+      }
     }
   })
   
@@ -162,7 +168,7 @@ const initialValues: initialValuesType = {
             justifyContent="center">
                 <Grid item lg={6}>
                   <TextField 
-                  autoFocus
+                  inputRef={firstFieldRef}
                   fullWidth 
                   id="name"
                   label={t('name', CommonMessage.Name)}
