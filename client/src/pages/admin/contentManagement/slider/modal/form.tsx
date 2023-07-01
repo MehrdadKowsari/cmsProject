@@ -35,7 +35,7 @@ const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissi
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [sliderTypes, setSliderTypes] = useState<TextValueDTO[]>([]);
 const [locales, setLocales] = useState<TextValueDTO[]>([]);
-const firstFieldRef = useRef(null);
+const firstFieldRef = useRef<HTMLInputElement>(null);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
@@ -147,7 +147,7 @@ const initialValues: initialValuesType = {
     },
     onReset: () => {
       if (firstFieldRef && firstFieldRef.current) {
-       
+       firstFieldRef.current.focus();
       }
     }
   })
@@ -276,7 +276,7 @@ const initialValues: initialValuesType = {
                   type="submit"
                   variant="contained" 
                   size="small"
-                  title={Hotkey.Save.toLocaleUpperCase()}
+                  title={Hotkey.Save.toUpperCase()}
                   disabled={(isUpdate && !hasUpdatePermission) || (!isUpdate && !hasInsertPermission)}
                   startIcon={<SaveIcon/>}>
                     <span>{t('save', CommonMessage.Save)}</span>
@@ -286,7 +286,7 @@ const initialValues: initialValuesType = {
                   variant="outlined" 
                   size="small"
                   color="secondary"
-                  title={Hotkey.Reset.toLocaleUpperCase()}
+                  title={Hotkey.Reset.toUpperCase()}
                   sx={{mx: 3}}
                   startIcon={<ClearIcon/>}>
                     <span>{t('reset', CommonMessage.Reset)}</span>

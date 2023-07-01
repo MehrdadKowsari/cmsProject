@@ -1,4 +1,4 @@
-import React,  { useState, useEffect, useCallback, useMemo, ChangeEvent } from 'react';
+import React,  { useState, useEffect, useCallback, useMemo, ChangeEvent, useRef } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -65,6 +65,12 @@ const [file, setFile] = useState<string | null>(null);
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
 const { confirm } = useConfirm();
+const firstFieldRef = useRef<HTMLInputElement>(null);
+
+useEffect(() => {
+  focusOnFirstField();
+}, []);
+
 
 const getItemById = async (id: string | number) => {
   const sliderItemDTO: SliderItemDTO = await dispatch(getById(id)).unwrap();
@@ -85,14 +91,20 @@ const setFormData = async (sliderItemDTO: SliderItemDTO | null) =>{
       setFile(sliderItemDTO.file);
   }
   else{
-    await formik.setValues(initialValues);
-    setFile(null);
+   clearFormData(); 
   }
+};
+
+const clearFormData = async () => {
+  await formik.setValues(initialValues);
+    setFile(null);
+    await focusOnFirstField();
+    await formik.setErrors({});
 }
 
 const handleAddNew = async () => {
   setRowId(null);
-  await setFormData(null);
+  await clearFormData();
 }
 
 //#region hotkey
@@ -132,19 +144,6 @@ const validationSchema = object({
   name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
 });
-
-const onChangeInputFileSelection = (file: ChangeEvent) => {
-  const reader = new FileReader()
-  const { files } = file.target as HTMLInputElement
-  if (files && files.length !== 0) {
-    reader.onload = () => { 
-      setFile(reader.result as string);
-      (file.target as HTMLInputElement).value = '';
-    }
-
-    reader.readAsDataURL(files[0])
-  }
-}
 
 type initialValuesType = {
   articleCategoryId?:  string | null;
@@ -203,7 +202,7 @@ const initialValues: initialValuesType = {
           const result = await dispatch(add(addSliderItemDTO)).unwrap();
           if (result) {
             getGridData();
-            await setFormData(null);
+            await clearFormData();
           }         
         }
       }
@@ -215,10 +214,18 @@ const initialValues: initialValuesType = {
       if (isUpdate) {
         await setFormData(sliderItem);
       } else {
-        await setFormData(null);
+        await clearFormData();
       }
+      focusOnFirstField();
     }
-  })
+  });
+  
+  const focusOnFirstField = async () => {
+    if (firstFieldRef && firstFieldRef.current) {
+      firstFieldRef.current.focus();
+      await formik.setTouched({}, false);
+     }
+  };
 
   //#region list 
   const queryOptions = useMemo(
@@ -339,7 +346,7 @@ const initialValues: initialValuesType = {
             justifyContent='center'>
                 <Grid item lg={6}>
                   <TextField
-                  autoFocus
+                  inputRef={firstFieldRef}
                   fullWidth 
                   id='name'
                   label={t('name', CommonMessage.Name)}
@@ -420,7 +427,7 @@ const initialValues: initialValuesType = {
                   variant='contained'
                   size='small'
                   disabled={!hasInsertPermission}
-                  title={Hotkey.New.toLocaleUpperCase()}
+                  title={Hotkey.New.toUpperCase()}
                   startIcon={<AddIcon />}
                   onClick={handleAddNew}>
                   <span>{t('new', CommonMessage.New)}</span>
@@ -429,7 +436,7 @@ const initialValues: initialValuesType = {
                   type='submit'
                   variant='contained' 
                   size='small'
-                  title={Hotkey.Save.toLocaleUpperCase()}
+                  title={Hotkey.Save.toUpperCase()}
                   disabled={(isUpdate && !hasUpdatePermission) || (!isUpdate && !hasInsertPermission)}
                   startIcon={<SaveIcon/>}
                   sx={{mx: 3}}>
@@ -440,7 +447,7 @@ const initialValues: initialValuesType = {
                   variant='outlined' 
                   size='small'
                   color='secondary'
-                  title={Hotkey.Reset.toLocaleUpperCase()}
+                  title={Hotkey.Reset.toUpperCase()}
                   startIcon={<ClearIcon/>}>
                     <span>{t('reset', CommonMessage.Reset)}</span>
                   </Button>  
