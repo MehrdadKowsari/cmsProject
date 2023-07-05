@@ -9,6 +9,7 @@ type FileUploadProps = {
     imageWidth: number,
     imageHeight: number
     setFile: (file: string) => void,
+    setFileExtension: (fileExtension: string) => void,
     file: string | null
 }
 
@@ -18,11 +19,10 @@ const ImageStyled = styled('img')(({theme}) => ({
     borderRadius: theme.shape.borderRadius
 }));
 
-export const FileUploadWithImagePreview = ({id, name, imageHeight, imageWidth, setFile, file}: FileUploadProps) =>{
-    const [_file, _setFile] = useState<string | null>(name)
+export const FileUploadWithImagePreview = ({id, name, imageHeight, imageWidth, setFile, file, setFileExtension}: FileUploadProps) =>{
+    const [selectedFile, setSelectedFile] = useState<string | null>(null)
     useEffect(() => {
-      _setFile(file);
-    
+      setSelectedFile(file);
     }, [file])
     
     const onChangeInputFileSelection = (file: ChangeEvent) => {
@@ -32,12 +32,14 @@ export const FileUploadWithImagePreview = ({id, name, imageHeight, imageWidth, s
           reader.onload = () => { 
             const result: string = reader.result as string;
             setFile(result);
-            _setFile(result);
+            setSelectedFile(result);
             (file.target as HTMLInputElement).value = '';
         }
+        const currentFile = files[0];
+        setFileExtension(currentFile.type)
+        reader.readAsDataURL(currentFile);
         
-        reader.readAsDataURL(files[0])
-    }
+        }
     }
 
     return(
@@ -51,7 +53,7 @@ export const FileUploadWithImagePreview = ({id, name, imageHeight, imageWidth, s
                     />
                 </Grid>
                 <Grid item lg={6}>
-                    { _file && <ImageStyled src={_file ?? ''} width={imageWidth} height={imageHeight}/>}
+                    { selectedFile && <ImageStyled src={selectedFile ?? ''} width={imageWidth} height={imageHeight}/>}
                 </Grid>
             </Grid>
         </>

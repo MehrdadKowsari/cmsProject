@@ -156,5 +156,9 @@
     "fileExtension": "فرمت فایل",
     "linkUrl": "آدرس لینک",
     "linkTarget": "نحوه باز شدن لینک",
-    "uploadAFile": "بارگذاری فایل"
+    "uploadAFile": "بارگذاری فایل",
+    "openInTheSameWindow": "باز شدن در پنجره فعلی",
+    "openInNewWindow": "باز شدن در پنجره جدید",
+    "_self": "باز شدن در پنجره فعلی",
+    "_blank": "باز شدن در پنجره جدید"
 }

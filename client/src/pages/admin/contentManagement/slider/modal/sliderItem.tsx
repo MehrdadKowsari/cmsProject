@@ -7,7 +7,6 @@ import Button from '@mui/material/Button';
 import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
-import FileUploadOutlined from '@mui/icons-material/FileUploadOutlined';
 import { useFormik } from 'formik';
 import {object, string} from 'yup';
 import notification from 'src/services/shared/notificationService';
@@ -37,7 +36,6 @@ import { getAllByParams, remove, toggleActive } from 'src/state/slices/contentMa
 import { useSelector } from 'react-redux';
 import notificationService from 'src/services/shared/notificationService';
 import useConfirm from 'src/state/hooks/useConfirm';
-import FileUpload from 'src/components/FileUpload/FileUpload';
 import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWithImagePreview';
 
 const SliderItem = ({id , permissions, onClose}: FormProps) => {
@@ -62,6 +60,7 @@ const [sortModel, setSortModel] = React.useState<GridSortModel>([
   },
 ]);
 const [file, setFile] = useState<string | null>(null);
+const [fileExtension, setFileExtension] = useState<string | null>(null);
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
 const { confirm } = useConfirm();
@@ -89,6 +88,7 @@ const setFormData = async (sliderItemDTO: SliderItemDTO | null) =>{
         priority: sliderItemDTO.priority
       } as initialValuesType);
       setFile(sliderItemDTO.file);
+      setFileExtension(sliderItemDTO.fileExtension);
   }
   else{
    clearFormData(); 
@@ -98,6 +98,7 @@ const setFormData = async (sliderItemDTO: SliderItemDTO | null) =>{
 const clearFormData = async () => {
   await formik.setValues(initialValues);
     setFile(null);
+    setFileExtension(null);
     await focusOnFirstField();
     await formik.setErrors({});
 }
@@ -168,6 +169,7 @@ const initialValues: initialValuesType = {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
+    validateOnBlur: false,
     onSubmit: async (values) => {
       if(formik.isValid){
         if (isUpdate) {
@@ -178,8 +180,8 @@ const initialValues: initialValuesType = {
             linkUrl: values.linkUrl,
             description: values.description,
             file: file,
-            fileSavePath: 'jpg',
-            fileExtension: '---',
+            fileSavePath: null,
+            fileExtension: fileExtension,
             linkTarget: values.linkTarget,
             priority: values.priority
           };
@@ -194,8 +196,8 @@ const initialValues: initialValuesType = {
             linkUrl: values.linkUrl,
             description: values.description,
             file: file,
-            fileSavePath: 'jpg',
-            fileExtension: '---',
+            fileSavePath: null,
+            fileExtension: fileExtension,
             linkTarget: values.linkTarget,
             priority: values.priority
           }
@@ -290,7 +292,10 @@ const initialValues: initialValuesType = {
   const columns: GridColDef[] = [
     { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
     { field: 'linkUrl', headerName: t('linkUrl', CommonMessage.Url)!, width: 130 },
-    { field: 'linkTarget', headerName: t('linkTarget', CommonMessage.LinkTarget)!, width: 130 },
+    { field: 'linkTarget', headerName: t('linkTarget', CommonMessage.LinkTarget)!, 
+    valueFormatter(params) {
+      return t(params?.value)
+    },width: 150 },
     { field: 'fileExtension', headerName: t('fileExtension', CommonMessage.FileExtension)!, width: 130 },
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
     { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
@@ -364,6 +369,7 @@ const initialValues: initialValuesType = {
                   imageHeight={50}
                   file={file}
                   setFile={setFile}
+                  setFileExtension={setFileExtension}
                   />
                 </Grid>
                 <Grid item lg={6}>
@@ -382,7 +388,7 @@ const initialValues: initialValuesType = {
                         {t('openInTheSameWindow', CommonMessage.OpenInTheSameWindow)}
                     </MenuItem>
                     <MenuItem key='_blank' value='_blank'>
-                        {t('openINNewWindow', CommonMessage.OpenINNewWindow)}
+                        {t('openInNewWindow', CommonMessage.OpenINNewWindow)}
                     </MenuItem>
                   </TextField>
                 </Grid>

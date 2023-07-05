@@ -49,6 +49,10 @@ useEffect(() => {
 
 const getItemById = async (id: string | number) => {
   const sliderDTO: SliderDTO = await dispatch(getById(id)).unwrap();
+  await loadFormData(sliderDTO);
+}
+
+const loadFormData = async (sliderDTO: SliderDTO) => {
   if (sliderDTO) {
     await formik.setValues({
         name: sliderDTO.name,

@@ -14,5 +14,7 @@
     "print": "Print",
     "viewComment": "View Comment",
     "addComment": "Add Comment",
-    "replyComment": "Reply Comment"
+    "replyComment": "Reply Comment",
+    "_self": "Open In The Same Window",
+    "_blank": "Open In New Window"
 }
