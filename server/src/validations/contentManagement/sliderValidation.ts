@@ -30,10 +30,10 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          sectionName: joi.string().max(200).label('Section Name')
+          sectionName: joi.string().optional().allow(null, '').max(200).label('Section Name')
           .messages({ 
                "string.max": req.t('maxLenghtForSectionNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          allowedFileExtension: joi.string().max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
+          allowedFileExtension: joi.string().optional().allow(null, '').max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
           .messages({ 
                "string.max": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
      });
@@ -87,12 +87,15 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          sectionName: joi.string().max(200).label('Section Name')
+          sectionName: joi.string().optional().allow(null, '').max(200).label('Section Name')
           .messages({ 
-                    "string.max": req.t('maxLenghtForSectionNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          allowedFileExtension: joi.string().max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
+               "string.base": req.t('SectionNameIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('SectionNameIsRequired', `{{#label}} is required`),
+               "string.required": req.t('SectionNameIsRequired', `{{#label}} is required`),
+               "string.max": req.t('maxLenghtForSectionNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
+          allowedFileExtension: joi.string().optional().allow(null, '').max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
           .messages({ 
-               "string.max": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
+                    "string.max": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
      });
      
   
