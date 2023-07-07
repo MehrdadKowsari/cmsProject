@@ -27,7 +27,7 @@ import Hotkey from 'src/constants/hotkey';
 import { AddSliderItemDTO } from 'src/models/contentManagement/sliderItem/addSliderItemDTO';
 import { UpdateSliderItemDTO } from 'src/models/contentManagement/sliderItem/updateSliderItemDTO';
 import { SliderItemDTO } from 'src/models/contentManagement/sliderItem/sliderItemDTO';
-import { DataGrid, GridActionsCellItem, GridColDef, GridPaginationModel, GridRowId, GridSortModel } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridColDef, GridPaginationModel, GridRowId, GridSortModel } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SecurityIcon from '@mui/icons-material/Security';
@@ -38,8 +38,10 @@ import notificationService from 'src/services/shared/notificationService';
 import useConfirm from 'src/state/hooks/useConfirm';
 import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWithImagePreview';
 import Avatar from '@mui/material/Avatar';
-import DataGridPagination from 'src/components/DataGridPagination/DataGridPagination';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
+import moment from 'jalali-moment';
+import localizationService from 'src/services/shared/localizationService';
+import { useRouter } from 'next/router';
 
 const SliderItem = ({id , permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -68,6 +70,9 @@ const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
 const { confirm } = useConfirm();
 const firstFieldRef = useRef<HTMLInputElement>(null);
+
+const router = useRouter();
+const currentLang =  router.locale ?? 'en';
 
 useEffect(() => {
   focusOnFirstField();
@@ -306,6 +311,9 @@ const initialValues: initialValuesType = {
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
     { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
     { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean' },
+    { field: 'updatedAt', headerName: t('updatedAt', CommonMessage.UpdatedAt)!, valueFormatter(params) {
+      return localizationService.getLocalDate(params?.value, currentLang);
+    },width: 130 },
     {
       field: 'actions',
       type: 'actions',

@@ -28,6 +28,8 @@ export default class CommonMessage {
     public static readonly Description: string = 'Description';
     public static readonly Locale: string = 'Local Code';
     public static readonly IconClass: string = 'Icon Class';
+    public static readonly CreatedAt: string = 'Created At';
+    public static readonly UpdatedAt: string = 'Updated At';
     public static readonly LastModifiedDate: string = 'Last Modified Date';
     public static readonly Actions: string = 'Actions';
     public static readonly Status: string = 'Status';
