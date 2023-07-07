@@ -113,6 +113,7 @@
     "idIsRequired": "'شناسه' ضروری است",
     "typeIsRequired": "'نوع' ضروری است",
     "priorityIsRequired": "'الویت' ضروری است",
+    "sectionNameIsRequired": "'نام قسمت' ضروری است",
     "relatedPostIdIsRequired": "'پست مرتبط' ضروری است",
     "postIdIsRequired": "'پست' ضروری است",
     "postCategoryIdIsRequired": "'دسته بندی نوشته' ضروری است",

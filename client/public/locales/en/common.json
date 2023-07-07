@@ -16,5 +16,7 @@
     "addComment": "Add Comment",
     "replyComment": "Reply Comment",
     "_self": "Open In The Same Window",
-    "_blank": "Open In New Window"
+    "_blank": "Open In New Window",
+    "persian": "Persian",
+    "english": "English"
 }
