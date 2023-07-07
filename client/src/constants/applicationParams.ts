@@ -1,4 +1,5 @@
 export default class ApplicationParams {
+    public static readonly GridDefaultHeight:number = 400;
     public static readonly GridDefaultPageSize:number = 10;
     public static readonly GridPageSize:number[] = [10,30,50,100];
     public static readonly UsernameMinLenght:number = 3;
