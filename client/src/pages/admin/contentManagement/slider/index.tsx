@@ -33,6 +33,8 @@ import NotificationService from "src/services/shared/notificationService";
 import PermissionService from "src/services/security/permissionService";
 import { SliderTypeEnum, SliderTypeEnumLabelMapping } from "src/models/contentManagement/enums/sliderTypeEnum";
 import SliderItem from "./modal/sliderItem";
+import { LanguageLabbelMapping as LanguageCodeEnumLabbelMapping, LanguageCodeEnum } from "src/models/shared/enums/languageCodeEnum";
+import DataGridPagination from "src/components/DataGridPagination/DataGridPagination";
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
@@ -190,7 +192,10 @@ const Page = ({ Component, pageProps }: AppProps) => {
     { field: 'allowedFileExtension', headerName: t('allowedFileExtension', CommonMessage.AllowedFileExtension)!, width: 130 },
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
     { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
-    { field: 'locale', headerName: t('locale', CommonMessage.Locale)!, width: 130 },
+    { field: 'locale', headerName: t('locale', CommonMessage.Locale)!, valueFormatter(params) {
+      return t(LanguageCodeEnumLabbelMapping[params?.value as LanguageCodeEnum])
+    }, 
+    width: 130 },
     { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean' },
     {
       field: 'actions',
@@ -288,6 +293,14 @@ const Page = ({ Component, pageProps }: AppProps) => {
                 pageSizeOptions={ApplicationParams.GridPageSize}
                 paginationModel={paginationModel}
                 paginationMode="server"
+                slots={{
+                  pagination: DataGridPagination,
+                }}
+                slotProps={{
+                  pagination: { 
+                    onRefreshButtonClick: getGridData
+                  }
+                }}
                 onPaginationModelChange={setPaginationModel}
                 onSortModelChange={setSortModel}
                 onRowSelectionModelChange={setSelectedRows}

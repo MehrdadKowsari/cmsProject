@@ -28,13 +28,13 @@ import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Hotkey from 'src/constants/hotkey';
 import { SliderTypeEnum, SliderTypeEnumLabelMapping } from 'src/models/contentManagement/enums/sliderTypeEnum';
+import LanguageDropdown from 'src/components/LanguageDropdown/LanguageDropdown';
 
 const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [sliderTypes, setSliderTypes] = useState<TextValueDTO[]>([]);
-const [locales, setLocales] = useState<TextValueDTO[]>([]);
 const firstFieldRef = useRef<HTMLInputElement>(null);
 
 const dispatch = useAppDispatch();
@@ -42,9 +42,12 @@ const { t } = useTranslation(['common']);
 
 useEffect(() => {
   if (id) {
-    getItemById(id);
+    (async () => {
+      await getItemById(id);
+    })();
   }
   getAllSliderTypeList();
+  focusOnFirstField();
 }, []);
 
 const getItemById = async (id: string | number) => {
@@ -82,6 +85,8 @@ useHotkeys(Hotkey.Reset,() => formik.resetForm())
 
 const validationSchema = object({
   name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  type: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  sectionName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
 });
 
@@ -100,16 +105,18 @@ type initialValuesType = {
 const initialValues: initialValuesType = {
   name: '',
   type: '',
-  sectionName: null,
-  allowedFileExtension: null,
-  params: null,
-  description: null,
+  sectionName: '',
+  allowedFileExtension: '',
+  params: '',
+  description: '',
   priority: 1,
   locale: ''
 };
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
+    validateOnBlur: false,
+    validateOnChange: false,
     onSubmit: async (values) => {
       if(formik.isValid){
         if (isUpdate) {
@@ -150,11 +157,15 @@ const initialValues: initialValuesType = {
       }
     },
     onReset: () => {
-      if (firstFieldRef && firstFieldRef.current) {
-       firstFieldRef.current.focus();
-      }
+      focusOnFirstField();
     }
-  })
+  });
+
+  const focusOnFirstField = () => {
+    if (firstFieldRef && firstFieldRef.current) {
+      firstFieldRef.current.focus();
+     }
+  }
   
   return (
     <Card>
@@ -252,17 +263,16 @@ const initialValues: initialValuesType = {
                   helperText={formik.errors.priority}/> 
                 </Grid>
                 <Grid item lg={6}>
-                  <TextField
-                  fullWidth
-                  id="locale "
-                  name="locale"
-                  label={t('locale', CommonMessage.Locale)}
-                  value={formik.values.locale} 
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.locale && Boolean(formik.errors.locale)}
-                  helperText={formik.errors.locale}>
-                  </TextField>
+                  <LanguageDropdown
+                    id="locale "
+                    name="locale"
+                    label={t('locale', CommonMessage.Locale)}
+                    value={formik.values.locale} 
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.locale && Boolean(formik.errors.locale)}
+                    helperText={formik.errors.locale}
+                  />
                 </Grid>
                 <Grid item lg={6}>
                   <TextField 
