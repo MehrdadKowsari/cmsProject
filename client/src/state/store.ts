@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
-import confirmReducer from './slices/confirmSlice';
 import userReducer from './slices/userSlice';
 import roleReducer from './slices/roleSlice';
 import permissionReducer from './slices/permissionSlice';
@@ -26,7 +25,6 @@ import menuItemReducer from './slices/contentManagement/menuItemSlice';
 
 export const store = configureStore({
     reducer: {
-        confirm: confirmReducer,
         
         auth: authReducer,
         user: userReducer,
