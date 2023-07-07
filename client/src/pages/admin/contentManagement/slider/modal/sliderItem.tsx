@@ -37,6 +37,8 @@ import { useSelector } from 'react-redux';
 import notificationService from 'src/services/shared/notificationService';
 import useConfirm from 'src/state/hooks/useConfirm';
 import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWithImagePreview';
+import Avatar from '@mui/material/Avatar';
+import DataGridPagination from 'src/components/DataGridPagination/DataGridPagination';
 
 const SliderItem = ({id , permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -290,6 +292,9 @@ const initialValues: initialValuesType = {
   }
 
   const columns: GridColDef[] = [
+    { field: 'file', headerName: t('file', CommonMessage.File)!, sortable: false, renderCell(params) {
+      return <Avatar alt='' src={params?.value} />
+    },width: 130 },
     { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
     { field: 'linkUrl', headerName: t('linkUrl', CommonMessage.Url)!, width: 130 },
     { field: 'linkTarget', headerName: t('linkTarget', CommonMessage.LinkTarget)!, 
@@ -482,6 +487,14 @@ const initialValues: initialValuesType = {
                 onPaginationModelChange={setPaginationModel}
                 onSortModelChange={setSortModel}
                 onRowSelectionModelChange={setSelectedRows}
+                slots={{
+                  pagination: DataGridPagination,
+                }}
+                slotProps={{
+                  pagination: { 
+                    onRefreshButtonClick: getGridData
+                  }
+                }}
                 getRowId={(row: any) => row?.id}
               />
             </div>
