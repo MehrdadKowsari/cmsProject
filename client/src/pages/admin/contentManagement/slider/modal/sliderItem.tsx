@@ -39,6 +39,7 @@ import useConfirm from 'src/state/hooks/useConfirm';
 import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWithImagePreview';
 import Avatar from '@mui/material/Avatar';
 import DataGridPagination from 'src/components/DataGridPagination/DataGridPagination';
+import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 
 const SliderItem = ({id , permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -476,26 +477,17 @@ const initialValues: initialValuesType = {
       <CardContent>
       <Box mt={2}>
             <div style={{ height: 400, width: '100%' }}>
-              <DataGrid
+            <CustomDataGrid
                 rows={sliderItems}
                 columns={columns}
                 rowCount={totalCount}
-                loading={isLoading}
-                pageSizeOptions={ApplicationParams.GridPageSize}
-                paginationModel={paginationModel}
+                loading={isLoading}              
+                getDataMethod={getGridData}
                 paginationMode='server'
+                paginationModel={paginationModel}
                 onPaginationModelChange={setPaginationModel}
                 onSortModelChange={setSortModel}
                 onRowSelectionModelChange={setSelectedRows}
-                slots={{
-                  pagination: DataGridPagination,
-                }}
-                slotProps={{
-                  pagination: { 
-                    onRefreshButtonClick: getGridData
-                  }
-                }}
-                getRowId={(row: any) => row?.id}
               />
             </div>
           </Box>

@@ -1,40 +1,40 @@
-import { AppProps } from "next/app";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { AppProps } from 'next/app';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import * as React from 'react';
-import { DataGrid, GridActionsCellItem, GridColDef, GridPaginationModel, GridRowId, GridSortModel } from '@mui/x-data-grid';
-import UserLayout from "src/layouts/admin/UserLayout";
-import useConfirm from "src/state/hooks/useConfirm";
+import { GridActionsCellItem, GridColDef, GridPaginationModel, GridRowId, GridSortModel } from '@mui/x-data-grid';
+import UserLayout from 'src/layouts/admin/UserLayout';
+import useConfirm from 'src/state/hooks/useConfirm';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import ImageIcon from '@mui/icons-material/Image';
 import SecurityIcon from '@mui/icons-material/Security';
-import { Button, CardContent, CardHeader } from "@mui/material";
-import Box from "@mui/material/Box";
-import { useAppDispatch } from "src/state/hooks/hooks";
-import { getAllByParams, remove, toggleActive } from "src/state/slices/contentManagement/sliderSlice";
-import CustomDialog from "src/components/Modal/Modal";
-import PageForm from "./modal/form";
-import { GetStaticProps } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import Card from "@mui/material/Card";
-import CommonMessage from "src/constants/commonMessage";
-import { GridParameter } from "src/models/shared/grid/gridPrameter";
-import ApplicationParams from "src/constants/applicationParams";
-import { PageTypeEnum } from "src/models/security/enums/pageTypeEnum";
-import { PermissionDTO } from "src/models/security/permission/permissionDTO";
-import { PermissionTypeEnum } from "src/models/shared/enums/permissionTypeEnum";
-import { getAllByPageId } from "src/state/slices/rolePagePermissionSlice";
+import { Button, CardContent, CardHeader } from '@mui/material';
+import Box from '@mui/material/Box';
+import { useAppDispatch } from 'src/state/hooks/hooks';
+import { getAllByParams, remove, toggleActive } from 'src/state/slices/contentManagement/sliderSlice';
+import CustomDialog from 'src/components/Modal/Modal';
+import PageForm from './modal/form';
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
+import Card from '@mui/material/Card';
+import CommonMessage from 'src/constants/commonMessage';
+import { GridParameter } from 'src/models/shared/grid/gridPrameter';
+import ApplicationParams from 'src/constants/applicationParams';
+import { PageTypeEnum } from 'src/models/security/enums/pageTypeEnum';
+import { PermissionDTO } from 'src/models/security/permission/permissionDTO';
+import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
+import { getAllByPageId } from 'src/state/slices/rolePagePermissionSlice';
 import Hotkey from 'src/constants/hotkey';
-import { useHotkeys } from "react-hotkeys-hook";
-import NotificationService from "src/services/shared/notificationService";
-import PermissionService from "src/services/security/permissionService";
-import { SliderTypeEnum, SliderTypeEnumLabelMapping } from "src/models/contentManagement/enums/sliderTypeEnum";
-import SliderItem from "./modal/sliderItem";
-import { LanguageLabbelMapping as LanguageCodeEnumLabbelMapping, LanguageCodeEnum } from "src/models/shared/enums/languageCodeEnum";
-import DataGridPagination from "src/components/DataGridPagination/DataGridPagination";
+import { useHotkeys } from 'react-hotkeys-hook';
+import NotificationService from 'src/services/shared/notificationService';
+import PermissionService from 'src/services/security/permissionService';
+import { SliderTypeEnum, SliderTypeEnumLabelMapping } from 'src/models/contentManagement/enums/sliderTypeEnum';
+import SliderItem from './modal/sliderItem';
+import { LanguageLabbelMapping as LanguageCodeEnumLabbelMapping, LanguageCodeEnum } from 'src/models/shared/enums/languageCodeEnum';
+import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
@@ -204,7 +204,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
       getActions: (params: any) => [
         <GridActionsCellItem
           key={params.id}
-          icon={<EditIcon color="success" />}
+          icon={<EditIcon color='success' />}
           label={t('update', CommonMessage.Update)}
           disabled={!hasUpdatePermission}
           title={Hotkey.Update.toUpperCase()}
@@ -212,7 +212,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
         />,
         <GridActionsCellItem
           key={params.id}
-          icon={<DeleteIcon color="error" />}
+          icon={<DeleteIcon color='error' />}
           label={t('delete', CommonMessage.Delete)}
           disabled={!hasDeletePermission}
           title={Hotkey.Delete.toUpperCase()}
@@ -274,8 +274,8 @@ const Page = ({ Component, pageProps }: AppProps) => {
         <CardContent>
           <Box mx={1}>
             <Button
-              variant="contained"
-              size="small"
+              variant='contained'
+              size='small'
               disabled={!hasInsertPermission}
               title={Hotkey.New.toLocaleUpperCase()}
               startIcon={<AddIcon />}
@@ -284,34 +284,25 @@ const Page = ({ Component, pageProps }: AppProps) => {
             </Button>
           </Box>
           <Box mt={2}>
-            <div style={{ height: 400, width: '100%' }}>
-              <DataGrid
+            <div style={{ height: ApplicationParams.GridDefaultHeight, width: '100%' }}>
+              <CustomDataGrid
                 rows={sliders}
                 columns={columns}
                 rowCount={totalCount}
-                loading={isLoading}
-                pageSizeOptions={ApplicationParams.GridPageSize}
+                loading={isLoading}              
+                getDataMethod={getGridData}
+                paginationMode='server'
                 paginationModel={paginationModel}
-                paginationMode="server"
-                slots={{
-                  pagination: DataGridPagination,
-                }}
-                slotProps={{
-                  pagination: { 
-                    onRefreshButtonClick: getGridData
-                  }
-                }}
                 onPaginationModelChange={setPaginationModel}
                 onSortModelChange={setSortModel}
                 onRowSelectionModelChange={setSelectedRows}
-                getRowId={(row: any) => row?.id}
               />
             </div>
           </Box>
           <CustomDialog
             title={t('slider', CommonMessage.GalleryCategory)}
             isOpen={isOpenFormModal}
-            size="lg"
+            size='lg'
             onClose={() => handleCloseFormModal()}>
             <PageForm
               id={rowId}
@@ -321,7 +312,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
           <CustomDialog
             title={t('sliderItem', CommonMessage.SliderItem)}
             isOpen={isOpenItemModal}
-            size="lg"
+            size='lg'
             onClose={() => handleCloseItemModal()}>
             <SliderItem
               id={rowId}
