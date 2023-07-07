@@ -2,6 +2,7 @@ import { useState, ChangeEvent, ChangeEventHandler, Dispatch, SetStateAction, us
 import FileUpload from "./FileUpload";
 import { styled} from '@mui/material/styles';
 import Grid from "@mui/material/Grid";
+import Avatar from '@mui/material/Avatar';
 
 type FileUploadProps = {
     id: string,
@@ -12,12 +13,6 @@ type FileUploadProps = {
     setFileExtension: (fileExtension: string) => void,
     file: string | null
 }
-
-const ImageStyled = styled('img')(({theme}) => ({
-    marginRight: theme.spacing(6),
-    marginLeft: theme.spacing(6),
-    borderRadius: theme.shape.borderRadius
-}));
 
 export const FileUploadWithImagePreview = ({id, name, imageHeight, imageWidth, setFile, file, setFileExtension}: FileUploadProps) =>{
     const [selectedFile, setSelectedFile] = useState<string | null>(null)
@@ -53,7 +48,7 @@ export const FileUploadWithImagePreview = ({id, name, imageHeight, imageWidth, s
                     />
                 </Grid>
                 <Grid item lg={6}>
-                    { selectedFile && <ImageStyled src={selectedFile ?? ''} width={imageWidth} height={imageHeight}/>}
+                    { selectedFile && <Avatar src={selectedFile ?? ''} sx={{width: imageWidth, height: imageHeight}}/>}
                 </Grid>
             </Grid>
         </>
