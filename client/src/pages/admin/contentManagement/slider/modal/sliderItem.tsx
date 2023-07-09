@@ -502,10 +502,3 @@ const initialValues: initialValuesType = {
 }
 
 export default SliderItem
-type Props = {
-  // Add custom props here
-}
-export const getStaticProps: GetStaticProps<Props> = async ({locale}) => {
-  console.log('fa')
-  return {props: {locale: 'fa'}};
-}

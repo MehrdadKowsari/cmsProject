@@ -277,7 +277,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
     <>
       {hasViewPermission && <Card>
         <CardHeader
-          title={t('slider', CommonMessage.GalleryCategory)}
+          title={t('slider', CommonMessage.Slider)}
           titleTypographyProps={{ variant: 'h6' }} />
         <CardContent>
           <Box mx={1}>
@@ -308,7 +308,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
             </div>
           </Box>
           <CustomDialog
-            title={t('slider', CommonMessage.GalleryCategory)}
+            title={t('slider', CommonMessage.Slider)}
             isOpen={isOpenFormModal}
             size='lg'
             onClose={() => handleCloseFormModal()}>
