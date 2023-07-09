@@ -34,10 +34,10 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          slugUrl: joi.string().max(AppConstant.SlugUrlMaxLength).label('Slug Url')
+          slugUrl: joi.string().optional().allow(null, '').max(AppConstant.SlugUrlMaxLength).label('Slug Url')
           .messages({ 
                "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          allowedFileExtension: joi.string().max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
+          allowedFileExtension: joi.string().optional().allow(null, '').max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
           .messages({ 
                "string.max": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
      });
@@ -95,10 +95,10 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          slugUrl: joi.string().max(AppConstant.SlugUrlMaxLength).label('Slug Url')
+          slugUrl: joi.string().optional().allow(null, '').max(AppConstant.SlugUrlMaxLength).label('Slug Url')
           .messages({ 
                "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          allowedFileExtension: joi.string().max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
+          allowedFileExtension: joi.string().optional().allow(null, '').max(AppConstant.AllowedFileExtensionMaxLength).label('Allowed File Extension')
           .messages({ 
                "string.max": req.t('maxLenghtForAllowedFileExtensionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
      });
