@@ -35,11 +35,14 @@ import { SliderTypeEnum, SliderTypeEnumLabelMapping } from 'src/models/contentMa
 import SliderItem from './modal/sliderItem';
 import { LanguageLabbelMapping as LanguageCodeEnumLabbelMapping, LanguageCodeEnum } from 'src/models/shared/enums/languageCodeEnum';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
+import { useRouter } from 'next/router';
+import localizationService from 'src/services/shared/localizationService';
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
   const { sliders, totalCount, isLoading } = useSelector((state: any) => state?.slider?.sliders ? state?.slider : { sliders: [], totalCount: 0, isLoading: false });
   const [isOpenFormModal, setIsOpenFormModal] = useState<boolean>(false);
+  const [locale, setLocale] = useState<string>(ApplicationParams.DefaultLanguageCode);
   const [isOpenItemModal, setIsOpenItemModal] = useState<boolean>(false);
   const [userPagePermissions, setUserPagePermissions] = useState<PermissionDTO[]>([]);
   const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
@@ -60,7 +63,8 @@ const Page = ({ Component, pageProps }: AppProps) => {
     },
   ]);
 
-  const { t } = useTranslation(['common'])
+  const { t } = useTranslation(['common']);
+  const router = useRouter();
 
   const queryOptions = useMemo(
     () => ({
@@ -79,6 +83,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
 
   useEffect(() => {
     getRolePagePermissions();
+    setLocale(localizationService.getLanguageCodeByRouter(router));
   }, []);
 
   useEffect(() => {
@@ -197,6 +202,9 @@ const Page = ({ Component, pageProps }: AppProps) => {
     }, 
     width: 130 },
     { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean' },
+    { field: 'updatedAt', headerName: t('updatedAt', CommonMessage.UpdatedAt)!, valueFormatter(params) {
+      return localizationService.getLocalDateTime(params?.value, locale);
+    },width: 150 },
     {
       field: 'actions',
       type: 'actions',
@@ -307,6 +315,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
             <PageForm
               id={rowId}
               permissions={userPagePermissions}
+              locale={locale}
               onClose={handleCloseForm} />
           </CustomDialog>
           <CustomDialog
@@ -317,6 +326,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
             <SliderItem
               id={rowId}
               permissions={userPagePermissions}
+              locale={locale}
               onClose={() => handleCloseItemModal()} />
           </CustomDialog>
         </CardContent>
@@ -336,6 +346,6 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
   locale,
 }) => ({
   props: {
-    ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+    ...(await serverSideTranslations(locale ?? ApplicationParams.DefaultLanguageCode, ['common'])),
   },
 })

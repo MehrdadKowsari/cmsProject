@@ -1,4 +1,4 @@
-import React,  { useState, useEffect, useCallback, useMemo, ChangeEvent, useRef } from 'react';
+import React,  { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -20,7 +20,6 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import ApplicationParams from 'src/constants/applicationParams';
 import { GetStaticProps } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Hotkey from 'src/constants/hotkey';
@@ -39,11 +38,10 @@ import useConfirm from 'src/state/hooks/useConfirm';
 import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWithImagePreview';
 import Avatar from '@mui/material/Avatar';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
-import moment from 'jalali-moment';
 import localizationService from 'src/services/shared/localizationService';
 import { useRouter } from 'next/router';
 
-const SliderItem = ({id , permissions, onClose}: FormProps) => {
+const SliderItem = ({id , permissions, locale}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
 const [hasViewPermission, setHasViewPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.View));
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
@@ -72,7 +70,6 @@ const { confirm } = useConfirm();
 const firstFieldRef = useRef<HTMLInputElement>(null);
 
 const router = useRouter();
-const currentLang =  router.locale ?? 'en';
 
 useEffect(() => {
   focusOnFirstField();
@@ -312,8 +309,8 @@ const initialValues: initialValuesType = {
     { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
     { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean' },
     { field: 'updatedAt', headerName: t('updatedAt', CommonMessage.UpdatedAt)!, valueFormatter(params) {
-      return localizationService.getLocalDate(params?.value, currentLang);
-    },width: 130 },
+      return localizationService.getLocalDateTime(params?.value, 'fa');
+    },width: 150 },
     {
       field: 'actions',
       type: 'actions',
@@ -508,8 +505,7 @@ export default SliderItem
 type Props = {
   // Add custom props here
 }
-export const getStaticProps: GetStaticProps<Props> = async ({locale}) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? 'en', ['common'])),
-  },
-})
+export const getStaticProps: GetStaticProps<Props> = async ({locale}) => {
+  console.log('fa')
+  return {props: {locale: 'fa'}};
+}
