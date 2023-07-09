@@ -3,17 +3,18 @@ import DataGridPagination from "../DataGridPagination/DataGridPagination";
 import ApplicationParams from "src/constants/applicationParams";
 
 const CustomDataGrid = (props: any) =>{     
+  const { getDataMethod, ...rest } = props;
     return(
         <>
              <DataGrid
-                {...props}
+                {...rest}
                 pageSizeOptions={ApplicationParams.GridPageSize}
                 slots={{
                   pagination: DataGridPagination,
                 }}
                 slotProps={{
                     pagination: { 
-                      onRefreshButtonClick: props.getDataMethod
+                      handleRefreshButtonClick: getDataMethod
                     }
                 }}  
                 getRowId={(row: any) => row?.id}

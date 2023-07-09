@@ -12,7 +12,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 
 declare module '@mui/x-data-grid' {
     interface PaginationPropsOverrides{
-        onRefreshButtonClick: () => void
+        handleRefreshButtonClick: () => void
     }
 }
 function Pagination({
@@ -38,7 +38,7 @@ function Pagination({
 
 const DataGridPagination = (props: any) => {
   return (<>
-    <GridPagination ActionsComponent={Pagination} {...props} /> <IconButton onClick={props.onRefreshButtonClick}><RefreshIcon/></IconButton>
+    <GridPagination ActionsComponent={Pagination} {...props} /> <IconButton onClick={props.handleRefreshButtonClick}><RefreshIcon/></IconButton>
   </>)
 }
 
