@@ -19,7 +19,6 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import ApplicationParams from 'src/constants/applicationParams';
-import { GetStaticProps } from 'next';
 import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Hotkey from 'src/constants/hotkey';
@@ -39,7 +38,6 @@ import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWith
 import Avatar from '@mui/material/Avatar';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 import localizationService from 'src/services/shared/localizationService';
-import { useRouter } from 'next/router';
 
 const SliderItem = ({id , permissions, locale}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -68,8 +66,6 @@ const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
 const { confirm } = useConfirm();
 const firstFieldRef = useRef<HTMLInputElement>(null);
-
-const router = useRouter();
 
 useEffect(() => {
   focusOnFirstField();
@@ -309,7 +305,7 @@ const initialValues: initialValuesType = {
     { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
     { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean' },
     { field: 'updatedAt', headerName: t('updatedAt', CommonMessage.UpdatedAt)!, valueFormatter(params) {
-      return localizationService.getLocalDateTime(params?.value, 'fa');
+      return localizationService.getLocalDateTime(params?.value, locale);
     },width: 150 },
     {
       field: 'actions',
