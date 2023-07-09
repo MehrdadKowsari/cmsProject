@@ -119,10 +119,13 @@ export default class CommonMessage {
     public static readonly ReplyComment: string = 'Reply Comment';
     public static readonly Tag: string = 'Tag';
     public static readonly PostCategory: string = 'Post Category';
+    public static readonly Gallery: string = 'Gallery';
     public static readonly GalleryCategory: string = 'Gallery Category';
+    public static readonly GalleryFile: string = 'Gallery File';
     public static readonly Slider: string = 'Slider';
     public static readonly SliderItem: string = 'Slider Item';
     public static readonly SectionName: string = 'Section Name';
+    public static readonly SlugUrl: string = 'Slug Url';
     public static readonly AllowedFileExtension: string = 'Allowed File Extension';
     public static readonly Params: string = 'Params';
     public static readonly List: string = 'List';

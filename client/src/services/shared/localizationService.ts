@@ -20,7 +20,7 @@ class LocalizationService {
         }
     }
     
-    getLocalDateTime(dateTime: string, locale: string): string | null{
+    getLocalDateTime(dateTime: string, locale: string | null | undefined): string | null{
         if (!dateTime) {
             return null;
         }

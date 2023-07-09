@@ -164,5 +164,7 @@
     "persian": "فارسی",
     "english": "انگلیسی",
     "createdAt": "تاریخ ایجاد",
-    "updatedAt": "تاریخ ویرایش"
+    "updatedAt": "تاریخ ویرایش",
+    "video": "ویدئو",
+    "audio": "صوت"
 }
