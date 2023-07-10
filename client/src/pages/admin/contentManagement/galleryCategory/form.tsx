@@ -32,7 +32,7 @@ const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
-const [pages, setPages] = useState<TextValueDTO[]>([]);
+const [galleryCategories, setGalleryCategories] = useState<TextValueDTO[]>([]);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
@@ -58,11 +58,11 @@ const getItemById = async (id: string | number) => {
 
 const getAllGalleryCategoryList = async () => {
   const galleryCategories: GalleryCategoryDTO[] = await dispatch(getAllGalleryCategories()).unwrap();
-  const mappedPages = galleryCategories?.map(p => ({
+  const mappedGalleryCategories = galleryCategories?.map(p => ({
     text: p.name,
     value: p.id
   } as TextValueDTO));
-  setPages(mappedPages);
+  setGalleryCategories(mappedGalleryCategories);
 }
 
 //#region hotkey
@@ -153,7 +153,7 @@ const initialValues: initialValuesType = {
                   onBlur={formik.handleBlur}
                   error={formik.touched.parentId && Boolean(formik.errors.parentId)}
                   helperText={formik.errors.parentId}>
-                    {pages.map((option) => (
+                    {galleryCategories.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.text}
                       </MenuItem>

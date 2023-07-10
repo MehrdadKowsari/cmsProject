@@ -27,11 +27,14 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import Hotkey from 'src/constants/hotkey';
 import { GalleryTypeEnum, GalleryTypeEnumLabelMapping } from 'src/models/contentManagement/enums/galleryTypeEnum';
 import LanguageDropdown from 'src/components/LanguageDropdown/LanguageDropdown';
+import { GalleryCategoryDTO } from 'src/models/contentManagement/galleryCategory/galleryCategoryDTO';
+import { getAllGalleryCategories } from 'src/state/slices/contentManagement/galleryCategorySlice';
 
 const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
+const [galleryCategories, setGalleryCategories] = useState<TextValueDTO[]>([]);
 const [galleryTypes, setGalleryTypes] = useState<TextValueDTO[]>([]);
 const firstFieldRef = useRef<HTMLInputElement>(null);
 
@@ -44,6 +47,7 @@ useEffect(() => {
       await getItemById(id);
     })();
   }
+  getAllGalleryCategoryList();
   getAllGalleryTypeList();
   focusOnFirstField();
 }, []);
@@ -51,6 +55,15 @@ useEffect(() => {
 const getItemById = async (id: string | number) => {
   const galleryDTO: GalleryDTO = await dispatch(getById(id)).unwrap();
   await loadFormData(galleryDTO);
+}
+
+const getAllGalleryCategoryList = async () => {
+  const galleryCategories: GalleryCategoryDTO[] = await dispatch(getAllGalleryCategories()).unwrap();
+  const mappedGalleryCategories = galleryCategories?.map(p => ({
+    text: p.name,
+    value: p.id
+  } as TextValueDTO));
+  setGalleryCategories(mappedGalleryCategories);
 }
 
 const loadFormData = async (galleryDTO: GalleryDTO) => {
@@ -82,6 +95,7 @@ useHotkeys(Hotkey.Reset,() => formik.resetForm())
 //#endregion
 
 const validationSchema = object({
+  galleryCategoryId: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   type: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
@@ -181,6 +195,25 @@ const initialValues: initialValuesType = {
             spacing={3}
             justifyContent="center">
                 <Grid item lg={6}>
+                  <TextField
+                  select 
+                  fullWidth
+                  id="galleryCategoryId"
+                  name="galleryCategoryId"
+                  label={t('galleryCategory', CommonMessage.GalleryCategory)}
+                  value={formik.values.galleryCategoryId} 
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.galleryCategoryId && Boolean(formik.errors.galleryCategoryId)}
+                  helperText={formik.errors.galleryCategoryId}>
+                    {galleryCategories.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.text}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item lg={6}>
                   <TextField 
                   inputRef={firstFieldRef}
                   fullWidth 
@@ -273,7 +306,7 @@ const initialValues: initialValuesType = {
                     helperText={formik.errors.locale}
                   />
                 </Grid>
-                <Grid item lg={6}>
+                <Grid item lg={12}>
                   <TextField 
                   fullWidth 
                   id="description"

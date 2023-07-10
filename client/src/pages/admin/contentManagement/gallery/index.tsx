@@ -40,7 +40,7 @@ import localizationService from 'src/services/shared/localizationService';
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
-  const { gallerys, totalCount, isLoading } = useSelector((state: any) => state?.gallery?.gallerys ? state?.gallery : { gallerys: [], totalCount: 0, isLoading: false });
+  const { galleries, totalCount, isLoading } = useSelector((state: any) => state?.gallery?.galleries ? state?.gallery : { galleries: [], totalCount: 0, isLoading: false });
   const [isOpenFormModal, setIsOpenFormModal] = useState<boolean>(false);
   const [locale, setLocale] = useState<string>(ApplicationParams.DefaultLanguageCode);
   const [isOpenItemModal, setIsOpenItemModal] = useState<boolean>(false);
@@ -294,7 +294,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
           <Box mt={2}>
             <div style={{ height: ApplicationParams.GridDefaultHeight, width: '100%' }}>
               <CustomDataGrid
-                rows={gallerys}
+                rows={galleries}
                 columns={columns}
                 rowCount={totalCount}
                 loading={isLoading}              

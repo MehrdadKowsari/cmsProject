@@ -16,10 +16,11 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
-          galleryCategoryId: joi.number().required().label('Gallery Category Id')
+          galleryCategoryId: joi.string().required().label('Gallery Category Id')
           .messages({ 
-               "number.base": req.t('galleryCategoryIdIsRequired', `{{#label}} is required`),
-               "number.required": req.t('galleryCategoryIdIsRequired', `{{#label}} is required`)}),
+               "string.base": req.t('galleryCategoryIdIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('galleryCategoryIdIsRequired', `{{#label}} is required`),
+               "string.required": req.t('galleryCategoryIdIsRequired', `{{#label}} is required`)}),
           name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
@@ -77,10 +78,11 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          galleryCategoryId: joi.number().required().label('Gallery Category Id')
+          galleryCategoryId: joi.string().required().label('Gallery Category Id')
           .messages({ 
-               "number.base": req.t('galleryCategoryIdIsRequired', `{{#label}} is required`),
-               "number.required": req.t('galleryCategoryIdIsRequired', `{{#label}} is required`)}),
+               "string.base": req.t('galleryCategoryIdIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('galleryCategoryIdIsRequired', `{{#label}} is required`),
+               "string.required": req.t('galleryCategoryIdIsRequired', `{{#label}} is required`)}),
           name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
