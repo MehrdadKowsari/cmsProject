@@ -59,7 +59,7 @@ import AppConstant from "src/constants/appConstants";
         update = async (slider: Slider) => {
             return await SliderModel.updateOne({ _id : slider._id },
                 { $set: { 
-                    articleCategoryId: slider.articleCategoryId,
+                    poetCategoryId: slider.poetCategoryId,
                     galleryId: slider.galleryId,
                     name: slider.name,
                     description: slider.description,

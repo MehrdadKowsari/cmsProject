@@ -7,7 +7,7 @@ export const COLLECTION_NAME = 'galleries';
 
 export  interface Slider {
   _id: Types.ObjectId | null;
-  articleCategoryId?: Types.ObjectId | null;
+  poetCategoryId?: Types.ObjectId | null;
   galleryId?: Types.ObjectId | null;
   name: string;
   description: string | null;
@@ -27,9 +27,9 @@ export  interface Slider {
 
 const schema = new Schema<Slider>(
   {
-    articleCategoryId: {
+    poetCategoryId: {
       type: Schema.Types.ObjectId,
-      ref:'ArticleCategory'
+      ref:'PostCategory'
     },
     galleryId: {
       type: Schema.Types.ObjectId,

@@ -32,7 +32,7 @@ export default class SliderService {
             const { articleCategoryId, galleryId, name, description, sectionName, type, allowedFileExtension, params, priority, locale } = addSliderDTO;
             const newSlider: Slider = {
                 _id: null,
-                articleCategoryId:  articleCategoryId ? new Types.ObjectId(articleCategoryId!) : null,
+                poetCategoryId:  articleCategoryId ? new Types.ObjectId(articleCategoryId!) : null,
                 galleryId: galleryId ? new Types.ObjectId(galleryId) : null,
                 name,
                 description,
@@ -140,7 +140,7 @@ export default class SliderService {
             }
             const sliderDTO: SliderDTO = <SliderDTO>{
                 id: slider._id?.toString(),
-                articleCategoryId: slider.articleCategoryId?.toString(),
+                articleCategoryId: slider.poetCategoryId?.toString(),
                 galleryId: slider.galleryId?.toString(),
                 name: slider.name,
                 sectionName: slider.sectionName,
@@ -173,7 +173,7 @@ export default class SliderService {
                 return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'sliderDoesNotExist')));
             }
 
-            slider.articleCategoryId =  articleCategoryId ? new Types.ObjectId(articleCategoryId!) : null,
+            slider.poetCategoryId =  articleCategoryId ? new Types.ObjectId(articleCategoryId!) : null,
             slider.galleryId = galleryId ? new Types.ObjectId(galleryId) : null,
             slider.name = name;
             slider.sectionName = sectionName,
