@@ -286,7 +286,6 @@ const initialValues: initialValuesType = {
       return <Avatar alt='' src={params?.value} />
     },width: 130 },
     { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
-    { field: 'galleryId', headerName: t('galleryId', CommonMessage.GalleryCategory)!, width: 130 },
     { field: 'fileExtension', headerName: t('fileExtension', CommonMessage.FileExtension)!, width: 130 },
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
     { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
@@ -390,7 +389,7 @@ const initialValues: initialValuesType = {
                   error={formik.touched.priority && Boolean(formik.errors.priority)}
                   helperText={formik.errors.priority}/> 
                 </Grid>
-                <Grid item lg={6}>
+                <Grid item lg={12}>
                   <TextField 
                   fullWidth 
                   id='description'
