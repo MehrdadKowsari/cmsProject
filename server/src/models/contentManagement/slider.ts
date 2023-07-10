@@ -3,7 +3,7 @@ import { SliderTypeEnum } from 'src/enums/contentManagement/sliderTypeEnum';
 import { SliderItem } from './sliderItem';
 
 export const DOCUMENT_NAME = 'Slider';
-export const COLLECTION_NAME = 'galleries';
+export const COLLECTION_NAME = 'sliders';
 
 export  interface Slider {
   _id: Types.ObjectId | null;
