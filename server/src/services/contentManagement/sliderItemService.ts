@@ -11,7 +11,7 @@ import SliderItemRepository from '../../repositories/contentManagement/sliderIte
 import { UpdateSliderItemDTO } from 'src/dtos/contentManagement/sliderItem/updateSliderItemDTO';
 import { SliderItem } from 'src/models/contentManagement/sliderItem';
 import { Types } from 'mongoose';
-import { ListSliderItemByParams } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParams';
+import { ListSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParamsDTO';
 
 @autoInjectable()
 export default class SliderItemService {
@@ -90,7 +90,7 @@ export default class SliderItemService {
      * @param {object} listSliderItemByParams 
      * @returns {Promise<RequestResult<GridData<SliderItemDTO[]>> | null>}
      */
-    getAllByParams = async (listSliderItemByParams: ListSliderItemByParams): Promise<RequestResult<GridData<SliderItemDTO[]> | null>> => {
+    getAllByParams = async (listSliderItemByParams: ListSliderItemByParamsDTO): Promise<RequestResult<GridData<SliderItemDTO[]> | null>> => {
         try {
             const totalCount = await this._sliderItemRepository.count();
             const sliderItems: SliderItemDTO[] = (await this._sliderItemRepository.getAllByParams(listSliderItemByParams))?.map((sliderItem: any) => <SliderItemDTO>{

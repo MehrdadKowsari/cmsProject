@@ -1,7 +1,7 @@
 import SliderItemModel, { SliderItem } from "src/models/contentManagement/sliderItem";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
-import { ListSliderItemByParams } from "src/dtos/contentManagement/sliderItem/listSliderItemByParams";
+import { ListSliderItemByParamsDTO } from "src/dtos/contentManagement/sliderItem/listSliderItemByParamsDTO";
 
 
     export default class SliderItemRepository{
@@ -33,7 +33,7 @@ import { ListSliderItemByParams } from "src/dtos/contentManagement/sliderItem/li
          * @param {object} listSliderItemByParams 
          * @returns {Promise<SliderItem[]>}
          */
-        getAllByParams = async (listSliderItemByParams: ListSliderItemByParams) : Promise<SliderItem[]> =>{
+        getAllByParams = async (listSliderItemByParams: ListSliderItemByParamsDTO) : Promise<SliderItem[]> =>{
             const { currentPage, pageSize, sortModel } = listSliderItemByParams.gridParameter;
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           

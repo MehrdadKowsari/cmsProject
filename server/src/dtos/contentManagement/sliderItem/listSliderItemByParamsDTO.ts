@@ -1,6 +1,6 @@
 import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 
-export interface ListSliderItemByParams{
+export interface ListSliderItemByParamsDTO{
     gridParameter: GridParameter;
     sliderId: string;
 }

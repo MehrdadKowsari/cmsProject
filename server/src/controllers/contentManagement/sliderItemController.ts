@@ -7,7 +7,7 @@ import SliderItemService from '../../services/contentManagement/sliderItemServic
 import { autoInjectable } from 'tsyringe';
 import { UpdateSliderItemDTO } from 'src/dtos/contentManagement/sliderItem/updateSliderItemDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListSliderItemByParams } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParams';
+import { ListSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParamsDTO';
 
 @autoInjectable()
 export class SliderItemController{
@@ -56,7 +56,7 @@ export class SliderItemController{
      */
     getAllByParams = async (req: Request, res: Response) => {
         try {
-            const listSliderItemByParams: ListSliderItemByParams = req.body;
+            const listSliderItemByParams: ListSliderItemByParamsDTO = req.body;
             const requestResult = await this._sliderItemService.getAllByParams(listSliderItemByParams);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
