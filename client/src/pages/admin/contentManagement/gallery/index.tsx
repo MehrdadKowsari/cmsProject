@@ -192,7 +192,6 @@ const Page = ({ Component, pageProps }: AppProps) => {
       return t(GalleryTypeEnumLabelMapping[params.value as GalleryTypeEnum])
     },
     width: 130 },
-    { field: 'sectionName', headerName: t('sectionName', CommonMessage.SectionName)!, width: 130 },
     { field: 'params', headerName: t('params', CommonMessage.Params)!, width: 130 },
     { field: 'allowedFileExtension', headerName: t('allowedFileExtension', CommonMessage.AllowedFileExtension)!, width: 130 },
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
