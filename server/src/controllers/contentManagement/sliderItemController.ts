@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import SliderItemService from '../../services/contentManagement/sliderItemService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateSliderItemDTO } from 'src/dtos/contentManagement/sliderItem/updateSliderItemDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
+import { ListSliderItemByParams } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParams';
 
 @autoInjectable()
 export class SliderItemController{
@@ -40,7 +40,6 @@ export class SliderItemController{
      */
     getAll = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
             const requestResult = await this._sliderItemService.getAll();
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
@@ -57,8 +56,8 @@ export class SliderItemController{
      */
     getAllByParams = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
-            const requestResult = await this._sliderItemService.getAllByParams(gridParameter);
+            const listSliderItemByParams: ListSliderItemByParams = req.body;
+            const requestResult = await this._sliderItemService.getAllByParams(listSliderItemByParams);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));

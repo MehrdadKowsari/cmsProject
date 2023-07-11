@@ -1,7 +1,7 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import SliderItemModel, { SliderItem } from "src/models/contentManagement/sliderItem";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ListSliderItemByParams } from "src/dtos/contentManagement/sliderItem/listSliderItemByParams";
 
 
     export default class SliderItemRepository{
@@ -30,15 +30,15 @@ import AppConstant from "src/constants/appConstants";
         /**
          * get all galleries by parameters
          * 
-         * @param {object} gridParameter 
+         * @param {object} listSliderItemByParams 
          * @returns {Promise<SliderItem[]>}
          */
-        getAllByParams = async (gridParameter: GridParameter) : Promise<SliderItem[]> =>{
-            const { currentPage, pageSize, sortModel } = gridParameter;
+        getAllByParams = async (listSliderItemByParams: ListSliderItemByParams) : Promise<SliderItem[]> =>{
+            const { currentPage, pageSize, sortModel } = listSliderItemByParams.gridParameter;
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await SliderItemModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await SliderItemModel.find({ sliderId: listSliderItemByParams.sliderId }).sort(sort).skip(skipCount).limit(limitCount);
             return list;
         }  
         

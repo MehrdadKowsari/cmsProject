@@ -8,10 +8,10 @@ import { AddSliderItemDTO } from '../../dtos/contentManagement/sliderItem/addSli
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import SliderItemRepository from '../../repositories/contentManagement/sliderItemRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateSliderItemDTO } from 'src/dtos/contentManagement/sliderItem/updateSliderItemDTO';
 import { SliderItem } from 'src/models/contentManagement/sliderItem';
 import { Types } from 'mongoose';
+import { ListSliderItemByParams } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParams';
 
 @autoInjectable()
 export default class SliderItemService {
@@ -87,13 +87,13 @@ export default class SliderItemService {
     /**
      * get all sliderItem list by params
      * 
-     * @param {object} gridParameter 
+     * @param {object} listSliderItemByParams 
      * @returns {Promise<RequestResult<GridData<SliderItemDTO[]>> | null>}
      */
-    getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<SliderItemDTO[]> | null>> => {
+    getAllByParams = async (listSliderItemByParams: ListSliderItemByParams): Promise<RequestResult<GridData<SliderItemDTO[]> | null>> => {
         try {
             const totalCount = await this._sliderItemRepository.count();
-            const sliderItems: SliderItemDTO[] = (await this._sliderItemRepository.getAllByParams(gridParameter))?.map((sliderItem: any) => <SliderItemDTO>{
+            const sliderItems: SliderItemDTO[] = (await this._sliderItemRepository.getAllByParams(listSliderItemByParams))?.map((sliderItem: any) => <SliderItemDTO>{
                 id: sliderItem._id?.toString(),
                 sliderId: sliderItem.sliderId,
                 sliderName: sliderItem.sliderId?.name,
