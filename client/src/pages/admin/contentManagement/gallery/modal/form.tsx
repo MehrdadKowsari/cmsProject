@@ -69,9 +69,10 @@ const getAllGalleryCategoryList = async () => {
 const loadFormData = async (galleryDTO: GalleryDTO) => {
   if (galleryDTO) {
     await formik.setValues({
+        galleryCategoryId: galleryDTO.galleryCategoryId,
         name: galleryDTO.name,
-        slugUrl: galleryDTO.slugUrl,
         type: galleryDTO.type.toString(),
+        slugUrl: galleryDTO.slugUrl,
         allowedFileExtension: galleryDTO.allowedFileExtension,
         params: galleryDTO.params,
         description: galleryDTO.description,
@@ -98,7 +99,8 @@ const validationSchema = object({
   galleryCategoryId: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   type: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
+  priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  locale: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
 });
 
 type initialValuesType = {
@@ -196,6 +198,7 @@ const initialValues: initialValuesType = {
             justifyContent="center">
                 <Grid item lg={6}>
                   <TextField
+                  inputRef={firstFieldRef}
                   select 
                   fullWidth
                   id="galleryCategoryId"
@@ -215,7 +218,6 @@ const initialValues: initialValuesType = {
                 </Grid>
                 <Grid item lg={6}>
                   <TextField 
-                  inputRef={firstFieldRef}
                   fullWidth 
                   id="name"
                   label={t('name', CommonMessage.Name)}

@@ -5,7 +5,7 @@ import { AddGalleryFileDTO } from 'src/models/contentManagement/galleryFile/addG
 import { UpdateGalleryFileDTO } from 'src/models/contentManagement/galleryFile/updateGalleryFileDTO';
 import { GalleryFileDTO } from 'src/models/contentManagement/galleryFile/galleryFileDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
-import { GridParameter } from 'src/models/shared/grid/gridPrameter';
+import { ListGalleryFileByParamsDTO } from 'src/models/contentManagement/galleryFile/listGalleryFileByParamsDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/galleryFile`;
 
@@ -35,9 +35,9 @@ export const getAllGalleryCategories = createAsyncThunk(
 
 export const getAllByParams = createAsyncThunk(
   "galleryFiles/getAllByParams", 
-  async (gridParameter: GridParameter, { rejectWithValue }) => {
+  async (listGalleryFileByParams: ListGalleryFileByParamsDTO, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, listGalleryFileByParams);
       return data?.result;
     } catch (err) {
       const error= err as AxiosError;

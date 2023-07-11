@@ -38,7 +38,7 @@ import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWith
 import Avatar from '@mui/material/Avatar';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 import localizationService from 'src/services/shared/localizationService';
-import { ListGalleryFileByParams } from 'src/models/contentManagement/galleryFile/listGalleryFileByParams';
+import { ListGalleryFileByParamsDTO } from 'src/models/contentManagement/galleryFile/listGalleryFileByParamsDTO';
 
 const GalleryFile = ({id , permissions, locale}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -276,7 +276,7 @@ const initialValues: initialValuesType = {
       pageSize: queryOptions.paginationModel.pageSize,
       sortModel: sortModel
     }
-    const listGalleryFileByParams: ListGalleryFileByParams = {
+    const listGalleryFileByParams: ListGalleryFileByParamsDTO = {
       galleryId: id!,
       gridParameter: gridparameter
     };
