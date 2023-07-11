@@ -38,6 +38,7 @@ import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWith
 import Avatar from '@mui/material/Avatar';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 import localizationService from 'src/services/shared/localizationService';
+import { ListGalleryFileByParams } from 'src/models/contentManagement/galleryFile/listGalleryFileByParams';
 
 const GalleryFile = ({id , permissions, locale}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -82,7 +83,6 @@ const setFormData = async (galleryFileDTO: GalleryFileDTO | null) =>{
   if (galleryFileDTO) {
     await formik.setValues({
         name: galleryFileDTO.name,
-        galleryId: id,
         file: galleryFileDTO.file,
         description: galleryFileDTO.description,
         priority: galleryFileDTO.priority
@@ -147,7 +147,6 @@ const validationSchema = object({
 });
 
 type initialValuesType = {
-  galleryId:  string;
   name: string,
   type: string,
   description: string | null,
@@ -155,7 +154,6 @@ type initialValuesType = {
   priority: number
 };
 const initialValues: initialValuesType = {
-  galleryId: '',
   name: '',
   type: '',
   file: null,
@@ -278,7 +276,11 @@ const initialValues: initialValuesType = {
       pageSize: queryOptions.paginationModel.pageSize,
       sortModel: sortModel
     }
-    dispatch(getAllByParams(gridparameter))
+    const listGalleryFileByParams: ListGalleryFileByParams = {
+      galleryId: id!,
+      gridParameter: gridparameter
+    };
+    dispatch(getAllByParams(listGalleryFileByParams))
   }
 
   const columns: GridColDef[] = [
@@ -366,19 +368,6 @@ const initialValues: initialValuesType = {
                   />
                 </Grid>
                 <Grid item lg={6}>
-                  <TextField
-                  fullWidth
-                  id='galleryId'
-                  name='galleryId'
-                  label={t('galleryId', CommonMessage.LinkUrl)}
-                  value={formik.values.galleryId} 
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.galleryId && Boolean(formik.errors.galleryId)}
-                  helperText={formik.errors.galleryId}>
-                  </TextField>
-                </Grid>
-                <Grid item lg={6}>
                   <TextField 
                   fullWidth 
                   id='priority'
@@ -389,7 +378,7 @@ const initialValues: initialValuesType = {
                   error={formik.touched.priority && Boolean(formik.errors.priority)}
                   helperText={formik.errors.priority}/> 
                 </Grid>
-                <Grid item lg={12}>
+                <Grid item lg={6}>
                   <TextField 
                   fullWidth 
                   id='description'
