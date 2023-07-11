@@ -6,6 +6,7 @@ import { UpdateSliderItemDTO } from 'src/models/contentManagement/sliderItem/upd
 import { SliderItemDTO } from 'src/models/contentManagement/sliderItem/sliderItemDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
 import { GridParameter } from 'src/models/shared/grid/gridPrameter';
+import { ListSliderItemByParamsDTO } from 'src/models/contentManagement/sliderItem/listSliderItemByParamsDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/sliderItem`;
 
@@ -35,9 +36,9 @@ export const getAllGalleryCategories = createAsyncThunk(
 
 export const getAllByParams = createAsyncThunk(
   "sliderItems/getAllByParams", 
-  async (gridParameter: GridParameter, { rejectWithValue }) => {
+  async (listSliderItemByParams: ListSliderItemByParamsDTO, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, listSliderItemByParams);
       return data?.result;
     } catch (err) {
       const error= err as AxiosError;

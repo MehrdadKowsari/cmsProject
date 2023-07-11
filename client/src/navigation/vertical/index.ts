@@ -22,7 +22,7 @@ const navigation = (): VerticalNavItemsType => {
       path: '/admin/contentManagement/galleryCategory'
     },
     {
-      title: 'Gallery',
+      title: 'Galleries',
       icon: 'image',
       path: '/admin/contentManagement/gallery'
     },

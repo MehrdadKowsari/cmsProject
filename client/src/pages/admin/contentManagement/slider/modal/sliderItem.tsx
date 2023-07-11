@@ -38,6 +38,7 @@ import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWith
 import Avatar from '@mui/material/Avatar';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 import localizationService from 'src/services/shared/localizationService';
+import { ListSliderItemByParamsDTO } from 'src/models/contentManagement/sliderItem/listSliderItemByParamsDTO';
 
 const SliderItem = ({id , permissions, locale}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -287,7 +288,11 @@ const initialValues: initialValuesType = {
       pageSize: queryOptions.paginationModel.pageSize,
       sortModel: sortModel
     }
-    dispatch(getAllByParams(gridparameter))
+    const listSliderItemByParams: ListSliderItemByParamsDTO = {
+      gridParameter: gridparameter,
+      sliderId: id!
+    }
+    dispatch(getAllByParams(listSliderItemByParams))
   }
 
   const columns: GridColDef[] = [
