@@ -14,6 +14,8 @@
     "Gallery Categories": "دسته بندی گالری",
     "Tags": "برچسب ها",
     "Sliders": "اسلایدر ها",
+    "Gallery": "گالری",
+    "Galleries": "گالری ها",
     "home": "خانه",
     "security": "امنیت",
     "account": "حساب کاربری",
@@ -166,5 +168,6 @@
     "createdAt": "تاریخ ایجاد",
     "updatedAt": "تاریخ ویرایش",
     "video": "ویدئو",
-    "audio": "صوت"
+   "audio": "صوت",
+   "galleryFile": "فایل های گالری"
 }
