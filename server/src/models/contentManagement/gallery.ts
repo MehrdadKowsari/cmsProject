@@ -41,6 +41,10 @@ const schema = new Schema<Gallery>(
       required: true,
       maxlength: 200
     },
+    type: {
+      type: Schema.Types.Number,
+      required: true
+    },
     description: {
       type: Schema.Types.String,
       maxlength: 500
