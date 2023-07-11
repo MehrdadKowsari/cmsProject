@@ -7,7 +7,7 @@ import GalleryFileService from '../../services/contentManagement/galleryFileServ
 import { autoInjectable } from 'tsyringe';
 import { UpdateGalleryFileDTO } from 'src/dtos/contentManagement/galleryFile/updateGalleryFileDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListGalleryFileByParams } from 'src/dtos/contentManagement/galleryFile/listGalleryFileByParams';
+import { ListGalleryFileByParams } from 'src/dtos/contentManagement/galleryFile/listGalleryFileByParamsDTO';
 
 @autoInjectable()
 export class GalleryFileController{

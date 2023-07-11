@@ -11,7 +11,7 @@ import GalleryFileRepository from '../../repositories/contentManagement/galleryF
 import { UpdateGalleryFileDTO } from 'src/dtos/contentManagement/galleryFile/updateGalleryFileDTO';
 import { GalleryFile } from 'src/models/contentManagement/galleryFile';
 import { Types } from 'mongoose';
-import { ListGalleryFileByParams } from 'src/dtos/contentManagement/galleryFile/listGalleryFileByParams';
+import { ListGalleryFileByParams } from 'src/dtos/contentManagement/galleryFile/listGalleryFileByParamsDTO';
 
 @autoInjectable()
 export default class GalleryFileService {

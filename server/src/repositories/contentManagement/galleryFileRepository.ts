@@ -1,7 +1,7 @@
 import GalleryFileModel, { GalleryFile } from "src/models/contentManagement/galleryFile";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
-import { ListGalleryFileByParams } from "src/dtos/contentManagement/galleryFile/listGalleryFileByParams";
+import { ListGalleryFileByParams } from "src/dtos/contentManagement/galleryFile/listGalleryFileByParamsDTO";
 
 
     export default class GalleryFileRepository{
