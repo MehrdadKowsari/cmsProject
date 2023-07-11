@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import GalleryFileService from '../../services/contentManagement/galleryFileService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateGalleryFileDTO } from 'src/dtos/contentManagement/galleryFile/updateGalleryFileDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
+import { ListGalleryFileByParams } from 'src/dtos/contentManagement/galleryFile/listGalleryFileByParams';
 
 @autoInjectable()
 export class GalleryFileController{
@@ -40,7 +40,6 @@ export class GalleryFileController{
      */
     getAll = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
             const requestResult = await this._galleryFileService.getAll();
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
@@ -57,8 +56,8 @@ export class GalleryFileController{
      */
     getAllByParams = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
-            const requestResult = await this._galleryFileService.getAllByParams(gridParameter);
+            const listGalleryFileByParams: ListGalleryFileByParams = req.body;
+            const requestResult = await this._galleryFileService.getAllByParams(listGalleryFileByParams);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));

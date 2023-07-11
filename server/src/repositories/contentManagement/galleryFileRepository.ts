@@ -1,7 +1,7 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import GalleryFileModel, { GalleryFile } from "src/models/contentManagement/galleryFile";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ListGalleryFileByParams } from "src/dtos/contentManagement/galleryFile/listGalleryFileByParams";
 
 
     export default class GalleryFileRepository{
@@ -30,15 +30,15 @@ import AppConstant from "src/constants/appConstants";
         /**
          * get all galleries by parameters
          * 
-         * @param {object} gridParameter 
+         * @param {object} listGalleryFileByParams 
          * @returns {Promise<GalleryFile[]>}
          */
-        getAllByParams = async (gridParameter: GridParameter) : Promise<GalleryFile[]> =>{
-            const { currentPage, pageSize, sortModel } = gridParameter;
+        getAllByParams = async (listGalleryFileByParams: ListGalleryFileByParams) : Promise<GalleryFile[]> =>{
+            const { currentPage, pageSize, sortModel } = listGalleryFileByParams.gridParameter;
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await GalleryFileModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await GalleryFileModel.find({ galleryId: listGalleryFileByParams.galleryId }).sort(sort).skip(skipCount).limit(limitCount);
             return list;
         }  
         

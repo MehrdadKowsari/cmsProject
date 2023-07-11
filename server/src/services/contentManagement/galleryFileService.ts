@@ -8,10 +8,10 @@ import { AddGalleryFileDTO } from '../../dtos/contentManagement/galleryFile/addG
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import GalleryFileRepository from '../../repositories/contentManagement/galleryFileRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateGalleryFileDTO } from 'src/dtos/contentManagement/galleryFile/updateGalleryFileDTO';
 import { GalleryFile } from 'src/models/contentManagement/galleryFile';
 import { Types } from 'mongoose';
+import { ListGalleryFileByParams } from 'src/dtos/contentManagement/galleryFile/listGalleryFileByParams';
 
 @autoInjectable()
 export default class GalleryFileService {
@@ -86,13 +86,13 @@ export default class GalleryFileService {
     /**
      * get all galleryFile list by params
      * 
-     * @param {object} gridParameter 
+     * @param {object} listGalleryFileByParams 
      * @returns {Promise<RequestResult<GridData<GalleryFileDTO[]>> | null>}
      */
-    getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<GalleryFileDTO[]> | null>> => {
+    getAllByParams = async (listGalleryFileByParams: ListGalleryFileByParams): Promise<RequestResult<GridData<GalleryFileDTO[]> | null>> => {
         try {
             const totalCount = await this._galleryFileRepository.count();
-            const galleryFiles: GalleryFileDTO[] = (await this._galleryFileRepository.getAllByParams(gridParameter))?.map((galleryFile: any) => <GalleryFileDTO>{
+            const galleryFiles: GalleryFileDTO[] = (await this._galleryFileRepository.getAllByParams(listGalleryFileByParams))?.map((galleryFile: any) => <GalleryFileDTO>{
                 id: galleryFile._id?.toString(),
                 galleryId: galleryFile.galleryId,
                 galleryName: galleryFile.galleryId?.name,
