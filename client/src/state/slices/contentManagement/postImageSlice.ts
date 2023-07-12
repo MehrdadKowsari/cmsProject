@@ -5,7 +5,7 @@ import { AddPostImageDTO } from 'src/models/contentManagement/postImage/addPostI
 import { UpdatePostImageDTO } from 'src/models/contentManagement/postImage/updatePostImageDTO';
 import { PostImageDTO } from 'src/models/contentManagement/postImage/postImageDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
-import { GridParameter } from 'src/models/shared/grid/gridPrameter';
+import { ListPostImageByParamsDTO } from 'src/models/contentManagement/postImage/listPostImageByParamsDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/post`;
 
@@ -35,9 +35,9 @@ export const getAllPostImages = createAsyncThunk(
 
 export const getAllByParams = createAsyncThunk(
   "postImages/getAllByParams", 
-  async (gridParameter: GridParameter, { rejectWithValue }) => {
+  async (listPostImageByParams: ListPostImageByParamsDTO, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, listPostImageByParams);
       return data?.result;
     } catch (err) {
       const error= err as AxiosError;

@@ -14,7 +14,7 @@ export interface AddPostDTO{
   videoPoster: string | null;
   thumbnailVideoPoster: string | null;
   isCommentOpen: boolean;
-  slugUrl: string;
+  slugUrl: string | null;
   galleryId: number | string | null;
   priority: number | number;
   isFeatured: boolean;

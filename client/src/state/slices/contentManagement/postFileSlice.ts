@@ -5,7 +5,7 @@ import { AddPostFileDTO } from 'src/models/contentManagement/postFile/addPostFil
 import { UpdatePostFileDTO } from 'src/models/contentManagement/postFile/updatePostFileDTO';
 import { PostFileDTO } from 'src/models/contentManagement/postFile/postFileDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
-import { GridParameter } from 'src/models/shared/grid/gridPrameter';
+import { ListPostFileByParamsDTO } from 'src/models/contentManagement/postFile/listPostFileByParamsDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/post`;
 
@@ -35,9 +35,9 @@ export const getAllPostFiles = createAsyncThunk(
 
 export const getAllByParams = createAsyncThunk(
   "postFiles/getAllByParams", 
-  async (gridParameter: GridParameter, { rejectWithValue }) => {
+  async (listPostFileByParams: ListPostFileByParamsDTO, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, listPostFileByParams);
       return data?.result;
     } catch (err) {
       const error= err as AxiosError;
