@@ -5,7 +5,7 @@ import { AddMenuItemDTO } from 'src/models/contentManagement/menuItem/addMenuIte
 import { UpdateMenuItemDTO } from 'src/models/contentManagement/menuItem/updateMenuItemDTO';
 import { MenuItemDTO } from 'src/models/contentManagement/menuItem/menuItemDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
-import { GridParameter } from 'src/models/shared/grid/gridPrameter';
+import { ListMenuItemByParamsDTO } from 'src/models/contentManagement/menuItem/listMenuItemByParamsDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/menuItem`;
 
@@ -35,9 +35,9 @@ export const getAllGalleryCategories = createAsyncThunk(
 
 export const getAllByParams = createAsyncThunk(
   "menuItems/getAllByParams", 
-  async (gridParameter: GridParameter, { rejectWithValue }) => {
+  async (listMenuItemByParams: ListMenuItemByParamsDTO, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, listMenuItemByParams);
       return data?.result;
     } catch (err) {
       const error= err as AxiosError;
