@@ -137,4 +137,9 @@ export default class CommonMessage {
     public static readonly OpenINNewWindow: string = 'Open IN New Window';
     public static readonly File: string = 'File';
     public static readonly UploadAFile: string = 'Upload A File';
+    public static readonly Menu: string = 'Menu';
+    public static readonly MenuItem: string = 'Menu Item';
+    public static readonly Post: string = 'Post';
+    public static readonly PostFile: string = 'Post File';
+    public static readonly PostIamge: string = 'Post Iamge';
 }

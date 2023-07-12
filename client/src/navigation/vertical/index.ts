@@ -17,8 +17,13 @@ const navigation = (): VerticalNavItemsType => {
       path: '/admin/contentManagement/postCategory'
     },
     {
+      title: 'Posts',
+      icon: 'article',
+      path: '/admin/contentManagement/post'
+    },
+    {
       title: 'Gallery Categories',
-      icon: 'folder',
+      icon: 'collections',
       path: '/admin/contentManagement/galleryCategory'
     },
     {
@@ -30,6 +35,11 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Sliders',
       icon: 'code',
       path: '/admin/contentManagement/slider'
+    },
+    {
+      title: 'Menus',
+      icon: 'list',
+      path: '/admin/contentManagement/menu'
     },
     {
       title: 'Tags',

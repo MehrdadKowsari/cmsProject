@@ -12,7 +12,9 @@
     "Role Page Permissions": "دسترسی های صفحه نقش",
     "Post Categories": "دسته بندی نوشته",
     "Gallery Categories": "دسته بندی گالری",
+    "Posts": "نوشته ها",
     "Tags": "برچسب ها",
+    "Menus": "فهرست ها",
     "Sliders": "اسلایدر ها",
     "Gallery": "گالری",
     "Galleries": "گالری ها",
@@ -169,5 +171,8 @@
     "updatedAt": "تاریخ ویرایش",
     "video": "ویدئو",
    "audio": "صوت",
-   "galleryFile": "فایل های گالری"
+   "galleryFile": "فایل های گالری",
+   "postFile": "فایل های نوشته",
+   "postImage": "تصویر های نوشته",
+   "menuItem": "آیتم های نوشته"
 }
