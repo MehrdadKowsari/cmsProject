@@ -16,32 +16,33 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
-          menuId: joi.number().required().label('Menu Id')
+          menuId: joi.string().required().label('Menu Id')
           .messages({ 
-               "number.base": req.t('menuIdIsRequired', `{{#label}} is required`),
-               "number.required": req.t('menuIdIsRequired', `{{#label}} is required`)}),
+               "string.base": req.t('menuIdIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('menuIdIsRequired', `{{#label}} is required`),
+               "string.required": req.t('menuIdIsRequired', `{{#label}} is required`)}),
           name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).label('Description')
+          description: joi.string().optional().allow(null,'').max(AppConstant.DescriptionMaxLenght).label('Description')
           .messages({ 
                "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          imageSavePath: joi.string().max(AppConstant.FileSavePathMaxLength).label('Image Save Path')
+          imageSavePath: joi.string().optional().allow(null,'').max(AppConstant.FileSavePathMaxLength).label('Image Save Path')
           .messages({ 
                "string.max": req.t('maxLenghtForFileSavePathIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          url: joi.string().max(AppConstant.UrlMaxLength).label('Url')
+          url: joi.string().optional().allow(null,'').max(AppConstant.UrlMaxLength).label('Url')
           .messages({ 
                "string.max": req.t('maxLenghtForUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          slugUrl: joi.string().max(AppConstant.SlugUrlMaxLength).label('Slug Url')
+          slugUrl: joi.string().optional().allow(null,'').max(AppConstant.SlugUrlMaxLength).label('Slug Url')
           .messages({ 
                "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          target: joi.string().max(50).label('Target')
+          target: joi.string().optional().allow(null,'').max(50).label('Target')
           .messages({ 
                "string.max": req.t('maxLenghtForTargetIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          iconCssClass: joi.string().max(500).label('Icon Css Class')
+          iconCssClass: joi.string().optional().allow(null,'').max(500).label('Icon Css Class')
           .messages({ 
                "string.max": req.t('maxLenghtForIconCssClassIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
           priority: joi.number().label('Priority')
@@ -85,34 +86,35 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          menuId: joi.number().required().label('PostId')
+          menuId: joi.string().required().label('Menu Id')
           .messages({ 
-               "number.base": req.t('menuIdIsRequired', `{{#label}} is required`),
-               "number.required": req.t('menuIdIsRequired', `{{#label}} is required`)}),
+               "string.base": req.t('menuIdIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('menuIdIsRequired', `{{#label}} is required`),
+               "string.required": req.t('menuIdIsRequired', `{{#label}} is required`)}),
           name: joi.string().max(AppConstant.NameMaxLenght).trim(true).required().label('Name')
           .messages({ 
                "string.base": req.t('nameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('nameIsRequired', `{{#label}} is required`),
                "string.required": req.t('nameIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          description: joi.string().max(AppConstant.DescriptionMaxLenght).label('Description')
+          description: joi.string().optional().allow(null,'').max(AppConstant.DescriptionMaxLenght).label('Description')
           .messages({ 
                "string.max": req.t('maxLenghtForDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          imageSavePath: joi.string().max(AppConstant.FileSavePathMaxLength).label('Image Save Path')
+          imageSavePath: joi.string().optional().allow(null,'').max(AppConstant.FileSavePathMaxLength).label('Image Save Path')
           .messages({ 
                "string.max": req.t('maxLenghtForFileSavePathIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          url: joi.string().max(AppConstant.UrlMaxLength).label('Url')
+          url: joi.string().optional().allow(null,'').max(AppConstant.UrlMaxLength).label('Url')
           .messages({ 
                "string.max": req.t('maxLenghtForUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          slugUrl: joi.string().max(AppConstant.SlugUrlMaxLength).label('Slug Url')
+          slugUrl: joi.string().optional().allow(null,'').max(AppConstant.SlugUrlMaxLength).label('Slug Url')
           .messages({ 
                "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          target: joi.string().max(50).label('Target')
+          target: joi.string().optional().allow(null,'').max(50).label('Target')
           .messages({ 
                "string.max": req.t('maxLenghtForTargetIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          iconCssClass: joi.string().max(500).label('Icon Css Class')
+          iconCssClass: joi.string().optional().allow(null,'').max(500).label('Icon Css Class')
           .messages({ 
-                    "string.max": req.t('maxLenghtForIconCssClassIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
+               "string.max": req.t('maxLenghtForIconCssClassIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
           priority: joi.number().label('Priority')
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),

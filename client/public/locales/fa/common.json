@@ -122,6 +122,7 @@
     "noDataExist": "داده ای وجود ندارد",
     "doNotHaveAccessToPage": "شما دسترسی به این صفحه/پنجره را ندارید",
     "doNotHaveAccessToThisActionOrSection": "دسترسی(انجام) به این قسمت(عملیات) را ندارید",
+    "youHaveNotAccessToThePageOrAction": "شما به این صفحه/عملیات دسترسی ندارید",
     "minLenghtForThisFieldIsN": "طول این فیلد باید حداقل {{n}} کاراکتر باشد",
     "view": "نمایش",
     "publish": "انتشار",
@@ -174,5 +175,6 @@
    "galleryFile": "فایل های گالری",
    "postFile": "فایل های نوشته",
    "postImage": "تصویر های نوشته",
-   "menuItem": "آیتم های نوشته"
+   "menuItem": "آیتم های نوشته",
+   "iconCssClass": "کلاس css آیکون"
 }

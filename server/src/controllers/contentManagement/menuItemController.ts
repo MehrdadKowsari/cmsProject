@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import MenuItemService from '../../services/contentManagement/menuItemService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateMenuItemDTO } from 'src/dtos/contentManagement/menuItem/updateMenuItemDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
+import { ListMenuItemByParamsDTO } from 'src/dtos/contentManagement/menuItem/listMenuItemByParamsDTO';
 
 @autoInjectable()
 export class MenuItemController{
@@ -40,7 +40,6 @@ export class MenuItemController{
      */
     getAll = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
             const requestResult = await this._menuItemService.getAll();
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
@@ -57,8 +56,8 @@ export class MenuItemController{
      */
     getAllByParams = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
-            const requestResult = await this._menuItemService.getAllByParams(gridParameter);
+            const listMenuItemByParams: ListMenuItemByParamsDTO = req.body;
+            const requestResult = await this._menuItemService.getAllByParams(listMenuItemByParams);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));

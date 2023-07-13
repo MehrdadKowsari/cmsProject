@@ -26,15 +26,12 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          sectionName: joi.string().max(AppConstant.SectionNameMaxLength).require().label('Section Name')
+          sectionName: joi.string().max(AppConstant.SectionNameMaxLength).required().label('Section Name')
                .messages({ 
                "string.base": req.t('sectionNameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('sectionNameIsRequired', `{{#label}} is required`),
                "string.required": req.t('sectionNameIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForSectionNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          locale: joi.string().max(AppConstant.SectionNameMaxLength).label('Locale')
-               .messages({ 
-               "string.max": req.t('maxLenghtForLocaleIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
+               "string.max": req.t('maxLenghtForSectionNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})          
      });
      
      const { error } = addValidationSchema.validate(req.body, options);
@@ -86,15 +83,12 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-               sectionName: joi.string().max(AppConstant.SectionNameMaxLength).require().label('Section Name')
+               sectionName: joi.string().max(AppConstant.SectionNameMaxLength).required().label('Section Name')
                .messages({ 
                "string.base": req.t('sectionNameIsRequired', `{{#label}} is required`),
                "string.empty": req.t('sectionNameIsRequired', `{{#label}} is required`),
                "string.required": req.t('sectionNameIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForSectionNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
-          locale: joi.string().max(AppConstant.SectionNameMaxLength).label('Locale')
-               .messages({ 
-               "string.max": req.t('maxLenghtForLocaleIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
+               "string.max": req.t('maxLenghtForSectionNameIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
      });
      
   

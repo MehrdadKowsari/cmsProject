@@ -312,7 +312,7 @@ const initialValues: initialValuesType = {
     valueFormatter(params) {
       return t(params?.value)
     },width: 150 },
-    { field: 'iconCssClass', headerName: t('iconCssClass', CommonMessage.FileExtension)!, width: 130 },
+    { field: 'iconCssClass', headerName: t('iconCssClass', CommonMessage.IconClass)!, width: 130 },
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
     { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
     { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean' },

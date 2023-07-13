@@ -1,7 +1,6 @@
 import React,  { useState, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import SaveIcon from '@mui/icons-material/Save'
@@ -21,7 +20,6 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import ApplicationParams from 'src/constants/applicationParams';
-import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
 import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Hotkey from 'src/constants/hotkey';
@@ -31,7 +29,6 @@ const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
-const [menuTypes, setMenuTypes] = useState<TextValueDTO[]>([]);
 const firstFieldRef = useRef<HTMLInputElement>(null);
 
 const dispatch = useAppDispatch();
@@ -70,7 +67,6 @@ useHotkeys(Hotkey.Reset,() => formik.resetForm())
 
 const validationSchema = object({
   name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  type: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   sectionName: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   locale: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
@@ -150,7 +146,7 @@ const initialValues: initialValuesType = {
       <CardContent>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-        <Box>
+          <Box>
           <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
             <Grid container 
             spacing={3}

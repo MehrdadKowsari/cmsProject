@@ -8,7 +8,7 @@ import useConfirm from 'src/state/hooks/useConfirm';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import ImageIcon from '@mui/icons-material/Image';
+import ListIcon from '@mui/icons-material/List';
 import SecurityIcon from '@mui/icons-material/Security';
 import { Button, CardContent, CardHeader } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -187,8 +187,6 @@ const Page = ({ Component, pageProps }: AppProps) => {
   const columns: GridColDef[] = [
     { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
     { field: 'sectionName', headerName: t('sectionName', CommonMessage.SectionName)!, width: 130 },
-    { field: 'params', headerName: t('params', CommonMessage.Params)!, width: 130 },
-    { field: 'allowedFileExtension', headerName: t('allowedFileExtension', CommonMessage.AllowedFileExtension)!, width: 130 },
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
     { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
     { field: 'locale', headerName: t('locale', CommonMessage.Locale)!, valueFormatter(params) {
@@ -222,7 +220,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
         />,
         <GridActionsCellItem
           key={params.id}
-          icon={<ImageIcon />}
+          icon={<ListIcon />}
           label={t('items', CommonMessage.Items)}
           onClick={() => handleOpenItemModal(params.id)}
         />,

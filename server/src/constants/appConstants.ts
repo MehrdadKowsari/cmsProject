@@ -20,4 +20,5 @@ export default class AppConstant {
     public static readonly FileSavePathMaxLength:number = 5000;
     public static readonly FileExtensionMaxLength:number = 100;
     public static readonly SectionNameMaxLength:number = 200;
+    public static readonly Locale:number = 10;
 }

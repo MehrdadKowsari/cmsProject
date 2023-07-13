@@ -1,7 +1,7 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import MenuItemModel, { MenuItem } from "src/models/contentManagement/menuItem";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ListMenuItemByParamsDTO } from "src/dtos/contentManagement/menuItem/listMenuItemByParamsDTO";
 
 
     export default class MenuItemRepository{
@@ -30,15 +30,15 @@ import AppConstant from "src/constants/appConstants";
         /**
          * get all galleries by parameters
          * 
-         * @param {object} gridParameter 
+         * @param {object} listMenuItemByParams 
          * @returns {Promise<MenuItem[]>}
          */
-        getAllByParams = async (gridParameter: GridParameter) : Promise<MenuItem[]> =>{
-            const { currentPage, pageSize, sortModel } = gridParameter;
+        getAllByParams = async (listMenuItemByParams: ListMenuItemByParamsDTO) : Promise<MenuItem[]> =>{
+            const { currentPage, pageSize, sortModel } = listMenuItemByParams.gridParameter;
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await MenuItemModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await MenuItemModel.find({ menuId: listMenuItemByParams.menuId }).sort(sort).skip(skipCount).limit(limitCount);
             return list;
         }  
         

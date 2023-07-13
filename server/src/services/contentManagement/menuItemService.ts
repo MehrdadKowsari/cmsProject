@@ -8,10 +8,10 @@ import { AddMenuItemDTO } from '../../dtos/contentManagement/menuItem/addMenuIte
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import MenuItemRepository from '../../repositories/contentManagement/menuItemRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateMenuItemDTO } from 'src/dtos/contentManagement/menuItem/updateMenuItemDTO';
 import { MenuItem } from 'src/models/contentManagement/menuItem';
 import { Types } from 'mongoose';
+import { ListMenuItemByParamsDTO } from 'src/dtos/contentManagement/menuItem/listMenuItemByParamsDTO';
 
 @autoInjectable()
 export default class MenuItemService {
@@ -93,17 +93,16 @@ export default class MenuItemService {
         }
     }
 
-       
     /**
      * get all menuItem list by params
      * 
-     * @param {object} gridParameter 
+     * @param {object} listMenuItemByParams 
      * @returns {Promise<RequestResult<GridData<MenuItemDTO[]>> | null>}
      */
-    getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<MenuItemDTO[]> | null>> => {
+    getAllByParams = async (listMenuItemByParams: ListMenuItemByParamsDTO): Promise<RequestResult<GridData<MenuItemDTO[]> | null>> => {
         try {
             const totalCount = await this._menuItemRepository.count();
-            const menuItems: MenuItemDTO[] = (await this._menuItemRepository.getAllByParams(gridParameter))?.map((menuItem: any) => <MenuItemDTO>{
+            const menuItems: MenuItemDTO[] = (await this._menuItemRepository.getAllByParams(listMenuItemByParams))?.map((menuItem: any) => <MenuItemDTO>{
                 id: menuItem._id?.toString(),
                 menuId: menuItem.menuId,
                 menuName: menuItem.menuId?.name,
