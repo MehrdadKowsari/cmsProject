@@ -1,4 +1,4 @@
-import { MenuItemType } from "../enums//menuItemTypeEnum";
+import { MenuItemTypeEnum } from "../enums//menuItemTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
 
 export interface MenuItemDTO extends BaseModel {
@@ -16,7 +16,7 @@ export interface MenuItemDTO extends BaseModel {
   target: string;
   iconCssClass: string | null;
   iconSavePath: string | null;
-  type: MenuItemType,
+  type: MenuItemTypeEnum,
   isActive: boolean,
   priority: number | null;
   createdBy?: string;

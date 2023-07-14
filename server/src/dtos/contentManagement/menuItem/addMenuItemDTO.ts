@@ -1,4 +1,4 @@
-import { MenuItemType } from "src/enums/contentManagement/menuItemTypeEnum";
+import { MenuItemTypeEnum } from "src/enums/contentManagement/menuItemTypeEnum";
 
 export interface AddMenuItemDTO{
   menuId: string;
@@ -14,7 +14,7 @@ export interface AddMenuItemDTO{
   rel: string | null;
   iconCssClass: string | null;
   iconSavePath: string | null;
-  type: MenuItemType,
+  type: MenuItemTypeEnum,
   priority: number | null;
 }
 
