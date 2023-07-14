@@ -25,7 +25,8 @@ import { ListMenuItemByParamsDTO } from "src/dtos/contentManagement/menuItem/lis
          * 
          * @returns {Promise<MenuItem[]>}
          */
-        getAll = async () => await MenuItemModel.find(); 
+        getAll = async () => await MenuItemModel.find()
+        .populate('parentId'); 
         
         /**
          * get all galleries by parameters
@@ -38,7 +39,8 @@ import { ListMenuItemByParamsDTO } from "src/dtos/contentManagement/menuItem/lis
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await MenuItemModel.find({ menuId: listMenuItemByParams.menuId }).sort(sort).skip(skipCount).limit(limitCount);
+            const list = await MenuItemModel.find({ menuId: listMenuItemByParams.menuId }).sort(sort).skip(skipCount).limit(limitCount)
+            .populate('parentId');
             return list;
         }  
         
