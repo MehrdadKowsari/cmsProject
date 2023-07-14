@@ -36,6 +36,7 @@ import { LanguageLabbelMapping as LanguageCodeEnumLabbelMapping, LanguageCodeEnu
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 import { useRouter } from 'next/router';
 import localizationService from 'src/services/shared/localizationService';
+import { MenuItemTypeEnum, MenuItemTypeEnumLabelMapping } from 'src/models/contentManagement/enums/menuItemTypeEnum';
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();

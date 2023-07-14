@@ -21,7 +21,7 @@ export const add = createAsyncThunk(
     }
 });
 
-export const getAllGalleryCategories = createAsyncThunk(
+export const getAllMenuItems = createAsyncThunk(
   "menuItems/getAll", 
   async (_, { rejectWithValue }) => {
     try {

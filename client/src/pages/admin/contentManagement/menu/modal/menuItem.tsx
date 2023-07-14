@@ -12,7 +12,7 @@ import {object, string} from 'yup';
 import notification from 'src/services/shared/notificationService';
 import { FormProps } from 'src/types/shared/formType';
 import { useAppDispatch } from 'src/state/hooks/hooks';
-import { add, getById, update } from 'src/state/slices/contentManagement/menuItemSlice';
+import { add, getAllMenuItems, getById, update } from 'src/state/slices/contentManagement/menuItemSlice';
 import CommonMessage from 'src/constants/commonMessage';
 import { useTranslation } from 'react-i18next';
 import Card from '@mui/material/Card';
@@ -39,7 +39,9 @@ import Avatar from '@mui/material/Avatar';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 import localizationService from 'src/services/shared/localizationService';
 import { ListMenuItemByParamsDTO } from 'src/models/contentManagement/menuItem/listMenuItemByParamsDTO';
-import { MenuItemType } from 'src/models/contentManagement/enums/menuItemTypeEnum';
+import { MenuItemTypeEnum, MenuItemTypeEnumLabelMapping } from 'src/models/contentManagement/enums/menuItemTypeEnum';
+import utilityService from 'src/services/shared/utilityService';
+import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
 
 const MenuItem = ({id , permissions, locale}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -51,6 +53,8 @@ const [hasToggleActivePermission, setHasToggleActivePermission] = useState<boole
 const [rowId, setRowId] = useState<number | string | null>(null);
 const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
 const [menuItem, setMenuItem] = useState<MenuItemDTO | null>(null);
+const [menuItemTypes, setMenuItemTypes] = useState<TextValueDTO[]>([]);
+const [parentMenuItems, setParentMenuItems] = useState<TextValueDTO[]>([]);
 const { menuItems, totalCount, isLoading } = useSelector((state: any) => state?.menuItem?.menuItems ? state?.menuItem : { menuItems: [], totalCount: 0, isLoading: false });
 const [paginationModel, setPaginationModel] = React.useState<GridPaginationModel>({
   page: 0,
@@ -63,16 +67,26 @@ const [sortModel, setSortModel] = React.useState<GridSortModel>([
   },
 ]);
 const [image, setFile] = useState<string | null>(null);
-const [iconCssClass, setFileExtension] = useState<string | null>(null);
+const [fileExtension, setFileExtension] = useState<string | null>(null);
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
 const { confirm } = useConfirm();
 const firstFieldRef = useRef<HTMLInputElement>(null);
 
 useEffect(() => {
+  getMenuItemTypes();
+  getAllParentMenuItemList();
   focusOnFirstField();
 }, []);
 
+const getAllParentMenuItemList = async () => {
+  const parentMenuItems: MenuItemDTO[] = await dispatch(getAllMenuItems()).unwrap();
+  const mappedPages = parentMenuItems?.map(p => ({
+    text: p.name,
+    value: p.id
+  } as TextValueDTO));
+  setParentMenuItems(mappedPages);
+}
 
 const getItemById = async (id: string | number) => {
   const menuItemDTO: MenuItemDTO = await dispatch(getById(id)).unwrap();
@@ -80,13 +94,21 @@ const getItemById = async (id: string | number) => {
   setMenuItem(menuItemDTO);
 }
 
+const getMenuItemTypes = () => {
+  const types = utilityService.getTextValueListByEnum(MenuItemTypeEnum, MenuItemTypeEnumLabelMapping);
+  setMenuItemTypes(types);
+}
+
 const setFormData = async (menuItemDTO: MenuItemDTO | null) =>{
   if (menuItemDTO) {
     await formik.setValues({
+        parentId: menuItemDTO.parentId,
         name: menuItemDTO.name,
+        type: menuItemDTO.type.toString(),
         url: menuItemDTO.url,
         target: menuItemDTO.target,
         image: menuItemDTO.image,
+        iconCssClass: menuItemDTO.iconCssClass,
         description: menuItemDTO.description,
         priority: menuItemDTO.priority
       } as initialValuesType);
@@ -145,8 +167,9 @@ useHotkeys(Hotkey.ToggleActive, async () => {
 //#endregion
 
 const validationSchema = object({
-  name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('imagedIsRequired', CommonMessage.RequiredFiled)!),
-  priority: string().required(t('imagedIsRequired', CommonMessage.RequiredFiled)!)
+  name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('fildIsRequired', CommonMessage.RequiredFiled)!),
+  type: string().required(t('fildIsRequired', CommonMessage.RequiredFiled)!),
+  priority: string().required(t('fildIsRequired', CommonMessage.RequiredFiled)!)
 });
 
 type initialValuesType = {
@@ -156,6 +179,7 @@ type initialValuesType = {
   name: string,
   type: string,
   url: string | null,
+  iconCssClass: string | null;
   target: string | null,
   description: string | null,
   image: string | null,
@@ -166,6 +190,7 @@ const initialValues: initialValuesType = {
   name: '',
   type: '',
   url: '',
+  iconCssClass: '',
   target: '',
   image: null,
   description: '',
@@ -175,20 +200,21 @@ const initialValues: initialValuesType = {
     initialValues: initialValues,
     validationSchema: validationSchema,
     validateOnBlur: false,
+    validateOnChange: false,
     onSubmit: async (values) => {
       if(formik.isValid){
         if (isUpdate) {
           const updateMenuItemDTO: UpdateMenuItemDTO = {
             id: rowId!,
             menuId: id!,
-            type: Number(values.type) as MenuItemType,
+            type: Number(values.type) as MenuItemTypeEnum,
             parentId: values.parentId,
             name: values.name,
             url: values.url,
             description: values.description,
             image: image,
             imageSavePath: null,
-            iconCssClass: iconCssClass,
+            iconCssClass: values.iconCssClass,
             target: values.target,
             priority: values.priority
           };
@@ -201,12 +227,12 @@ const initialValues: initialValuesType = {
             menuId: id!,
             name: values.name,
             parentId: values.parentId,
-            type: Number(values.type) as MenuItemType,
+            type: Number(values.type) as MenuItemTypeEnum,
             url: values.url,
             description: values.description,
             image: image,
             imageSavePath: null,
-            iconCssClass: iconCssClass,
+            iconCssClass: values.iconCssClass,
             target: values.target,
             priority: values.priority
           }
@@ -306,9 +332,13 @@ const initialValues: initialValuesType = {
     { field: 'image', headerName: t('image', CommonMessage.File)!, sortable: false, renderCell(params) {
       return <Avatar alt='' src={params?.value} />
     },width: 130 },
+    { field: 'parentName', headerName: t('parent', CommonMessage.Parent)!, width: 130 },
     { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
-    { field: 'url', headerName: t('url', CommonMessage.Url)!, width: 130 },
-    { field: 'target', headerName: t('target', CommonMessage.LinkTarget)!, 
+    { field: 'type', headerName: t('type', CommonMessage.Type)!, valueFormatter(params) {
+      return t(MenuItemTypeEnumLabelMapping[Number(params.value) as MenuItemTypeEnum])
+    }, width: 130 },
+    { field: 'url', headerName: t('linkUrl', CommonMessage.Url)!, width: 130 },
+    { field: 'target', headerName: t('linkTarget', CommonMessage.LinkTarget)!, 
     valueFormatter(params) {
       return t(params?.value)
     },width: 150 },
@@ -371,6 +401,25 @@ const initialValues: initialValuesType = {
                 <Grid item lg={6}>
                   <TextField
                   inputRef={firstFieldRef}
+                  select 
+                  fullWidth
+                  id="parentId"
+                  name="parentId"
+                  label={t('parent', CommonMessage.Parent)}
+                  value={formik.values.parentId} 
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.parentId && Boolean(formik.errors.parentId)}
+                  helperText={formik.errors.parentId}>
+                    {parentMenuItems.map((option) => (
+                      <MuiMenuItem key={option.value} value={option.value}>
+                        {option.text}
+                      </MuiMenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item lg={6}>
+                  <TextField
                   fullWidth 
                   id='name'
                   label={t('name', CommonMessage.Name)}
@@ -379,6 +428,27 @@ const initialValues: initialValuesType = {
                   onBlur={formik.handleBlur}
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.errors.name}/> 
+                </Grid>
+                <Grid item lg={6}>
+                  <TextField
+                  select 
+                  fullWidth
+                  id='type'
+                  name='type'
+                  label={t('type', CommonMessage.Type)}
+                  value={formik.values.type} 
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.type && Boolean(formik.errors.type)}
+                  helperText={formik.errors.type}>
+                    {
+                      menuItemTypes?.map((option: TextValueDTO) => (
+                        <MuiMenuItem key={option.value} value={option.value}>
+                        {t(MenuItemTypeEnumLabelMapping[Number(option.value) as MenuItemTypeEnum])}
+                        </MuiMenuItem>
+                      ))
+                    }
+                  </TextField>
                 </Grid>
                 <Grid item lg={6}>
                   <FileUploadWithImagePreview
@@ -397,7 +467,7 @@ const initialValues: initialValuesType = {
                   fullWidth
                   id='target'
                   name='target'
-                  label={t('target', CommonMessage.LinkTarget)}
+                  label={t('linkTarget', CommonMessage.LinkTarget)}
                   value={formik.values.target} 
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -416,12 +486,25 @@ const initialValues: initialValuesType = {
                   fullWidth
                   id='url'
                   name='url'
-                  label={t('url', CommonMessage.LinkUrl)}
+                  label={t('linkUrl', CommonMessage.LinkUrl)}
                   value={formik.values.url} 
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.url && Boolean(formik.errors.url)}
                   helperText={formik.errors.url}>
+                  </TextField>
+                </Grid>
+                <Grid item lg={6}>
+                  <TextField
+                  fullWidth
+                  id='iconCssClass'
+                  name='iconCssClass'
+                  label={t('iconCssClass', CommonMessage.LinkUrl)}
+                  value={formik.values.iconCssClass} 
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.iconCssClass && Boolean(formik.errors.iconCssClass)}
+                  helperText={formik.errors.iconCssClass}>
                   </TextField>
                 </Grid>
                 <Grid item lg={6}>
@@ -435,7 +518,7 @@ const initialValues: initialValuesType = {
                   error={formik.touched.priority && Boolean(formik.errors.priority)}
                   helperText={formik.errors.priority}/> 
                 </Grid>
-                <Grid item lg={6}>
+                <Grid item lg={12}>
                   <TextField 
                   fullWidth 
                   id='description'
