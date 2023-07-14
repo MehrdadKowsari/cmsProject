@@ -1,5 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
-import { MenuItemType } from 'src/enums/contentManagement/menuItemTypeEnum';
+import { MenuItemTypeEnum } from 'src/enums/contentManagement/menuItemTypeEnum';
 
 export const DOCUMENT_NAME = 'MenuItem';
 export const COLLECTION_NAME = 'menueItems';
@@ -10,7 +10,7 @@ export  interface MenuItem {
   parentId: Types.ObjectId | null;
   name: string | null;
   description: string | null;
-  type: MenuItemType,
+  type: MenuItemTypeEnum,
   image: string | null;
   imageSavePath: string | null;
   level: number | null;
