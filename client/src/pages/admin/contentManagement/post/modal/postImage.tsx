@@ -132,8 +132,8 @@ useHotkeys(Hotkey.Delete, async () => {
 //#endregion
 
 const validationSchema = object({
-  name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('imagedIsRequired', CommonMessage.RequiredFiled)!),
-  priority: string().required(t('imagedIsRequired', CommonMessage.RequiredFiled)!)
+  name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('fildIsRequired', CommonMessage.RequiredFiled)!),
+  priority: string().required(t('fildIsRequired', CommonMessage.RequiredFiled)!)
 });
 
 type initialValuesType = {
