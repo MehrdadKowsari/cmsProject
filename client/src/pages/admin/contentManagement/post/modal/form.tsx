@@ -29,7 +29,9 @@ import { PostTypeEnum, PostTypeEnumLabelMapping } from 'src/models/contentManage
 import LanguageDropdown from 'src/components/LanguageDropdown/LanguageDropdown';
 import { PostCategoryDTO } from 'src/models/contentManagement/postCategory/postCategoryDTO';
 import { getAllPostCategories } from 'src/state/slices/contentManagement/postCategorySlice';
+import dynamic from "next/dynamic";
 
+const RichTextEditor = dynamic(() => import("./../../../../../components/RichTextEditor/RichTextEditor"), { ssr: false });
 const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
@@ -37,6 +39,8 @@ const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissi
 const [postCategories, setPostCategories] = useState<TextValueDTO[]>([]);
 const [postTypes, setPostTypes] = useState<TextValueDTO[]>([]);
 const firstFieldRef = useRef<HTMLInputElement>(null);
+const [editorLoaded, setEditorLoaded] = useState<boolean>(false);
+const [content, setContent] = useState<string>("");
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
@@ -47,6 +51,7 @@ useEffect(() => {
       await getItemById(id);
     })();
   }
+  setEditorLoaded(true);
   getAllPostCategoryList();
   getAllPostTypeList();
   focusOnFirstField();
@@ -217,17 +222,6 @@ const initialValues: initialValuesType = {
                   </TextField>
                 </Grid>
                 <Grid item lg={6}>
-                  <TextField 
-                  fullWidth 
-                  id="name"
-                  label={t('name', CommonMessage.Name)}
-                  value={formik.values.title}
-                  onChange={formik.handleChange} 
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.title && Boolean(formik.errors.title)}
-                  helperText={formik.errors.title}/> 
-                </Grid>
-                <Grid item lg={6}>
                   <TextField
                   select 
                   fullWidth
@@ -246,6 +240,39 @@ const initialValues: initialValuesType = {
                     ))}
                   </TextField>
                 </Grid>
+                <Grid item lg={12}>
+                  <TextField 
+                  fullWidth 
+                  id="title"
+                  label={t('title', CommonMessage.Title)}
+                  value={formik.values.title}
+                  onChange={formik.handleChange} 
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.title && Boolean(formik.errors.title)}
+                  helperText={formik.errors.title}/> 
+                </Grid>
+                <Grid item lg={12}>
+                  <TextField 
+                  fullWidth 
+                  id="shortDescription"
+                  label={t('shortDescription', CommonMessage.ShortDescription)}
+                  value={formik.values.shortDescription}
+                  onChange={formik.handleChange} 
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.shortDescription && Boolean(formik.errors.shortDescription)}
+                  helperText={formik.errors.shortDescription} 
+                  rows={2}/>
+                </Grid>
+                <Grid item lg={12}>
+                  <RichTextEditor
+                  name="content"
+                  value={content}
+                  onChange={(content: string) => {
+                    setContent(content);
+                  }}
+                  editorLoaded={editorLoaded}
+                />
+                </Grid>
                 <Grid item lg={6}>
                   <TextField
                   fullWidth
@@ -257,19 +284,6 @@ const initialValues: initialValuesType = {
                   onBlur={formik.handleBlur}
                   error={formik.touched.slugUrl && Boolean(formik.errors.slugUrl)}
                   helperText={formik.errors.slugUrl}>
-                  </TextField>
-                </Grid>
-                <Grid item lg={6}>
-                  <TextField
-                  fullWidth
-                  id="content"
-                  name="content"
-                  label={t('content', CommonMessage.AllowedFileExtension)}
-                  value={formik.values.content} 
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.content && Boolean(formik.errors.content)}
-                  helperText={formik.errors.content}>
                   </TextField>
                 </Grid>
                 <Grid item lg={6}>
@@ -307,17 +321,6 @@ const initialValues: initialValuesType = {
                     error={formik.touched.locale && Boolean(formik.errors.locale)}
                     helperText={formik.errors.locale}
                   />
-                </Grid>
-                <Grid item lg={12}>
-                  <TextField 
-                  fullWidth 
-                  id="description"
-                  label={t('description', CommonMessage.Description)}
-                  value={formik.values.shortDescription}
-                  onChange={formik.handleChange} 
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.shortDescription && Boolean(formik.errors.shortDescription)}
-                  helperText={formik.errors.shortDescription}/> 
                 </Grid>
                 <Grid item lg={12}>
                   <Button
