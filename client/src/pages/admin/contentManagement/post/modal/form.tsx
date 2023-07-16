@@ -32,7 +32,7 @@ import { getAllPostCategories } from 'src/state/slices/contentManagement/postCat
 import dynamic from "next/dynamic";
 
 const RichTextEditor = dynamic(() => import("./../../../../../components/RichTextEditor/RichTextEditor"), { ssr: false });
-const PageForm = ({id, permissions, onClose}: FormProps) => {
+const PageForm = ({id, permissions, onClose, locale}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
@@ -40,7 +40,7 @@ const [postCategories, setPostCategories] = useState<TextValueDTO[]>([]);
 const [postTypes, setPostTypes] = useState<TextValueDTO[]>([]);
 const firstFieldRef = useRef<HTMLInputElement>(null);
 const [editorLoaded, setEditorLoaded] = useState<boolean>(false);
-const [content, setContent] = useState<string>("");
+const [content, setContent] = useState<string | null>(null);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
@@ -84,6 +84,7 @@ const loadFormData = async (postDTO: PostDTO) => {
         priority: postDTO.priority,
         locale: postDTO.locale
       } as initialValuesType);
+      setContent(postDTO.content);
   }
 }
 
@@ -102,7 +103,7 @@ useHotkeys(Hotkey.Reset,() => formik.resetForm())
 
 const validationSchema = object({
   postCategoryId: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  name: string().max(ApplicationParams.NameMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.NameMaxLenght), { n: `${ApplicationParams.NameMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
+  title: string().max(ApplicationParams.PostTitleMaxLenght, t('minLenghtForThisFieldIsN', CommonMessage.MaxLenghtForThisFieldIsN(ApplicationParams.PostTitleMaxLenght), { n: `${ApplicationParams.PostTitleMaxLenght}`})!).required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   type: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   locale: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
@@ -145,7 +146,7 @@ const initialValues: initialValuesType = {
             slugUrl: values.slugUrl,
             shortDescription: values.shortDescription,
             type: Number(values.type) as PostTypeEnum,
-            content: values.content,
+            content: content,
             image: values.image,
             priority: values.priority,
             locale: values.locale
@@ -161,7 +162,7 @@ const initialValues: initialValuesType = {
             slugUrl: values.slugUrl,
             shortDescription: values.shortDescription,
             type: Number(values.type) as PostTypeEnum,
-            content: values.content,
+            content: content,
             image: values.image,
             priority: values.priority,
             locale: values.locale
@@ -271,6 +272,7 @@ const initialValues: initialValuesType = {
                     setContent(content);
                   }}
                   editorLoaded={editorLoaded}
+                  locale={locale!}
                 />
                 </Grid>
                 <Grid item lg={6}>

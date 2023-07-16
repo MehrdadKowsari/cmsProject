@@ -76,32 +76,26 @@ const schema = new Schema<Post>(
     },
     visitNumber: {
       type: Schema.Types.Number,
-      required: true,
       default: 0
     },
     raterNumber: {
       type: Schema.Types.Number,
-      required: true,
       default: 0
     },
     totalRating: {
       type: Schema.Types.Number,
-      required: true,
       default: 0
     },
     likeCount: {
       type: Schema.Types.Number,
-      required: true,
       default: 0
     },
     dislikeCount: {
       type: Schema.Types.Number,
-      required: true,
       default: 0
     },
     isCommentOpen: {
       type: Schema.Types.Boolean,
-      required: true,
       default: true
     },
     slugUrl: {
@@ -132,7 +126,8 @@ const schema = new Schema<Post>(
     },
     status: {
       type: Schema.Types.Number,
-      required: true
+      //required: true,
+      default:PostStatusTypeEnum.Draft
     },
     createdBy: {
       type: Schema.Types.ObjectId,

@@ -16,17 +16,18 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
-          postId: joi.number().required().label('PostId')
+          postCategoryId: joi.string().required().label('Post Category Id')
           .messages({ 
-               "number.base": req.t('postIdIsRequired', `{{#label}} is required`),
-               "number.required": req.t('postIdIsRequired', `{{#label}} is required`)}),
+               "string.base": req.t('postCategoryIdIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('titleIsRequired', `{{#label}} is required`),
+               "string.required": req.t('postCategoryIdIsRequired', `{{#label}} is required`)}),
           title: joi.string().max(AppConstant.TitleMaxLenght).trim(true).required().label('Title')
           .messages({ 
                "string.base": req.t('titleIsRequired', `{{#label}} is required`),
                "string.empty": req.t('titleIsRequired', `{{#label}} is required`),
                "string.required": req.t('titleIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForTitleIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-          shortDescription: joi.string().max(5000).label('Short Description')
+          shortDescription: joi.string().optional().allow(null,'').max(5000).label('Short Description')
           .messages({ 
                "string.max": req.t('maxLenghtForShortDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
           type: joi.number().required().label('Type')
@@ -37,9 +38,9 @@ const addValidation = (req: Request, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          slugUrl: joi.string().max(AppConstant.SlugUrlMaxLength).label('Slug Url')
+          slugUrl: joi.string().optional().allow(null,'').max(AppConstant.SlugUrlMaxLength).label('Slug Url')
           .messages({ 
-               "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
+               "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})         
      });
      
      const { error } = addValidationSchema.validate(req.body, options);
@@ -77,19 +78,20 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          postId: joi.number().required().label('PostId')
+          postCategoryId: joi.string().required().label('Post Category Id')
           .messages({ 
-               "number.base": req.t('postIdIsRequired', `{{#label}} is required`),
-               "number.required": req.t('postIdIsRequired', `{{#label}} is required`)}),
+               "string.base": req.t('postCategoryIdIsRequired', `{{#label}} is required`),
+               "string.empty": req.t('titleIsRequired', `{{#label}} is required`),
+               "string.required": req.t('postCategoryIdIsRequired', `{{#label}} is required`)}),
           title: joi.string().max(AppConstant.TitleMaxLenght).trim(true).required().label('Title')
           .messages({ 
                "string.base": req.t('titleIsRequired', `{{#label}} is required`),
                "string.empty": req.t('titleIsRequired', `{{#label}} is required`),
                "string.required": req.t('titleIsRequired', `{{#label}} is required`),
                "string.max": req.t('maxLenghtForTitleIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
-               shortDescription: joi.string().max(5000).label('Short Description')
+          shortDescription: joi.string().optional().allow(null,'').max(5000).label('Short Description')
           .messages({ 
-               "string.max": req.t('maxLenghtForShortDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
+               "string.max": req.t('maxLenghtForShortDescriptionIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),          
           type: joi.number().required().label('Type')
           .messages({ 
                "number.base": req.t('typeIsRequired', `{{#label}} is required`),
@@ -98,7 +100,7 @@ const updateValidation = (req: any, res: Response, next: NextFunction) => {
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
                "number.required": req.t('priorityIsRequired', `{{#label}} is required`)}),          
-          slugUrl: joi.string().max(AppConstant.SlugUrlMaxLength).label('Slug Url')
+          slugUrl: joi.string().optional().allow(null,'').max(AppConstant.SlugUrlMaxLength).label('Slug Url')
           .messages({ 
                "string.max": req.t('maxLenghtForSlugUrlIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})})
      });

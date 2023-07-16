@@ -39,7 +39,7 @@ import localizationService from 'src/services/shared/localizationService';
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
-  const { galleries, totalCount, isLoading } = useSelector((state: any) => state?.post?.galleries ? state?.post : { galleries: [], totalCount: 0, isLoading: false });
+  const { posts, totalCount, isLoading } = useSelector((state: any) => state?.post?.posts ? state?.post : { posts: [], totalCount: 0, isLoading: false });
   const [isOpenFormModal, setIsOpenFormModal] = useState<boolean>(false);
   const [locale, setLocale] = useState<string>(ApplicationParams.DefaultLanguageCode);
   const [isOpenItemModal, setIsOpenItemModal] = useState<boolean>(false);
@@ -48,7 +48,6 @@ const Page = ({ Component, pageProps }: AppProps) => {
   const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
   const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(false);
   const [hasDeletePermission, setHasDeletePermission] = useState<boolean>(false);
-  const [hasToggleActivePermission, setHasToggleActivePermission] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number | string | null>(null);
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
   const [paginationModel, setPaginationModel] = React.useState<GridPaginationModel>({
@@ -95,7 +94,6 @@ const Page = ({ Component, pageProps }: AppProps) => {
     const hasDeletePermission: boolean = PermissionService.hasPermission(userPagePermissions, PermissionTypeEnum.Delete);
     setHasDeletePermission(hasDeletePermission);
     const hasToggleActivePermission: boolean = PermissionService.hasPermission(userPagePermissions, PermissionTypeEnum.ToggleActive);
-    setHasToggleActivePermission(hasToggleActivePermission);
   }, [userPagePermissions])
 
   const getRolePagePermissions = async () => {
@@ -166,20 +164,18 @@ const Page = ({ Component, pageProps }: AppProps) => {
   //#endregion
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
+    { field: 'title', headerName: t('title', CommonMessage.Title)!, width: 250 },
     { field: 'type', headerName: t('type', CommonMessage.Type)!, 
     valueFormatter(params: any) {
       return t(PostTypeEnumLabelMapping[params.value as PostTypeEnum])
     },
     width: 130 },
-    { field: 'params', headerName: t('params', CommonMessage.Params)!, width: 130 },
+    { field: 'shortDescription', headerName: t('shortDescription', CommonMessage.ShortDescription)!, width: 250 },
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
-    { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
     { field: 'locale', headerName: t('locale', CommonMessage.Locale)!, valueFormatter(params) {
       return t(LanguageCodeEnumLabbelMapping[params?.value as LanguageCodeEnum])
     }, 
     width: 130 },
-    { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean' },
     { field: 'updatedAt', headerName: t('updatedAt', CommonMessage.UpdatedAt)!, valueFormatter(params) {
       return localizationService.getLocalDateTime(params?.value, locale);
     },width: 150 },
@@ -263,7 +259,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
           <Box mt={2}>
             <div style={{ height: ApplicationParams.GridDefaultHeight, width: '100%' }}>
               <CustomDataGrid
-                rows={galleries}
+                rows={posts}
                 columns={columns}
                 rowCount={totalCount}
                 loading={isLoading}              
