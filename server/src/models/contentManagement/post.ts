@@ -126,7 +126,6 @@ const schema = new Schema<Post>(
     },
     status: {
       type: Schema.Types.Number,
-      //required: true,
       default:PostStatusTypeEnum.Draft
     },
     createdBy: {
