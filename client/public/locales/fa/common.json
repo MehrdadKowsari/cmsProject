@@ -184,7 +184,15 @@
    "shortDescription": "توضیح کوتاه",
    "content": "محتوا",
    "text": "متن",
+   "dateFrom": "تاریخ از",
+   "dateTo": "تاریخ تا",
    "imageGallery": "گالری تصویری",
    "videoGallery": "گالری ویدیویی",
-   "audioGallery": "گالری صوتی"
+   "audioGallery": "گالری صوتی",
+   "draft":"پیش نویش",
+   "pending": "در حال بررسی",
+   "published": "انتشار یافته",
+   "future": "آینده",
+   "hidden": "مخفی",
+   "trash": "پاک شده"
 }

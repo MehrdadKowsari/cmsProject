@@ -10,7 +10,7 @@ type FileUploadProps = {
     imageWidth: number,
     imageHeight: number
     setFile: (file: string) => void,
-    setFileExtension: (fileExtension: string) => void,
+    setFileExtension?: (fileExtension: string) => void,
     file: string | null
 }
 
@@ -31,7 +31,9 @@ export const FileUploadWithImagePreview = ({id, name, imageHeight, imageWidth, s
             (file.target as HTMLInputElement).value = '';
         }
         const currentFile = files[0];
-        setFileExtension(currentFile.type)
+        if (setFileExtension) {
+            setFileExtension(currentFile.type)
+        }
         reader.readAsDataURL(currentFile);
         
         }

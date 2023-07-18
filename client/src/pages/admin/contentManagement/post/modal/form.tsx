@@ -33,6 +33,9 @@ import dynamic from "next/dynamic";
 import CustomDateTimePicker from 'src/components/FormikDateTimePicker/CustomDateTimePicker';
 import localizationService from 'src/services/shared/localizationService';
 import useLocale from 'src/hooks/useLocale';
+import utilityService from 'src/services/shared/utilityService';
+import { PostStatusTypeEnum, PostStatusTypeEnumLabelMapping } from 'src/models/contentManagement/enums/postStatusTypeEnum';
+import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWithImagePreview';
 
 const RichTextEditor = dynamic(() => import("./../../../../../components/RichTextEditor/RichTextEditor"), { ssr: false });
 const PageForm = ({id, permissions, onClose}: FormProps) => {
@@ -41,10 +44,11 @@ const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissi
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [postCategories, setPostCategories] = useState<TextValueDTO[]>([]);
 const [postTypes, setPostTypes] = useState<TextValueDTO[]>([]);
+const [postStatusTypes, setPostStatusTypes] = useState<TextValueDTO[]>([]);
 const firstFieldRef = useRef<HTMLInputElement>(null);
 const [editorLoaded, setEditorLoaded] = useState<boolean>(false);
 const [content, setContent] = useState<string | null>(null);
-
+const [image, setImage] = useState<string | null>(null);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
@@ -60,6 +64,7 @@ useEffect(() => {
   setEditorLoaded(true);
   getAllPostCategoryList();
   getAllPostTypeList();
+  getAllPostStatusTypeList();
   focusOnFirstField();
 }, []);
 
@@ -90,18 +95,22 @@ const loadFormData = async (postDTO: PostDTO) => {
         priority: postDTO.priority,
         dateFrom: localizationService.parseDateTime(postDTO.dateFrom, locale),
         dateTo: localizationService.parseDateTime(postDTO.dateTo, locale),
+        status: postDTO.status.toString(),
         locale: postDTO.locale
       } as initialValuesType);
       setContent(postDTO.content);
+      setImage(postDTO.image);
   }
 }
 
 const getAllPostTypeList = () => {
-  const postTypes: TextValueDTO[] = Object.values(PostTypeEnum).filter(p => typeof p === 'number').map(p => ({
-    text: t(PostTypeEnumLabelMapping[p as PostTypeEnum]),
-    value: p.toString()
-  } as TextValueDTO));
+  const postTypes: TextValueDTO[] = utilityService.getTextValueListByEnum(PostTypeEnum, PostTypeEnumLabelMapping);;
   setPostTypes(postTypes);
+}
+
+const getAllPostStatusTypeList = () => {
+  const postStatusTypes: TextValueDTO[] = utilityService.getTextValueListByEnum(PostStatusTypeEnum, PostStatusTypeEnumLabelMapping);
+  setPostStatusTypes(postStatusTypes);
 }
 
 //#region hotkey
@@ -128,6 +137,7 @@ type initialValuesType = {
   priority: number,
   dateFrom: Date | null,
   dateTo: Date | null,
+  status: string,
   locale: string | null
 };
 const initialValues: initialValuesType = {
@@ -141,6 +151,7 @@ const initialValues: initialValuesType = {
   dateFrom: null,
   dateTo: null,
   priority: 1,
+  status: '',
   locale: ''
 };
   const formik = useFormik({
@@ -151,7 +162,7 @@ const initialValues: initialValuesType = {
     onSubmit: async (values) => {
       if(formik.isValid){
         if (isUpdate) {
-          const updatePostDTO: any = {
+          const updatePostDTO: UpdatePostDTO = {
             id: id!,
             postCategoryId: values.postCategoryId,
             title: values.title,
@@ -159,10 +170,11 @@ const initialValues: initialValuesType = {
             shortDescription: values.shortDescription,
             type: Number(values.type) as PostTypeEnum,
             content: content,
-            image: values.image,
+            image: image,
             priority: values.priority,
             dateFrom: values.dateFrom,
             dateTo: values.dateTo,
+            status: Number(values.status) as PostStatusTypeEnum,
             locale: values.locale
           };
           const result = await dispatch(update(updatePostDTO)).unwrap();
@@ -170,20 +182,21 @@ const initialValues: initialValuesType = {
             onClose();
           }
         } else {
-          const addPostaCategoryDTO: any = {
+          const addPostDTO: AddPostDTO = {
             postCategoryId: values.postCategoryId,
             title: values.title,
             slugUrl: values.slugUrl,
             shortDescription: values.shortDescription,
             type: Number(values.type) as PostTypeEnum,
             content: content,
-            image: values.image,
+            image: image,
             priority: values.priority,
             dateFrom: values.dateFrom,
             dateTo: values.dateTo,
+            status: Number(values.status) as PostStatusTypeEnum,
             locale: values.locale
           }
-          const result = await dispatch(add(addPostaCategoryDTO)).unwrap();
+          const result = await dispatch(add(addPostDTO)).unwrap();
           if (result) {
             onClose();
           }         
@@ -195,6 +208,7 @@ const initialValues: initialValuesType = {
     },
     onReset: () => {
       focusOnFirstField();
+      clearMainForm();
     }
   });
 
@@ -202,6 +216,11 @@ const initialValues: initialValuesType = {
     if (firstFieldRef && firstFieldRef.current) {
       firstFieldRef.current.focus();
      }
+  }
+
+  const clearMainForm = () => {
+    setContent(null);
+    setImage(null);
   }
 
  
@@ -313,6 +332,35 @@ const initialValues: initialValuesType = {
                 />
                 </Grid>
                 <Grid item lg={6}>
+                  <FileUploadWithImagePreview
+                  id='upload-image'
+                  name='upload-image'
+                  imageWidth={50}
+                  imageHeight={50}
+                  file={image}
+                  setFile={setImage}
+                  />
+                </Grid>
+                <Grid item lg={6}>
+                  <TextField
+                  select 
+                  fullWidth
+                  id="status"
+                  name="status"
+                  label={t('status', CommonMessage.Status)}
+                  value={formik.values.status} 
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.status && Boolean(formik.errors.status)}
+                  helperText={formik.errors.status}>
+                    {postStatusTypes.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.text}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item lg={12}>
                   <TextField
                   fullWidth
                   id="slugUrl"
@@ -323,19 +371,6 @@ const initialValues: initialValuesType = {
                   onBlur={formik.handleBlur}
                   error={formik.touched.slugUrl && Boolean(formik.errors.slugUrl)}
                   helperText={formik.errors.slugUrl}>
-                  </TextField>
-                </Grid>
-                <Grid item lg={6}>
-                  <TextField
-                  fullWidth
-                  id="image"
-                  name="image"
-                  label={t('image', CommonMessage.Params)}
-                  value={formik.values.image} 
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.image && Boolean(formik.errors.image)}
-                  helperText={formik.errors.image}>
                   </TextField>
                 </Grid>
                 <Grid item lg={6}>
