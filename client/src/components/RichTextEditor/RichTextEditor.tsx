@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useRouter } from "next/router";
-import ApplicationParams from "src/constants/applicationParams";
-import localizationService from "src/services/shared/localizationService";
 
 interface CKeditorProps {
   onChange: (data: string) => void;
@@ -41,13 +39,11 @@ export default function CKeditor({
           config={{
            language: locale,           
           }}
-          onReady={(editor) => {
-            // You can store the "editor" and use when it is needed.
-            // console.log("Editor is ready to use!", editor);
+            onReady={(editor) => {
             editor.editing.view.change((writer) => {
             writer.setStyle(
                 "height",
-                "200px",
+                "350px",
                 editor.editing.view.document.getRoot()!
             );
             });
