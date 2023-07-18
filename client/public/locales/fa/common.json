@@ -179,5 +179,12 @@
    "postFile": "فایل های نوشته",
    "postImage": "تصویر های نوشته",
    "menuItem": "آیتم های نوشته",
-   "iconCssClass": "کلاس css آیکون"
+   "iconCssClass": "کلاس css آیکون",
+   "slugUrl": "آدرس SEO",
+   "shortDescription": "توضیح کوتاه",
+   "content": "محتوا",
+   "text": "متن",
+   "imageGallery": "گالری تصویری",
+   "videoGallery": "گالری ویدیویی",
+   "audioGallery": "گالری صوتی"
 }
