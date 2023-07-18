@@ -272,7 +272,7 @@ const initialValues: initialValuesType = {
                   helperText={formik.errors.type}>
                     {postTypes.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
-                        {option.text}
+                        {t(option.text)}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -355,7 +355,7 @@ const initialValues: initialValuesType = {
                   helperText={formik.errors.status}>
                     {postStatusTypes.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
-                        {option.text}
+                        {t(option.text)}
                       </MenuItem>
                     ))}
                   </TextField>
