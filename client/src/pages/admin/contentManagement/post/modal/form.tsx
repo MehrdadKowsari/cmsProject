@@ -30,9 +30,12 @@ import LanguageDropdown from 'src/components/LanguageDropdown/LanguageDropdown';
 import { PostCategoryDTO } from 'src/models/contentManagement/postCategory/postCategoryDTO';
 import { getAllPostCategories } from 'src/state/slices/contentManagement/postCategorySlice';
 import dynamic from "next/dynamic";
+import CustomDateTimePicker from 'src/components/FormikDateTimePicker/CustomDateTimePicker';
+import localizationService from 'src/services/shared/localizationService';
+import useLocale from 'src/hooks/useLocale';
 
 const RichTextEditor = dynamic(() => import("./../../../../../components/RichTextEditor/RichTextEditor"), { ssr: false });
-const PageForm = ({id, permissions, onClose, locale}: FormProps) => {
+const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
@@ -42,8 +45,11 @@ const firstFieldRef = useRef<HTMLInputElement>(null);
 const [editorLoaded, setEditorLoaded] = useState<boolean>(false);
 const [content, setContent] = useState<string | null>(null);
 
+
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
+const { getLocale } = useLocale();
+const locale = getLocale();
 
 useEffect(() => {
   if (id) {
@@ -82,6 +88,8 @@ const loadFormData = async (postDTO: PostDTO) => {
         image: postDTO.image,
         shortDescription: postDTO.shortDescription,
         priority: postDTO.priority,
+        dateFrom: localizationService.parseDateTime(postDTO.dateFrom, locale),
+        dateTo: localizationService.parseDateTime(postDTO.dateTo, locale),
         locale: postDTO.locale
       } as initialValuesType);
       setContent(postDTO.content);
@@ -118,6 +126,8 @@ type initialValuesType = {
   shortDescription: string | null,
   image: string | null,
   priority: number,
+  dateFrom: Date | null,
+  dateTo: Date | null,
   locale: string | null
 };
 const initialValues: initialValuesType = {
@@ -128,6 +138,8 @@ const initialValues: initialValuesType = {
   content: '',
   image: '',
   shortDescription: '',
+  dateFrom: null,
+  dateTo: null,
   priority: 1,
   locale: ''
 };
@@ -149,6 +161,8 @@ const initialValues: initialValuesType = {
             content: content,
             image: values.image,
             priority: values.priority,
+            dateFrom: values.dateFrom,
+            dateTo: values.dateTo,
             locale: values.locale
           };
           const result = await dispatch(update(updatePostDTO)).unwrap();
@@ -165,6 +179,8 @@ const initialValues: initialValuesType = {
             content: content,
             image: values.image,
             priority: values.priority,
+            dateFrom: values.dateFrom,
+            dateTo: values.dateTo,
             locale: values.locale
           }
           const result = await dispatch(add(addPostaCategoryDTO)).unwrap();
@@ -187,7 +203,8 @@ const initialValues: initialValuesType = {
       firstFieldRef.current.focus();
      }
   }
-  
+
+ 
   return (
     <Card>
       <CardHeader 
@@ -273,6 +290,26 @@ const initialValues: initialValuesType = {
                   }}
                   editorLoaded={editorLoaded}
                   locale={locale!}
+                />
+                </Grid>
+                <Grid item lg={6}>
+                <CustomDateTimePicker
+                  name="dateFrom"
+                  label={t('dateFrom', CommonMessage.From)}
+                  value={formik.values.dateFrom}
+                  onChange={(value) => {
+                    formik.setFieldValue('dateFrom', value);
+                  }}                  
+                />
+                </Grid>
+                <Grid item lg={6}>
+                <CustomDateTimePicker
+                  name="dateTo"
+                  label={t('dateTo', CommonMessage.To)}
+                  value={formik.values.dateTo}
+                  onChange={(value) => {
+                    formik.setFieldValue('dateTo', value);
+                  }}                  
                 />
                 </Grid>
                 <Grid item lg={6}>

@@ -93,7 +93,6 @@ const Page = ({ Component, pageProps }: AppProps) => {
     setHasUpdatePermission(hasUpdatePermission);
     const hasDeletePermission: boolean = PermissionService.hasPermission(userPagePermissions, PermissionTypeEnum.Delete);
     setHasDeletePermission(hasDeletePermission);
-    const hasToggleActivePermission: boolean = PermissionService.hasPermission(userPagePermissions, PermissionTypeEnum.ToggleActive);
   }, [userPagePermissions])
 
   const getRolePagePermissions = async () => {
