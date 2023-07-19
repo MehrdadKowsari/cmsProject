@@ -1,7 +1,6 @@
 import React,  { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import SaveIcon from '@mui/icons-material/Save';
@@ -38,14 +37,14 @@ import Avatar from '@mui/material/Avatar';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 import localizationService from 'src/services/shared/localizationService';
 import { ListPostImageByParamsDTO } from 'src/models/contentManagement/postImage/listPostImageByParamsDTO';
+import useLocale from 'src/hooks/useLocale';
 
-const PostImage = ({id , permissions, locale}: FormProps) => {
+const PostImage = ({id , permissions}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(false);
 const [hasViewPermission, setHasViewPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.View));
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [hasDeletePermission, setHasDeletePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Delete));
-const [hasToggleActivePermission, setHasToggleActivePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.ToggleActive));
 const [rowId, setRowId] = useState<number | string | null>(null);
 const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
 const [postImage, setPostImage] = useState<PostImageDTO | null>(null);
@@ -66,6 +65,8 @@ const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
 const { confirm } = useConfirm();
 const firstFieldRef = useRef<HTMLInputElement>(null);
+const { getLocale } = useLocale();
+const locale = getLocale();
 
 useEffect(() => {
   focusOnFirstField();

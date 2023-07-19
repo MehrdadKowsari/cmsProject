@@ -1,7 +1,7 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import PostImageModel, { PostImage } from "src/models/contentManagement/postImage";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ListPostImageByParams } from "src/dtos/contentManagement/postImage/listPostImageByParamsDTO";
 
 
     export default class PostImageRepository{
@@ -30,15 +30,15 @@ import AppConstant from "src/constants/appConstants";
         /**
          * get all galleries by parameters
          * 
-         * @param {object} gridParameter 
+         * @param {object} listPostImageByParams 
          * @returns {Promise<PostImage[]>}
          */
-        getAllByParams = async (gridParameter: GridParameter) : Promise<PostImage[]> =>{
-            const { currentPage, pageSize, sortModel } = gridParameter;
+        getAllByParams = async (listPostImageByParams: ListPostImageByParams) : Promise<PostImage[]> =>{
+            const { currentPage, pageSize, sortModel } = listPostImageByParams.gridParameter;
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await PostImageModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await PostImageModel.find({ postId: listPostImageByParams.postId }).sort(sort).skip(skipCount).limit(limitCount);
             return list;
         }  
         

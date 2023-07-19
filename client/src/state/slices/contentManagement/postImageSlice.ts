@@ -7,7 +7,7 @@ import { PostImageDTO } from 'src/models/contentManagement/postImage/postImageDT
 import { IntialState } from 'src/state/interfaces/intialState';
 import { ListPostImageByParamsDTO } from 'src/models/contentManagement/postImage/listPostImageByParamsDTO';
 
-const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/post`;
+const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/postImage`;
 
 export const add = createAsyncThunk(
   "postImages/add", 

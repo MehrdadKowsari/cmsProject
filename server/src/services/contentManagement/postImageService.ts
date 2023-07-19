@@ -8,10 +8,10 @@ import { AddPostImageDTO } from '../../dtos/contentManagement/postImage/addPostI
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PostImageRepository from '../../repositories/contentManagement/postImageRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePostImageDTO } from 'src/dtos/contentManagement/postImage/updatePostImageDTO';
 import { PostImage } from 'src/models/contentManagement/postImage';
 import { Types } from 'mongoose';
+import { ListPostImageByParams } from 'src/dtos/contentManagement/postImage/listPostImageByParamsDTO';
 
 @autoInjectable()
 export default class PostImageService {
@@ -86,13 +86,13 @@ export default class PostImageService {
     /**
      * get all postImage list by params
      * 
-     * @param {object} gridParameter 
+     * @param {object} listPostImageByParams 
      * @returns {Promise<RequestResult<GridData<PostImageDTO[]>> | null>}
      */
-    getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<PostImageDTO[]> | null>> => {
+    getAllByParams = async (listPostImageByParams: ListPostImageByParams): Promise<RequestResult<GridData<PostImageDTO[]> | null>> => {
         try {
             const totalCount = await this._postImageRepository.count();
-            const postImages: PostImageDTO[] = (await this._postImageRepository.getAllByParams(gridParameter))?.map((postImage: any) => <PostImageDTO>{
+            const postImages: PostImageDTO[] = (await this._postImageRepository.getAllByParams(listPostImageByParams))?.map((postImage: any) => <PostImageDTO>{
                 id: postImage._id?.toString(),
                 postId: postImage.postId,
                 postTitle: postImage.postId?.title,
