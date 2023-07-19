@@ -5,9 +5,9 @@ import { AddPostTagDTO } from 'src/models/contentManagement/postTag/addPostTagDT
 import { UpdatePostTagDTO } from 'src/models/contentManagement/postTag/updatePostTagDTO';
 import { PostTagDTO } from 'src/models/contentManagement/postTag/postTagDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
-import { GridParameter } from 'src/models/shared/grid/gridPrameter';
+import { ListPostTagByParamsDTO } from 'src/models/contentManagement/postTag/listPostTagByParamsDTO';
 
-const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/post`;
+const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/postTag`;
 
 export const add = createAsyncThunk(
   "postTags/add", 
@@ -35,9 +35,9 @@ export const getAllPostTags = createAsyncThunk(
 
 export const getAllByParams = createAsyncThunk(
   "postTags/getAllByParams", 
-  async (gridParameter: GridParameter, { rejectWithValue }) => {
+  async (listPostTagByParamsDTO: ListPostTagByParamsDTO, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, listPostTagByParamsDTO);
       return data?.result;
     } catch (err) {
       const error= err as AxiosError;

@@ -1,7 +1,7 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import PostTagModel, { PostTag } from "src/models/contentManagement/postTag";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ListPostTagByParams } from "src/dtos/contentManagement/postTag/listPostTagByParamsDTO";
 
 
     export default class PostTagRepository{
@@ -30,15 +30,15 @@ import AppConstant from "src/constants/appConstants";
         /**
          * get all postTagRepositories by parameters
          * 
-         * @param {object} gridParameter 
+         * @param {object} listPostTagByParams 
          * @returns {Promise<PostTag[]>}
          */
-        getAllByParams = async (gridParameter: GridParameter) : Promise<PostTag[]> =>{
-            const { currentPage, pageSize, sortModel } = gridParameter;
+        getAllByParams = async (listPostTagByParams: ListPostTagByParams) : Promise<PostTag[]> =>{
+            const { currentPage, pageSize, sortModel } = listPostTagByParams.gridParameter;
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await PostTagModel.find().sort(sort).skip(skipCount).limit(limitCount)
+            const list = await PostTagModel.find({ postId: listPostTagByParams.postId }).sort(sort).skip(skipCount).limit(limitCount)
             .populate('postId')
             .populate('tagId')
             .exec();

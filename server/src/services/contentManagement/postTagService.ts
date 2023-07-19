@@ -8,10 +8,10 @@ import { AddPostTagDTO } from '../../dtos/contentManagement/postTag/addPostTagDT
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PostTagRepository from '../../repositories/contentManagement/postTagRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePostTagDTO } from 'src/dtos/contentManagement/postTag/updatePostTagDTO';
 import { PostTag } from 'src/models/contentManagement/postTag';
 import { Types } from 'mongoose';
+import { ListPostTagByParams } from 'src/dtos/contentManagement/postTag/listPostTagByParamsDTO';
 
 @autoInjectable()
 export default class PostTagService {
@@ -52,13 +52,13 @@ export default class PostTagService {
     /**
      * get all postTag list by params
      * 
-     * @param {object} gridParameter 
+     * @param {object} listPostTagByParams 
      * @returns {Promise<RequestResult<GridData<PostTagDTO[]>> | null>}
      */
-    getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<PostTagDTO[]> | null>> => {
+    getAllByParams = async (listPostTagByParams: ListPostTagByParams): Promise<RequestResult<GridData<PostTagDTO[]> | null>> => {
         try {
             const totalCount = await this._postTagRepository.count();
-            const postTags: PostTagDTO[] = (await this._postTagRepository.getAllByParams(gridParameter))?.map((postTag: any) => <PostTagDTO>{
+            const postTags: PostTagDTO[] = (await this._postTagRepository.getAllByParams(listPostTagByParams))?.map((postTag: any) => <PostTagDTO>{
                 id: postTag._id?.toString(),
                 postId: postTag.postId,
                 postTitle: postTag.postId.title,

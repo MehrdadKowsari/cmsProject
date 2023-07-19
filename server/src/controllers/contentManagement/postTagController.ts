@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import PostTagService from '../../services/contentManagement/postTagService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePostTagDTO } from 'src/dtos/contentManagement/postTag/updatePostTagDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
+import { ListPostTagByParams } from 'src/dtos/contentManagement/postTag/listPostTagByParamsDTO';
 
 @autoInjectable()
 export class PostTagController{
@@ -40,8 +40,8 @@ export class PostTagController{
      */
     getAllByParams = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
-            const requestResult = await this._postTagService.getAllByParams(gridParameter);
+            const listPostTagByParams: ListPostTagByParams = req.body;
+            const requestResult = await this._postTagService.getAllByParams(listPostTagByParams);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));

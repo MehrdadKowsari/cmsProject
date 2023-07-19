@@ -1,5 +1,5 @@
 export interface AddPostTagDTO{
-  postId: string;
+  postId: string | number;
   tagId: string;
 }
 
