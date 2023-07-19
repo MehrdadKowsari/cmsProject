@@ -8,6 +8,7 @@ import { autoInjectable } from 'tsyringe';
 import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePostFileDTO } from 'src/dtos/contentManagement/postFile/updatePostFileDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
+import { ListPostFileByParams } from 'src/dtos/contentManagement/postFile/listPostFileByParamsDTO';
 
 @autoInjectable()
 export class PostFileController{
@@ -57,8 +58,8 @@ export class PostFileController{
      */
     getAllByParams = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
-            const requestResult = await this._postFileService.getAllByParams(gridParameter);
+            const listPostFileByParams: ListPostFileByParams = req.body;
+            const requestResult = await this._postFileService.getAllByParams(listPostFileByParams);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));

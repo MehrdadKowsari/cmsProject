@@ -7,7 +7,7 @@ import { PostFileDTO } from 'src/models/contentManagement/postFile/postFileDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
 import { ListPostFileByParamsDTO } from 'src/models/contentManagement/postFile/listPostFileByParamsDTO';
 
-const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/post`;
+const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/postFile`;
 
 export const add = createAsyncThunk(
   "postFiles/add", 

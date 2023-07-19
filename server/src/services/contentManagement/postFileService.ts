@@ -12,6 +12,7 @@ import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePostFileDTO } from 'src/dtos/contentManagement/postFile/updatePostFileDTO';
 import { PostFile } from 'src/models/contentManagement/postFile';
 import { Types } from 'mongoose';
+import { ListPostFileByParams } from 'src/dtos/contentManagement/postFile/listPostFileByParamsDTO';
 
 @autoInjectable()
 export default class PostFileService {
@@ -86,16 +87,15 @@ export default class PostFileService {
     /**
      * get all postFile list by params
      * 
-     * @param {object} gridParameter 
+     * @param {object} listPostFileByParams 
      * @returns {Promise<RequestResult<GridData<PostFileDTO[]>> | null>}
      */
-    getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<PostFileDTO[]> | null>> => {
+    getAllByParams = async (listPostFileByParams: ListPostFileByParams): Promise<RequestResult<GridData<PostFileDTO[]> | null>> => {
         try {
             const totalCount = await this._postFileRepository.count();
-            const postFiles: PostFileDTO[] = (await this._postFileRepository.getAllByParams(gridParameter))?.map((postFile: any) => <PostFileDTO>{
+            const postFiles: PostFileDTO[] = (await this._postFileRepository.getAllByParams(listPostFileByParams))?.map((postFile: any) => <PostFileDTO>{
                 id: postFile._id?.toString(),
                 postId: postFile.postId,
-                postTitle: postFile.postId?.title,
                 name: postFile.name,
                 description: postFile.description,
                 file: postFile.file,

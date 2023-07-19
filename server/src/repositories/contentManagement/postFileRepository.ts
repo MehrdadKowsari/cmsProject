@@ -2,6 +2,7 @@ import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import PostFileModel, { PostFile } from "src/models/contentManagement/postFile";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ListPostFileByParams } from "src/dtos/contentManagement/postFile/listPostFileByParamsDTO";
 
 
     export default class PostFileRepository{
@@ -30,15 +31,15 @@ import AppConstant from "src/constants/appConstants";
         /**
          * get all galleries by parameters
          * 
-         * @param {object} gridParameter 
+         * @param {object} listPostFileByParams 
          * @returns {Promise<PostFile[]>}
          */
-        getAllByParams = async (gridParameter: GridParameter) : Promise<PostFile[]> =>{
-            const { currentPage, pageSize, sortModel } = gridParameter;
+        getAllByParams = async (listPostFileByParams: ListPostFileByParams) : Promise<PostFile[]> =>{
+            const { currentPage, pageSize, sortModel } = listPostFileByParams.gridParameter;
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await PostFileModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await PostFileModel.find({postId : listPostFileByParams.postId}).sort(sort).skip(skipCount).limit(limitCount);
             return list;
         }  
         
