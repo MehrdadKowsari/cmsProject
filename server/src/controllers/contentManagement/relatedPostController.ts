@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import RelatedPostService from '../../services/contentManagement/relatedPostService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateRelatedPostDTO } from 'src/dtos/contentManagement/relatedPost/updateRelatedPostDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
+import { ListRelatedPostByParams } from 'src/dtos/contentManagement/relatedPost/listRelatedPostByParamsDTO';
 
 @autoInjectable()
 export class RelatedPostController{
@@ -40,8 +40,8 @@ export class RelatedPostController{
      */
     getAllByParams = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
-            const requestResult = await this._relatedPostService.getAllByParams(gridParameter);
+            const listRelatedPostByParams: ListRelatedPostByParams = req.body;
+            const requestResult = await this._relatedPostService.getAllByParams(listRelatedPostByParams);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));

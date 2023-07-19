@@ -8,10 +8,10 @@ import { AddRelatedPostDTO } from '../../dtos/contentManagement/relatedPost/addR
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import RelatedPostRepository from '../../repositories/contentManagement/relatedPostRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateRelatedPostDTO } from 'src/dtos/contentManagement/relatedPost/updateRelatedPostDTO';
 import { RelatedPost } from 'src/models/contentManagement/relatedPost';
 import { Types } from 'mongoose';
+import { ListRelatedPostByParams } from 'src/dtos/contentManagement/relatedPost/listRelatedPostByParamsDTO';
 
 @autoInjectable()
 export default class RelatedPostService {
@@ -52,13 +52,13 @@ export default class RelatedPostService {
     /**
      * get all relatedPost list by params
      * 
-     * @param {object} gridParameter 
+     * @param {object} listRelatedPostByParams 
      * @returns {Promise<RequestResult<GridData<RelatedPostDTO[]>> | null>}
      */
-    getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<RelatedPostDTO[]> | null>> => {
+    getAllByParams = async (listRelatedPostByParams: ListRelatedPostByParams): Promise<RequestResult<GridData<RelatedPostDTO[]> | null>> => {
         try {
             const totalCount = await this._relatedPostRepository.count();
-            const relatedPosts: RelatedPostDTO[] = (await this._relatedPostRepository.getAllByParams(gridParameter))?.map((relatedPost: any) => <RelatedPostDTO>{
+            const relatedPosts: RelatedPostDTO[] = (await this._relatedPostRepository.getAllByParams(listRelatedPostByParams))?.map((relatedPost: any) => <RelatedPostDTO>{
                 id: relatedPost._id?.toString(),
                 postId: relatedPost.postId,
                 postTitle: relatedPost.postId.title,

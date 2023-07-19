@@ -6,6 +6,7 @@ import { UpdateRelatedPostDTO } from 'src/models/contentManagement/relatedPost/u
 import { RelatedPostDTO } from 'src/models/contentManagement/relatedPost/relatedPostDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
 import { GridParameter } from 'src/models/shared/grid/gridPrameter';
+import { ListRelatedPostByParamsDTO } from 'src/models/contentManagement/relatedPost/listRelatedPostByParamsDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/relatedPost`;
 
@@ -35,9 +36,9 @@ export const getAllGalleryCategories = createAsyncThunk(
 
 export const getAllByParams = createAsyncThunk(
   "relatedPosts/getAllByParams", 
-  async (gridParameter: GridParameter, { rejectWithValue }) => {
+  async (listRelatedPostByParams: ListRelatedPostByParamsDTO, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, listRelatedPostByParams);
       return data?.result;
     } catch (err) {
       const error= err as AxiosError;

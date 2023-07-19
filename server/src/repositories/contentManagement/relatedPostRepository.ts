@@ -1,7 +1,7 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import RelatedPostModel, { RelatedPost } from "src/models/contentManagement/relatedPost";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ListRelatedPostByParams } from "src/dtos/contentManagement/relatedPost/listRelatedPostByParamsDTO";
 
 
     export default class RelatedPostRepository{
@@ -30,15 +30,15 @@ import AppConstant from "src/constants/appConstants";
         /**
          * get all relatedPostRepositories by parameters
          * 
-         * @param {object} gridParameter 
+         * @param {object} listRelatedPostByParams 
          * @returns {Promise<RelatedPost[]>}
          */
-        getAllByParams = async (gridParameter: GridParameter) : Promise<RelatedPost[]> =>{
-            const { currentPage, pageSize, sortModel } = gridParameter;
+        getAllByParams = async (listRelatedPostByParams: ListRelatedPostByParams) : Promise<RelatedPost[]> =>{
+            const { currentPage, pageSize, sortModel } = listRelatedPostByParams.gridParameter;
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await RelatedPostModel.find().sort(sort).skip(skipCount).limit(limitCount)
+            const list = await RelatedPostModel.find({ postId: listRelatedPostByParams.postId }).sort(sort).skip(skipCount).limit(limitCount)
             .populate('postId')
             .populate('relatedPostId')
             .exec();

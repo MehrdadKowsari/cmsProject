@@ -1,5 +1,5 @@
 export interface AddRelatedPostDTO{
-  postId: string;
+  postId: string | number;
   relatedPostId: string;
 }
 
