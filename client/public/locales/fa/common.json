@@ -178,6 +178,8 @@
    "galleryFile": "فایل های گالری",
    "postFile": "فایل های نوشته",
    "postImage": "تصویر های نوشته",
+   "postTag": "برچسب های نوشته",
+   "relatedPost": "نوشته های مرتبط",
    "menuItem": "آیتم های نوشته",
    "iconCssClass": "کلاس css آیکون",
    "slugUrl": "آدرس SEO",

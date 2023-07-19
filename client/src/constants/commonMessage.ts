@@ -140,8 +140,10 @@ export default class CommonMessage {
     public static readonly Menu: string = 'Menu';
     public static readonly MenuItem: string = 'Menu Item';
     public static readonly Post: string = 'Post';
+    public static readonly PostImage: string = 'Post Image';
     public static readonly PostFile: string = 'Post File';
-    public static readonly PostIamge: string = 'Post Iamge';
+    public static readonly PostTag: string = 'Post Tag';
+    public static readonly RelatedPost: string = 'Related Post';
     public static readonly Content: string = 'Content';
     public static readonly ShortDescription: string = 'ShortDescription';
 }
