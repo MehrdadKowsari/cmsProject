@@ -1,0 +1,7 @@
+@import "plugins/plugin-react-slick";
+.slick-track{
+    display: flex !important;
+}
+.slick-slide, .slick-image {
+    max-height: 450px !important;
+  }
