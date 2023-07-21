@@ -2,6 +2,8 @@ import SliderItemModel, { SliderItem } from "src/models/contentManagement/slider
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
 import { ListSliderItemByParamsDTO } from "src/dtos/contentManagement/sliderItem/listSliderItemByParamsDTO";
+import { ListActiveSliderItemByParamsDTO } from "src/dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO";
+import SliderModel from "src/models/contentManagement/slider";
 
 
     export default class SliderItemRepository{
@@ -22,10 +24,13 @@ import { ListSliderItemByParamsDTO } from "src/dtos/contentManagement/sliderItem
                
         /**
          * get all sliderItems
-         * 
+         * @param {object} listActiveSliderItemByParamsDTO
          * @returns {Promise<SliderItem[]>}
          */
-        getAll = async () => await SliderItemModel.find(); 
+        getAllActiveSlidersByParams = async (listActiveSliderItemByParamsDTO : ListActiveSliderItemByParamsDTO) =>{
+            const slider = await SliderModel.findOne({ sectionName: listActiveSliderItemByParamsDTO.sectionName, locale: listActiveSliderItemByParamsDTO.locale});
+            return await SliderItemModel.find({ sliderId : slider?._id });   
+        } 
         
         /**
          * get all galleries by parameters

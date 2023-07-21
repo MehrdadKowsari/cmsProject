@@ -8,6 +8,7 @@ import { autoInjectable } from 'tsyringe';
 import { UpdateSliderItemDTO } from 'src/dtos/contentManagement/sliderItem/updateSliderItemDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
 import { ListSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParamsDTO';
+import { ListActiveSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO';
 
 @autoInjectable()
 export class SliderItemController{
@@ -38,9 +39,10 @@ export class SliderItemController{
      * @param {object} res 
      * @returns {Promise<object>} return
      */
-    getAll = async (req: Request, res: Response) => {
+    getAllActiveSlidersByParams = async (req: Request, res: Response) => {
         try {
-            const requestResult = await this._sliderItemService.getAll();
+            const listActiveSliderItemByParamsDTO : ListActiveSliderItemByParamsDTO = req.body;
+            const requestResult = await this._sliderItemService.getAllActiveSlidersByParams(listActiveSliderItemByParamsDTO);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));

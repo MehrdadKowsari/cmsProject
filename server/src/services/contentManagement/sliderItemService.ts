@@ -12,6 +12,7 @@ import { UpdateSliderItemDTO } from 'src/dtos/contentManagement/sliderItem/updat
 import { SliderItem } from 'src/models/contentManagement/sliderItem';
 import { Types } from 'mongoose';
 import { ListSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParamsDTO';
+import { ListActiveSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO';
 
 @autoInjectable()
 export default class SliderItemService {
@@ -55,12 +56,12 @@ export default class SliderItemService {
        
     /**
      * get all sliderItem list by params
-     * 
+     * @param {object} listActiveSliderItemByParamsDTO
      * @returns {Promise<RequestResult<SliderItemDTO[]> | null>}
      */
-    getAll = async (): Promise<RequestResult<SliderItemDTO[] | null>> => {
+    getAllActiveSlidersByParams = async (listActiveSliderItemByParamsDTO : ListActiveSliderItemByParamsDTO): Promise<RequestResult<SliderItemDTO[] | null>> => {
         try {
-            const sliderItems: SliderItemDTO[] = (await this._sliderItemRepository.getAll())?.map((sliderItem: any) => <SliderItemDTO>{
+            const sliderItems: SliderItemDTO[] = (await this._sliderItemRepository.getAllActiveSlidersByParams(listActiveSliderItemByParamsDTO))?.map((sliderItem: any) => <SliderItemDTO>{
                 id: sliderItem._id?.toString(),
                 sliderId: sliderItem.sliderId,
                 sliderName: sliderItem.sliderId?.name,
