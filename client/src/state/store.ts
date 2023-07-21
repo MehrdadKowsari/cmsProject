@@ -22,6 +22,7 @@ import sliderReducer from './slices/contentManagement/sliderSlice';
 import sliderItemReducer from './slices/contentManagement/sliderItemSlice';
 import menuReducer from './slices/contentManagement/menuSlice';
 import menuItemReducer from './slices/contentManagement/menuItemSlice';
+import homeReducer from './slices/contentManagement/homeSlice';
 
 export const store = configureStore({
     reducer: {
@@ -50,6 +51,7 @@ export const store = configureStore({
         sliderItem: sliderItemReducer,
         menu: menuReducer,
         menuItem: menuItemReducer,
+        home: homeReducer
     },
     devTools: true
 });
