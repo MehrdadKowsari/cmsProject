@@ -17,6 +17,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import createEmotionCache from '../configs/createEmotionCache';
 import { store } from '../state/store';
 import { appWithTranslation } from 'next-i18next'
+import "src/styles/scss/modules.scss";
 
 const CLIENT_ID: string = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '';
 
