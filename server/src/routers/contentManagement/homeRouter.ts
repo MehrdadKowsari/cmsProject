@@ -1,10 +1,11 @@
 import express from 'express';
-import { SliderItemController } from '../../controllers/contentManagement/sliderItemController';
 import {container} from 'tsyringe'; 
+import { HomeController } from 'src/controllers/contentManagement/homeController';
 
-const sliderItemController = container.resolve(SliderItemController);
+const homeController = container.resolve(HomeController);
 const router = express.Router();
 
-router.post('/getAllActiveSlidersByParams', sliderItemController.getAllActiveSlidersByParams);
+router.post('/getAllMenuItemsByParams', homeController.getAllMenuItemsByParams);
+router.post('/getAllActiveSlidersByParams', homeController.getAllActiveSlidersByParams);
 
 export default router;

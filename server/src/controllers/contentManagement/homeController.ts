@@ -5,34 +5,38 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import SliderItemService from '../../services/contentManagement/sliderItemService';
 import { autoInjectable } from 'tsyringe';
-import { UpdateSliderItemDTO } from 'src/dtos/contentManagement/sliderItem/updateSliderItemDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParamsDTO';
 import { ListActiveSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO';
+import MenuItemService from 'src/services/contentManagement/menuItemService';
+import { ListAllMenuItemByParamsDTO } from 'src/dtos/contentManagement/menuItem/listAllMenuItemByParamsDTO';
 
 @autoInjectable()
-export class SliderItemController{
+export class HomeController{
     private _sliderItemService: SliderItemService;
-    constructor(sliderItemService: SliderItemService){
+    private _menuItemService: MenuItemService;
+    constructor(sliderItemService: SliderItemService, 
+        menuItemService: MenuItemService){
         this._sliderItemService = sliderItemService;
+        this._menuItemService = menuItemService;
     }
-    /**
-     * add a sliderItem
+     /**
+     * get all menuItems
      * 
      * @param {object} req 
      * @param {object} res 
-     * @returns {object}
+     * @returns {Promise<object>} return
      */
-    add = async (req: Request, res: Response) => {
+    getAllMenuItemsByParams = async (req: Request, res: Response) => {
         try {
-            const requestResult = await this._sliderItemService.addSliderItem(req.body, req.user?.id!);
+            const listAllMenuItemByParamsDTO : ListAllMenuItemByParamsDTO = req.body;
+            const requestResult = await this._menuItemService.getAllMenuItemsByParams(listAllMenuItemByParamsDTO);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
         }
     }
 
-    /**
+     /**
      * get all sliderItems
      * 
      * @param {object} req 
@@ -43,93 +47,6 @@ export class SliderItemController{
         try {
             const listActiveSliderItemByParamsDTO : ListActiveSliderItemByParamsDTO = req.body;
             const requestResult = await this._sliderItemService.getAllActiveSlidersByParams(listActiveSliderItemByParamsDTO);
-            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
-        } catch (error) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
-        }
-    }
-
-    /**
-     * get all sliderItems by params
-     * 
-     * @param {object} req 
-     * @param {object} res 
-     * @returns {Promise<object>} return
-     */
-    getAllByParams = async (req: Request, res: Response) => {
-        try {
-            const listSliderItemByParams: ListSliderItemByParamsDTO = req.body;
-            const requestResult = await this._sliderItemService.getAllByParams(listSliderItemByParams);
-            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
-        } catch (error) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
-        }
-    }
-
-    /**
-     * get sliderItem by id
-     * 
-     * @param {object} req 
-     * @param {object} res 
-     * @returns {Promise<object>} return
-     */
-    getById = async (req: Request, res: Response) => {
-        try {
-            const id = req.body;
-            const requestResult = await this._sliderItemService.getById(id);
-            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
-        } catch (error) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
-        }
-    }
-      
-    /**
-     * update sliderItem
-     * 
-     * @param {object} req 
-     * @param {object} res 
-     * @returns {Promise<object>} return
-     */
-    update = async (req: Request, res: Response) => {
-        try {
-            const updateSliderItemDTO: UpdateSliderItemDTO = req.body;
-            const requestResult = await this._sliderItemService.update(updateSliderItemDTO, req.user?.id!);
-            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
-            
-        } catch (error) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
-        }
-    }
-
-    
-     /**
-     * toggle slider active status by id
-     * 
-     * @param {object} req 
-     * @param {object} res 
-     * @returns {Promise<object>} return
-     */
-     toggleActive = async (req: Request, res: Response) => {
-        try {
-            const id = req.body;
-            const requestResult = await this._sliderItemService.toggleActive(id, req.user?.id!);
-            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
-        } catch (error) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
-        }
-    }
-
-    /**
-     * delete sliderItem by id
-     * 
-     * @param {object} req 
-     * @param {object} res 
-     * @returns {Promise<object>} return
-     */
-    delete = async (req: Request, res: Response) => {
-        try {
-            const id = req.body;
-            const requestResult = await this._sliderItemService.delete(id);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
