@@ -2,6 +2,7 @@ import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import PostModel, { Post } from "src/models/contentManagement/post";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ListPublishedPostByParamsDTO } from "src/dtos/contentManagement/post/listPublishedPostByParamsDTO";
 
 
     export default class PostRepository{
@@ -43,12 +44,35 @@ import AppConstant from "src/constants/appConstants";
         }  
         
         /**
+         * get all published posts by parameters
+         * 
+         * @param {object} gridParameter 
+         * @returns {Promise<Post[]>}
+         */
+        getAllPublishedByParams = async (listPublishedPostByParamsDTO : ListPublishedPostByParamsDTO) : Promise<Post[]> =>{
+            const { currentPage, pageSize, sortModel } = listPublishedPostByParamsDTO;
+            const limitCount: number = (pageSize || AppConstant.PageSize);
+            const skipCount = (currentPage || 0) * limitCount;           
+            const sort = GridUtilityHelper.getSortObject(sortModel);
+            const list = await PostModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            return list;
+        }  
+        
+        /**
          * get post by id
          * 
          * @param {string} id 
          * @returns {Promise<Post | null>}
          */
         getById = async (id: string): Promise<Post | null> => await PostModel.findOne({ _id : id }); 
+        
+        /**
+         * get post by slugUrl
+         * 
+         * @param {string} slugUrl 
+         * @returns {Promise<Post | null>}
+         */
+        getBySlugUrl = async (slugUrl: string): Promise<Post | null> => await PostModel.findOne({ slugUrl : slugUrl }); 
         
         /**
          * update post

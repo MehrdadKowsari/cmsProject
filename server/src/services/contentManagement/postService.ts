@@ -12,6 +12,7 @@ import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePostDTO } from 'src/dtos/contentManagement/post/updatePostDTO';
 import { Post } from 'src/models/contentManagement/post';
 import { Types } from 'mongoose';
+import { ListPublishedPostByParamsDTO } from 'src/dtos/contentManagement/post/listPublishedPostByParamsDTO';
 
 @autoInjectable()
 export default class PostService {
@@ -158,6 +159,53 @@ export default class PostService {
     }
     
     /**
+     * get all post list by isCommentOpen
+     * 
+     * @param {object} listPublishedPostByParamsDTO
+     * @returns {Promise<RequestResult<GridData<PostDTO[]>> | null>}
+     */
+    getAllPublishedByParams = async (listPublishedPostByParamsDTO : ListPublishedPostByParamsDTO): Promise<RequestResult<GridData<PostDTO[]> | null>> => {
+        try {
+            const totalCount = await this._postRepository.count();
+            const posts: PostDTO[] = (await this._postRepository.getAllByParams(listPublishedPostByParamsDTO))?.map((post: any) => <PostDTO>{
+                id: post._id?.toString(),
+                postCategoryId: post.postCategoryId,
+                postCategoryName: post.postCategoryId?.title,
+                title: post.title,
+                type: post.type,
+                shortDescription: post.shortDescription,
+                content: post.content,
+                isCommentOpen: post.isCommentOpen,
+                image: post.image,
+                thumbnailImage: post.thumbnailImage,
+                visitNumber: post.visitNumber,
+                likeCount: post.likeCount,
+                dislikeCount: post.dislikeCount,
+                raterNumber: post.raterNumber,
+                totalRating: post.totalRating,
+                galleryId: post.galleryId,
+                dateFrom: post.dateFrom,
+                dateTo: post.dateTo,
+                slugUrl: post.slugUrl,
+                locale: post.locale,
+                priority: post.priority,
+                isFeatured: post.isFeatured,
+                status: post.status,
+                createdBy: post.createdBy,
+                createdAt: post.createdAt,
+                updatedBy: post.updatedBy,
+                updatedAt: post.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<GridData<PostDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), {
+                rows: posts,
+                totalCount: totalCount
+            }));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+    
+    /**
      * get post by Id
      * 
      * @param {string} id 
@@ -191,7 +239,57 @@ export default class PostService {
                 locale: post.locale,
                 priority: post.priority,
                 isFeatured: post.isFeatured,
-                status: post.status
+                status: post.status,
+                createdBy: post.createdBy,
+                createdAt: post.createdAt,
+                updatedBy: post.updatedBy,
+                updatedAt: post.updatedAt
+            };
+            return new RequestResult(StatusCodes.OK, new MethodResult<PostDTO>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), postDTO));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    
+    }
+    /**
+     * get post by SlugUrl
+     * 
+     * @param {string} slugUrl 
+     * @returns {Promise<RequestResult<PostDTO | null>>}
+    */
+    getBySlugUrl = async (slugUrl: string): Promise<RequestResult<PostDTO | null>> => {
+        try {
+            const post = await this._postRepository.getBySlugUrl(slugUrl);
+            if (!post) {
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'postDoesNotExist')));
+            }
+            const postDTO: PostDTO = <PostDTO>{
+                id: post._id?.toString(),
+                postCategoryId: post.postCategoryId?.toString(),
+                title: post.title,
+                type: post.type,
+                shortDescription: post.shortDescription,
+                content: post.content,
+                isCommentOpen: post.isCommentOpen,
+                image: post.image,
+                thumbnailImage: post.thumbnailImage,
+                visitNumber: post.visitNumber,
+                likeCount: post.likeCount,
+                dislikeCount: post.dislikeCount,
+                raterNumber: post.raterNumber,
+                totalRating: post.totalRating,
+                galleryId: post.galleryId,
+                dateFrom: post.dateFrom,
+                dateTo: post.dateTo,
+                slugUrl: post.slugUrl,
+                locale: post.locale,
+                priority: post.priority,
+                isFeatured: post.isFeatured,
+                status: post.status,
+                createdBy: post.createdBy,
+                createdAt: post.createdAt,
+                updatedBy: post.updatedBy,
+                updatedAt: post.updatedAt
             };
             return new RequestResult(StatusCodes.OK, new MethodResult<PostDTO>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), postDTO));
         } catch (error) {
