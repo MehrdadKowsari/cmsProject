@@ -23,6 +23,7 @@ import sliderItemReducer from './slices/contentManagement/sliderItemSlice';
 import menuReducer from './slices/contentManagement/menuSlice';
 import menuItemReducer from './slices/contentManagement/menuItemSlice';
 import homeReducer from './slices/contentManagement/homeSlice';
+import blogReducer from './slices/contentManagement/blogSlice';
 
 export const store = configureStore({
     reducer: {
@@ -51,7 +52,8 @@ export const store = configureStore({
         sliderItem: sliderItemReducer,
         menu: menuReducer,
         menuItem: menuItemReducer,
-        home: homeReducer
+        home: homeReducer,
+        blog: blogReducer,
     },
     devTools: true
 });
