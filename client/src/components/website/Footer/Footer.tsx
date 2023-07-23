@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
       <Container>
         <MainFooterContent>
           <StyledLinks>
-            <StyledLink href={Routes.Blog}>{t("omisoftBlog")}</StyledLink>
+            <StyledLink href={Routes.Blog}>{t("blog")}</StyledLink>
             <StyledLink href={Routes.Privacy}>{t("privacyPolicy")}</StyledLink>
           </StyledLinks>
           <Socials>
@@ -69,7 +69,7 @@ const Footer: React.FC = () => {
       <Container>
         <InfoText>
           Copyright © 2022{" "}
-          <StyledLink href="https://omisoft.net" target="_blank" rel="noopener">
+          <StyledLink href="https://test.test" target="_blank" rel="noopener">
             OmiSoft LLC
           </StyledLink>
           . All Rights Reserved
