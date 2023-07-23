@@ -1,7 +1,9 @@
 import MenuItemModel, { MenuItem } from "src/models/contentManagement/menuItem";
+import MenuModel from "src/models/contentManagement/menu";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
 import { ListMenuItemByParamsDTO } from "src/dtos/contentManagement/menuItem/listMenuItemByParamsDTO";
+import { ListAllMenuItemByParamsDTO } from "src/dtos/contentManagement/menuItem/listAllMenuItemByParamsDTO";
 
 
     export default class MenuItemRepository{
@@ -19,14 +21,24 @@ import { ListMenuItemByParamsDTO } from "src/dtos/contentManagement/menuItem/lis
          * @returns {Promise<number>}
          */
         count = async (): Promise<number> => await MenuItemModel.count(); 
-               
+
         /**
          * get all menuItems
          * 
          * @returns {Promise<MenuItem[]>}
          */
         getAll = async () => await MenuItemModel.find()
-        .populate('parentId'); 
+        .populate('parentId');
+               
+        /**
+         * get all menuItems
+         * @param listAllMenuItemByParamsDTO
+         * @returns {Promise<MenuItem[]>}
+         */
+        getAllMenuItemsByParams = async (listAllMenuItemByParamsDTO : ListAllMenuItemByParamsDTO) => {
+            const menu = await MenuModel.findOne({ sectionName: listAllMenuItemByParamsDTO.sectionName, locale: listAllMenuItemByParamsDTO.locale});
+            return await MenuItemModel.find({  menuId: menu?._id}).sort({ priority: 'asc' }); 
+        }
         
         /**
          * get all galleries by parameters
