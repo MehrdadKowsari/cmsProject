@@ -10,7 +10,7 @@ const menuItemController = container.resolve(MenuItemController);
 const router = express.Router();
 
 router.post('/add', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Menu, PermissionTypeEnum.Add), addValidation, menuItemController.add);
-router.post('/getAll', menuItemController.getAll);
+router.post('/getAll', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Menu, PermissionTypeEnum.View), menuItemController.getAll);
 router.post('/getAllByParams', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Menu, PermissionTypeEnum.View), menuItemController.getAllByParams);
 router.post('/getById', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Menu, PermissionTypeEnum.View), getByIdValidation, menuItemController.getById);
 router.post('/update', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Menu, PermissionTypeEnum.Update), updateValidation, menuItemController.update);

@@ -12,6 +12,7 @@ import { UpdateMenuItemDTO } from 'src/dtos/contentManagement/menuItem/updateMen
 import { MenuItem } from 'src/models/contentManagement/menuItem';
 import { Types } from 'mongoose';
 import { ListMenuItemByParamsDTO } from 'src/dtos/contentManagement/menuItem/listMenuItemByParamsDTO';
+import { ListAllMenuItemByParamsDTO } from 'src/dtos/contentManagement/menuItem/listAllMenuItemByParamsDTO';
 
 @autoInjectable()
 export default class MenuItemService {
@@ -57,7 +58,6 @@ export default class MenuItemService {
         }
     }
 
-       
     /**
      * get all menuItem list by params
      * 
@@ -66,6 +66,42 @@ export default class MenuItemService {
     getAll = async (): Promise<RequestResult<MenuItemDTO[] | null>> => {
         try {
             const menuItems: MenuItemDTO[] = (await this._menuItemRepository.getAll())?.map((menuItem: any) => <MenuItemDTO>{
+                id: menuItem._id?.toString(),
+                menuId: menuItem.menuId,
+                menuName: menuItem.menuId?.name,
+                parentId: menuItem.parentId?._id?.toString(),
+                parentName: (<any>menuItem.parentId)?.name,
+                name: menuItem.name,
+                description: menuItem.description,
+                type: menuItem.type,
+                image: menuItem.image,
+                imageSavePath: menuItem.imageSavePath,
+                level: menuItem.level,
+                url: menuItem.url,
+                slugUrl: menuItem.slugUrl,
+                target: menuItem.target,
+                iconCssClass: menuItem.iconCssClass,               
+                priority: menuItem.priority,
+                createdBy: menuItem.createdBy,
+                createdAt: menuItem.createdAt,
+                updatedBy: menuItem.updatedBy,
+                updatedAt: menuItem.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<MenuItemDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), menuItems));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+
+       
+    /**
+     * get all menuItem list by params
+     * @param listAllMenuItemByParamsDTO
+     * @returns {Promise<RequestResult<MenuItemDTO[]> | null>}
+     */
+    getAllMenuItemsByParams = async (listAllMenuItemByParamsDTO : ListAllMenuItemByParamsDTO): Promise<RequestResult<MenuItemDTO[] | null>> => {
+        try {
+            const menuItems: MenuItemDTO[] = (await this._menuItemRepository.getAllMenuItemsByParams(listAllMenuItemByParamsDTO))?.map((menuItem: any) => <MenuItemDTO>{
                 id: menuItem._id?.toString(),
                 menuId: menuItem.menuId,
                 menuName: menuItem.menuId?.name,
