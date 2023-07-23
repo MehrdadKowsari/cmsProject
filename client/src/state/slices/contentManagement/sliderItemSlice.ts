@@ -5,8 +5,8 @@ import { AddSliderItemDTO } from 'src/models/contentManagement/sliderItem/addSli
 import { UpdateSliderItemDTO } from 'src/models/contentManagement/sliderItem/updateSliderItemDTO';
 import { SliderItemDTO } from 'src/models/contentManagement/sliderItem/sliderItemDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
-import { GridParameter } from 'src/models/shared/grid/gridPrameter';
 import { ListSliderItemByParamsDTO } from 'src/models/contentManagement/sliderItem/listSliderItemByParamsDTO';
+import { ListActiveSliderItemByParamsDTO } from 'src/models/contentManagement/sliderItem/listActiveSliderItemByParamsDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/sliderItem`;
 
@@ -19,18 +19,6 @@ export const add = createAsyncThunk(
     } catch (err) {
         const error= err as AxiosError;
         return rejectWithValue(error.message);
-    }
-});
-
-export const getAllGalleryCategories = createAsyncThunk(
-  "sliderItems/getAll", 
-  async (_, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.post(`${API_URL}/getAll`);
-      return data?.result;
-    } catch (err) {
-      const error= err as AxiosError;
-      return rejectWithValue(error.message);
     }
 });
 
