@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Grid } from "@mui/material";
-import { GetStaticProps, NextPage } from "next";
+import { NextPage } from "next";
 import Head from "next/head";
 import PaginationItem from "src/components/website/Pagination";
 import Container from "src/components/website/Container";
 import Post from "src/components/website/Post";
-import { Paginate } from "src/types/pagination";
-import { Post as PostType } from "src/types/post";
 import { StyledTitle } from "src/components/website/common/styles";
 import MainPageLayout from "src/layouts/website/MainPageLayout";
 import { useAppDispatch } from "src/state/hooks/hooks";
@@ -17,12 +15,14 @@ import { ListPublishedPostByParamsDTO } from "src/models/contentManagement/post/
 import { getAllPublishedPostsByParams } from "src/state/slices/contentManagement/blogSlice";
 import ApplicationParams from "src/constants/applicationParams";
 import { PostDTO } from "src/models/contentManagement/post/postDTO";
+import { useRouter } from "next/router";
 
 type Props = {
-  postsData: Paginate<PostType> | null;
+  
 };
 
-const Blog: NextPage<Props> = ({ postsData }) => {
+const Blog: NextPage<Props> = () => {
+  const router = useRouter();console.log(router)
   const [paginationModel, setPaginationModel] = React.useState<any>({
     page: 0,
     pageSize: ApplicationParams.GridDefaultPageSize
@@ -39,7 +39,7 @@ const Blog: NextPage<Props> = ({ postsData }) => {
   const dispatch = useAppDispatch();
   const { getLocale } = useLocale();
   const locale = getLocale();
-  const { posts, totalPages,  isLoading } = useSelector((state: any) => state?.blog?.posts ? state?.blog : { posts: [], totalPages: 0, isLoading: false });
+  const { posts, totalCount,  isLoading } = useSelector((state: any) => state?.blog?.posts ? state?.blog : { posts: [], totalCount: 0, isLoading: false });
   
   useEffect(() => {
     getAllPublishedPosts();
@@ -48,7 +48,7 @@ const Blog: NextPage<Props> = ({ postsData }) => {
   const getAllPublishedPosts = () => {
     const listPublishedPostByParamsDTO : ListPublishedPostByParamsDTO = {
       currentPage: paginationModel.page,
-      pageSize: paginationModel.pagesize,
+      pageSize: 1,
       sortModel: sortModel,
       locale: locale
     }
@@ -86,7 +86,7 @@ const Blog: NextPage<Props> = ({ postsData }) => {
           ))}
         </Grid>
         <PaginationItem
-          pagesCount={totalPages}
+          pagesCount={totalCount}
           currentPage="1"
           postName="blog"
         />
@@ -94,20 +94,6 @@ const Blog: NextPage<Props> = ({ postsData }) => {
     </>
   );
 };
-
-// export const getStaticProps: GetStaticProps<Props> = async () => {
-//   try {
-//     const { data } = await API.get<Paginate<PostType>>(
-//       API_ROUTES.POSTS.ALL_POSTS()
-//     );
-//     return {
-//       props: { postsData: data },
-//       revalidate: 60 * 10,
-//     };
-//   } catch (error) {
-//     return { props: { postsData: null } };
-//   }
-// };
 
 Blog.getLayout = (page: React.ReactNode) => <MainPageLayout>{ page }</MainPageLayout>
 export default Blog;
