@@ -3,6 +3,7 @@ import PostModel, { Post } from "src/models/contentManagement/post";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
 import { ListPublishedPostByParamsDTO } from "src/dtos/contentManagement/post/listPublishedPostByParamsDTO";
+import { PostStatusTypeEnum } from "src/enums/contentManagement/postStatusTypeEnum";
 
 
     export default class PostRepository{
@@ -54,7 +55,7 @@ import { ListPublishedPostByParamsDTO } from "src/dtos/contentManagement/post/li
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await PostModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await PostModel.find({status: PostStatusTypeEnum.Published, locale: listPublishedPostByParamsDTO.locale}).sort(sort).skip(skipCount).limit(limitCount);
             return list;
         }  
         
@@ -100,6 +101,7 @@ import { ListPublishedPostByParamsDTO } from "src/dtos/contentManagement/post/li
                     isFeatured : post.isFeatured,
                     dateFrom : post.dateFrom,
                     dateTo : post.dateTo,
+                    status : post.status,
                     locale : post.locale,
                     updatedBy: post.updatedBy,
                     updatedAt: post.updatedAt

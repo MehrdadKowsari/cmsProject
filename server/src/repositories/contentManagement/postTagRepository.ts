@@ -51,7 +51,7 @@ import { ListPostTagByParams } from "src/dtos/contentManagement/postTag/listPost
          * @param {string} postId 
          * @returns {Promise<PostTag[]>}
          */
-        getAllByUserId = async (postId: string) : Promise<PostTag[]> =>{
+        getAllByPostId = async (postId: string) : Promise<PostTag[]> =>{
             const list = await PostTagModel.find({postId: postId}).populate('tagId');
             return list;
         }  

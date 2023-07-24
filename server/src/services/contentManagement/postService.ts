@@ -13,13 +13,24 @@ import { UpdatePostDTO } from 'src/dtos/contentManagement/post/updatePostDTO';
 import { Post } from 'src/models/contentManagement/post';
 import { Types } from 'mongoose';
 import { ListPublishedPostByParamsDTO } from 'src/dtos/contentManagement/post/listPublishedPostByParamsDTO';
+import { PostTagDTO } from 'src/dtos/contentManagement/postTag/postTagDTO';
+import PostTagRepository from 'src/repositories/contentManagement/postTagRepository';
+import { PostTag } from 'src/models/contentManagement/postTag';
+import { RelatedPostDTO } from 'src/dtos/contentManagement/relatedPost/relatedPostDTO';
+import RelatedPostRepository from 'src/repositories/contentManagement/relatedPostRepository';
+import { TagDTO } from 'src/dtos/contentManagement/tag/tagDTO';
 
 @autoInjectable()
 export default class PostService {
     private _postRepository: PostRepository;
-    constructor(postRepository: PostRepository) {
+    private _postTagRepository: PostTagRepository;
+    private _relatedPostRepository: RelatedPostRepository;
+    constructor(postRepository: PostRepository, 
+        postTagRepository: PostTagRepository,
+        relatedPostRepository: RelatedPostRepository) {
         this._postRepository = postRepository;
-
+        this._relatedPostRepository = relatedPostRepository;
+        this._postTagRepository = postTagRepository;
     }
     /**
      * add post
@@ -167,7 +178,7 @@ export default class PostService {
     getAllPublishedByParams = async (listPublishedPostByParamsDTO : ListPublishedPostByParamsDTO): Promise<RequestResult<GridData<PostDTO[]> | null>> => {
         try {
             const totalCount = await this._postRepository.count();
-            const posts: PostDTO[] = (await this._postRepository.getAllByParams(listPublishedPostByParamsDTO))?.map((post: any) => <PostDTO>{
+            const posts: PostDTO[] = (await this._postRepository.getAllPublishedByParams(listPublishedPostByParamsDTO))?.map((post: any) => <PostDTO>{
                 id: post._id?.toString(),
                 postCategoryId: post.postCategoryId,
                 postCategoryName: post.postCategoryId?.title,
@@ -263,6 +274,24 @@ export default class PostService {
             if (!post) {
                 return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'postDoesNotExist')));
             }
+            const postTags: TagDTO[] = (await this._postTagRepository.getAllByPostId(post._id!.toString()))?.map((p: any) => (<TagDTO>{
+                id: p._id?.toString(),
+                name: p.tagId?.name,
+                isActive: p.tagId?.isActive,
+            }));
+            
+            const relatedPosts: PostDTO[] = (await this._relatedPostRepository.getAllByPostId(post._id!.toString()))?.map((relatedPost: any) => <PostDTO>{
+                id: relatedPost._id?.toString(),
+                title: relatedPost.relatedPostId.title,
+                shortDescription: relatedPost.relatedPostId.shortDescription,
+                image: relatedPost.relatedPostId.image,
+                slugUrl: relatedPost.relatedPostId.slugUrl,
+                createdBy: relatedPost.relatedPostId.createdBy,
+                createdAt: relatedPost.relatedPostId.createdAt,
+                updatedBy: relatedPost.relatedPostId.updatedBy,
+                updatedAt: relatedPost.relatedPostId.updatedAt
+            });
+
             const postDTO: PostDTO = <PostDTO>{
                 id: post._id?.toString(),
                 postCategoryId: post.postCategoryId?.toString(),
@@ -285,6 +314,8 @@ export default class PostService {
                 locale: post.locale,
                 priority: post.priority,
                 isFeatured: post.isFeatured,
+                postTags: postTags,
+                relatedPosts: relatedPosts,
                 status: post.status,
                 createdBy: post.createdBy,
                 createdAt: post.createdAt,
@@ -327,6 +358,7 @@ export default class PostService {
             post.status = status,
             post.galleryId = galleryId,
             post.dateFrom = dateFrom,
+            post.isFeatured = isFeatured,
             post.dateTo = dateTo,
             post.locale = locale,
             post.priority = priority;

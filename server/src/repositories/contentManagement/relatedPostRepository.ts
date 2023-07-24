@@ -51,7 +51,7 @@ import { ListRelatedPostByParams } from "src/dtos/contentManagement/relatedPost/
          * @param {string} postId 
          * @returns {Promise<RelatedPost[]>}
          */
-        getAllByUserId = async (postId: string) : Promise<RelatedPost[]> =>{
+        getAllByPostId = async (postId: string) : Promise<RelatedPost[]> =>{
             const list = await RelatedPostModel.find({postId: postId}).populate('relatedPostId');
             return list;
         }  

@@ -1,6 +1,7 @@
 import { PostTypeEnum } from "src/enums/contentManagement/postTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
 import { PostStatusTypeEnum } from "src/enums/contentManagement/postStatusTypeEnum";
+import { TagDTO } from "../tag/tagDTO";
 
 export interface PostDTO extends BaseModel {
   postCategoryId: string;
@@ -28,6 +29,8 @@ export interface PostDTO extends BaseModel {
   dateFrom: Date | null;
   dateTo: Date | null;
   status: PostStatusTypeEnum;
+  postTags: TagDTO[],
+  relatedPosts: PostDTO[],
   locale: string | null;
   createdBy?: string;
   createdAt?: Date;

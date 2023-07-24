@@ -84,9 +84,9 @@ export default class RelatedPostService {
      * @param {string} postId 
      * @returns {Promise<RequestResult<RelatedPostDTO[]> | null>}
      */
-        getAllByUserId = async (postId: string): Promise<RequestResult<RelatedPostDTO[] | null>> => {
+        getAllByPostId = async (postId: string): Promise<RequestResult<RelatedPostDTO[] | null>> => {
             try {
-                const relatedPosts: RelatedPostDTO[] = (await this._relatedPostRepository.getAllByUserId(postId))?.map((relatedPost: any) => <RelatedPostDTO>{
+                const relatedPosts: RelatedPostDTO[] = (await this._relatedPostRepository.getAllByPostId(postId))?.map((relatedPost: any) => <RelatedPostDTO>{
                     id: relatedPost._id?.toString(),
                     postId: relatedPost.postId,
                     postTitle: relatedPost.postId.title,

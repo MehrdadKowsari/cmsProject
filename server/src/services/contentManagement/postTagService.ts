@@ -86,7 +86,7 @@ export default class PostTagService {
      */
         getAllByUserId = async (postId: string): Promise<RequestResult<PostTagDTO[] | null>> => {
             try {
-                const postTags: PostTagDTO[] = (await this._postTagRepository.getAllByUserId(postId))?.map((postTag: any) => <PostTagDTO>{
+                const postTags: PostTagDTO[] = (await this._postTagRepository.getAllByPostId(postId))?.map((postTag: any) => <PostTagDTO>{
                     id: postTag._id?.toString(),
                     postId: postTag.postId,
                     postTitle: postTag.postId.title,
