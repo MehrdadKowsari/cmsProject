@@ -1,20 +1,14 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Grid, ImageListItem, useMediaQuery } from "@mui/material";
-import { GetStaticProps, NextPage } from "next";
-import { format } from "date-fns";
-import ReactMarkdown from "react-markdown";
+import { NextPage } from "next";
 import Head from "next/head";
-import { isImagePath } from "src/helpers/isImagePath";
 import Container from "src/components/website/Container";
-import SimilarPost from "src/components/website/SimilarPost";
 import PopUpDevelopment from "src/components/website/PopUpDevelopment";
-import { Post as PostType, UrlInfo } from "src/types/post";
 import { PopUpT } from "src/types/popup";
-import { API } from "src/config/api";
-import { API_ROUTES } from "src/config/apiRoutes";
 import { ClockIcon } from "src/svg";
 import style from "./markdown-styles.module.css";
+import { Parser } from 'html-to-react'
 
 import {
   TopicTitle,
@@ -27,6 +21,7 @@ import {
   TopicFooter,
   DateWrapper,
   TopicWrapper,
+  StyledTitle,
 } from "src/components/website/common/styles";
 import { DateText } from "src/components/website/Post/styles";
 import {
@@ -40,6 +35,11 @@ import useLocale from "src/hooks/useLocale";
 import localizationService from "src/services/shared/localizationService";
 import { useSelector } from "react-redux";
 import { useRouter } from 'next/router';
+import MainPageLayout from "src/layouts/website/MainPageLayout";
+import { PostTagDTO } from "src/models/contentManagement/postTag/postTagDTO";
+import SimilarPost from "src/components/website/SimilarPost";
+import { RelatedPostDTO } from "src/models/contentManagement/relatedPost/relatedPostDTO";
+import { TagDTO } from "src/models/contentManagement/tag/tagDTO";
 interface Props extends PopUpT {
   
 }
@@ -56,8 +56,10 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
   const slugUrl: string = router.query.url as string;
 
   useEffect(() => {
-    getBySEOUrl(slugUrl)
-  }, []);
+    if (slugUrl) {
+      getBySEOUrl(slugUrl);
+    }
+  }, [slugUrl]);
   
   const getBySEOUrl = async (slugUrl: string) =>{
     await dispatch(getBySlugUrl(slugUrl));
@@ -106,31 +108,29 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
                 <StyledBlockPlaceholder />
               )}
               <div className={style.reactMarkDown}>
-                <ReactMarkdown linkTarget="_blank">
-                  {post?.content || ""}
-                </ReactMarkdown>
+                {Parser().parse(post?.content)}
               </div>
               <PostLine />
               <TopicFooter>
-                {/* <StyledStack direction="row">
-                  {post?.tags.map((tag: string, index) => (
-                    <StyledChip key={index}>{tag}</StyledChip>
+                <StyledStack direction="row">
+                  {post?.postTags?.map((p: TagDTO, index: number) => (
+                    <StyledChip key={index}>{p.name}</StyledChip>
                   ))}
-                </StyledStack> */}
+                </StyledStack>
                 <DateWrapper>
                   <ClockIcon />
                   <DateText>
-                  {localizationService.getLocalDateTime(post?.createdAt?.toString(), locale)}
+                  {localizationService.getLocalDateTime(post?.createdAt?.toString(), post?.locale)}
                   </DateText>
                 </DateWrapper>
               </TopicFooter>
             </Topic>
 
-            {/* {!!post?.similarArticles.length && (
+            {!!post?.relatedPosts.length && (
               <>
-                <StyledTitle>{t("similarArticles")}</StyledTitle>
+                <StyledTitle>{t("relatedPosts")}</StyledTitle>
                 <Grid container spacing={3}>
-                  {post?.similarArticles.map((post, index) => {
+                  {post?.relatedPosts?.map((post: PostDTO, index: number) => {
                     return (
                       <Grid item xs={12} sm={12} md={12} lg={12} key={index}>
                         <SimilarPost post={post} />
@@ -139,7 +139,7 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
                   })}
                 </Grid>
               </>
-            )} */}
+            )}
           </TopicWrapper>
         </Container>
       </Content>
@@ -147,5 +147,5 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
     </>
   );
 };
-
+Post.getLayout = (page: React.ReactNode) => <MainPageLayout>{page}</MainPageLayout>
 export default Post;

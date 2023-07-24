@@ -250,7 +250,7 @@ const initialValues: initialValuesType = {
   }
 
   const columns: GridColDef[] = [
-    { field: 'postTitle', headerName: t('post', CommonMessage.Post)!, width: 150 },
+    { field: 'relatedPostTitle', headerName: t('post', CommonMessage.Post)!, width: 150 },
     { field: 'updatedAt', headerName: t('updatedAt', CommonMessage.UpdatedAt)!, valueFormatter(params) {
       return localizationService.getLocalDateTime(params?.value, locale);
     },width: 150 },

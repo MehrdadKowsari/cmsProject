@@ -58,7 +58,6 @@ const Post: React.FC<Props> = ({ post }) => {
         <PostTextWrapper>
           <PostText>{post.shortDescription}</PostText>
         </PostTextWrapper>
-
         <PostFooter>
           <DateWrapper>
             <ClockIcon />
