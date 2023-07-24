@@ -30,6 +30,8 @@ import sliderRouter from './src/routers/contentManagement/sliderRouter';
 import sliderItemRouter from './src/routers/contentManagement/sliderItemRouter';
 import menuRouter from './src/routers/contentManagement/menuRouter';
 import menuItemRouter from './src/routers/contentManagement/menuItemRouter';
+import homeRouter from './src/routers/contentManagement/homeRouter';
+import blogRouter from './src/routers/contentManagement/blogRouter';
 
 import authMiddleware from './src/middleware/seucrity/authMiddleware';
 import { i18n }  from "./i18next";
@@ -68,6 +70,9 @@ app.use('/slider', authMiddleware, sliderRouter);
 app.use('/sliderItem', authMiddleware, sliderItemRouter);
 app.use('/menu', authMiddleware, menuRouter);
 app.use('/menuItem', authMiddleware, menuItemRouter);
+
+app.use('/home', homeRouter);
+app.use('/blog', blogRouter);
 
 
 //const CLOUD_CONNECTION_URL = process.env.CLOUD_CONNECTION_URL;
