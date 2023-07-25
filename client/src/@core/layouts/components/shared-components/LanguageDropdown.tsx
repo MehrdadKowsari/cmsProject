@@ -67,8 +67,10 @@ const MenuItemTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis'
 }))
-
-const LanguageDropdown = () => {
+type Props = {
+  className?: string
+}
+const LanguageDropdown = (props: Props) => {
   // ** States
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null)
 
@@ -111,7 +113,7 @@ const LanguageDropdown = () => {
   }, [i18n?.dir()]);
 
   return (
-    <Fragment>
+    <div {...props}>
       <IconButton color='inherit' aria-haspopup='true' onClick={handleDropdownOpen} aria-controls='customized-menu'>
         <Language />
       </IconButton>
@@ -126,7 +128,7 @@ const LanguageDropdown = () => {
             <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
               <Avatar alt='Flora' src='/images/flags/gb.svg' />
               <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
-              <MenuItemTitle variant='caption'>
+              <MenuItemTitle variant='caption' key='en-US'>
                 English
               </MenuItemTitle>
               </Box>
@@ -136,14 +138,14 @@ const LanguageDropdown = () => {
             <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
               <Avatar alt='Flora' src='/images/flags/ir.svg' />
               <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
-              <MenuItemTitle variant='caption'>
+              <MenuItemTitle variant='caption' key='fa-IR'>
                 فارسی
               </MenuItemTitle>
               </Box>
             </Box>
           </MenuItem>
       </Menu>
-    </Fragment>
+    </div>
   )
 }
 

@@ -69,21 +69,13 @@ const UserDropdown = () => {
 
   return (
     <Fragment>
-      <Badge
-        overlap='circular'
-        onClick={handleDropdownOpen}
-        sx={{ ml: 2, cursor: 'pointer' }}
-        badgeContent={<BadgeContentSpan />}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Avatar
+      <Avatar
           alt={user?.fullName}
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
           src={user?.image}
         />
-      </Badge>
-      <Menu
+      {user && <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => handleDropdownClose()}
@@ -93,23 +85,14 @@ const UserDropdown = () => {
       >
         <Box sx={{ pt: 2, pb: 3, px: 4 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Badge
-              overlap='circular'
-              badgeContent={<BadgeContentSpan />}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            >
-              <Avatar alt={user?.fullName} src={user?.image} sx={{ width: '2.5rem', height: '2.5rem' }} />
-            </Badge>
+          <Avatar alt={user?.fullName} src={user?.image} sx={{ width: '2.5rem', height: '2.5rem' }} />
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>{user?.fullName}</Typography>
-              <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
-              </Typography>
             </Box>
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/admin/security/userProfile')}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/admin/security/userProfile')} key="profile">
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
             Profile
@@ -117,10 +100,10 @@ const UserDropdown = () => {
         </MenuItem>
         <Divider />
         <MenuItem sx={{ py: 2 }} onClick={() => handleLogout()}>
-          <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
+          <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} key="logout"/>
           Logout
         </MenuItem>
-      </Menu>
+      </Menu>}
     </Fragment>
   )
 }

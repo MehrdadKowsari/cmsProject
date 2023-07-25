@@ -34,7 +34,7 @@ const DrawerComponent = ({ items: menuItems}: DrawerProps) => {
             {
                   menuItems?.map((p: MenuItemDTO) => (
                     <>
-                      <Link href={p.url} className={classes.link}>{p.name} <Icon className={classes.icon}>{p.iconCssClass}</Icon></Link>
+                      <Link href={p.url} className={classes.link} key={p.id}> <Icon className={classes.icon}>{p.iconCssClass}</Icon> {p.name}</Link>
                     </>
                   ))
                 }

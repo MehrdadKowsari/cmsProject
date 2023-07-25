@@ -1,9 +1,12 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { MainWrapper, StyledContent, Cover} from "src/components/website/common/styles";
 import Header from 'src/components/website/Header'
 import Footer from 'src/components/website/Footer/Footer'
 import Cookies from "src/components/website/Cookies";
 import initLocalization from "src/i18n";
+import { languages } from 'src/i18n/settings';
+import useLocale from 'src/hooks/useLocale';
+import ApplicationParams from 'src/constants/applicationParams';
 
 initLocalization(); 
 type MainPageLayoutProps = {
@@ -12,7 +15,14 @@ type MainPageLayoutProps = {
 
 const MainPageLayout = ({ children }: MainPageLayoutProps) => {
   const [popup, setPopup] = useState<boolean>(false);
- return (
+  const { getLocale } = useLocale();
+  const locale = getLocale();
+  const dir: string = languages.find(p => p.code === locale)?.dir || ApplicationParams.DefaultLanguageDirection;
+  useEffect(() => {
+    document.body.dir = dir;
+  }, [])
+  
+  return (
     <>
       {popup && <Cover></Cover>}
             <MainWrapper>

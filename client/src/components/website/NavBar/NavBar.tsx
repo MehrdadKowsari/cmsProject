@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { AppBar, Toolbar, CssBaseline, Typography, useTheme, useMediaQuery } from "@mui/material";
 import Link from "next/link";
 import DrawerComponent from "../Drawer/Drawer";
@@ -11,28 +11,42 @@ import { useAppDispatch } from "src/state/hooks/hooks";
 import { MenuItemDTO } from "src/models/contentManagement/menuItem/menuItemDTO";
 import { useSelector } from "react-redux";
 import Icon from '@mui/material/Icon';
+import LanguageDropdown from "src/@core/layouts/components/shared-components/LanguageDropdown";
+import UserDropdown from "src/@core/layouts/components/shared-components/UserDropdown";
 
 const navStyles = makeStyles()((theme) => ({
   container,
   appBar: {
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    color: "#222",
+    display: "flex"
   },
   navlinks: {
     marginLeft: theme.spacing(5),
-    display: "flex"
+    display: "flex",
+    justifyContent:"flex-start"
+  },
+  toolbar:{
+    display:"flex", 
+    flexGrow: "1",
+    justifyContent: "space-between"
   },
   logo: {
-    flexGrow: "1",
     cursor: "pointer",
+    justifyContent:"flex-start"
   },
   link: {
     textDecoration: "none",
-    fontSize: "20px",
-    marginLeft: theme.spacing(10),
+    fontSize: "16px",
+    marginLeft: theme.spacing(5),
     color: "#222",
     borderBottom: "1px solid transparent"
   },
   icon: {
+    color: theme.palette.primary.main
+  },
+  languageDropdown: {
+    justifyContent:'flex-end',
     color: theme.palette.primary.main
   }
 }));
@@ -64,8 +78,9 @@ const Navbar = () => {
     <div className={classes.container}>
         <AppBar position="static" className={classes.appBar}>
           <CssBaseline />
-          <Toolbar>
-            <Typography variant="h4" className={classes.logo}>             
+          <Toolbar className="toolbar">
+          <Typography variant="h4" className={classes.logo}> 
+            company Logo            
             </Typography>
             {isMobile ? (
               <DrawerComponent items={menuItems}/>
@@ -73,13 +88,15 @@ const Navbar = () => {
               <div className={classes.navlinks}>
                 {
                   menuItems?.map((p: MenuItemDTO) => (
-                    <>
-                      <Link href={p.url} className={classes.link}>{p.name} <Icon className={classes.icon}>{p.iconCssClass}</Icon></Link>
-                    </>
+                    <Fragment key={p.id}>
+                      <Link href={p.url} className={classes.link} key={p.id}><Icon className={classes.icon} key={p.id}>{p.iconCssClass}</Icon> {p.name}</Link>
+                    </Fragment>
                   ))
                 }
               </div>
             )}
+          <LanguageDropdown className={classes.languageDropdown}/>
+          <UserDropdown/>
           </Toolbar>
     </AppBar>
     </div>

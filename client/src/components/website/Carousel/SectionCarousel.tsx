@@ -48,7 +48,7 @@ const SectionCarousel = () => {
           <GridItem xs={12} sm={12} md={12} lg={12} className={classes.gridItem}>
           <Carousel {...settings}>
                 {sliderItems?.map((p: SliderItemDTO) => ( 
-                  <CarouselItem src={p.file!} name={p.name}/>
+                  <CarouselItem src={p.file!} name={p.name} key={p.id}/>
                 ))}
           </Carousel>
           </GridItem>

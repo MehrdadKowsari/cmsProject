@@ -28,6 +28,7 @@ import browserStorageService from 'src/services/shared/browserStorageService'
 import { languages } from 'src/i18n/settings'
 import { i18n } from 'next-i18next'
 import router from 'next/router'
+import useLocale from 'src/hooks/useLocale'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
@@ -64,14 +65,15 @@ const VerticalLayout = (props: LayoutProps) => {
 
   // ** States
   const [navVisible, setNavVisible] = useState<boolean>(false)
-  const [dir, setDir] = useState<string>('ltr')
-  const [locale, setLocale] = useState<string>('en')
+  const [dir, setDir] = useState<string>('ltr');
+  const { getLocale } = useLocale();
+  const [locale, setLocale] = useState<string>(getLocale())
 
   // ** Toggle Functions
   const toggleNavVisibility = () => setNavVisible(!navVisible)
  
   useEffect(() => {
-    const localLocale = browserStorageService.getLocal('locale') || 'en';
+    const localLocale = getLocale();
     const dir: string = languages.find(p => p.code === localLocale)?.dir || 'ltr';
     setDir(dir);
     document.body.dir = dir;
