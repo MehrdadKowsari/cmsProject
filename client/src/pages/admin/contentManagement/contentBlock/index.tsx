@@ -8,14 +8,10 @@ import useConfirm from 'src/state/hooks/useConfirm';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import ListIcon from '@mui/icons-material/Image';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import TagIcon from '@mui/icons-material/Tag';
-import ShareIcon from '@mui/icons-material/Share';
 import { Button, CardContent, CardHeader } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useAppDispatch } from 'src/state/hooks/hooks';
-import { getAllByParams, remove } from 'src/state/slices/contentManagement/postSlice';
+import { getAllByParams, remove } from 'src/state/slices/contentManagement/contentBlockSlice';
 import CustomDialog from 'src/components/Modal/Modal';
 import PageForm from './modal/form';
 import { GetStaticProps } from 'next';
@@ -33,25 +29,17 @@ import Hotkey from 'src/constants/hotkey';
 import { useHotkeys } from 'react-hotkeys-hook';
 import NotificationService from 'src/services/shared/notificationService';
 import PermissionService from 'src/services/security/permissionService';
-import { PostTypeEnum, PostTypeEnumLabelMapping } from 'src/models/contentManagement/enums/postTypeEnum';
-import PostFile from './modal/postFile';
 import { LanguageCodeEnumLabbelMapping, LanguageCodeEnum } from 'src/models/shared/enums/languageCodeEnum';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 import { useRouter } from 'next/router';
 import localizationService from 'src/services/shared/localizationService';
-import PostImage from './modal/postImage';
-import PostTag from './modal/postTag';
-import RelatedPost from './modal/relatedPost';
+
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
-  const { posts, totalCount, isLoading } = useSelector((state: any) => state?.post?.posts ? state?.post : { posts: [], totalCount: 0, isLoading: false });
+  const { contentBlocks, totalCount, isLoading } = useSelector((state: any) => state?.contentBlock?.contentBlocks ? state?.contentBlock : { contentBlocks: [], totalCount: 0, isLoading: false });
   const [isOpenFormModal, setIsOpenFormModal] = useState<boolean>(false);
   const [locale, setLocale] = useState<string>(ApplicationParams.DefaultLanguageCode);
-  const [isOpenPostImageItemModal, setIsOpenPostImageItemModal] = useState<boolean>(false);
-  const [isOpenPostFileItemModal, setIsOpenPostFileItemModal] = useState<boolean>(false);
-  const [isOpenPostTagItemModal, setIsOpenPostTagItemModal] = useState<boolean>(false);
-  const [isOpenRelatedPostItemModal, setIsOpenRelatedPostItemModal] = useState<boolean>(false);
   const [userPagePermissions, setUserPagePermissions] = useState<PermissionDTO[]>([]);
   const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
   const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
@@ -105,7 +93,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
   }, [userPagePermissions])
 
   const getRolePagePermissions = async () => {
-    const permissions: PermissionDTO[] = await dispatch(getAllByPageId(PageTypeEnum.Post)).unwrap();
+    const permissions: PermissionDTO[] = await dispatch(getAllByPageId(PageTypeEnum.ContentBlock)).unwrap();
     if (permissions?.length > 0) {
       setUserPagePermissions(permissions);
     }
@@ -173,12 +161,8 @@ const Page = ({ Component, pageProps }: AppProps) => {
 
   const columns: GridColDef[] = [
     { field: 'title', headerName: t('title', CommonMessage.Title)!, width: 250 },
-    { field: 'type', headerName: t('type', CommonMessage.Type)!, 
-    valueFormatter(params: any) {
-      return t(PostTypeEnumLabelMapping[params.value as PostTypeEnum])
-    },
-    width: 130 },
-    { field: 'shortDescription', headerName: t('shortDescription', CommonMessage.ShortDescription)!, width: 250 },
+    { field: 'sectionName', headerName: t('sectionName', CommonMessage.SectionName)!, width: 250 },
+    { field: 'iconCssClass', headerName: t('iconCssClass', CommonMessage.IconClass)!, width: 250 },
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
     { field: 'locale', headerName: t('locale', CommonMessage.Locale)!, valueFormatter(params) {
       return t(LanguageCodeEnumLabbelMapping[params?.value as LanguageCodeEnum])
@@ -207,31 +191,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
           disabled={!hasDeletePermission}
           title={Hotkey.Delete.toUpperCase()}
           onClick={() => handleDelete(params.id)}
-        />,
-        <GridActionsCellItem
-          key={params.id}
-          icon={<ListIcon />}
-          label={t('postImage', CommonMessage.PostImage)}
-          onClick={() => handleOpenPostImageItemModal(params.id)}
-        />,
-        <GridActionsCellItem
-          key={params.id}
-          icon={<InsertDriveFileIcon />}
-          label={t('postFile', CommonMessage.PostFile)}
-          onClick={() => handleOpenPostFileItemModal(params.id)}
-        />,
-        <GridActionsCellItem
-          key={params.id}
-          icon={<TagIcon />}
-          label={t('postTag', CommonMessage.PostTag)}
-          onClick={() => handleOpenPostTagItemModal(params.id)}
-        />,
-        <GridActionsCellItem
-          key={params.id}
-          icon={<ShareIcon />}
-          label={t('relatedPost', CommonMessage.RelatedPost)}
-          onClick={() => handleOpenRelatedPostItemModal(params.id)}
-        />,
+        />
       ],
     },
   ];
@@ -244,48 +204,8 @@ const Page = ({ Component, pageProps }: AppProps) => {
     setIsOpenFormModal(true);
   }
   
-  const handleOpenPostImageItemModal = (id: GridRowId) => {
-    setRowId(id);
-    setIsOpenPostImageItemModal(true);
-  }
-
-  const handleOpenPostFileItemModal = (id: GridRowId) => {
-    setRowId(id);
-    setIsOpenPostFileItemModal(true);
-  }
-
-  const handleOpenPostTagItemModal = (id: GridRowId) => {
-    setRowId(id);
-    setIsOpenPostTagItemModal(true);
-  }
-
-  const handleOpenRelatedPostItemModal = (id: GridRowId) => {
-    setRowId(id);
-    setIsOpenRelatedPostItemModal(true);
-  }
-
   const handleCloseFormModal = () => {
     setIsOpenFormModal(false);
-    setRowId(null);
-  }
-
-  const handleClosePostFileItemModal = () => {
-    setIsOpenPostFileItemModal(false);
-    setRowId(null);
-  }
-
-  const handleClosePostImageItemModal = () => {
-    setIsOpenPostImageItemModal(false);
-    setRowId(null);
-  }
-  
-  const handleClosePostTagItemModal = () => {
-    setIsOpenPostTagItemModal(false);
-    setRowId(null);
-  }
-  
-  const handleCloseRelatedPostItemModal = () => {
-    setIsOpenRelatedPostItemModal(false);
     setRowId(null);
   }
 
@@ -298,7 +218,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
     <>
       {hasViewPermission && <Card>
         <CardHeader
-          title={t('post', CommonMessage.Post)}
+          title={t('contentBlock', CommonMessage.ContentBlock)}
           titleTypographyProps={{ variant: 'h6' }} />
         <CardContent>
           <Box mx={1}>
@@ -315,7 +235,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
           <Box mt={2}>
             <div style={{ height: ApplicationParams.GridDefaultHeight, width: '100%' }}>
               <CustomDataGrid
-                rows={posts}
+                rows={contentBlocks}
                 columns={columns}
                 rowCount={totalCount}
                 loading={isLoading}              
@@ -329,7 +249,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
             </div>
           </Box>
           <CustomDialog
-            title={t('post', CommonMessage.Post)}
+            title={t('contentBlock', CommonMessage.ContentBlock)}
             isOpen={isOpenFormModal}
             size='lg'
             onClose={() => handleCloseFormModal()}>
@@ -338,46 +258,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
               permissions={userPagePermissions}
               onClose={handleCloseForm} />
           </CustomDialog>
-          <CustomDialog
-            title={t('postImage', CommonMessage.PostImage)}
-            isOpen={isOpenPostImageItemModal}
-            size='lg'
-            onClose={() => handleClosePostImageItemModal()}>
-            <PostImage
-              id={rowId}
-              permissions={userPagePermissions}
-              onClose={() => handleClosePostFileItemModal()} />
-          </CustomDialog>
-          <CustomDialog
-            title={t('postFile', CommonMessage.PostFile)}
-            isOpen={isOpenPostFileItemModal}
-            size='lg'
-            onClose={() => handleClosePostFileItemModal()}>
-            <PostFile
-              id={rowId}
-              permissions={userPagePermissions}
-              onClose={() => handleClosePostFileItemModal()} />
-          </CustomDialog>
-          <CustomDialog
-            title={t('postTag', CommonMessage.PostTag)}
-            isOpen={isOpenPostTagItemModal}
-            size='lg'
-            onClose={() => handleClosePostTagItemModal()}>
-            <PostTag
-              id={rowId}
-              permissions={userPagePermissions}
-              onClose={() => handleClosePostTagItemModal()} />
-          </CustomDialog>
-          <CustomDialog
-            title={t('relatedPost', CommonMessage.RelatedPost)}
-            isOpen={isOpenRelatedPostItemModal}
-            size='lg'
-            onClose={() => handleCloseRelatedPostItemModal()}>
-            <RelatedPost
-              id={rowId}
-              permissions={userPagePermissions}
-              onClose={() => handleCloseRelatedPostItemModal()} />
-          </CustomDialog>
+          
         </CardContent>
       </Card>
       }

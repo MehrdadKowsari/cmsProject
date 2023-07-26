@@ -3,7 +3,7 @@ export enum LanguageCodeEnum {
     English = 'en'
 }
 
-export const LanguageLabbelMapping: Record<LanguageCodeEnum, string> = {
+export const LanguageCodeEnumLabbelMapping: Record<LanguageCodeEnum, string> = {
     [LanguageCodeEnum.Persian]: 'persian',
     [LanguageCodeEnum.English]: 'english'
 }

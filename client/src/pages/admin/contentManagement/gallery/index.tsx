@@ -33,7 +33,7 @@ import NotificationService from 'src/services/shared/notificationService';
 import PermissionService from 'src/services/security/permissionService';
 import { GalleryTypeEnum, GalleryTypeEnumLabelMapping } from 'src/models/contentManagement/enums/galleryTypeEnum';
 import GalleryFile from './modal/galleryFile';
-import { LanguageLabbelMapping as LanguageCodeEnumLabbelMapping, LanguageCodeEnum } from 'src/models/shared/enums/languageCodeEnum';
+import { LanguageCodeEnumLabbelMapping, LanguageCodeEnum } from 'src/models/shared/enums/languageCodeEnum';
 import CustomDataGrid from 'src/components/CustomDataGrid/CustomDataGrid';
 import { useRouter } from 'next/router';
 import localizationService from 'src/services/shared/localizationService';
