@@ -12,6 +12,7 @@
     "Role Page Permissions": "دسترسی های صفحه نقش",
     "Post Categories": "دسته بندی نوشته",
     "Gallery Categories": "دسته بندی گالری",
+    "Content Blocks": "بلاک محتوا",
     "Posts": "نوشته ها",
     "Tags": "برچسب ها",
     "Menus": "فهرست ها",
@@ -196,5 +197,6 @@
    "published": "انتشار یافته",
    "future": "آینده",
    "hidden": "مخفی",
-   "trash": "پاک شده"
+   "trash": "پاک شده",
+   "contentBlock": "بلاک محتوا"
 }
