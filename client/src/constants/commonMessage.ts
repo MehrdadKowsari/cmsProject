@@ -145,5 +145,6 @@ export default class CommonMessage {
     public static readonly PostTag: string = 'Post Tag';
     public static readonly RelatedPost: string = 'Related Post';
     public static readonly Content: string = 'Content';
+    public static readonly ContentBlock: string = 'Content Block';
     public static readonly ShortDescription: string = 'ShortDescription';
 }

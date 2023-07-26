@@ -20,7 +20,8 @@ export enum PageTypeEnum{
     Gallery = 208,
     Brand = 209,
     Event = 210,
-    EventRegister = 211
+    EventRegister = 211,
+    ContentBlock = 212,
 }
 
 export const PageTypeEnumLabelMapping:Record<PageTypeEnum, string> = {
@@ -45,5 +46,6 @@ export const PageTypeEnumLabelMapping:Record<PageTypeEnum, string> = {
     [PageTypeEnum.Gallery]: 'gallery',
     [PageTypeEnum.Brand]: 'brand',
     [PageTypeEnum.Event]: 'event',
-    [PageTypeEnum.EventRegister]: 'eventRegister'
+    [PageTypeEnum.EventRegister]: 'eventRegister',
+    [PageTypeEnum.ContentBlock]: 'contentBlock',
 }

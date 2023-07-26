@@ -5,6 +5,7 @@ import Container from "../Container";
 import { MainWrapper } from "./styles";
 import { PopUpT as Props } from "../../../types/popup";
 import SectionCarousel from "../Carousel/SectionCarousel";
+import BlockHeader from "../BlockHeader/BlockHeader";
 
 const HomeContent: React.FC<Props> = ({ setPopup, popup }) => {
   const { t } = useTranslation();
@@ -12,7 +13,7 @@ const HomeContent: React.FC<Props> = ({ setPopup, popup }) => {
     <>
       <MainWrapper>
         <SectionCarousel />
-        <Container>Blog</Container>
+        <Container><BlockHeader title="تست هدر" iconCssClass="home"/></Container>
       </MainWrapper>
       <PopUpDevelopment popup={popup} setPopup={setPopup} />{" "}
     </>
