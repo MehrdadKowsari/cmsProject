@@ -92,7 +92,7 @@ const UserDropdown = () => {
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/admin/security/userProfile')} key="profile">
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/')} key="profile">
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
             Profile

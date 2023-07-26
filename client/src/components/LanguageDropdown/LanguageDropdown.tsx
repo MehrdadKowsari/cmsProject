@@ -2,7 +2,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LanguageLabbelMapping, LanguageCodeEnum } from 'src/models/shared/enums/languageCodeEnum';
+import { LanguageCodeEnumLabbelMapping, LanguageCodeEnum } from 'src/models/shared/enums/languageCodeEnum';
 import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
 
 type LanguageDropdownProps = TextFieldProps & {
@@ -19,7 +19,7 @@ const LanguageDropdown = (props: LanguageDropdownProps) => {
 
     const getLanguageList = () => {
         const languageSelectList: TextValueDTO[] = Object.values(LanguageCodeEnum).filter(p => typeof p === 'string').map(p => ({
-                text: t(LanguageLabbelMapping[p]),
+                text: t(LanguageCodeEnumLabbelMapping[p]),
                 value: p.toString()
             } as TextValueDTO));
             
