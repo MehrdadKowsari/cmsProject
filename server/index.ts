@@ -30,6 +30,7 @@ import sliderRouter from './src/routers/contentManagement/sliderRouter';
 import sliderItemRouter from './src/routers/contentManagement/sliderItemRouter';
 import menuRouter from './src/routers/contentManagement/menuRouter';
 import menuItemRouter from './src/routers/contentManagement/menuItemRouter';
+import contentBlockRouter from './src/routers/contentManagement/contentBlockRouter';
 import homeRouter from './src/routers/contentManagement/homeRouter';
 import blogRouter from './src/routers/contentManagement/blogRouter';
 
@@ -70,6 +71,7 @@ app.use('/slider', authMiddleware, sliderRouter);
 app.use('/sliderItem', authMiddleware, sliderItemRouter);
 app.use('/menu', authMiddleware, menuRouter);
 app.use('/menuItem', authMiddleware, menuItemRouter);
+app.use('/contentBlock', authMiddleware, contentBlockRouter);
 
 app.use('/home', homeRouter);
 app.use('/blog', blogRouter);

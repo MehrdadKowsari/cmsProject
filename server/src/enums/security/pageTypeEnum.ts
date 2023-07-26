@@ -20,5 +20,6 @@ export enum PageTypeEnum{
     Gallery = 208,
     Brand = 209,
     Event = 210,
-    EventRegister = 211
+    EventRegister = 211,
+    ContentBlock = 212
 }
