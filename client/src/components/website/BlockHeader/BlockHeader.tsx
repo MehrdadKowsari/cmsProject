@@ -2,12 +2,13 @@ import Icon from "@mui/material/Icon";
 import { makeStyles } from "tss-react/mui";
 
 const styles = makeStyles()((theme) => ({
-    title: {
+    titleLine: {
         display: "inline-block",
         borderBottom: `3px solid ${theme.palette.primary.main}`,
         width: "100%",
         position: "relative",
-        top: "12px"
+        top: "12px",
+        marginBottom: "15px"
     },
     textCont: {
         color: `${theme.palette.primary.main}`,
@@ -26,23 +27,25 @@ const styles = makeStyles()((theme) => ({
         display: "inline-block",
         verticalAlign: "middle",
         fontSize: "14px",
-        marginBottom: "15px",
+        marginTop: "-5px",
+        marginBottom: "10px",
         marginRight:" 5px",
+        marginLeft:" 5px",
         fontWeight: "bold",
     }
 }));
 
 type Props = {
     title: string,
-    iconCssClass: string
+    iconCssClass?: string | null
 }
 
 const BlockHeader = ({title, iconCssClass}: Props) => {
     const { classes } = styles();
     return(
-        <div className={classes.title}>
+        <div className={classes.titleLine}>
         <div className={classes.textCont}>
-            <Icon className={classes.icon}>{iconCssClass}</Icon>
+            { iconCssClass && <Icon className={classes.icon}>{iconCssClass}</Icon> }
             <h4 className={classes.text}>{title}</h4>
         </div>
     </div>
