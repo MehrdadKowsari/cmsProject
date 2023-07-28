@@ -1,10 +1,13 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { PopUpT as Props } from "src/types/popup";
 import HomeContent from "src/components/website/HomeContent";
 import MainPageLayout from "src/layouts/website/MainPageLayout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const Home: NextPage<Props> = ({ setPopup, popup }) => {
+  const { t } = useTranslation();
   return (
     <div>
       <Head>
@@ -16,7 +19,7 @@ const Home: NextPage<Props> = ({ setPopup, popup }) => {
           name="description"
           content="Explore the best Blog app"
         ></meta>
-        <title>Read Blog Online</title>
+        <title>{t("readBlogOnline")}</title>
 
         <meta property="og:url" content="" />
         <meta property="og:type" content="website" />
@@ -46,3 +49,11 @@ const Home: NextPage<Props> = ({ setPopup, popup }) => {
 Home.getLayout = (page: React.ReactNode) => <MainPageLayout>{page}</MainPageLayout>
 
 export default Home;
+
+export const getStaticProps: GetStaticProps<{}> = async ({
+  locale,
+}) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+  },
+})

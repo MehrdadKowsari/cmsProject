@@ -4,6 +4,9 @@ import axios from 'src/api/axios';
 import { PostDTO } from 'src/models/contentManagement/post/postDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
 import { ListPublishedPostByParamsDTO } from 'src/models/contentManagement/post/listPublishedPostByParamsDTO';
+import { ListMostCommentedPostByParamsDTO } from 'src/models/contentManagement/post/listMostCommentedPostByParamsDTO';
+import { ListMostPopularPostByParamsDTO } from 'src/models/contentManagement/post/listMostPopularPostByParamsDTO';
+import { ListLastPostByParamsDTO } from 'src/models/contentManagement/post/listLastPostByParamsDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/blog`;
 
@@ -12,6 +15,42 @@ export const getAllPublishedPostsByParams = createAsyncThunk(
   async (listPublishedPostByParamsDTO : ListPublishedPostByParamsDTO, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/getAllPublishedPostsByParams`, listPublishedPostByParamsDTO);
+      return data?.result;
+    } catch (err) {
+      const error= err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+});
+
+export const getAllMostCommentedPostsByParams = createAsyncThunk(
+  "blog/getAllMostCommentedPostsByParams", 
+  async (listMostCommentedPostByParamsDTO : ListMostCommentedPostByParamsDTO, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/getAllMostCommentedPostsByParams`, listMostCommentedPostByParamsDTO);
+      return data?.result;
+    } catch (err) {
+      const error= err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+});
+
+export const getAllMostPopularPostsByParams = createAsyncThunk(
+  "blog/getAllMostPopularPostsByParams", 
+  async (listMostPopularPostByParamsDTO : ListMostPopularPostByParamsDTO, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/getAllMostPopularPostsByParams`, listMostPopularPostByParamsDTO);
+      return data?.result;
+    } catch (err) {
+      const error= err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+});
+
+export const getAllLastPostsByParams = createAsyncThunk(
+  "blog/getAllLastPostsByParams", 
+  async (listLastPostByParamsDTO : ListLastPostByParamsDTO, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/getAllLastPostsByParams`, listLastPostByParamsDTO);
       return data?.result;
     } catch (err) {
       const error= err as AxiosError;
@@ -34,11 +73,17 @@ export const getBySlugUrl = createAsyncThunk(
 
 interface PostState extends IntialState {
   posts: PostDTO[] | null,
+  mostCommentedPosts: PostDTO[] | null,
+  mostPopularPosts: PostDTO[] | null,
+  lastPosts: PostDTO[] | null,
   post: PostDTO | null
 }
 
 const initialState: PostState = {
-    posts: null,
+    posts: [],
+    mostCommentedPosts: [],
+    mostPopularPosts: [],
+    lastPosts: [],
     post: null,
     totalCount: 0,
     isLoading: false,
@@ -63,11 +108,60 @@ const blogSlice = createSlice({
             state.hasError = false;
           })
           .addCase(getAllPublishedPostsByParams.rejected, (state, { payload }) => {
-            state.posts = null;
+            state.posts = [];
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;
           })
+          
+          .addCase(getAllMostCommentedPostsByParams.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getAllMostCommentedPostsByParams.fulfilled, (state, { payload }) => {
+            state.mostCommentedPosts = payload;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getAllMostCommentedPostsByParams.rejected, (state, { payload }) => {
+            state.mostCommentedPosts = [];
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
+          .addCase(getAllMostPopularPostsByParams.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getAllMostPopularPostsByParams.fulfilled, (state, { payload }) => {
+            state.mostPopularPosts = payload;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getAllMostPopularPostsByParams.rejected, (state, { payload }) => {
+            state.mostPopularPosts = [];
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
+          .addCase(getAllLastPostsByParams.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getAllLastPostsByParams.fulfilled, (state, { payload }) => {
+            state.lastPosts = payload;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getAllLastPostsByParams.rejected, (state, { payload }) => {
+            state.lastPosts = [];
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
 
           .addCase(getBySlugUrl.pending, (state) => {
             state.isLoading = true;

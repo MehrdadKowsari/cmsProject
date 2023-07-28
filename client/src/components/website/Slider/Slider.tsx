@@ -12,7 +12,12 @@ import useLocale from "src/hooks/useLocale";
 import { useSelector } from "react-redux";
 import { SliderItemDTO } from "src/models/contentManagement/sliderItem/sliderItemDTO";
 
-const SectionCarousel = () => {
+type Props = {
+  sectionName: string,
+  height?: number
+}
+
+const Slider: React.FC<Props> = ({ sectionName, height }) => {
   const { classes } = carouselStyle();
   const settings = {
     dots: true,
@@ -35,8 +40,8 @@ const SectionCarousel = () => {
 
   const getAllSliderItems = () => {
     const listSliderItemByParamsDTO : ListActiveSliderItemByParamsDTO = {
-      sectionName: 'headerSlider',
-      locale: locale
+      sectionName,
+      locale
     }
     dispatch(getAllActiveSlidersByParams(listSliderItemByParamsDTO));
   }
@@ -47,8 +52,8 @@ const SectionCarousel = () => {
         <GridContainer className={classes.gridContainre}>
           <GridItem xs={12} sm={12} md={12} lg={12} className={classes.gridItem}>
           <Carousel {...settings}>
-                {sliderItems?.map((p: SliderItemDTO) => ( 
-                  <CarouselItem src={p.file!} name={p.name} key={p.id}/>
+                {sliderItems?.filter((p: SliderItemDTO) => p.sliderSectionName === sectionName)?.map((p: SliderItemDTO) => ( 
+                  <CarouselItem src={p.file!} name={p.name} height={height} key={p.id}/>
                 ))}
           </Carousel>
           </GridItem>
@@ -57,17 +62,19 @@ const SectionCarousel = () => {
     </div>
   );
 }
-export default SectionCarousel;
+export default Slider;
 
 type CarouselItemProps = {
   src: string,
-  name: string
+  name: string,
+  height?: number;
 }
 
-export const CarouselItem = ({ src, name}: CarouselItemProps) => {
+export const CarouselItem = ({ src, name, height}: CarouselItemProps) => {
   return(
     <div>
       <img
+        height={height ?? "auto"}
         src={src}
         alt={name}
         className="slick-image"

@@ -14,7 +14,7 @@ import Icon from '@mui/material/Icon';
 import LanguageDropdown from "src/@core/layouts/components/shared-components/LanguageDropdown";
 import UserDropdown from "src/@core/layouts/components/shared-components/UserDropdown";
 
-const navStyles = makeStyles()((theme) => ({
+const styles = makeStyles()((theme) => ({
   container,
   appBar: {
     backgroundColor: "#fff",
@@ -53,7 +53,7 @@ const navStyles = makeStyles()((theme) => ({
 
 
 const Navbar = () => {
-  const { classes } = navStyles();
+  const { classes } = styles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch = useAppDispatch();

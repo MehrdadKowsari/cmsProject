@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { Grid, ImageListItem, useMediaQuery } from "@mui/material";
 import { NextPage } from "next";
 import Head from "next/head";
@@ -8,7 +8,7 @@ import PopUpDevelopment from "src/components/website/PopUpDevelopment";
 import { PopUpT } from "src/types/popup";
 import { ClockIcon } from "src/svg";
 import style from "./markdown-styles.module.css";
-import { Parser } from 'html-to-react'
+import { Parser } from 'html-to-react';
 
 import {
   TopicTitle,
@@ -36,10 +36,9 @@ import localizationService from "src/services/shared/localizationService";
 import { useSelector } from "react-redux";
 import { useRouter } from 'next/router';
 import MainPageLayout from "src/layouts/website/MainPageLayout";
-import { PostTagDTO } from "src/models/contentManagement/postTag/postTagDTO";
 import SimilarPost from "src/components/website/SimilarPost";
-import { RelatedPostDTO } from "src/models/contentManagement/relatedPost/relatedPostDTO";
 import { TagDTO } from "src/models/contentManagement/tag/tagDTO";
+
 interface Props extends PopUpT {
   
 }

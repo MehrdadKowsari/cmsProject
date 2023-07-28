@@ -4,7 +4,7 @@ import { desktop, tablet } from "../../../constants/breakpoints";
 import COLORS from "../../../constants/colors";
 
 export const PostWrapper = styled("div")(({ theme }) => ({
-  background: COLORS.SECONDARY,
+  // background: COLORS.SECONDARY,
   borderRadius: 10,
   overflow: "hidden",
   ...tablet({
@@ -36,7 +36,7 @@ export const PostBody = styled("div")(({ theme }) => ({
 
   ...tablet({
     width: "76%",
-    padding: theme.spacing(4),
+    // padding: theme.spacing(4),
   }),
 }));
 

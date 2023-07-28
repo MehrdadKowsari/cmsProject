@@ -12,6 +12,7 @@ import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateGalleryDTO } from 'src/dtos/contentManagement/gallery/updateGalleryDTO';
 import { Gallery } from 'src/models/contentManagement/gallery';
 import { Types } from 'mongoose';
+import { ListActiveGalleryByParamsDTO } from 'src/dtos/contentManagement/gallery/listActiveGalleryByParamsDTO';
 
 @autoInjectable()
 export default class GalleryService {
@@ -105,6 +106,47 @@ export default class GalleryService {
         try {
             const totalCount = await this._galleryRepository.count();
             const gallerys: GalleryDTO[] = (await this._galleryRepository.getAllByParams(gridParameter))?.map((gallery: any) => <GalleryDTO>{
+                id: gallery._id?.toString(),
+                galleryCategoryId: gallery.galleryCategoryId,
+                galleryCategoryName: gallery.galleryCategoryId?.name,
+                name: gallery.name,
+                type: gallery.type,
+                description: gallery.description,
+                allowedFileExtension: gallery.allowedFileExtension,
+                params: gallery.params,
+                image: gallery.image,
+                thumbnailImage: gallery.thumbnailImage,
+                visitNumber: gallery.visitNumber,
+                likeCount: gallery.likeCount,
+                dislikeCount: gallery.dislikeCount,
+                slugUrl: gallery.slugUrl,
+                locale: gallery.locale,
+                priority: gallery.priority,
+                isActive: gallery.isActive,
+                createdBy: gallery.createdBy,
+                createdAt: gallery.createdAt,
+                updatedBy: gallery.updatedBy,
+                updatedAt: gallery.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<GridData<GalleryDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), {
+                rows: gallerys,
+                totalCount: totalCount
+            }));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+    
+    /**
+     * get all gallery list by params
+     * 
+     * @param {object} listActiveGalleryByParamsDTO 
+     * @returns {Promise<RequestResult<GridData<GalleryDTO[]>> | null>}
+     */
+    getAllActiveByParams = async (listActiveGalleryByParamsDTO: ListActiveGalleryByParamsDTO): Promise<RequestResult<GridData<GalleryDTO[]> | null>> => {
+        try {
+            const totalCount = await this._galleryRepository.count();
+            const gallerys: GalleryDTO[] = (await this._galleryRepository.getAllActiveByParams(listActiveGalleryByParamsDTO))?.map((gallery: any) => <GalleryDTO>{
                 id: gallery._id?.toString(),
                 galleryCategoryId: gallery.galleryCategoryId,
                 galleryCategoryName: gallery.galleryCategoryId?.name,

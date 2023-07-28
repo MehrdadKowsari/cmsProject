@@ -2,7 +2,7 @@ import { BaseModel } from "../../../models/shared/base/baseModel";
 
 export interface SliderItemDTO extends BaseModel {
   sliderId: string;
-  sliderName: string | null;
+  sliderSectionName: string | null;
   name: string;
   description: string | null;
   file: string | null;

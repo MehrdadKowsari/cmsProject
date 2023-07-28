@@ -26,7 +26,7 @@ const schema = new Schema<SliderItem>(
     sliderId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref:'Gallery'
+      ref:'Slider'
     },
     name: {
       type: Schema.Types.String,

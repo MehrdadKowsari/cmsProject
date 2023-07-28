@@ -11,7 +11,7 @@ export const StyledContainer = styled("div")(({ theme, className }) => ({
   }),
   ...desktop({
     padding: 0,
-    width: 'calc((100%/6) * 4)',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column'
   }),

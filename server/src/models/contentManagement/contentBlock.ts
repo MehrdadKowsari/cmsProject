@@ -1,6 +1,6 @@
 import { Schema, model, Types } from 'mongoose';
 export const DOCUMENT_NAME = 'ContentBlock';
-export const COLLECTION_NAME = 'posts';
+export const COLLECTION_NAME = 'contentBlocks';
 
 export  interface ContentBlock {
   _id: Types.ObjectId | null;

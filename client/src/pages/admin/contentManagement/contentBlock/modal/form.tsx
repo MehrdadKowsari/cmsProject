@@ -1,7 +1,6 @@
 import React,  { useState, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import SaveIcon from '@mui/icons-material/Save'
@@ -20,8 +19,6 @@ import { useTranslation } from 'react-i18next';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import ApplicationParams from 'src/constants/applicationParams';
-import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
 import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Hotkey from 'src/constants/hotkey';
@@ -30,7 +27,6 @@ import dynamic from "next/dynamic";
 import CustomDateTimePicker from 'src/components/FormikDateTimePicker/CustomDateTimePicker';
 import localizationService from 'src/services/shared/localizationService';
 import useLocale from 'src/hooks/useLocale';
-import utilityService from 'src/services/shared/utilityService';
 import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWithImagePreview';
 
 const RichTextEditor = dynamic(() => import("./../../../../../components/RichTextEditor/RichTextEditor"), { ssr: false });
@@ -86,8 +82,6 @@ useHotkeys(Hotkey.Reset,() => formik.resetForm())
 //#endregion
 
 const validationSchema = object({
-  contentBlockCategoryId: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
-  content: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   priority: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!),
   locale: string().required(t('filedIsRequired', CommonMessage.RequiredFiled)!)
 });

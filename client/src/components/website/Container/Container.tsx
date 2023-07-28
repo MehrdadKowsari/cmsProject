@@ -2,13 +2,13 @@ import React, { ReactNode } from "react";
 import { StyledContainer } from "./styles";
 
 type Props = {
-  fullHeight?: boolean;
+  className?: string | null;
   children: ReactNode;
 };
 
-const Container: React.FC<Props> = ({ children, fullHeight = false }) => {
+const Container: React.FC<Props> = ({ children, className }) => {
   return (
-    <StyledContainer className={fullHeight ? "fullHeight" : ""}>
+    <StyledContainer className={className ?? ""}>
       {children}
     </StyledContainer>
   );

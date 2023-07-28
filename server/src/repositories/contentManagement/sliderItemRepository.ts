@@ -29,7 +29,8 @@ import SliderModel from "src/models/contentManagement/slider";
          */
         getAllActiveSlidersByParams = async (listActiveSliderItemByParamsDTO : ListActiveSliderItemByParamsDTO) =>{
             const slider = await SliderModel.findOne({ sectionName: listActiveSliderItemByParamsDTO.sectionName, locale: listActiveSliderItemByParamsDTO.locale});
-            return await SliderItemModel.find({ sliderId : slider?._id });   
+            return await SliderItemModel.find({ sliderId : slider?._id })
+            .populate('sliderId');   
         } 
         
         /**

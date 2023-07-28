@@ -254,7 +254,7 @@ export const Content = styled("div")(({ theme }) => ({
   minHeight: "100%",
 
   ...desktop({
-    width: "calc((100%/6) * 4)",
+    width: "100%/",
     display: "flex",
     justifyContent: "space-between",
     margin: "0 auto",

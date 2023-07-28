@@ -2,6 +2,7 @@ import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import GalleryModel, { Gallery } from "src/models/contentManagement/gallery";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ListActiveGalleryByParamsDTO } from "src/dtos/contentManagement/gallery/listActiveGalleryByParamsDTO";
 
 
     export default class GalleryRepository{
@@ -39,6 +40,18 @@ import AppConstant from "src/constants/appConstants";
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
             const list = await GalleryModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            return list;
+        }
+
+        /**
+         * get all active galleries by parameters
+         * 
+         * @param {object} listActiveGalleryByParamsDTO 
+         * @returns {Promise<Gallery[]>}
+         */
+        getAllActiveByParams = async (listActiveGalleryByParamsDTO: ListActiveGalleryByParamsDTO) : Promise<Gallery[]> =>{
+            const { locale } = listActiveGalleryByParamsDTO;
+            const list = await GalleryModel.find({ active: true, locale}).sort({priority : 'asc'});
             return list;
         }  
         

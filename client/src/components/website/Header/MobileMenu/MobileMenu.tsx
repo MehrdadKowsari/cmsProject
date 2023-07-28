@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes } from "src/config/routes";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import * as gtag from "../../../../utils/gtag";
 import {
   ButtonLink,

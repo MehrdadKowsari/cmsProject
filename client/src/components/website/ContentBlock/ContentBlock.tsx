@@ -7,7 +7,6 @@ import { ContentBlockByParamsDTO } from "src/models/contentManagement/contentBlo
 import useLocale from "src/hooks/useLocale";
 import { Parser } from "html-to-react";
 import BlockHeader from "../BlockHeader/BlockHeader";
-import { iconClasses } from "@mui/material";
 
 const styles = makeStyles()((theme) => ({
     text: {

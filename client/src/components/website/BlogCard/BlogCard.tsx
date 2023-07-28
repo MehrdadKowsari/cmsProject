@@ -10,14 +10,17 @@ import {
   CardActionsProps,
   Typography,
   styled,
+  Icon,
 } from '@mui/material';
 
 import ImageWithSkeleton from '../ImageWithSkeleton/ImageWithSkeleton';
 import ButtonLink from '../ButtonLink/ButtonLink';
+import CommonMessage from 'src/constants/commonMessage';
+import { useTranslation } from 'react-i18next';
 // type
 interface BlogCardProps extends CardProps {
   href?: string;
-  readTime?: number;
+  likeCount?: number;
   imageAlt?: string;
   imageSrc?: string | null;
   title?: string;
@@ -69,19 +72,19 @@ const BlogCard: React.FunctionComponent<BlogCardProps> = (props) => {
   const {
     children,
     href = '#',
-    readTime = 12,
+    likeCount = 0,
     imageAlt = '',
     imageSrc = '/',
     title = 'No Title ',
     ...otherProps
   } = props;
-
+  const { t } = useTranslation(['common']);
   return (
     <CustomCard {...otherProps}>
       <CustomCardContent>
         <ImageWithSkeleton
           alt={imageAlt}
-          src={imageSrc}
+          src={imageSrc || ''}
           layout="fill"
           objectFit="cover"
         />
@@ -98,10 +101,10 @@ const BlogCard: React.FunctionComponent<BlogCardProps> = (props) => {
           fontSize="small"
           variant="body1"
         >
-          {readTime} min read
+          <span>{likeCount}</span> <Icon sx={(theme) => ({color: theme.palette.primary.main})}>favorite</Icon>
         </Typography>
         <Box>
-          <ButtonLink href={href}>read more</ButtonLink>
+          <ButtonLink href={href}>{t("readMore", CommonMessage.ReadMore)}</ButtonLink>
         </Box>
       </CustomCardActions>
     </CustomCard>

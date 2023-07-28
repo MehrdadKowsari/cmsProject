@@ -4,6 +4,9 @@ import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
 import { ListPublishedPostByParamsDTO } from "src/dtos/contentManagement/post/listPublishedPostByParamsDTO";
 import { PostStatusTypeEnum } from "src/enums/contentManagement/postStatusTypeEnum";
+import { ListMostCommentedPostByParamsDTO } from "src/dtos/contentManagement/post/listMostCommentedPostByParamsDTO";
+import { ListMostPopularPostByParamsDTO } from "src/dtos/contentManagement/post/listMostPopularPostByParamsDTO";
+import { ListLastPostByParamsDTO } from "src/dtos/contentManagement/post/listLastPostByParamsDTO";
 
 
     export default class PostRepository{
@@ -20,7 +23,7 @@ import { PostStatusTypeEnum } from "src/enums/contentManagement/postStatusTypeEn
          * 
          * @returns {Promise<number>}
          */
-        count = async (): Promise<number> => await PostModel.count(); 
+        count = async (params?: any): Promise<number> => await PostModel.count(params); 
                
         /**
          * get all posts
@@ -56,6 +59,39 @@ import { PostStatusTypeEnum } from "src/enums/contentManagement/postStatusTypeEn
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
             const list = await PostModel.find({status: PostStatusTypeEnum.Published, locale: listPublishedPostByParamsDTO.locale}).sort(sort).skip(skipCount).limit(limitCount);
+            return list;
+        }  
+        
+        /**
+         * get all most Commented published posts by parameters
+         * 
+         * @param {object} gridParameter 
+         * @returns {Promise<Post[]>}
+         */
+        getAllMostCommentedByParams = async (listMostCommentedPostByParamsDTO : ListMostCommentedPostByParamsDTO) : Promise<Post[]> =>{
+            const list = await PostModel.find({status: PostStatusTypeEnum.Published, locale: listMostCommentedPostByParamsDTO.locale}).sort({_id : 'desc'}).limit(listMostCommentedPostByParamsDTO.count);
+            return list;
+        }  
+        
+        /**
+         * get all most Popular published posts by parameters
+         * 
+         * @param {object} gridParameter 
+         * @returns {Promise<Post[]>}
+         */
+        getAllMostPopularByParams = async (listMostPopularPostByParamsDTO : ListMostPopularPostByParamsDTO) : Promise<Post[]> =>{
+            const list = await PostModel.find({status: PostStatusTypeEnum.Published, locale: listMostPopularPostByParamsDTO.locale}).sort({likeCount : 'desc'}).limit(listMostPopularPostByParamsDTO.count);
+            return list;
+        }  
+        
+        /**
+         * get all last published posts by parameters
+         * 
+         * @param {object} gridParameter 
+         * @returns {Promise<Post[]>}
+         */
+        getAllLastByParams = async (listLastPostByParamsDTO : ListLastPostByParamsDTO) : Promise<Post[]> =>{
+            const list = await PostModel.find({status: PostStatusTypeEnum.Published, locale: listLastPostByParamsDTO.locale}).sort({createdAt : 'desc'}).limit(listLastPostByParamsDTO.count);
             return list;
         }  
         

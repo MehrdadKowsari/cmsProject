@@ -10,6 +10,7 @@ export default class ApplicationParams {
     public static readonly PasswordMinLenght:number = 6;
     public static readonly GridDefaultHeight:number = 400;
     public static readonly GridDefaultPageSize:number = 10;
+    public static readonly BlogDefaultPageSize:number = 5;
     public static readonly GridDefaultSortColumn:string = '_id';
     public static readonly GridDefaultSortDirection: 'asc' | 'desc' | null | undefined = 'desc';
     

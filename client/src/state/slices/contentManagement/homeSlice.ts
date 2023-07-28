@@ -33,12 +33,12 @@ export const getAllMenuItemsByParams = createAsyncThunk(
 });
 
 interface SliderItemState extends IntialState {
-  sliderItems: SliderItemDTO[] | null,
+  sliderItems: SliderItemDTO[];
   menuItems: SliderItemDTO[] | null
 }
 
 const initialState: SliderItemState = {
-    sliderItems: null,
+    sliderItems: [],
     menuItems: null,
     isLoading: false,
     hasError: false,
@@ -46,7 +46,7 @@ const initialState: SliderItemState = {
 }
 
 const homeSlice = createSlice({
-    name: 'sliderItems',
+    name: 'home',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -72,12 +72,11 @@ const homeSlice = createSlice({
             state.hasError = false;
           })
           .addCase(getAllActiveSlidersByParams.fulfilled, (state, { payload }) => {
-            state.sliderItems = payload;
+            state.sliderItems = [...state.sliderItems, ...payload];
             state.isLoading = false;
             state.hasError = false;
           })
           .addCase(getAllActiveSlidersByParams.rejected, (state, { payload }) => {
-            state.sliderItems = null;
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;

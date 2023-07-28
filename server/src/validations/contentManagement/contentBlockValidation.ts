@@ -16,12 +16,11 @@ const options = {
 
 const addValidation = (req: Request, res: Response, next: NextFunction) => {
      const addValidationSchema = joi.object({
-          content: joi.string().max(AppConstant.TitleMaxLenght).trim(true).required().label('Title')
+          content: joi.string().trim(true).required().label('Title')
           .messages({ 
                "string.base": req.t('contentIsRequired', `{{#label}} is required`),
                "string.empty": req.t('contentIsRequired', `{{#label}} is required`),
-               "string.required": req.t('contentIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForTitleIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
+               "string.required": req.t('contentIsRequired', `{{#label}} is required`)}),
           priority: joi.number().label('Priority')
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),
@@ -63,12 +62,11 @@ const getByIdValidation = (req: any, res: Response, next: NextFunction) => {
 
 const updateValidation = (req: any, res: Response, next: NextFunction) => {
      const updateValidationSchema = joi.object({
-          content: joi.string().max(AppConstant.TitleMaxLenght).trim(true).required().label('Content')
+          content: joi.string().trim(true).required().label('Content')
           .messages({ 
                "string.base": req.t('contentIsRequired', `{{#label}} is required`),
                "string.empty": req.t('contentIsRequired', `{{#label}} is required`),
-               "string.required": req.t('contentIsRequired', `{{#label}} is required`),
-               "string.max": req.t('maxLenghtForTitleIsN', `{{#label}} max lenght is {{#limit}}`, {n: `{{#limit}}`})}),
+               "string.required": req.t('contentIsRequired', `{{#label}} is required`)}),
           priority: joi.number().label('Priority')
           .messages({ 
                "number.base": req.t('priorityIsRequired', `{{#label}} is required`),

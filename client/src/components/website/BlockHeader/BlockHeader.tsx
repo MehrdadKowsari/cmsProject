@@ -37,14 +37,15 @@ const styles = makeStyles()((theme) => ({
 
 type Props = {
     title: string,
-    iconCssClass?: string | null
+    iconCssClass?: string | null,
+    bgColor?: string | null,
 }
 
-const BlockHeader = ({title, iconCssClass}: Props) => {
+const BlockHeader = ({title, iconCssClass, bgColor}: Props) => {
     const { classes } = styles();
     return(
         <div className={classes.titleLine}>
-        <div className={classes.textCont}>
+        <div className={classes.textCont} style={{backgroundColor : bgColor || '#fff'}}>
             { iconCssClass && <Icon className={classes.icon}>{iconCssClass}</Icon> }
             <h4 className={classes.text}>{title}</h4>
         </div>

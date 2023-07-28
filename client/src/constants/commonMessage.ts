@@ -145,6 +145,11 @@ export default class CommonMessage {
     public static readonly PostTag: string = 'Post Tag';
     public static readonly RelatedPost: string = 'Related Post';
     public static readonly Content: string = 'Content';
+    public static readonly Events: string = 'Events';
     public static readonly ContentBlock: string = 'Content Block';
     public static readonly ShortDescription: string = 'ShortDescription';
+    public static readonly ReadMore: string = 'Read More';
+    public static readonly MostCommentedPosts: string = 'Most Commented Posts';
+    public static readonly MostPopularPosts: string = 'Most Popular Posts';
+    public static readonly LastPosts: string = 'Last Posts';
 }

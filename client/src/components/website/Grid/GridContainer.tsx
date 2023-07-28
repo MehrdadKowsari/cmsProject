@@ -11,6 +11,8 @@ const styles = makeStyles()(
   grid: {
     marginRight: "-15px",
     marginLeft: "-15px",
+    paddingTop: "15px",
+    paddingBottom: "15px",
     width: "100%",
   },
 }));

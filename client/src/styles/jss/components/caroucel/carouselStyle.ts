@@ -1,5 +1,4 @@
 import { makeStyles } from "tss-react/mui";
-import { container } from "../../globalStyle";
 
 const carouselStyle = makeStyles()(
   () => ({

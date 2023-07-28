@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -44,7 +44,7 @@ const Blog: NextPage<Props> = () => {
   const getAllPublishedPosts = () => {
     const listPublishedPostByParamsDTO : ListPublishedPostByParamsDTO = {
       currentPage: page,
-      pageSize: ApplicationParams.GridDefaultPageSize,
+      pageSize: ApplicationParams.BlogDefaultPageSize,
       sortModel: sortModel,
       locale: locale
     }
@@ -83,7 +83,7 @@ const Blog: NextPage<Props> = () => {
           ))}
         </Grid>
         <PaginationItem
-          pagesCount={totalCount}
+          pagesCount={Math.ceil(totalCount/ApplicationParams.BlogDefaultPageSize)}
           currentPage={page + 1}
           postName="blog"
         />

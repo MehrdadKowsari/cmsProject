@@ -198,5 +198,12 @@
    "future": "آینده",
    "hidden": "مخفی",
    "trash": "پاک شده",
-   "contentBlock": "بلاک محتوا"
+   "contentBlock": "بلاک محتوا",
+   "events": "رخدادها",
+   "mostCommentedPostList": "پر بحث ترین نوشته ها",
+   "mostPopularPostList": "محبوب ترین نوشته ها",
+   "lastPostList": "آخرین نوشته ها",
+   "readMore": "مشاهده بیشتر ...",
+   "feature": "عنوان ویژگی",
+   "featureDescription": "توضیخات ویژگی باید در این قسمت نوشته شود",
 }

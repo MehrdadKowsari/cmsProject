@@ -64,7 +64,7 @@ export default class SliderItemService {
             const sliderItems: SliderItemDTO[] = (await this._sliderItemRepository.getAllActiveSlidersByParams(listActiveSliderItemByParamsDTO))?.map((sliderItem: any) => <SliderItemDTO>{
                 id: sliderItem._id?.toString(),
                 sliderId: sliderItem.sliderId,
-                sliderName: sliderItem.sliderId?.name,
+                sliderSectionName: sliderItem.sliderId?.sectionName,
                 name: sliderItem.name,
                 description: sliderItem.description,
                 file: sliderItem.file,
@@ -97,7 +97,7 @@ export default class SliderItemService {
             const sliderItems: SliderItemDTO[] = (await this._sliderItemRepository.getAllByParams(listSliderItemByParams))?.map((sliderItem: any) => <SliderItemDTO>{
                 id: sliderItem._id?.toString(),
                 sliderId: sliderItem.sliderId,
-                sliderName: sliderItem.sliderId?.name,
+                sliderSectionName: sliderItem.sliderId?.sectionName,
                 name: sliderItem.name,
                 description: sliderItem.description,
                 file: sliderItem.file,
@@ -136,7 +136,7 @@ export default class SliderItemService {
             const sliderItemDTO: SliderItemDTO = <SliderItemDTO>{
                 id: sliderItem._id?.toString(),
                 sliderId: sliderItem.sliderId.toString(),
-                sliderName: (<any>sliderItem.sliderId)?.name,
+                sliderSectionName: (<any>sliderItem.sliderId)?.name,
                 name: sliderItem.name,
                 description: sliderItem.description,
                 file: sliderItem.file,
