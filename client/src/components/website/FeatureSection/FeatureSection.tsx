@@ -7,12 +7,21 @@ import FeatureItem from '../FeatureItem/FeatureItem';
 import { useTranslation } from 'next-i18next';
 import { container } from 'src/styles/jss/globalStyle';
 import BlockHeader from '../BlockHeader/BlockHeader';
+import colors from 'src/constants/colors';
 
 const useStyles = makeStyles()((theme) => ({
     container,
+    mainContainer: {
+        ...container,
+        paddingRight: 0,
+        paddingLeft: 0
+    },
     root: {
-      backgroundColor: "#edeff2"
-    }
+      backgroundColor: colors.GRAY_LIGTH
+    },
+    header:{
+        padding: 0
+    } 
   }));
 
 type Props = {
@@ -24,35 +33,35 @@ const FeatureSection: React.FC<Props> = () => {
     
     return (
         <div className={classes.root}>
-            <GridContainer className={classes.container}>
-            <GridItem lg={12} sx={{padding: 0}}>
-                <BlockHeader title={t("features")} iconCssClass="category" bgColor='#edeff2'/>
-            </GridItem>
-            <GridItem lg={3} md={3} sm={3} xs={4}>
-                <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
-            </GridItem>
-            <GridItem lg={3} md={3} sm={3} xs={4}>
-                <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
-            </GridItem>
-            <GridItem lg={3} md={3} sm={3} xs={4}>
-                <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
-            </GridItem>
-            <GridItem lg={3} md={3} sm={3} xs={4}>
-                <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
-            </GridItem>
-            <GridItem lg={3} md={3} sm={3} xs={4}>
-                <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
-            </GridItem>
-            <GridItem lg={3} md={3} sm={3} xs={4}>
-                <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
-            </GridItem>
-            <GridItem lg={3} md={3} sm={3} xs={4}>
-                <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
-            </GridItem>
-            <GridItem lg={3} md={3} sm={3} xs={4}>
-                <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
-            </GridItem>
-        </GridContainer>
+            <GridContainer className={classes.mainContainer}>
+                <GridItem lg={12} className={classes.header}>
+                    <BlockHeader title={t("features")} iconCssClass="category" bgColor='#edeff2'/>
+                </GridItem>
+                <GridItem lg={3} md={3} sm={3} xs={4}>
+                    <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
+                </GridItem>
+                <GridItem lg={3} md={3} sm={3} xs={4}>
+                    <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
+                </GridItem>
+                <GridItem lg={3} md={3} sm={3} xs={4}>
+                    <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
+                </GridItem>
+                <GridItem lg={3} md={3} sm={3} xs={4}>
+                    <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
+                </GridItem>
+                <GridItem lg={3} md={3} sm={3} xs={4}>
+                    <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
+                </GridItem>
+                <GridItem lg={3} md={3} sm={3} xs={4}>
+                    <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
+                </GridItem>
+                <GridItem lg={3} md={3} sm={3} xs={4}>
+                    <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
+                </GridItem>
+                <GridItem lg={3} md={3} sm={3} xs={4}>
+                    <FeatureItem iconCssClass='settings' title={t("feature")} description={t("featureDescription")}/>
+                </GridItem>
+            </GridContainer>
         </div>
       
     );

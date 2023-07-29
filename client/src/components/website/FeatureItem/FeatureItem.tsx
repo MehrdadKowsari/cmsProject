@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Icon, Typography, keyframes } from '@mui/material';
+import { Container, Grid, Icon, Typography, keyframes } from '@mui/material';
 import { makeStyles } from "tss-react/mui";
 
 const circularAnimation = keyframes`
@@ -10,11 +10,9 @@ const circularAnimation = keyframes`
       transform: rotate(360deg);
     }`
 const useStyles = makeStyles()((theme) => ({
-    root: {
-      padding: theme.spacing(4),
-    },
-    featureItem: {
+    container: {
       textAlign: 'center',
+      marginBottom: theme.spacing(2)
     },
     icon: {
       fontSize: "60px !important",
@@ -24,7 +22,7 @@ const useStyles = makeStyles()((theme) => ({
       border: '1px solid #e4e4e4',
       borderRadius: '100%',
       color: theme.palette.primary.main,
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacing(4),
       '&:hover': {
         animation: `${circularAnimation} 1s linear 1`
       },
@@ -33,9 +31,15 @@ const useStyles = makeStyles()((theme) => ({
       fontWeight: 'bold',
       color: theme.palette.primary.main,
       marginBottom: theme.spacing(1),
+      fontFamily: 'inherit',
+      borderBottom: `solid 1px #e4e4e4`
     },
     description: {
+      height: 120,
       color: theme.palette.text.secondary,
+      fontFamily: 'inherit',
+      fontSize: '0.8rem',
+      textAlign: 'justify'
     },
   }));
 
@@ -48,8 +52,7 @@ const FeatureItem: React.FC<Props> = ({iconCssClass, title, description}) => {
     const { classes } = useStyles();
     
     return (
-      <Grid container className={classes.root}>
-        <Grid item xs={12} sm={6} md={4} className={classes.featureItem}>
+      <Container className={classes.container}>
         <Icon className={classes.icon}>{iconCssClass}</Icon>         
           <Typography variant="h6" className={classes.title}>
             { title }
@@ -57,8 +60,7 @@ const FeatureItem: React.FC<Props> = ({iconCssClass, title, description}) => {
           <Typography variant="body2" className={classes.description}>
             { description }
           </Typography>
-        </Grid>
-      </Grid>
+      </Container>
     );
   };
 
