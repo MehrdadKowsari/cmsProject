@@ -1,9 +1,10 @@
 import { styled } from "@mui/material";
 import COLORS from "../../../constants/colors";
 import { tablet, desktop } from "../../../constants/breakpoints";
+import { container } from "src/styles/jss/globalStyle";
 
 export const StyledFooter = styled("div")(() => ({
-  background: COLORS.GRAY,
+  background: COLORS.GRAY_LIGTH,
   marginTop: 51,
   ...desktop({
     marginTop: 0,
@@ -15,7 +16,7 @@ export const MainFooterContent = styled("div")(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   padding: theme.spacing(3.5, 0),
-
+  ...container,
   ...tablet({
     flexDirection: "row",
     justifyContent: "space-between",
