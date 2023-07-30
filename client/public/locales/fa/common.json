@@ -205,5 +205,8 @@
    "lastPostList": "آخرین نوشته ها",
    "readMore": "مشاهده بیشتر ...",
    "feature": "عنوان ویژگی",
-   "featureDescription": "توضیحات ویژگی باید در این قسمت نوشته شود"
+   "featureDescription": "توضیحات ویژگی باید در این قسمت نوشته شود",
+   "copyright": "کپی رایت",
+   "companyName":"نام شرکت",
+   "allRightsReserved":"تمامی حقوق محفوظ است"
 }

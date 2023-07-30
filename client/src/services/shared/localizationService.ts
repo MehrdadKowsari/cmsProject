@@ -48,6 +48,14 @@ class LocalizationService {
         return null;
        }
     }
+
+    getCurrentYear(locale: string): string{
+        if (locale === LanguageCodeEnum.Persian) {
+            return moment(new Date()).format('jYYYY')
+        } else {
+            return moment(new Date()).format('YYYY')
+        }
+    }
 }
 
 export default new LocalizationService();

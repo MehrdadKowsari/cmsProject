@@ -1,24 +1,37 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
 import { Routes } from "src/config/routes";
-import Container from "../Container";
 import {
-  Divider,
   ImageLink,
   InfoText,
+  StyledFooterContainer,
   MainFooterContent,
   Socials,
   StyledFooter,
+  StyledCopyRightContainer,
   StyledLinks,
 } from "./styles";
-import { StyledLink } from "../common/styles";
+import { StyledLink, StyledWhiteLink } from "../common/styles";
+import useLocale from "src/hooks/useLocale";
+import localizationService from "src/services/shared/localizationService";
+import GridContainer from "../Grid/GridContainer";
+import GridItem from "../Grid/GridItem";
+import FooterMenu from "../FooterMenu/FooterMenu";
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
+  const { getLocale } = useLocale();
+  const currentYear = localizationService.getCurrentYear(getLocale());
+
   return (
     <StyledFooter>
-      <Container>
+      <StyledFooterContainer>
         <MainFooterContent>
+        <GridContainer>
+          <GridItem lg={4} md={4} sm={6} xx={12}>
+            <FooterMenu/>
+          </GridItem>
+        </GridContainer>
           <StyledLinks>
             <StyledLink href={Routes.Blog}>{t("blog")}</StyledLink>
             <StyledLink href={Routes.Privacy}>{t("privacyPolicy")}</StyledLink>
@@ -62,17 +75,16 @@ const Footer: React.FC = () => {
             </ImageLink>
           </Socials>
         </MainFooterContent>
-      </Container>
-      <Divider />
-      <Container>
+      </StyledFooterContainer>
+      <StyledCopyRightContainer>
         <InfoText>
-          Copyright © 2022{" "}
-          <StyledLink href="https://test.test" target="_blank" rel="noopener">
-            OmiSoft LLC
-          </StyledLink>
-          . All Rights Reserved
+          {t("copyright")} © {currentYear}{" "}
+          <StyledWhiteLink href="https://test.test" target="_blank" rel="noopener">
+          {t("companyName")} {" "}
+          </StyledWhiteLink>
+           {t("allRightsReserved")}
         </InfoText>
-      </Container>
+      </StyledCopyRightContainer>
     </StyledFooter>
   );
 };

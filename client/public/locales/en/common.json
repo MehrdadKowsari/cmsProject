@@ -18,5 +18,16 @@
     "_self": "Open In The Same Window",
     "_blank": "Open In New Window",
     "persian": "Persian",
-    "english": "English"
+    "english": "English",
+    "contentBlock": "بلاک محتوا",
+   "events": "events",
+   "mostCommentedPostList": "Most Commented Post List",
+   "mostPopularPostList": "Most Popular Post List",
+   "lastPostList": "Last Post List",
+   "readMore": "Read More ...",
+   "feature": "Feature Title",
+   "featureDescription": "Feature Description Should Write Here",
+   "copyright": "CopyRight",
+   "companyName":"Company Name",
+   "allRightsReserved":"All Rights Reserved"
 }

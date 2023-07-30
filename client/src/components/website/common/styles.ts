@@ -103,6 +103,13 @@ export const StyledLink = styled("a")(() => ({
   cursor: "pointer",
 }));
 
+export const StyledWhiteLink = styled("a")(() => ({
+  color: COLORS.WHITE,
+  fontWeight: 600,
+  textDecoration: "none",
+  cursor: "pointer",
+}));
+
 export const TopicWrapper = styled("div")(() => ({
   ...desktop({
     marginBottom: 120,

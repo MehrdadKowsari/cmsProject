@@ -4,11 +4,14 @@ import { tablet, desktop } from "../../../constants/breakpoints";
 import { container } from "src/styles/jss/globalStyle";
 
 export const StyledFooter = styled("div")(() => ({
-  background: COLORS.GRAY_LIGTH,
   marginTop: 51,
   ...desktop({
     marginTop: 0,
   }),
+}));
+
+export const StyledFooterContainer = styled("div")(() => ({
+  background: COLORS.GRAY_LIGTH,
 }));
 
 export const MainFooterContent = styled("div")(({ theme }) => ({
@@ -57,6 +60,10 @@ export const ImageLink = styled("a")(({ theme }) => ({
   display: "block",
   width: 38,
   height: 38,
+}));
+
+export const StyledCopyRightContainer = styled("div")((p) => ({
+  background: p.theme.palette.primary.main,
 }));
 
 export const InfoText = styled("p")(({ theme }) => ({
