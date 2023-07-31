@@ -17,6 +17,8 @@ import localizationService from "src/services/shared/localizationService";
 import GridContainer from "../Grid/GridContainer";
 import GridItem from "../Grid/GridItem";
 import FooterMenu from "../FooterMenu/FooterMenu";
+import ContentBlock from "../ContentBlock/ContentBlock";
+import COLORS from "src/constants/colors";
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -29,7 +31,13 @@ const Footer: React.FC = () => {
         <MainFooterContent>
         <GridContainer>
           <GridItem lg={4} md={4} sm={6} xx={12}>
+          <ContentBlock sectionName="footer_aboutUs" titleBgColor={COLORS.GRAY_LIGTH} />
+          </GridItem>
+          <GridItem lg={4} md={4} sm={6} xx={12}>
             <FooterMenu/>
+          </GridItem>
+          <GridItem lg={4} md={4} sm={6} xx={12}>
+          <ContentBlock sectionName="footer_contactUs" titleBgColor={COLORS.GRAY_LIGTH} />
           </GridItem>
         </GridContainer>
           <StyledLinks>

@@ -7,6 +7,7 @@ import { ContentBlockByParamsDTO } from "src/models/contentManagement/contentBlo
 import useLocale from "src/hooks/useLocale";
 import { Parser } from "html-to-react";
 import BlockHeader from "../BlockHeader/BlockHeader";
+import COLORS from "src/constants/colors";
 
 const styles = makeStyles()((theme) => ({
     text: {
@@ -19,11 +20,12 @@ const styles = makeStyles()((theme) => ({
 type Props = {
     sectionName?: string,
     title?: string,
+    titleBgColor?: string,
     iconCssClass?: string,
     children?: ReactNode
 }
 
-const ContentBlock = ({sectionName, title, iconCssClass , children}: Props) => {
+const ContentBlock = ({sectionName, title, iconCssClass, titleBgColor , children}: Props) => {
     const [content, SetContent] = useState<ContentBlockDTO | null>(null);
     const dispatch = useAppDispatch() 
     
@@ -47,7 +49,7 @@ const ContentBlock = ({sectionName, title, iconCssClass , children}: Props) => {
     const { classes } = styles();
     return(
         <>
-            {(content?.title || title) && <BlockHeader title={content?.title ? content.title: title!} iconCssClass={content?.iconCssClass || iconCssClass} /> }
+            {(content?.title || title) && <BlockHeader title={content?.title ? content.title: title!} iconCssClass={content?.iconCssClass || iconCssClass} bgColor={titleBgColor || COLORS.WHITE} /> }
             {content?.content && <div className={classes.text}>
                 {Parser().parse(content?.content)}
             </div>}
