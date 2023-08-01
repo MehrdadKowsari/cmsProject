@@ -55,11 +55,19 @@ export const Socials = styled("div")(({ theme }) => ({
   }),
 }));
 
+export const Certifications = styled("div")(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  gap: theme.spacing(4),
+  position: "relative",
+  ...tablet({
+    alignItems: "center",
+  }),
+}));
+
 export const ImageLink = styled("a")(({ theme }) => ({
   position: "relative",
-  display: "block",
-  width: 38,
-  height: 38,
+  display: "block"
 }));
 
 export const StyledCopyRightContainer = styled("div")((p) => ({

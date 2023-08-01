@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
-import { Routes } from "src/config/routes";
 import {
   ImageLink,
   InfoText,
@@ -8,10 +7,9 @@ import {
   MainFooterContent,
   Socials,
   StyledFooter,
-  StyledCopyRightContainer,
-  StyledLinks,
+  StyledCopyRightContainer
 } from "./styles";
-import { StyledLink, StyledWhiteLink } from "../common/styles";
+import { StyledWhiteLink } from "../common/styles";
 import useLocale from "src/hooks/useLocale";
 import localizationService from "src/services/shared/localizationService";
 import GridContainer from "../Grid/GridContainer";
@@ -19,6 +17,8 @@ import GridItem from "../Grid/GridItem";
 import FooterMenu from "../FooterMenu/FooterMenu";
 import ContentBlock from "../ContentBlock/ContentBlock";
 import COLORS from "src/constants/colors";
+import FooterSocial from "../FooterSocial/FooterSocial";
+import FooterCertification from "../FooterCertification/FooterCertification";
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -39,50 +39,17 @@ const Footer: React.FC = () => {
           <GridItem lg={4} md={4} sm={6} xx={12}>
           <ContentBlock sectionName="footer_contactUs" titleBgColor={COLORS.GRAY_LIGTH} />
           </GridItem>
-        </GridContainer>
-          <StyledLinks>
-            <StyledLink href={Routes.Blog}>{t("blog")}</StyledLink>
-            <StyledLink href={Routes.Privacy}>{t("privacyPolicy")}</StyledLink>
-          </StyledLinks>
-          <Socials>
-            <ImageLink
-              href="https://twitter.com/sudokuproapp"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                width="38px"
-                height="38px"
-                src="/images/twitter.svg"
-                alt="twitter page"
-              />
-            </ImageLink>
-            <ImageLink
-              href="https://www.instagram.com/sudokupro.app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                width="38px"
-                height="38px"
-                src="/images/instagram.svg"
-                alt="instagram page"
-              />
-            </ImageLink>
-            <ImageLink
-              href="https://www.facebook.com/sudokuproapp"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                width="38px"
-                height="38px"
-                src="/images/facebook.svg"
-                alt="facebook page"
-              />
-            </ImageLink>
-          </Socials>
-        </MainFooterContent>
+          <GridItem lg={4} md={4} sm={6} xx={12}>
+          
+          </GridItem>
+          <GridItem lg={4} md={4} sm={6} xx={12}>
+            <FooterCertification/>
+          </GridItem>
+          <GridItem lg={4} md={4} sm={6} xx={12}>
+            <FooterSocial/>
+          </GridItem>
+        </GridContainer>          
+      </MainFooterContent>
       </StyledFooterContainer>
       <StyledCopyRightContainer>
         <InfoText>

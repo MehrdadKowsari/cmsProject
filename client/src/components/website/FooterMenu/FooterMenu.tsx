@@ -11,10 +11,7 @@ import { getAllMenuItemsByParams } from "src/state/slices/contentManagement/home
 import { MenuItemDTO } from "src/models/contentManagement/menuItem/menuItemDTO";
 import COLORS from "src/constants/colors";
 
-type Props = {
-}
-
-const FooterMenu: React.FC<Props> = () => {
+const FooterMenu: React.FC = () => {
     const [ menuItems, setMenuItems ] = useState<MenuItemDTO[]>([]);
     const dispatch = useAppDispatch();
     const { getLocale } = useLocale();
