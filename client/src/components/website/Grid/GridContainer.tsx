@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 // @material-ui/core components
 import Grid from '@mui/material/Grid';
 import { makeStyles } from "tss-react/mui";
+import { Grid2Props } from "@mui/material";
 
 const styles = makeStyles()(
   () => ({
@@ -18,7 +19,7 @@ const styles = makeStyles()(
 }));
 
 
-export default function GridContainer(props: any) {
+export default function GridContainer(props: Grid2Props) {
   const { classes } = styles();
   const { children, className, ...rest } = props;
   return (
