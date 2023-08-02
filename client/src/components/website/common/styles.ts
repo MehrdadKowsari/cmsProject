@@ -2,6 +2,7 @@ import { Button, PaginationItem, Stack, styled } from "@mui/material";
 import { tablet, desktop, phone_tablet } from "../../../constants/breakpoints";
 import { MONTSERRAT, PROXIMA_NOVA } from "../../../constants/fonts";
 import COLORS from "../../../constants/colors";
+import BlockHeader from "../BlockHeader/BlockHeader";
 
 export const StyledTitle = styled("h1")(() => ({
   fontWeight: 700,
@@ -40,17 +41,22 @@ export const PostTitle = styled("h2")(() => ({
   fontWeight: 700,
   fontSize: 22,
   color: COLORS.MAIN,
-
+  fontFamily: "inherit",
   ...tablet({
     fontSize: 32,
   }),
 }));
 
+export const StyledBlockHeader = styled(BlockHeader)(() => ({
+  marginTop: 50,
+  marginBottom: 50
+}));
+
 export const TopicTitle = styled("h1")(() => ({
   fontWeight: 600,
   fontSize: 17,
-  fontFamily: MONTSERRAT,
-  textAlign: "left",
+  fontFamily: "inherit",
+  textAlign: "inherit",
   marginTop: 16,
   marginBottom: 12,
   ...tablet({
@@ -86,6 +92,7 @@ export const StyledPaginationItem = styled(PaginationItem)(
   ({ theme, "aria-current": ariaCurrent }) => ({
     width: 36,
     height: 36,
+    fontFamily: "inherit",
     borderRadius: 18,
     color: ariaCurrent ? COLORS.WHITE : COLORS.GRAY_FOR_TEXT,
     backgroundColor: ariaCurrent ? `${COLORS.MAIN} !important` : "transparent",
@@ -113,6 +120,8 @@ export const StyledWhiteLink = styled("a")(() => ({
 export const TopicWrapper = styled("div")(() => ({
   ...desktop({
     marginBottom: 120,
+    paddingLeft: 15,
+    paddingRight: 15,
   }),
 }));
 
@@ -269,9 +278,9 @@ export const Content = styled("div")(({ theme }) => ({
 }));
 
 export const Topic = styled("div")(({ theme }) => ({
-  maxWidth: 850,
+  //maxWidth: 850,
   ...desktop({
-    marginRight: 20,
+    // marginRight: 20,
   }),
 }));
 

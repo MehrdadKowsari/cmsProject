@@ -19,6 +19,7 @@ import ContentBlock from "../ContentBlock/ContentBlock";
 import COLORS from "src/constants/colors";
 import FooterSocial from "../FooterSocial/FooterSocial";
 import FooterCertification from "../FooterCertification/FooterCertification";
+import FooterSubscription from "../FooterSubscription/FooterSubscription";
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -30,22 +31,22 @@ const Footer: React.FC = () => {
       <StyledFooterContainer>
         <MainFooterContent>
         <GridContainer>
-          <GridItem lg={4} md={4} sm={6} xx={12}>
+          <GridItem lg={4} md={4} sm={6} xs={12}>
           <ContentBlock sectionName="footer_aboutUs" titleBgColor={COLORS.GRAY_LIGTH} />
           </GridItem>
-          <GridItem lg={4} md={4} sm={6} xx={12}>
+          <GridItem lg={4} md={4} sm={6} xs={12}>
             <FooterMenu/>
           </GridItem>
-          <GridItem lg={4} md={4} sm={6} xx={12}>
+          <GridItem lg={4} md={4} sm={6} xs={12}>
           <ContentBlock sectionName="footer_contactUs" titleBgColor={COLORS.GRAY_LIGTH} />
           </GridItem>
-          <GridItem lg={4} md={4} sm={6} xx={12}>
-          
+          <GridItem lg={4} md={4} sm={6} xs={12}>
+            <FooterSubscription/>
           </GridItem>
-          <GridItem lg={4} md={4} sm={6} xx={12}>
+          <GridItem lg={4} md={4} sm={6} xs={12}>
             <FooterCertification/>
           </GridItem>
-          <GridItem lg={4} md={4} sm={6} xx={12}>
+          <GridItem lg={4} md={4} sm={6} xs={12}>
             <FooterSocial/>
           </GridItem>
         </GridContainer>          
