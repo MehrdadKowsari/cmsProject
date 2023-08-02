@@ -2,6 +2,7 @@ import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import GalleryCategoryModel, { GalleryCategory } from "src/models/contentManagement/galleryCategory";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ListActiveGalleryCategoryByParamsDTO } from "src/dtos/contentManagement/galleryCategory/listActiveGalleryCategoryByParamsDTO";
 
 
     export default class GalleryCategoryRepository{
@@ -42,6 +43,18 @@ import AppConstant from "src/constants/appConstants";
             const sort = GridUtilityHelper.getSortObject(sortModel);
             const list = await GalleryCategoryModel.find().sort(sort).skip(skipCount).limit(limitCount)
             .populate('parentId')
+            .exec();
+            return list;
+        }  
+        
+        /**
+         * get all galleryCategorys by parameters
+         * 
+         * @param {object} listActiveGalleryCategoryByParamsDTO 
+         * @returns {Promise<GalleryCategory[]>}
+         */
+        getAllActiveByParams = async (listActiveGalleryCategoryByParamsDTO: ListActiveGalleryCategoryByParamsDTO) : Promise<GalleryCategory[]> =>{
+            const list = await GalleryCategoryModel.find({ parentId: listActiveGalleryCategoryByParamsDTO.parentId, locale: listActiveGalleryCategoryByParamsDTO.locale})
             .exec();
             return list;
         }  

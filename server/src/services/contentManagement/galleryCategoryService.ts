@@ -12,6 +12,7 @@ import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdateGalleryCategoryDTO } from 'src/dtos/contentManagement/galleryCategory/updateGalleryCategoryDTO';
 import { GalleryCategory } from 'src/models/contentManagement/galleryCategory';
 import { Types } from 'mongoose';
+import { ListActiveGalleryCategoryByParamsDTO } from 'src/dtos/contentManagement/galleryCategory/listActiveGalleryCategoryByParamsDTO';
 
 @autoInjectable()
 export default class GalleryCategoryService {
@@ -75,6 +76,37 @@ export default class GalleryCategoryService {
     }
 
        
+    /**
+     * get all galleryCategory list by params
+     * 
+     * @param {object} listActiveGalleryCategoryByParamsDTO 
+     * @returns {Promise<RequestResult<GalleryCategoryDTO[]> | null>}
+     */
+    getAllActiveByParams = async (listActiveGalleryCategoryByParamsDTO: ListActiveGalleryCategoryByParamsDTO): Promise<RequestResult<GridData<GalleryCategoryDTO[]> | null>> => {
+        try {
+            const totalCount = await this._galleryCategoryRepository.count();
+            const galleryCategorys: GalleryCategoryDTO[] = (await this._galleryCategoryRepository.getAllActiveByParams(listActiveGalleryCategoryByParamsDTO))?.map((galleryCategory: any) => <GalleryCategoryDTO>{
+                id: galleryCategory._id?.toString(),
+                parentId: galleryCategory.parentId,
+                parentName: galleryCategory.parentId?.name,
+                name: galleryCategory.name,
+                priority: galleryCategory.priority,
+                description: galleryCategory.description,
+                isActive: galleryCategory.isActive,
+                createdBy: galleryCategory.createdBy,
+                createdAt: galleryCategory.createdAt,
+                updatedBy: galleryCategory.updatedBy,
+                updatedAt: galleryCategory.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<GridData<GalleryCategoryDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), {
+                rows: galleryCategorys,
+                totalCount: totalCount
+            }));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+
     /**
      * get all galleryCategory list by params
      * 
