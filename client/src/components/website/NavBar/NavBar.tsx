@@ -75,7 +75,7 @@ const Navbar = () => {
   
 
   return (
-    <div className={classes.container}>
+    <div className={classes.container} style={{padding: 0}}>
         <AppBar position="static" className={classes.appBar}>
           <CssBaseline />
           <Toolbar className="toolbar">
