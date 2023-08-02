@@ -9,18 +9,40 @@ import GalleryService from 'src/services/contentManagement/galleryService';
 import { ListActiveGalleryByParamsDTO } from 'src/dtos/contentManagement/gallery/listActiveGalleryByParamsDTO';
 import { ListGalleryFileByParams } from 'src/dtos/contentManagement/galleryFile/listGalleryFileByParamsDTO';
 import GalleryFileService from 'src/services/contentManagement/galleryFileService';
+import { ListActiveGalleryCategoryByParamsDTO } from 'src/dtos/contentManagement/galleryCategory/listActiveGalleryCategoryByParamsDTO';
+import GalleryCategoryService from 'src/services/contentManagement/galleryCategoryService';
 
 @autoInjectable()
 export class MediaController{
     private _galleryService: GalleryService;
+    private _galleryCategoryService: GalleryCategoryService;
     private _galleryFileService: GalleryFileService;
     constructor(galleryService: GalleryService, 
-        galleryFileService: GalleryFileService){
+        galleryFileService: GalleryFileService,
+        galleryCategoryService: GalleryCategoryService){
         this._galleryService = galleryService;
+        this._galleryCategoryService = galleryCategoryService;
         this._galleryFileService = galleryFileService;
     }
      /**
-     * get all gallerys
+     * get all gallery categories
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
+    getAllActiveGalleryCategoriesByParams = async (req: Request, res: Response) => {
+        try {
+            const listActiveGalleryCategoryByParamsDTO: ListActiveGalleryCategoryByParamsDTO = req.body;
+            const requestResult = await this._galleryCategoryService.getAllActiveByParams(listActiveGalleryCategoryByParamsDTO);
+            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
+
+     /**
+     * get all galleries
      * 
      * @param {object} req 
      * @param {object} res 
