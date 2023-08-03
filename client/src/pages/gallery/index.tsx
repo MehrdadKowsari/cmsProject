@@ -2,25 +2,22 @@ import React, { useEffect } from "react";
 import { useTranslation } from "next-i18next";
 import { NextPage } from "next";
 import Head from "next/head";
-import PaginationItem from "src/components/website/Pagination";
 import Container from "src/components/website/Container";
-import Post from "src/components/website/Post";
 import InternalPageLayout from "src/layouts/website/InternalPageLayout";
 import { useAppDispatch } from "src/state/hooks/hooks";
 import { useSelector } from "react-redux";
 import useLocale from "src/hooks/useLocale";
-import { ListPublishedPostByParamsDTO } from "src/models/contentManagement/post/listPublishedPostByParamsDTO";
-import { getAllPublishedPostsByParams } from "src/state/slices/contentManagement/blogSlice";
 import ApplicationParams from "src/constants/applicationParams";
-import { PostDTO } from "src/models/contentManagement/post/postDTO";
-import { useRouter } from "next/router";
 import { container } from 'src/styles/jss/globalStyle';
 import { makeStyles } from 'tss-react/mui';
 import BlockHeader from "src/components/website/BlockHeader/BlockHeader";
 import CommonMessage from "src/constants/commonMessage";
 import GridContainer from "src/components/website/Grid/GridContainer";
 import GridItem from "src/components/website/Grid/GridItem";
-import MediaGallery from "src/components/website/Gallery/Gallery";
+import { getAllActiveGalleriesByParams } from "src/state/slices/contentManagement/mediaSlice";
+import { ListActiveGalleryByParamsDTO } from "src/models/contentManagement/gallery/listActiveGalleryByParamsDTO";
+import { GalleryDTO } from "src/models/contentManagement/gallery/galleryDTO";
+import GalleryCard from "src/components/website/GalleryCard/GalleryCard";
 
 const styles = makeStyles()((theme) => ({
   container,
@@ -38,37 +35,24 @@ const styles = makeStyles()((theme) => ({
 }))
 
 const Gallery: NextPage = () => {
-  const [paginationModel, setPaginationModel] = React.useState<any>({
-    page: 0,
-    pageSize: ApplicationParams.GridDefaultPageSize
-  });
-  
-  const [sortModel, setSortModel] = React.useState<any>([
-    {
-      field: ApplicationParams.GridDefaultSortColumn,
-      sort: ApplicationParams.GridDefaultSortDirection
-    },
-  ]);
   const { classes } = styles();
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { getLocale } = useLocale();
   const locale = getLocale();
-  const { posts, totalCount,  isLoading } = useSelector((state: any) => state?.blog?.posts ? state?.blog : { posts: [], totalCount: 0, isLoading: false });
+  const { galleries,  isLoading } = useSelector((state: any) => state?.media);
   
   useEffect(() => {
-    getAllPublishedPosts();
+    getAllActiveGalleries();
   }, []);
 
-  const getAllPublishedPosts = () => {
-    const listPublishedPostByParamsDTO : ListPublishedPostByParamsDTO = {
-      currentPage: paginationModel.page,
-      pageSize: ApplicationParams.BlogDefaultPageSize,
-      sortModel: sortModel,
+  const getAllActiveGalleries = () => {
+    const ListActiveGalleryByParamsDTO : ListActiveGalleryByParamsDTO = {
+      galleryCategoryId: null,
       locale: locale
     }
-    dispatch(getAllPublishedPostsByParams(listPublishedPostByParamsDTO));
+    dispatch(getAllActiveGalleriesByParams(ListActiveGalleryByParamsDTO));
   }
   return (
     <>
@@ -78,16 +62,20 @@ const Gallery: NextPage = () => {
           content="width=device-width, initial-scale=1"
         ></meta>
         <meta name="description" content="Read our Blog"></meta>
-        <title>{t("blog", CommonMessage.Blog)!}</title>
+        <title>{t("gallery", CommonMessage.Gallery)!}</title>
       </Head>
       <Container className={classes.container}>
         <GridContainer spacing={3} className={classes.mainContainer}>
         <GridItem lg={12} className={classes.itemContainer}>
-          <BlockHeader title={t("blog", CommonMessage.Blog)!} iconCssClass="article"/>
+          <BlockHeader title={t("gallery", CommonMessage.Gallery)!} iconCssClass="image"/>
         </GridItem>
-        <MediaGallery/>
-          {posts?.map((post: PostDTO, index: number) => (
-            <GridItem xs={12} sm={6} md={6} lg={6} key={index} className={classes.postItem}>
+          {galleries && galleries?.map((gallery: GalleryDTO, index: number) => (
+            <GridItem xs={6} sm={3} md={3} lg={3} key={index} className={classes.postItem}>
+             <GalleryCard
+                title={gallery.name || ''}
+                href={`/gallery/${gallery.id}/${gallery.name}`} 
+                imageSrc='/images/gallery.png'
+                imageAlt={gallery.name}/>
             </GridItem>
           ))}
         </GridContainer>
