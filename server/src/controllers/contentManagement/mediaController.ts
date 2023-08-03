@@ -65,10 +65,10 @@ export class MediaController{
      * @param {object} res 
      * @returns {Promise<object>} return
      */
-    getAllGalleryFilesByParams = async (req: Request, res: Response) => {
+    getAllGalleryFilesByGalleryId = async (req: Request, res: Response) => {
         try {
-            const listGalleryFileByParams: ListGalleryFileByParams = req.body;
-            const requestResult = await this._galleryFileService.getAllByParams(listGalleryFileByParams);
+            const galleryId: string = req.body;
+            const requestResult = await this._galleryFileService.getAllByGalleryId(galleryId);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
