@@ -28,7 +28,7 @@ import { ListGalleryFileByParams } from "src/dtos/contentManagement/galleryFile/
         getAll = async () => await GalleryFileModel.find(); 
         
         /**
-         * get all galleries by parameters
+         * get all galleryFiles by parameters
          * 
          * @param {object} listGalleryFileByParams 
          * @returns {Promise<GalleryFile[]>}
@@ -39,6 +39,17 @@ import { ListGalleryFileByParams } from "src/dtos/contentManagement/galleryFile/
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
             const list = await GalleryFileModel.find({ galleryId: listGalleryFileByParams.galleryId }).sort(sort).skip(skipCount).limit(limitCount);
+            return list;
+        }
+
+        /**
+         * get all galleryFiles by galleryId
+         * 
+         * @param {string} galleryId 
+         * @returns {Promise<GalleryFile[]>}
+         */
+        getAllByGalleryId = async (galleryId: string) : Promise<GalleryFile[]> =>{
+            const list = await GalleryFileModel.find({ galleryId }).sort({ 'priority' : 'asc'});
             return list;
         }  
         

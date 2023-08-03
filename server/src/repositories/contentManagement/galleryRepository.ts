@@ -50,8 +50,8 @@ import { ListActiveGalleryByParamsDTO } from "src/dtos/contentManagement/gallery
          * @returns {Promise<Gallery[]>}
          */
         getAllActiveByParams = async (listActiveGalleryByParamsDTO: ListActiveGalleryByParamsDTO) : Promise<Gallery[]> =>{
-            const { locale } = listActiveGalleryByParamsDTO;
-            const list = await GalleryModel.find({ active: true, locale}).sort({priority : 'asc'});
+            const { locale, galleryCategoryId } = listActiveGalleryByParamsDTO;
+            const list = galleryCategoryId ? await GalleryModel.find({ galleryCategoryId, locale, active: true}).sort({priority : 'asc'}) : await GalleryModel.find({ locale, active: true}).sort({priority : 'asc'});
             return list;
         }  
         

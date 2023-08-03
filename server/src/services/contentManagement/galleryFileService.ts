@@ -117,6 +117,37 @@ export default class GalleryFileService {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
     }
+
+    /**
+     * get all galleryFile list by galleryId
+     * 
+     * @param {string} galleryId
+     * @returns {Promise<RequestResult<GridData<GalleryFileDTO[]>> | null>}
+     */
+    getAllByGalleryId = async (galleryId: string): Promise<RequestResult<GalleryFileDTO[] | null>> => {
+        try {
+            const galleryFiles: GalleryFileDTO[] = (await this._galleryFileRepository.getAllByGalleryId(galleryId))?.map((galleryFile: any) => <GalleryFileDTO>{
+                id: galleryFile._id?.toString(),
+                galleryId: galleryFile.galleryId,
+                galleryName: galleryFile.galleryId?.name,
+                name: galleryFile.name,
+                description: galleryFile.description,
+                file: galleryFile.file,
+                fileSavePath: galleryFile.fileSavePath,
+                fileExtension: galleryFile.fileExtension,
+                downloadCount: galleryFile.downloadCount,
+                fileSize: galleryFile.fileSize,
+                priority: galleryFile.priority,
+                createdBy: galleryFile.createdBy,
+                createdAt: galleryFile.createdAt,
+                updatedBy: galleryFile.updatedBy,
+                updatedAt: galleryFile.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<GalleryFileDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), galleryFiles));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
     
     /**
      * get galleryFile by Id

@@ -66,7 +66,7 @@ export default class GalleryService {
      */
     getAll = async (): Promise<RequestResult<GalleryDTO[] | null>> => {
         try {
-            const gallerys: GalleryDTO[] = (await this._galleryRepository.getAll())?.map((gallery: any) => <GalleryDTO>{
+            const galleries: GalleryDTO[] = (await this._galleryRepository.getAll())?.map((gallery: any) => <GalleryDTO>{
                 id: gallery._id?.toString(),
                 galleryCategoryId: gallery.galleryCategoryId,
                 galleryCategoryName: gallery.galleryCategoryId?.name,
@@ -89,7 +89,7 @@ export default class GalleryService {
                 updatedBy: gallery.updatedBy,
                 updatedAt: gallery.updatedAt
             });
-            return new RequestResult(StatusCodes.OK, new MethodResult<GalleryDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), gallerys));
+            return new RequestResult(StatusCodes.OK, new MethodResult<GalleryDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), galleries));
         } catch (error) {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
@@ -105,7 +105,7 @@ export default class GalleryService {
     getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<GalleryDTO[]> | null>> => {
         try {
             const totalCount = await this._galleryRepository.count();
-            const gallerys: GalleryDTO[] = (await this._galleryRepository.getAllByParams(gridParameter))?.map((gallery: any) => <GalleryDTO>{
+            const galleries: GalleryDTO[] = (await this._galleryRepository.getAllByParams(gridParameter))?.map((gallery: any) => <GalleryDTO>{
                 id: gallery._id?.toString(),
                 galleryCategoryId: gallery.galleryCategoryId,
                 galleryCategoryName: gallery.galleryCategoryId?.name,
@@ -129,7 +129,7 @@ export default class GalleryService {
                 updatedAt: gallery.updatedAt
             });
             return new RequestResult(StatusCodes.OK, new MethodResult<GridData<GalleryDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), {
-                rows: gallerys,
+                rows: galleries,
                 totalCount: totalCount
             }));
         } catch (error) {
@@ -143,10 +143,9 @@ export default class GalleryService {
      * @param {object} listActiveGalleryByParamsDTO 
      * @returns {Promise<RequestResult<GridData<GalleryDTO[]>> | null>}
      */
-    getAllActiveByParams = async (listActiveGalleryByParamsDTO: ListActiveGalleryByParamsDTO): Promise<RequestResult<GridData<GalleryDTO[]> | null>> => {
+    getAllActiveByParams = async (listActiveGalleryByParamsDTO: ListActiveGalleryByParamsDTO): Promise<RequestResult<GalleryDTO[] | null>> => {
         try {
-            const totalCount = await this._galleryRepository.count();
-            const gallerys: GalleryDTO[] = (await this._galleryRepository.getAllActiveByParams(listActiveGalleryByParamsDTO))?.map((gallery: any) => <GalleryDTO>{
+            const galleries: GalleryDTO[] = (await this._galleryRepository.getAllActiveByParams(listActiveGalleryByParamsDTO))?.map((gallery: any) => <GalleryDTO>{
                 id: gallery._id?.toString(),
                 galleryCategoryId: gallery.galleryCategoryId,
                 galleryCategoryName: gallery.galleryCategoryId?.name,
@@ -169,10 +168,7 @@ export default class GalleryService {
                 updatedBy: gallery.updatedBy,
                 updatedAt: gallery.updatedAt
             });
-            return new RequestResult(StatusCodes.OK, new MethodResult<GridData<GalleryDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), {
-                rows: gallerys,
-                totalCount: totalCount
-            }));
+            return new RequestResult(StatusCodes.OK, new MethodResult<GalleryDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), galleries));
         } catch (error) {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
