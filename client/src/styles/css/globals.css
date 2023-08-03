@@ -38,3 +38,7 @@ a {
 .layout-content-wrapper{
   
 }
+/*modules*/
+.lg-outer {
+  direction: ltr;
+}
