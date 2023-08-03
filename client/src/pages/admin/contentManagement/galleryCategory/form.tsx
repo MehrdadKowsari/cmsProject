@@ -27,6 +27,7 @@ import { TextValueDTO } from 'src/models/shared/list/textValueDTO';
 import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Hotkey from 'src/constants/hotkey';
+import LanguageDropdown from 'src/components/LanguageDropdown/LanguageDropdown';
 
 const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
@@ -51,6 +52,7 @@ const getItemById = async (id: string | number) => {
         name: pageDTO.name,
         parentId: pageDTO.parentId,
         priority: pageDTO.priority,
+        locale: pageDTO.locale,
         description: pageDTO.description
       } as initialValuesType);
   }
@@ -80,14 +82,16 @@ type initialValuesType = {
   type: string,
   parentId: string | null,
   description: string | null,
-  priority: number
+  priority: number,
+  locale: string | null
 };
 const initialValues: initialValuesType = {
   name: '',
   type: '',
   parentId: '',
   description: '',
-  priority: 1
+  priority: 1,
+  locale: ''
 };
   const formik = useFormik({
     initialValues: initialValues,
@@ -101,7 +105,7 @@ const initialValues: initialValuesType = {
             parentId: values.parentId ? values.parentId : null,
             description: values.description,
             priority: values.priority,
-            locale: null
+            locale: values.locale
           };
           const result = await dispatch(update(updateGalleryCategoryDTO)).unwrap();
           if (result) {
@@ -113,7 +117,7 @@ const initialValues: initialValuesType = {
             parentId: values.parentId ? values.parentId : null,
             description: values.description,
             priority: values.priority,
-            locale: null
+            locale: values.locale
           }
           const result = await dispatch(add(addGalleryaCategoryDTO)).unwrap();
           if (result) {
@@ -160,7 +164,7 @@ const initialValues: initialValuesType = {
                     ))}
                   </TextField>
                 </Grid>
-                <Grid item lg={12}>
+                <Grid item lg={6}>
                   <TextField 
                   fullWidth 
                   id="name"
@@ -171,7 +175,7 @@ const initialValues: initialValuesType = {
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.errors.name}/> 
                 </Grid>
-                <Grid item lg={12}>
+                <Grid item lg={6}>
                   <TextField 
                   fullWidth 
                   id="priority"
@@ -182,7 +186,19 @@ const initialValues: initialValuesType = {
                   error={formik.touched.priority && Boolean(formik.errors.priority)}
                   helperText={formik.errors.priority}/> 
                 </Grid>
-                <Grid item lg={12}>
+                <Grid item lg={6}>
+                  <LanguageDropdown
+                    id="locale "
+                    name="locale"
+                    label={t('locale', CommonMessage.Locale)}
+                    value={formik.values.locale} 
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.locale && Boolean(formik.errors.locale)}
+                    helperText={formik.errors.locale}
+                  />
+                </Grid>
+                <Grid item lg={6}>
                   <TextField 
                   fullWidth 
                   id="description"

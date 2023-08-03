@@ -30,6 +30,7 @@ import Hotkey from 'src/constants/hotkey';
 import { useHotkeys } from "react-hotkeys-hook";
 import NotificationService from "src/services/shared/notificationService";
 import PermissionService from "src/services/security/permissionService";
+import { LanguageCodeEnum, LanguageCodeEnumLabbelMapping } from "src/models/shared/enums/languageCodeEnum";
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
@@ -179,6 +180,10 @@ const Page = ({ Component, pageProps }: AppProps) => {
     { field: 'name', headerName: t('name', CommonMessage.Name)!, width: 130 },
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
     { field: 'description', headerName: t('description', CommonMessage.Description)!, width: 130 },
+    { field: 'locale', headerName: t('locale', CommonMessage.Locale)!, valueFormatter(params) {
+      return t(LanguageCodeEnumLabbelMapping[params?.value as LanguageCodeEnum])
+    }, 
+    width: 130 },
     { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean' },
     {
       field: 'actions',
@@ -270,6 +275,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
           <CustomDialog
             title={t('galleryCategory', CommonMessage.GalleryCategory)}
             isOpen={isOpenModal}
+            size="lg"
             onClose={() => handleCloseModal()}>
             <PageForm
               id={rowId}
