@@ -34,6 +34,7 @@ import contentBlockRouter from './src/routers/contentManagement/contentBlockRout
 import homeRouter from './src/routers/contentManagement/homeRouter';
 import blogRouter from './src/routers/contentManagement/blogRouter';
 import contentRouter from './src/routers/contentManagement/contentRouter';
+import mediaRouter from './src/routers/contentManagement/mediaRouter';
 
 import authMiddleware from './src/middleware/seucrity/authMiddleware';
 import { i18n }  from "./i18next";
@@ -77,6 +78,7 @@ app.use('/contentBlock', authMiddleware, contentBlockRouter);
 app.use('/home', homeRouter);
 app.use('/blog', blogRouter);
 app.use('/content', contentRouter);
+app.use('/media', mediaRouter);
 
 
 //const CLOUD_CONNECTION_URL = process.env.CLOUD_CONNECTION_URL;
