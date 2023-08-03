@@ -25,6 +25,7 @@ import menuItemReducer from './slices/contentManagement/menuItemSlice';
 import contentBlockReducer from './slices/contentManagement/contentBlockSlice';
 import homeReducer from './slices/contentManagement/homeSlice';
 import blogReducer from './slices/contentManagement/blogSlice';
+import mediaReducer from './slices/contentManagement/mediaSlice';
 
 export const store = configureStore({
     reducer: {
@@ -55,7 +56,8 @@ export const store = configureStore({
         menuItem: menuItemReducer,
         home: homeReducer,
         blog: blogReducer,
-        contentBlock: contentBlockReducer
+        contentBlock: contentBlockReducer,
+        media: mediaReducer
     },
     devTools: true
 });
