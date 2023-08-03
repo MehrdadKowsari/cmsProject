@@ -30,14 +30,15 @@ export default class GalleryCategoryService {
      */
     addGalleryCategory = async (addGalleryCategoryDTO: AddGalleryCategoryDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try { 
-            const { parentId, name, priority, description } = addGalleryCategoryDTO;
+            const { parentId, name, locale, priority, description } = addGalleryCategoryDTO;
             const newGalleryCategory: GalleryCategory = {
                 _id: null,
-                parentId: new Types.ObjectId(parentId),
+                parentId: parentId ? new Types.ObjectId(parentId) : null,
                 name,
                 priority,
                 description,
                 isActive: true,
+                locale,
                 createdBy: new Types.ObjectId(userId),
                 createdAt: new Date()
             }
@@ -56,7 +57,7 @@ export default class GalleryCategoryService {
      */
     getAll = async (): Promise<RequestResult<GalleryCategoryDTO[] | null>> => {
         try {
-            const galleryCategorys: GalleryCategoryDTO[] = (await this._galleryCategoryRepository.getAll())?.map((galleryCategory: any) => <GalleryCategoryDTO>{
+            const galleryCategories: GalleryCategoryDTO[] = (await this._galleryCategoryRepository.getAll())?.map((galleryCategory: any) => <GalleryCategoryDTO>{
                 id: galleryCategory._id?.toString(),
                 parentId: galleryCategory.parentId,
                 parentName: galleryCategory.parentId?.name,
@@ -64,12 +65,13 @@ export default class GalleryCategoryService {
                 priority: galleryCategory.priority,
                 description: galleryCategory.description,
                 isActive: galleryCategory.isActive,
+                locale: galleryCategory.locale,
                 createdBy: galleryCategory.createdBy,
                 createdAt: galleryCategory.createdAt,
                 updatedBy: galleryCategory.updatedBy,
                 updatedAt: galleryCategory.updatedAt
             });
-            return new RequestResult(StatusCodes.OK, new MethodResult<GalleryCategoryDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), galleryCategorys));
+            return new RequestResult(StatusCodes.OK, new MethodResult<GalleryCategoryDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), galleryCategories));
         } catch (error) {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
@@ -82,26 +84,23 @@ export default class GalleryCategoryService {
      * @param {object} listActiveGalleryCategoryByParamsDTO 
      * @returns {Promise<RequestResult<GalleryCategoryDTO[]> | null>}
      */
-    getAllActiveByParams = async (listActiveGalleryCategoryByParamsDTO: ListActiveGalleryCategoryByParamsDTO): Promise<RequestResult<GridData<GalleryCategoryDTO[]> | null>> => {
+    getAllActiveByParams = async (listActiveGalleryCategoryByParamsDTO: ListActiveGalleryCategoryByParamsDTO): Promise<RequestResult<GalleryCategoryDTO[] | null>> => {
         try {
-            const totalCount = await this._galleryCategoryRepository.count();
-            const galleryCategorys: GalleryCategoryDTO[] = (await this._galleryCategoryRepository.getAllActiveByParams(listActiveGalleryCategoryByParamsDTO))?.map((galleryCategory: any) => <GalleryCategoryDTO>{
+            const galleryCategories: GalleryCategoryDTO[] = (await this._galleryCategoryRepository.getAllActiveByParams(listActiveGalleryCategoryByParamsDTO))?.map((galleryCategory: any) => <GalleryCategoryDTO>{
                 id: galleryCategory._id?.toString(),
                 parentId: galleryCategory.parentId,
                 parentName: galleryCategory.parentId?.name,
                 name: galleryCategory.name,
                 priority: galleryCategory.priority,
                 description: galleryCategory.description,
+                locale: galleryCategory.locale,
                 isActive: galleryCategory.isActive,
                 createdBy: galleryCategory.createdBy,
                 createdAt: galleryCategory.createdAt,
                 updatedBy: galleryCategory.updatedBy,
                 updatedAt: galleryCategory.updatedAt
             });
-            return new RequestResult(StatusCodes.OK, new MethodResult<GridData<GalleryCategoryDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), {
-                rows: galleryCategorys,
-                totalCount: totalCount
-            }));
+            return new RequestResult(StatusCodes.OK, new MethodResult<GalleryCategoryDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), galleryCategories));
         } catch (error) {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }
@@ -111,12 +110,12 @@ export default class GalleryCategoryService {
      * get all galleryCategory list by params
      * 
      * @param {object} gridParameter 
-     * @returns {Promise<RequestResult<GridData<GalleryCategoryDTO[]>> | null>}
+     * @returns {Promise<RequestResult<GalleryCategoryDTO[]> | null>}
      */
     getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<GalleryCategoryDTO[]> | null>> => {
         try {
             const totalCount = await this._galleryCategoryRepository.count();
-            const galleryCategorys: GalleryCategoryDTO[] = (await this._galleryCategoryRepository.getAllByParams(gridParameter))?.map((galleryCategory: any) => <GalleryCategoryDTO>{
+            const galleryCategories: GalleryCategoryDTO[] = (await this._galleryCategoryRepository.getAllByParams(gridParameter))?.map((galleryCategory: any) => <GalleryCategoryDTO>{
                 id: galleryCategory._id?.toString(),
                 parentId: galleryCategory.parentId,
                 parentName: galleryCategory.parentId?.name,
@@ -124,13 +123,14 @@ export default class GalleryCategoryService {
                 priority: galleryCategory.priority,
                 description: galleryCategory.description,
                 isActive: galleryCategory.isActive,
+                locale: galleryCategory.locale,
                 createdBy: galleryCategory.createdBy,
                 createdAt: galleryCategory.createdAt,
                 updatedBy: galleryCategory.updatedBy,
                 updatedAt: galleryCategory.updatedAt
             });
             return new RequestResult(StatusCodes.OK, new MethodResult<GridData<GalleryCategoryDTO[]>>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), {
-                rows: galleryCategorys,
+                rows: galleryCategories,
                 totalCount: totalCount
             }));
         } catch (error) {
@@ -156,7 +156,8 @@ export default class GalleryCategoryService {
                 name: galleryCategory.name,
                 priority: galleryCategory.priority,
                 description: galleryCategory.description,
-                isActive: galleryCategory.isActive
+                isActive: galleryCategory.isActive,
+                locale: galleryCategory.locale
             };
             return new RequestResult(StatusCodes.OK, new MethodResult<GalleryCategoryDTO>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), galleryCategoryDTO));
         } catch (error) {
@@ -173,16 +174,17 @@ export default class GalleryCategoryService {
      */
     update = async (updateGalleryCategoryDTO: UpdateGalleryCategoryDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
-            const { id, parentId, name, priority, description } = updateGalleryCategoryDTO;
+            const { id, parentId, name, priority, description, locale } = updateGalleryCategoryDTO;
             let galleryCategory = await this._galleryCategoryRepository.getById(id);
             if (galleryCategory === null) {
                 return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'galleryCategoryDoesNotExist')));
             }
 
-            galleryCategory.parentId = new Types.ObjectId(parentId);
+            galleryCategory.parentId = parentId ? new Types.ObjectId(parentId) : null,
             galleryCategory.name = name;
             galleryCategory.priority = priority;
             galleryCategory.description = description;
+            galleryCategory.locale = locale;
             galleryCategory.updatedBy = new Types.ObjectId(userId);
             galleryCategory.updatedAt = new Date();
 

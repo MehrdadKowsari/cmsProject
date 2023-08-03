@@ -54,7 +54,7 @@ import { ListActiveGalleryCategoryByParamsDTO } from "src/dtos/contentManagement
          * @returns {Promise<GalleryCategory[]>}
          */
         getAllActiveByParams = async (listActiveGalleryCategoryByParamsDTO: ListActiveGalleryCategoryByParamsDTO) : Promise<GalleryCategory[]> =>{
-            const list = await GalleryCategoryModel.find({ parentId: listActiveGalleryCategoryByParamsDTO.parentId, locale: listActiveGalleryCategoryByParamsDTO.locale})
+            const list = await GalleryCategoryModel.find({ parentId: listActiveGalleryCategoryByParamsDTO.parentId, locale: listActiveGalleryCategoryByParamsDTO.locale, isActive: true})
             .exec();
             return list;
         }  
@@ -80,6 +80,7 @@ import { ListActiveGalleryCategoryByParamsDTO } from "src/dtos/contentManagement
                     name: galleryCategory.name,
                     description: galleryCategory.description,
                     priority : galleryCategory.priority,
+                    locale : galleryCategory.locale,
                     updatedBy: galleryCategory.updatedBy,
                     updatedAt: galleryCategory.updatedAt
                 }});

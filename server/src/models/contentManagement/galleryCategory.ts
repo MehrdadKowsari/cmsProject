@@ -6,13 +6,14 @@ export const COLLECTION_NAME = 'galleryCategories';
 
 export  interface GalleryCategory {
   _id: Types.ObjectId | null;
-  parentId?: Types.ObjectId;
+  parentId?: Types.ObjectId | null;
   name: string;
   description: string | null;
   priority: number;
   isActive: boolean;
   createdAt?: Date;
   createdBy?: Types.ObjectId;
+  locale: string | null;
   updatedAt?: Date;
   updatedBy?: Types.ObjectId;
   galleries?: Gallery[] | null;
@@ -41,6 +42,9 @@ const schema = new Schema<GalleryCategory>(
       type: Schema.Types.Boolean,
       default: true,
       required: true
+    },
+    locale: {
+      type: Schema.Types.String
     },
     createdBy: {
       type: Schema.Types.ObjectId,
