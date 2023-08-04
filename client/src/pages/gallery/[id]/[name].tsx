@@ -72,7 +72,7 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
       <Container className={classes.container}>
         <GridContainer spacing={3} className={classes.mainContainer}>
         <GridItem lg={12} className={classes.itemContainer}>
-          <BlockHeader title={t("galleryFile", CommonMessage.GalleryFile)!} iconCssClass="image"/>
+          <BlockHeader title={galleryName} iconCssClass="image"/>
         </GridItem>
           {galleryFiles && 
             <GridItem xs={12} sm={12} md={12} lg={12}>

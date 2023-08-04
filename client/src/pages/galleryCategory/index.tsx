@@ -7,7 +7,6 @@ import InternalPageLayout from "src/layouts/website/InternalPageLayout";
 import { useAppDispatch } from "src/state/hooks/hooks";
 import { useSelector } from "react-redux";
 import useLocale from "src/hooks/useLocale";
-import ApplicationParams from "src/constants/applicationParams";
 import { container } from 'src/styles/jss/globalStyle';
 import { makeStyles } from 'tss-react/mui';
 import BlockHeader from "src/components/website/BlockHeader/BlockHeader";
@@ -29,7 +28,7 @@ const styles = makeStyles()((theme) => ({
     paddingLeft: "0 !important",
     paddingRight: "0 !important"
   },
-  postItem: {
+  galleryItem: {
     paddingBottom: "0.75rem"
   }
 }))
@@ -70,11 +69,11 @@ const Gallery: NextPage = () => {
           <BlockHeader title={t("gallery", CommonMessage.Gallery)!} iconCssClass="image"/>
         </GridItem>
           {galleryCategories && galleryCategories?.map((galleryCategory: GalleryCategoryDTO, index: number) => (
-            <GridItem xs={6} sm={3} md={3} lg={3} key={index} className={classes.postItem}>
+            <GridItem xs={6} sm={3} md={3} lg={3} key={index} className={classes.galleryItem}>
              <GalleryCard
                 title={galleryCategory.name || ''}
-                href={`/gallery/${galleryCategory.id}/${galleryCategory.name}`} 
-                imageSrc='/images/gallery.png'
+                href={`/galleryCategory/${galleryCategory.id}/${galleryCategory.name}`} 
+                imageSrc={galleryCategory.image}
                 imageAlt={galleryCategory.name}/>
             </GridItem>
           ))}

@@ -17,6 +17,7 @@ import { getAllActiveGalleriesByParams } from "src/state/slices/contentManagemen
 import { ListActiveGalleryByParamsDTO } from "src/models/contentManagement/gallery/listActiveGalleryByParamsDTO";
 import { GalleryDTO } from "src/models/contentManagement/gallery/galleryDTO";
 import GalleryCard from "src/components/website/GalleryCard/GalleryCard";
+import { useRouter } from "next/router";
 
 const styles = makeStyles()((theme) => ({
   container,
@@ -35,7 +36,9 @@ const styles = makeStyles()((theme) => ({
 
 const Gallery: NextPage = () => {
   const { classes } = styles();
-
+  const router = useRouter();
+  const galleryCategoryId: string = router.query?.id as string;
+  const galleryCategoryName: string = router.query?.name as string;
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { getLocale } = useLocale();
@@ -43,13 +46,14 @@ const Gallery: NextPage = () => {
   const { galleries,  isLoading } = useSelector((state: any) => state?.media);
   
   useEffect(() => {
+    if (galleryCategoryId)
     getAllActiveGalleries();
-  }, []);
+  }, [galleryCategoryId]);
 
   const getAllActiveGalleries = () => {
     const ListActiveGalleryByParamsDTO : ListActiveGalleryByParamsDTO = {
-      galleryCategoryId: null,
-      locale: locale
+      galleryCategoryId,
+      locale
     }
     dispatch(getAllActiveGalleriesByParams(ListActiveGalleryByParamsDTO));
   }
@@ -61,12 +65,12 @@ const Gallery: NextPage = () => {
           content="width=device-width, initial-scale=1"
         ></meta>
         <meta name="description" content="Read our Blog"></meta>
-        <title>{t("gallery", CommonMessage.Gallery)!}</title>
+        <title>{galleryCategoryName}</title>
       </Head>
       <Container className={classes.container}>
         <GridContainer spacing={3} className={classes.mainContainer}>
         <GridItem lg={12} className={classes.itemContainer}>
-          <BlockHeader title={t("gallery", CommonMessage.Gallery)!} iconCssClass="image"/>
+          <BlockHeader title={galleryCategoryName} iconCssClass="image"/>
         </GridItem>
           {galleries && galleries?.map((gallery: GalleryDTO, index: number) => (
             <GridItem xs={6} sm={3} md={3} lg={3} key={index} className={classes.galleryItem}>
