@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
-import Badge from '@mui/material/Badge'
 import Avatar from '@mui/material/Avatar'
 import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
@@ -92,7 +91,7 @@ const UserDropdown = () => {
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/')} key="profile">
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/admin/security/userProfile')} key="profile">
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
             Profile
