@@ -11,6 +11,10 @@ export  interface GalleryCategory {
   description: string | null;
   priority: number;
   isActive: boolean;
+  image?: string | null;
+  imageSavePath?: string | null;
+  thumbnailImage?: string | null;
+  thumbnailImageSavePath?: string | null;
   createdAt?: Date;
   createdBy?: Types.ObjectId;
   locale: string | null;
@@ -42,6 +46,20 @@ const schema = new Schema<GalleryCategory>(
       type: Schema.Types.Boolean,
       default: true,
       required: true
+    },
+    image: {
+      type: Schema.Types.String
+    },
+    imageSavePath: {
+      type: Schema.Types.String,
+      maxlength: 5000
+    },
+    thumbnailImage: {
+      type: Schema.Types.String
+    },
+    thumbnailImageSavePath: {
+      type: Schema.Types.String,
+      maxlength: 5000
     },
     locale: {
       type: Schema.Types.String

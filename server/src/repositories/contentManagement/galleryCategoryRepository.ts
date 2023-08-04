@@ -78,6 +78,8 @@ import { ListActiveGalleryCategoryByParamsDTO } from "src/dtos/contentManagement
                 { $set: { 
                     parentId: galleryCategory.parentId,
                     name: galleryCategory.name,
+                    image: galleryCategory.image,
+                    imageSavePath: galleryCategory.imageSavePath,
                     description: galleryCategory.description,
                     priority : galleryCategory.priority,
                     locale : galleryCategory.locale,

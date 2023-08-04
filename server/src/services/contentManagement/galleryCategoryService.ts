@@ -30,11 +30,13 @@ export default class GalleryCategoryService {
      */
     addGalleryCategory = async (addGalleryCategoryDTO: AddGalleryCategoryDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try { 
-            const { parentId, name, locale, priority, description } = addGalleryCategoryDTO;
+            const { parentId, name, image, imageSavePath, locale, priority, description } = addGalleryCategoryDTO;
             const newGalleryCategory: GalleryCategory = {
                 _id: null,
                 parentId: parentId ? new Types.ObjectId(parentId) : null,
                 name,
+                image,
+                imageSavePath,
                 priority,
                 description,
                 isActive: true,
@@ -64,6 +66,8 @@ export default class GalleryCategoryService {
                 name: galleryCategory.name,
                 priority: galleryCategory.priority,
                 description: galleryCategory.description,
+                image: galleryCategory.image,
+                imageSavePath: galleryCategory.imageSavePath,
                 isActive: galleryCategory.isActive,
                 locale: galleryCategory.locale,
                 createdBy: galleryCategory.createdBy,
@@ -93,6 +97,8 @@ export default class GalleryCategoryService {
                 name: galleryCategory.name,
                 priority: galleryCategory.priority,
                 description: galleryCategory.description,
+                image: galleryCategory.image,
+                imageSavePath: galleryCategory.imageSavePath,
                 locale: galleryCategory.locale,
                 isActive: galleryCategory.isActive,
                 createdBy: galleryCategory.createdBy,
@@ -122,6 +128,8 @@ export default class GalleryCategoryService {
                 name: galleryCategory.name,
                 priority: galleryCategory.priority,
                 description: galleryCategory.description,
+                image: galleryCategory.image,
+                imageSavePath: galleryCategory.imageSavePath,
                 isActive: galleryCategory.isActive,
                 locale: galleryCategory.locale,
                 createdBy: galleryCategory.createdBy,
@@ -154,6 +162,8 @@ export default class GalleryCategoryService {
                 id: galleryCategory._id?.toString(),
                 parentId: galleryCategory.parentId?.toString(),
                 name: galleryCategory.name,
+                image: galleryCategory.image,
+                imageSavePath: galleryCategory.imageSavePath,
                 priority: galleryCategory.priority,
                 description: galleryCategory.description,
                 isActive: galleryCategory.isActive,
@@ -174,7 +184,7 @@ export default class GalleryCategoryService {
      */
     update = async (updateGalleryCategoryDTO: UpdateGalleryCategoryDTO, userId: string): Promise<RequestResult<boolean | null>> => {
         try {
-            const { id, parentId, name, priority, description, locale } = updateGalleryCategoryDTO;
+            const { id, parentId, name, image, imageSavePath, priority, description, locale } = updateGalleryCategoryDTO;
             let galleryCategory = await this._galleryCategoryRepository.getById(id);
             if (galleryCategory === null) {
                 return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'galleryCategoryDoesNotExist')));
@@ -182,6 +192,8 @@ export default class GalleryCategoryService {
 
             galleryCategory.parentId = parentId ? new Types.ObjectId(parentId) : null,
             galleryCategory.name = name;
+            galleryCategory.image = image;
+            galleryCategory.imageSavePath = imageSavePath;
             galleryCategory.priority = priority;
             galleryCategory.description = description;
             galleryCategory.locale = locale;

@@ -10,6 +10,8 @@ export  interface GalleryFile {
   description: string | null;
   file: string | null;
   fileSavePath: string | null;
+  thumbnailImage?: string | null;
+  thumbnailImageSavePath?: string | null;
   fileExtension: string | null;
   fileSize: number | null;
   downloadCount: number;
@@ -46,6 +48,13 @@ const schema = new Schema<GalleryFile>(
     fileExtension: {
       type: Schema.Types.String,
       maxlength: 10
+    },
+    thumbnailImage: {
+      type: Schema.Types.String
+    },
+    thumbnailImageSavePath: {
+      type: Schema.Types.String,
+      maxlength: 5000
     },
     fileSize: {
       type: Schema.Types.Number

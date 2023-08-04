@@ -12,8 +12,10 @@ export  interface Gallery {
   description: string | null;
   params: string | null;
   type: GalleryTypeEnum;
-  image: string | null;
-  thumbnailImage: string | null;
+  image?: string | null;
+  imageSavePath?: string | null;
+  thumbnailImage?: string | null;
+  thumbnailImageSavePath?: string | null;
   visitNumber: number;
   likeCount: number;
   dislikeCount: number;
@@ -55,8 +57,16 @@ const schema = new Schema<Gallery>(
     image: {
       type: Schema.Types.String
     },
+    imageSavePath: {
+      type: Schema.Types.String,
+      maxlength: 5000
+    },
     thumbnailImage: {
       type: Schema.Types.String
+    },
+    thumbnailImageSavePath: {
+      type: Schema.Types.String,
+      maxlength: 5000
     },
     visitNumber: {
       type: Schema.Types.Number,
