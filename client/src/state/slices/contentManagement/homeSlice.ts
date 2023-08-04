@@ -39,7 +39,7 @@ interface SliderItemState extends IntialState {
 
 const initialState: SliderItemState = {
     sliderItems: [],
-    menuItems: null,
+    menuItems: [],
     isLoading: false,
     hasError: false,
     error: ''
@@ -72,7 +72,8 @@ const homeSlice = createSlice({
             state.hasError = false;
           })
           .addCase(getAllActiveSlidersByParams.fulfilled, (state, { payload }) => {
-            state.sliderItems = [...state.sliderItems, ...payload];
+            const sliderItemList = state.sliderItems.filter(p => !payload?.map((j: any) => j.id)?.includes(p.id));
+            state.sliderItems = [...sliderItemList, ...payload];
             state.isLoading = false;
             state.hasError = false;
           })

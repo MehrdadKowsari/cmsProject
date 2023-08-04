@@ -42,3 +42,8 @@ a {
 .lg-outer {
   direction: ltr;
 }
+.lg-react-element{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}

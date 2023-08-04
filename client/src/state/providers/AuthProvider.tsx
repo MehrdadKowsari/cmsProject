@@ -27,6 +27,7 @@ function AuthProvider({ children }: {children: any}) {
   function logout (redirectLocation: string | undefined) {
     browserStorageService.removeLocal('accessToken');
     browserStorageService.removeLocal('refreshToken');
+    browserStorageService.removeLocal('isUserLoggedIn');
     setUser(null);
     setIsLoading(false);
     router.push(redirectLocation || "/login");

@@ -12,7 +12,7 @@ import { MenuItemDTO } from "src/models/contentManagement/menuItem/menuItemDTO";
 import { useSelector } from "react-redux";
 import Icon from '@mui/material/Icon';
 import LanguageDropdown from "src/@core/layouts/components/shared-components/LanguageDropdown";
-import UserDropdown from "src/@core/layouts/components/shared-components/UserDropdown";
+import UserDropdown from "../UserDropdown/UserDropdown";
 
 const styles = makeStyles()((theme) => ({
   container,

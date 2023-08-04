@@ -176,12 +176,14 @@ export const remove = createAsyncThunk(
 
 interface UserState extends IntialState {
   users: UserDTO[] | null,
-  user: UserDTO | null
+  user: UserDTO | null,
+  currentUser: UserDTO | null
 }
 
 const initialState: UserState = {
     users: null,
     user: null,
+    currentUser: null,
     isLoading: false,
     hasError: false,
     totalCount: 0,
@@ -280,7 +282,7 @@ const userSlice = createSlice({
             state.hasError = false;
           })
           .addCase(getCurrent.fulfilled, (state, { payload }) => {
-            state.user = payload;
+            state.currentUser = payload;
             state.isLoading = false;
             state.hasError = false;
           })

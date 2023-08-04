@@ -33,6 +33,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import CommonMessage from 'src/constants/commonMessage';
 import SecurityMessage from 'src/constants/securityMessage';
 import ApplicationParams from 'src/constants/applicationParams';
+import browserStorageService from 'src/services/shared/browserStorageService';
 
 
 const Login = ({Component, pageProps}: AppProps) => {
@@ -96,15 +97,13 @@ const signUpInitialValues: SignUp = {
           try {
             const result = await dispatch(signIn(signInData)).unwrap();
             if (result && result.token && result.refreshToken) {
+              browserStorageService.setLocal("isUserLoggedIn", true);
               router.push('/admin');
             }
           } catch (error) {
             console.log(error);                
           }    
         }
-      }
-      else{
-        notification.showErrorMessage('form data are invalid');
       }
     }
 
