@@ -5,6 +5,8 @@ export interface GalleryCategoryDTO extends BaseModel {
     parentName: string;
     name: string;
     description: string;
+    image: string | null;
+    thumbnailImage: string | null;
     priority: number;
     isActive: boolean;
     locale: string | null;

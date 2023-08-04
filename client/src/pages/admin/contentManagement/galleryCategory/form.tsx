@@ -28,12 +28,14 @@ import { PermissionTypeEnum } from 'src/models/shared/enums/permissionTypeEnum';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Hotkey from 'src/constants/hotkey';
 import LanguageDropdown from 'src/components/LanguageDropdown/LanguageDropdown';
+import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWithImagePreview';
 
 const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
 const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Add));
 const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissions?.some(p => p.type === PermissionTypeEnum.Update));
 const [galleryCategories, setGalleryCategories] = useState<TextValueDTO[]>([]);
+const [image, setIamge] = useState<string | null>(null);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
@@ -46,15 +48,16 @@ useEffect(() => {
 }, []);
 
 const getItemById = async (id: string | number) => {
-  const pageDTO: GalleryCategoryDTO = await dispatch(getById(id)).unwrap();
-  if (pageDTO) {
+  const galleryCategory: GalleryCategoryDTO = await dispatch(getById(id)).unwrap();
+  if (galleryCategory) {
     await formik.setValues({
-        name: pageDTO.name,
-        parentId: pageDTO.parentId,
-        priority: pageDTO.priority,
-        locale: pageDTO.locale,
-        description: pageDTO.description
+        name: galleryCategory.name,
+        parentId: galleryCategory.parentId,
+        priority: galleryCategory.priority,
+        locale: galleryCategory.locale,
+        description: galleryCategory.description
       } as initialValuesType);
+      setIamge(galleryCategory.image);
   }
 }
 
@@ -104,6 +107,7 @@ const initialValues: initialValuesType = {
             name: values.name,
             parentId: values.parentId ? values.parentId : null,
             description: values.description,
+            image,
             priority: values.priority,
             locale: values.locale
           };
@@ -116,6 +120,7 @@ const initialValues: initialValuesType = {
             name: values.name,
             parentId: values.parentId ? values.parentId : null,
             description: values.description,
+            image,
             priority: values.priority,
             locale: values.locale
           }
@@ -128,6 +133,9 @@ const initialValues: initialValuesType = {
       else{
         notification.showErrorMessage(t('formDataIsInvalid', CommonMessage.FormDataIsInvalid)!)
       }
+    },
+    onReset: async () => {
+      setIamge(null);
     }
   })
   
@@ -143,8 +151,7 @@ const initialValues: initialValuesType = {
         <Box>
           <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
             <Grid container 
-            spacing={3}
-            justifyContent="center">
+            spacing={3}>
                 <Grid item lg={12}>
                   <TextField
                   select 
@@ -176,6 +183,16 @@ const initialValues: initialValuesType = {
                   helperText={formik.errors.name}/> 
                 </Grid>
                 <Grid item lg={6}>
+                  <FileUploadWithImagePreview
+                  id='upload-file'
+                  name='upload-file'
+                  imageWidth={50}
+                  imageHeight={50}
+                  file={image}
+                  setFile={setIamge}
+                  />
+                </Grid>
+                <Grid item lg={6}>
                   <TextField 
                   fullWidth 
                   id="priority"
@@ -198,7 +215,7 @@ const initialValues: initialValuesType = {
                     helperText={formik.errors.locale}
                   />
                 </Grid>
-                <Grid item lg={6}>
+                <Grid item lg={12}>
                   <TextField 
                   fullWidth 
                   id="description"

@@ -29,6 +29,7 @@ import { GalleryTypeEnum, GalleryTypeEnumLabelMapping } from 'src/models/content
 import LanguageDropdown from 'src/components/LanguageDropdown/LanguageDropdown';
 import { GalleryCategoryDTO } from 'src/models/contentManagement/galleryCategory/galleryCategoryDTO';
 import { getAllGalleryCategories } from 'src/state/slices/contentManagement/galleryCategorySlice';
+import FileUploadWithImagePreview from 'src/components/FileUpload/FileUploadWithImagePreview';
 
 const PageForm = ({id, permissions, onClose}: FormProps) => {
 const [isUpdate, setIsUpdate] = useState<boolean>(id ? true : false);
@@ -37,6 +38,7 @@ const [hasUpdatePermission, setHasUpdatePermission] = useState<boolean>(permissi
 const [galleryCategories, setGalleryCategories] = useState<TextValueDTO[]>([]);
 const [galleryTypes, setGalleryTypes] = useState<TextValueDTO[]>([]);
 const firstFieldRef = useRef<HTMLInputElement>(null);
+const [image, setImage] = useState<string | null>(null);
 
 const dispatch = useAppDispatch();
 const { t } = useTranslation(['common']);
@@ -79,6 +81,7 @@ const loadFormData = async (galleryDTO: GalleryDTO) => {
         priority: galleryDTO.priority,
         locale: galleryDTO.locale
       } as initialValuesType);
+      setImage(galleryDTO.image);
   }
 }
 
@@ -139,6 +142,7 @@ const initialValues: initialValuesType = {
             name: values.name,
             slugUrl: values.slugUrl,
             description: values.description,
+            image,
             type: Number(values.type) as GalleryTypeEnum,
             allowedFileExtension: values.allowedFileExtension,
             params: values.params,
@@ -154,6 +158,7 @@ const initialValues: initialValuesType = {
             galleryCategoryId: values.galleryCategoryId,
             name: values.name,
             slugUrl: values.slugUrl,
+            image,
             description: values.description,
             type: Number(values.type) as GalleryTypeEnum,
             allowedFileExtension: values.allowedFileExtension,
@@ -172,6 +177,7 @@ const initialValues: initialValuesType = {
       }
     },
     onReset: () => {
+      setImage(null);
       focusOnFirstField();
     }
   });
@@ -194,8 +200,7 @@ const initialValues: initialValuesType = {
         <Box>
           <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
             <Grid container 
-            spacing={3}
-            justifyContent="center">
+            spacing={3}>
                 <Grid item lg={6}>
                   <TextField
                   inputRef={firstFieldRef}
@@ -308,7 +313,17 @@ const initialValues: initialValuesType = {
                     helperText={formik.errors.locale}
                   />
                 </Grid>
-                <Grid item lg={12}>
+                <Grid item lg={6}>
+                  <FileUploadWithImagePreview
+                  id='upload-file'
+                  name='upload-file'
+                  imageWidth={50}
+                  imageHeight={50}
+                  file={image}
+                  setFile={setImage}
+                  />
+                </Grid>
+                <Grid item lg={6}>
                   <TextField 
                   fullWidth 
                   id="description"
