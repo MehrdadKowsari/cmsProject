@@ -31,7 +31,7 @@ const styles = makeStyles()((theme) => ({
     paddingLeft: "0 !important",
     paddingRight: "0 !important"
   },
-  postItem: {
+  galleryItem: {
     paddingBottom: "0.75rem"
   }
 }))
