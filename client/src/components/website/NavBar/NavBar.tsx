@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { AppBar, Toolbar, CssBaseline, Typography, useTheme, useMediaQuery } from "@mui/material";
 import Link from "next/link";
 import DrawerComponent from "../Drawer/Drawer";
@@ -38,7 +38,7 @@ const styles = makeStyles()((theme) => ({
   link: {
     textDecoration: "none",
     fontSize: "16px",
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(10),
     color: "#222",
     borderBottom: "1px solid transparent"
   },
@@ -53,24 +53,29 @@ const styles = makeStyles()((theme) => ({
 
 
 const Navbar = () => {
+  const [menuItems, setMenuItems] = useState<MenuItemDTO[]>([]);
   const { classes } = styles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch = useAppDispatch();
   const { getLocale } = useLocale();
   const locale = getLocale();
-  const { menuItems,  isLoading } = useSelector((state: any) => state?.home?.menuItems ? state?.home : { menuItems: [], isLoading: false });
   
   useEffect(() => {
     getAllMenuItems();
   }, []);
 
-  const getAllMenuItems = () => {
+  const getAllMenuItems = async () => {
     const listMenuItemByParamsDTO : ListAllMenuItemByParamsDTO = {
       sectionName: 'headerMenu',
       locale: locale
     }
-    dispatch(getAllMenuItemsByParams(listMenuItemByParamsDTO));
+    try {
+      const menuItems = await dispatch(getAllMenuItemsByParams(listMenuItemByParamsDTO)).unwrap();
+      setMenuItems(menuItems);
+    } catch (error) {
+      
+    }
   }
   
 
