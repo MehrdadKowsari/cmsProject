@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { AppBar, Toolbar, CssBaseline, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { AppBar, Toolbar, CssBaseline, Typography, useTheme, useMediaQuery, Box } from "@mui/material";
 import Link from "next/link";
 import DrawerComponent from "../Drawer/Drawer";
 import { makeStyles } from "tss-react/mui";
@@ -9,7 +9,6 @@ import { ListAllMenuItemByParamsDTO } from "src/models/contentManagement/menuIte
 import { getAllMenuItemsByParams } from "src/state/slices/contentManagement/homeSlice";
 import { useAppDispatch } from "src/state/hooks/hooks";
 import { MenuItemDTO } from "src/models/contentManagement/menuItem/menuItemDTO";
-import { useSelector } from "react-redux";
 import Icon from '@mui/material/Icon';
 import LanguageDropdown from "src/@core/layouts/components/shared-components/LanguageDropdown";
 import UserDropdown from "../UserDropdown/UserDropdown";
@@ -31,9 +30,18 @@ const styles = makeStyles()((theme) => ({
     flexGrow: "1",
     justifyContent: "space-between"
   },
+  startContainer:{
+    display: 'flex',
+    justifyContent:'flex-start',
+  },
   logo: {
     cursor: "pointer",
     justifyContent:"flex-start"
+  },
+  menuContainer:{
+    justifyContent: "flex-start",
+    paddingRight: "0.75rem",
+    paddingLeft: "0.75rem",
   },
   link: {
     textDecoration: "none",
@@ -45,8 +53,11 @@ const styles = makeStyles()((theme) => ({
   icon: {
     color: theme.palette.primary.main
   },
-  languageDropdown: {
+  endContainer:{
+    display: 'flex',
     justifyContent:'flex-end',
+  },
+  languageDropdown: {
     color: theme.palette.primary.main
   }
 }));
@@ -83,25 +94,33 @@ const Navbar = () => {
     <div className={classes.container} style={{padding: 0}}>
         <AppBar position="static" className={classes.appBar}>
           <CssBaseline />
-          <Toolbar className="toolbar">
-          <Typography variant="h4" className={classes.logo}> 
-            company Logo            
-            </Typography>
-            {isMobile ? (
-              <DrawerComponent items={menuItems}/>
-            ) : (
-              <div className={classes.navlinks}>
-                {
-                  menuItems?.map((p: MenuItemDTO) => (
-                    <Fragment key={p.id}>
-                      <Link href={p.url} className={classes.link} key={p.id}><Icon className={classes.icon} key={p.id}>{p.iconCssClass}</Icon> {p.name}</Link>
-                    </Fragment>
-                  ))
-                }
-              </div>
-            )}
-          <LanguageDropdown className={classes.languageDropdown}/>
-          <UserDropdown/>
+          <Toolbar className={classes.toolbar}>
+            <Box className={classes.startContainer}>
+              <Box className={classes.logo}>
+                <Typography variant="h5"> 
+                  company Logo            
+                </Typography>
+              </Box>
+              <Box className={classes.menuContainer}>
+                {isMobile ? (
+                  <DrawerComponent items={menuItems}/>
+                ) : (
+                  <div className={classes.navlinks}>
+                    {
+                      menuItems?.map((p: MenuItemDTO) => (
+                        <Fragment key={p.id}>
+                          <Link href={p.url} className={classes.link} key={p.id}><Icon className={classes.icon} key={p.id}>{p.iconCssClass}</Icon> <span>{p.name}</span></Link>
+                        </Fragment>
+                      ))
+                    }
+                  </div>
+                )}
+              </Box>
+            </Box>
+            <Box className={classes.endContainer}>
+              <LanguageDropdown className={classes.languageDropdown}/>
+              <UserDropdown/>
+            </Box>
           </Toolbar>
     </AppBar>
     </div>
