@@ -10,7 +10,7 @@ const DefaultPalette = (mode: PaletteMode, themeColor: ThemeColor) => {
 
   const primaryGradient = () => {
     if (themeColor === 'primary') {
-      return '#C6A7FE'
+      return '#4696F4'
     } else if (themeColor === 'secondary') {
       return '#9C9FA4'
     } else if (themeColor === 'success') {
@@ -36,9 +36,9 @@ const DefaultPalette = (mode: PaletteMode, themeColor: ThemeColor) => {
     },
     mode: mode,
     primary: {
-      light: '#9E69FD',
+      light: '#54a2f0',
       main: '#2196F4',
-      dark: '#804BDF',
+      dark: '#038dfc',
       contrastText: '#FFF'
     },
     secondary: {
@@ -99,7 +99,7 @@ const DefaultPalette = (mode: PaletteMode, themeColor: ThemeColor) => {
     },
     action: {
       active: `rgba(${mainColor}, 0.54)`,
-      hover: `rgba(${mainColor}, 0.04)`,
+      // hover: `rgba(${mainColor}, 0.04)`,
       selected: `rgba(${mainColor}, 0.08)`,
       disabled: `rgba(${mainColor}, 0.3)`,
       disabledBackground: `rgba(${mainColor}, 0.18)`,
