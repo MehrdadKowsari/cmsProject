@@ -17,22 +17,6 @@ const themeOptions = (settings: Settings): ThemeOptions => {
 
   const themeConfig = {
     palette: palette(mode, themeColor),
-    typography: {
-      fontFamily: [
-        'Inter',
-        'sans-serif',
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"'
-      ].join(',')
-    },
     shadows: shadows(mode),
     ...spacing,
     breakpoints: breakpoints(),
