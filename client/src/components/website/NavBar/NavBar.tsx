@@ -74,7 +74,7 @@ const Navbar = () => {
   
   useEffect(() => {
     getAllMenuItems();
-  }, []);
+  }, [locale]);
 
   const getAllMenuItems = async () => {
     const listMenuItemByParamsDTO : ListAllMenuItemByParamsDTO = {
