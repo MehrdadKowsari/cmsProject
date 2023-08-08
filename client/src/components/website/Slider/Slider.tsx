@@ -36,7 +36,7 @@ const Slider: React.FC<Props> = ({ sectionName, height }) => {
   
   useEffect(() => {
     getAllSliderItems();
-  }, []);
+  }, [locale]);
 
   const getAllSliderItems = () => {
     const listSliderItemByParamsDTO : ListActiveSliderItemByParamsDTO = {
