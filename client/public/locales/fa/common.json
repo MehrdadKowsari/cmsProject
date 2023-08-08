@@ -213,5 +213,7 @@
    "socialNetworks":"شبکه های اجتماعی",
    "certifications":"گواهی نامه ها",
    "blog":"بلاگ",
-   "relatedPosts":"نوشته های مرتبط"
+   "relatedPosts":"نوشته های مرتبط",
+   "profile":"پروفایل",
+   "logout":"خروج"
 }

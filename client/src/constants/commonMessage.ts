@@ -154,4 +154,6 @@ export default class CommonMessage {
     public static readonly MostPopularPosts: string = 'Most Popular Posts';
     public static readonly LastPosts: string = 'Last Posts';
     public static readonly Subscribe: string = 'Subscribe';
+    public static readonly Profile: string = 'Profile';
+    public static readonly Logout: string = 'Logout';
 }
