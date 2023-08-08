@@ -27,16 +27,16 @@ type Props = {
 
 const ContentBlock = ({sectionName, title, iconCssClass, titleBgColor , children}: Props) => {
     const [content, SetContent] = useState<ContentBlockDTO | null>(null);
+    const {getLocale} = useLocale();
+    const locale = getLocale();
+    
     const dispatch = useAppDispatch() 
     
     useEffect(() => {
       if (sectionName) {
         getContentBlock();
       }      
-    }, []);
-
-    const {getLocale} = useLocale();
-    const locale = getLocale();
+    }, [locale]);
     const getContentBlock = async () =>{
         const contentBlockByParamsDTO: ContentBlockByParamsDTO = {
             sectionName: sectionName!,
