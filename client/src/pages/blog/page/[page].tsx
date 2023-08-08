@@ -82,7 +82,7 @@ const Blog: NextPage = () => {
           <BlockHeader title={t("blog", CommonMessage.Blog)!} iconCssClass="article"/>
         </GridItem>
           {posts?.map((post: PostDTO, index: number) => (
-            <GridItem xs={12} sm={6} md={6} lg={6} key={index} className={classes.postItem}>
+            <GridItem xs={12} sm={6} md={6} lg={6} key={index}>
               <Post post={post} />
             </GridItem>
           ))}
