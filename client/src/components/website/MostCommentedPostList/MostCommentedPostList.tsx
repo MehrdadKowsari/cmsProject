@@ -24,7 +24,7 @@ const MostCommentedPostList: React.FC<Props> = ({ postCount }) => {
 
     useEffect(() => {
       getMostCommentedPostList(postCount);
-    }, []);
+    }, [locale]);
     
     const getMostCommentedPostList = async (postCount: number) => {
         const listMostCommentedPostByParamsDTO : ListMostCommentedPostByParamsDTO = {

@@ -24,7 +24,7 @@ const MostPopularPostList: React.FC<Props> = ({ postCount }) => {
 
     useEffect(() => {
       getMostPopularPostList(postCount);
-    }, []);
+    }, [locale]);
     
     const getMostPopularPostList = async (postCount: number) => {
         const listMostPopularPostByParamsDTO : ListMostPopularPostByParamsDTO = {
