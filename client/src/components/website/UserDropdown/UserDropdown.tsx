@@ -21,6 +21,8 @@ import browserStorageService from 'src/services/shared/browserStorageService'
 import { useAppDispatch } from 'src/state/hooks/hooks'
 import { getCurrent } from 'src/state/slices/userSlice'
 import { UserDTO } from 'src/models/security/user/userDTO'
+import { useTranslation } from 'next-i18next'
+import CommonMessage from 'src/constants/commonMessage'
 
 const UserDropdown = () => {
   // ** States
@@ -42,6 +44,7 @@ const UserDropdown = () => {
     }
     
     const {user, setUserInfo, logout } = useAuth();
+    const { t } = useTranslation();
     useEffect(() =>{
     if (user) {
         setCurrentUser(user);
@@ -111,13 +114,13 @@ const UserDropdown = () => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/admin/security/userProfile')} key="profile">
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
-            Profile
+            {t("profile", CommonMessage.Profile)}
           </Box>
         </MenuItem>
         <Divider />
         <MenuItem sx={{ py: 2 }} onClick={() => handleLogout()}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} key="logout"/>
-          Logout
+          {t("logout", CommonMessage.Logout)}
         </MenuItem>
       </Menu>}
     </Fragment>
