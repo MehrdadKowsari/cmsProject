@@ -20,20 +20,15 @@ const FooterMenu: React.FC = () => {
 
     useEffect(() => {
         getAllMenuItems();
-      }, []);
+      }, [locale]);
     
       const getAllMenuItems = async () => {
         const listMenuItemByParamsDTO : ListAllMenuItemByParamsDTO = {
           sectionName: 'footerMenu',
           locale: locale
         }
-        try {
-           const menuItems = await dispatch(getAllMenuItemsByParams(listMenuItemByParamsDTO)).unwrap();
-           setMenuItems(menuItems);
-
-        } catch (error) {
-            
-        }
+        const menuItems = await dispatch(getAllMenuItemsByParams(listMenuItemByParamsDTO)).unwrap();
+        setMenuItems(menuItems);
       }
     return(
         <>
