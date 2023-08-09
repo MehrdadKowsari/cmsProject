@@ -9,7 +9,6 @@ import { useAppDispatch } from "src/state/hooks/hooks";
 import { getAllActiveSlidersByParams } from "src/state/slices/contentManagement/homeSlice";
 import { ListActiveSliderItemByParamsDTO } from "src/models/contentManagement/sliderItem/listActiveSliderItemByParamsDTO";
 import useLocale from "src/hooks/useLocale";
-import { useSelector } from "react-redux";
 import { SliderItemDTO } from "src/models/contentManagement/sliderItem/sliderItemDTO";
 
 type Props = {
@@ -28,8 +27,7 @@ const Slider: React.FC<Props> = ({ sectionName, height }) => {
     slidesToScroll: 1,
     autoplay: true
   };
-
-  const { sliderItems,  isLoading } = useSelector((state: any) => state?.home?.sliderItems ? state?.home : { sliderItems: [], isLoading: false });
+  const [sliderItems, setSliderItems] = useState<SliderItemDTO[]>([])
   const dispatch = useAppDispatch();
   const { getLocale } = useLocale();
   const locale = getLocale();
@@ -38,12 +36,13 @@ const Slider: React.FC<Props> = ({ sectionName, height }) => {
     getAllSliderItems();
   }, [locale]);
 
-  const getAllSliderItems = () => {
+  const getAllSliderItems = async () => {
     const listSliderItemByParamsDTO : ListActiveSliderItemByParamsDTO = {
       sectionName,
       locale
     }
-    dispatch(getAllActiveSlidersByParams(listSliderItemByParamsDTO));
+    const sliderItemList: SliderItemDTO[] = await dispatch(getAllActiveSlidersByParams(listSliderItemByParamsDTO)).unwrap();
+    setSliderItems(sliderItemList);
   }
   
   return (
@@ -52,7 +51,7 @@ const Slider: React.FC<Props> = ({ sectionName, height }) => {
         <GridContainer className={classes.gridContainre}>
           <GridItem xs={12} sm={12} md={12} lg={12} className={classes.gridItem}>
           <Carousel {...settings}>
-                {sliderItems?.filter((p: SliderItemDTO) => p.sliderSectionName === sectionName)?.map((p: SliderItemDTO) => ( 
+                {sliderItems?.filter((p: SliderItemDTO) => p.sliderSectionName === sectionName )?.map((p: SliderItemDTO) => ( 
                   <CarouselItem src={p.file!} name={p.name} height={height} key={p.id}/>
                 ))}
           </Carousel>
