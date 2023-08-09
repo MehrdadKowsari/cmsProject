@@ -169,7 +169,7 @@ export default class ContentBlockService {
         try {
             const contentBlock = await this._contentBlockRepository.getBySectionNameAndLocale(sectionName, locale);
             if (!contentBlock) {
-                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'contentBlockDoesNotExist')));
+                return new RequestResult(StatusCodes.OK, new MethodResult<ContentBlockDTO>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), null));
             }
             
 
