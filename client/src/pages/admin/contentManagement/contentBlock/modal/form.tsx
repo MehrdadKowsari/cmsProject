@@ -66,6 +66,7 @@ const loadFormData = async (contentBlockDTO: ContentBlockDTO) => {
         content: contentBlockDTO.content,
         image: contentBlockDTO.image,
         iconCssClass: contentBlockDTO.iconCssClass,
+        sectionName: contentBlockDTO.sectionName,
         priority: contentBlockDTO.priority,
         dateFrom: localizationService.parseDateTime(contentBlockDTO.dateFrom, locale),
         dateTo: localizationService.parseDateTime(contentBlockDTO.dateTo, locale),
