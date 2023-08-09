@@ -26,7 +26,7 @@ const LastPostList: React.FC<Props> = ({ postCount }) => {
 
     useEffect(() => {
       getLastPostList(postCount);
-    }, []);
+    }, [locale]);
     
     const getLastPostList = async (postCount: number) => {
         const listLastPostByParamsDTO : ListLastPostByParamsDTO = {
