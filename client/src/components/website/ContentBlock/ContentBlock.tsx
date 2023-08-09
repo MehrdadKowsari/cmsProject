@@ -37,6 +37,7 @@ const ContentBlock = ({sectionName, title, iconCssClass, titleBgColor , children
         getContentBlock();
       }      
     }, [locale]);
+    
     const getContentBlock = async () =>{
         const contentBlockByParamsDTO: ContentBlockByParamsDTO = {
             sectionName: sectionName!,
