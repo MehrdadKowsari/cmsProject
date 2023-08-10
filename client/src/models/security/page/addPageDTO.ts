@@ -5,6 +5,7 @@ export interface AddPageDTO {
     name: string;
     type: PageTypeEnum;
     iconClass?: string | null;
+    path: string | null;
     priority: number;
 }
 

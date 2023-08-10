@@ -55,7 +55,8 @@ const getItemById = async (id: string | number) => {
         type: pageDTO.type?.toString(),
         parentId: pageDTO.parentId,
         priority: pageDTO.priority,
-        iconClass: pageDTO.iconClass
+        iconClass: pageDTO.iconClass,
+        path: pageDTO.path
       } as initialValuesType);
   }
 }
@@ -93,6 +94,7 @@ type initialValuesType = {
   type: string,
   parentId?: string | null,
   iconClass?: string | null,
+  path: string | null,
   priority: number
 };
 const initialValues: initialValuesType = {
@@ -100,6 +102,7 @@ const initialValues: initialValuesType = {
   type: '',
   parentId: '',
   iconClass: '',
+  path: '',
   priority: 1
 };
   const formik = useFormik({
@@ -114,6 +117,7 @@ const initialValues: initialValuesType = {
             type: Number(values.type) as PageTypeEnum,
             parentId: values.parentId ? values.parentId : null,
             iconClass: values.iconClass,
+            path: values.path,
             priority: values.priority
           };
           const result = await dispatch(update(updatePageData)).unwrap();
@@ -126,6 +130,7 @@ const initialValues: initialValuesType = {
             type: Number(values.type) as PageTypeEnum,
             parentId: values.parentId ? values.parentId : null,
             iconClass: values.iconClass,
+            path: values.path,
             priority: values.priority
           }
           const result = await dispatch(add(addPageData)).unwrap();
@@ -152,9 +157,8 @@ const initialValues: initialValuesType = {
         <Box>
           <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
             <Grid container 
-            spacing={3}
-            justifyContent="center">
-                <Grid item lg={12}>
+            spacing={3}>
+                <Grid item lg={6}>
                   <TextField
                   select 
                   fullWidth
@@ -173,7 +177,7 @@ const initialValues: initialValuesType = {
                     ))}
                   </TextField>
                 </Grid>
-                <Grid item lg={12}>
+                <Grid item lg={6}>
                   <TextField 
                   fullWidth 
                   id="name"
@@ -184,7 +188,7 @@ const initialValues: initialValuesType = {
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.errors.name}/> 
                 </Grid>
-                <Grid item lg={12}>
+                <Grid item lg={6}>
                   <TextField
                   select 
                   fullWidth
@@ -203,7 +207,7 @@ const initialValues: initialValuesType = {
                     ))}
                   </TextField>
                 </Grid>
-                <Grid item lg={12}>
+                <Grid item lg={6}>
                   <TextField 
                   fullWidth 
                   id="priority"
@@ -214,16 +218,27 @@ const initialValues: initialValuesType = {
                   error={formik.touched.priority && Boolean(formik.errors.priority)}
                   helperText={formik.errors.priority}/> 
                 </Grid>
-                <Grid item lg={12}>
+                <Grid item lg={6}>
                   <TextField 
                   fullWidth 
                   id="iconClass"
-                  label={t('iconClass', CommonMessage.Description)}
+                  label={t('iconClass', CommonMessage.IconClass)}
                   value={formik.values.iconClass}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
                   error={formik.touched.iconClass && Boolean(formik.errors.iconClass)}
                   helperText={formik.errors.iconClass}/> 
+                </Grid>
+                <Grid item lg={6}>
+                  <TextField 
+                  fullWidth 
+                  id="path"
+                  label={t('path', CommonMessage.Path)}
+                  value={formik.values.path}
+                  onChange={formik.handleChange} 
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.path && Boolean(formik.errors.path)}
+                  helperText={formik.errors.path}/> 
                 </Grid>
                 <Grid item lg={12}>
                   <Button

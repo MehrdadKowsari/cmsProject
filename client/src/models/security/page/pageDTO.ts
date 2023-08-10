@@ -10,6 +10,7 @@ export interface PageDTO extends BaseModel {
     isActive: boolean;
     isHidden: boolean;
     iconClass?: string;
+    path: string | null;
     children: PageDTO[];
 }
 

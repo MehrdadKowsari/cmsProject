@@ -194,7 +194,8 @@ const Page = ({ Component, pageProps }: AppProps) => {
     },
     { field: 'priority', headerName: t('priority', CommonMessage.Priority)!, width: 130 },
     { field: 'iconClass', headerName: t('iconClass', CommonMessage.IconClass)!, width: 130 },
-    { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 130, type: 'boolean' },
+    { field: 'path', headerName: t('path', CommonMessage.Path)!, width: 130 },
+    { field: 'isActive', headerName: t('isActive', CommonMessage.IsActive)!, width: 200, type: 'boolean' },
     { field: 'isHidden', headerName: t('isHidden', CommonMessage.IsHidden)!, width: 130, type: 'boolean' },
     {
       field: 'actions',
@@ -293,6 +294,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
           <CustomDialog
             title={t('page', CommonMessage.Page)}
             isOpen={isOpenModal}
+            size='lg'
             onClose={() => handleCloseModal()}>
             <PageForm
               id={rowId}

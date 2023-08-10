@@ -8,6 +8,7 @@ export interface PageDTO extends BaseModel {
     type: PageTypeEnum,
     priority: number;
     iconClass?: string;
+    path?: string;
     isActive: boolean;
     isHidden: boolean;
     createdBy?: string;

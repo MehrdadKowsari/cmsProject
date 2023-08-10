@@ -64,6 +64,23 @@ export class PageController{
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
         }
     }
+    
+    /**
+     * get all pages by userId
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
+    getAllByUserId = async (req: Request, res: Response) => {
+        try {
+            const userId: string | undefined = req.user?.id;
+            const requestResult = await this._pageService.getAllByUserId(userId!);
+            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
 
     /**
      * get page by id

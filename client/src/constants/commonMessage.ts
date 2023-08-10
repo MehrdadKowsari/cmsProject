@@ -32,6 +32,7 @@ export default class CommonMessage {
     public static readonly UpdatedAt: string = 'Updated At';
     public static readonly LastModifiedDate: string = 'Last Modified Date';
     public static readonly Actions: string = 'Actions';
+    public static readonly Path: string = 'Path';
     public static readonly Status: string = 'Status';
     public static readonly Date: string = 'Date';
     public static readonly Name: string = 'Name';

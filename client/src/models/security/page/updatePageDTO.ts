@@ -6,6 +6,7 @@ export interface UpdatePageDTO extends BaseModel {
     name: string;
     type: PageTypeEnum;
     iconClass?: string | null;
+    path: string | null;
     priority: number;
 }
 

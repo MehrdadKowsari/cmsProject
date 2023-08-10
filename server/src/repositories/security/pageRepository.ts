@@ -2,6 +2,9 @@ import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import PageModel, { Page } from "src/models/security/page";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import UserRoleModel from "src/models/security/userRole";
+import RolePagePermissionModel from "src/models/security/rolePagePermission";
+import PagePermissionModel from "src/models/security/pagePermission";
 
 
     export default class PageRepository{
@@ -44,6 +47,20 @@ import AppConstant from "src/constants/appConstants";
             .populate('parentId')
             .exec();
             return list;
+        }
+        
+        /**
+         * get all pages by userId
+         * 
+         * @param {string} userId 
+         * @returns {Promise<Page[]>}
+         */
+        getAllByUserId = async (userId: string) : Promise<Page[]> =>{
+            const userRoleIds = (await UserRoleModel.find({ userId }))?.map(p => p.roleId);
+            const pagePermissionIds = (await RolePagePermissionModel.find({ roleId :  { $in : userRoleIds} }))?.map(p => p.pagePermissionId);
+            const pageIds = (await PagePermissionModel.find({ _id :  { $in : pagePermissionIds} }))?.map(p => p.pageId);
+            const list = await PageModel.find({ _id : { $in: pageIds}}).sort({ priority: 'asc'})
+            return list;
         }  
         
         /**
@@ -68,6 +85,7 @@ import AppConstant from "src/constants/appConstants";
                     type: page.type,
                     priority : page.priority,
                     iconClass : page.iconClass,
+                    path : page.path,
                     updatedBy: page.updatedBy,
                     updatedAt: page.updatedAt
                 }});

@@ -11,6 +11,7 @@ export  interface Page {
   type: PageTypeEnum;
   priority: number;
   iconClass?: string;
+  path: string | null;
   isActive: boolean;
   isHidden: boolean;
   createdAt?: Date;
@@ -39,6 +40,10 @@ const schema = new Schema<Page>(
       required: true
     },
     iconClass: {
+      type: Schema.Types.String,
+      maxlength: 500
+    },
+    path: {
       type: Schema.Types.String,
       maxlength: 500
     },

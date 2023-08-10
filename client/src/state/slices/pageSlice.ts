@@ -45,6 +45,18 @@ export const getAllByParams = createAsyncThunk(
     }
 });
 
+export const getAllByUserId = createAsyncThunk(
+  "pages/getAllByUserId", 
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/getAllByUserId`);
+      return data?.result;
+    } catch (err) {
+      const error= err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+});
+
 export const getById = createAsyncThunk(
   'pages/getById',
   async (id: string | number, { rejectWithValue }) => {
@@ -112,11 +124,13 @@ export const remove = createAsyncThunk(
 
 interface PageState extends IntialState {
   pages: PageDTO[] | null,
+  menuPages: PageDTO[] | null,
   page: PageDTO | null
 }
 
 const initialState: PageState = {
-    pages: null,
+    pages: [],
+    menuPages: [],
     page: null,
     isLoading: false,
     hasError: false,
@@ -159,6 +173,22 @@ const pageSlice = createSlice({
           })
           .addCase(getAllByParams.rejected, (state, { payload }) => {
             state.pages = null;
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
+          .addCase(getAllByUserId.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getAllByUserId.fulfilled, (state, { payload }) => {
+            state.menuPages = payload;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getAllByUserId.rejected, (state, { payload }) => {
+            state.menuPages = null;
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;
