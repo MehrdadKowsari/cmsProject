@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/add', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Page, PermissionTypeEnum.Add), addValidation, pageController.add);
 router.post('/getAll', pageController.getAll);
 router.post('/getAllByParams', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Page, PermissionTypeEnum.View), pageController.getAllByParams);
-router.post('/getAllByUserId', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Page, PermissionTypeEnum.View), pageController.getAllByUserId);
+router.post('/getAllByUserId', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Home, PermissionTypeEnum.View), pageController.getAllByUserId);
 router.post('/getById', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Page, PermissionTypeEnum.View), getByIdValidation, pageController.getById);
 router.post('/update', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Page, PermissionTypeEnum.Update), updateValidation, pageController.update);
 router.post('/toggleActive', (req, res, next) => permissionMiddleware(req, res, next, PageTypeEnum.Page, PermissionTypeEnum.ToggleActive), toggleActiveValidation, pageController.toggleActive);
