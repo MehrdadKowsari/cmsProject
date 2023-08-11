@@ -18,6 +18,8 @@ import LogoutVariant from 'mdi-material-ui/LogoutVariant'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 
 import { useAuth } from 'src/state/providers/AuthProvider'
+import { useAppDispatch } from 'src/state/hooks/hooks'
+import { logOut } from 'src/state/slices/authSlice'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -36,7 +38,8 @@ const UserDropdown = () => {
   // ** Hooks
   const router = useRouter()
   const {user, logout } = useAuth();
-   
+  const dispatch = useAppDispatch();
+
   const handleDropdownOpen = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
   }
@@ -47,8 +50,10 @@ const UserDropdown = () => {
     }
     setAnchorEl(null)
   }
+
   
   const handleLogout = (url?: string) => {
+    dispatch(logOut())
     logout();
   }
 

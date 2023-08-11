@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers, Reducer, AnyAction } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import userReducer from './slices/userSlice';
 import roleReducer from './slices/roleSlice';
@@ -27,10 +27,8 @@ import homeReducer from './slices/contentManagement/homeSlice';
 import blogReducer from './slices/contentManagement/blogSlice';
 import mediaReducer from './slices/contentManagement/mediaSlice';
 
-export const store = configureStore({
-    reducer: {
-        
-        auth: authReducer,
+const combinedReducer = combineReducers({
+    auth: authReducer,
         user: userReducer,
         role: roleReducer,
         permission: permissionReducer,
@@ -58,7 +56,17 @@ export const store = configureStore({
         blog: blogReducer,
         contentBlock: contentBlockReducer,
         media: mediaReducer
-    },
+  });
+
+const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
+    if (action.type === 'auth/logout/fulfilled') {
+      state = {} as RootState;
+    }
+    return combinedReducer(state, action);
+  };
+
+  export const store = configureStore({
+    reducer: rootReducer,
     devTools: true
 });
 

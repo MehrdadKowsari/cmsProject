@@ -47,6 +47,12 @@ export const signUp = createAsyncThunk(
     }
 )
 
+export const logOut = createAsyncThunk(
+    'auth/logout',
+    async (_) => {
+    }
+)
+
 interface AuthState extends IntialState {
     accessToken?: string | null;
     refreshToken?: string | null;
