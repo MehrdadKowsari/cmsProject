@@ -216,5 +216,11 @@
    "relatedPosts":"نوشته های مرتبط",
    "profile":"پروفایل",
    "logout":"خروج",
-   "path":"مسیر"
+   "path":"مسیر",
+   "login":"ورود",
+   "signUp":"ثبت نام",
+   "or":"یا",
+   "googleLoginFailed":"خطا در ورود با حساب کاربری گوگل ",
+   "forgetPassword":"فراموشی رمز عبور "
+   
 }

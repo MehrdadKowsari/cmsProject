@@ -6,4 +6,6 @@ export default class SecurityMessage {
     public static readonly UserInRole:string = 'User In Role';
     public static readonly PagePermission:string = 'Page Permission';
     public static readonly RolePagePermission:string = 'Role Page Permission';
+    public static readonly  GoogleLoginFailed: string = 'Google Login Failed';
+    public static readonly  ForgetPassword: string = 'Forget Password';
 }

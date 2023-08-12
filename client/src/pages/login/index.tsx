@@ -27,7 +27,7 @@ import IconButton from '@mui/material/IconButton/IconButton';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import { useAppDispatch } from 'src/state/hooks/hooks';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import CommonMessage from 'src/constants/commonMessage';
@@ -87,7 +87,7 @@ const signUpInitialValues: SignUp = {
               router.push('/admin');
             }
           } catch (error) {
-            console.log(error);
+            //console.log(error);
           }
         } else {
           const signInData: SignIn = {
@@ -101,7 +101,7 @@ const signUpInitialValues: SignUp = {
               router.push('/admin');
             }
           } catch (error) {
-            console.log(error);                
+            //console.log(error);                
           }    
         }
       }
@@ -134,16 +134,16 @@ const signUpInitialValues: SignUp = {
             loginByGoogle();
           }
           else{
-            notification.showErrorMessage('Google login failed');
+            notification.showErrorMessage(t("googleLoginFailed", SecurityMessage.GoogleLoginFailed));
           }
         }
       } catch (error) {
-        notification.showErrorMessage('Google login failed');
+        notification.showErrorMessage(t("googleLoginFailed", SecurityMessage.GoogleLoginFailed));
       }
     },
   
     onError: () => {
-      notification.showErrorMessage('Google login failed');
+      notification.showErrorMessage(t("googleLoginFailed", SecurityMessage.GoogleLoginFailed));
     }
   })
 
@@ -171,7 +171,7 @@ const signUpInitialValues: SignUp = {
                   <TextField 
                   fullWidth 
                   id="firstName"
-                  label="First Name"
+                  label={t("firstName", CommonMessage.FirstName)}
                   value={formik.values.firstName}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -182,7 +182,7 @@ const signUpInitialValues: SignUp = {
                   <TextField 
                   fullWidth 
                   id="lastName"
-                  label="Last Name"
+                  label={t("lastName", CommonMessage.LastName)}
                   value={formik.values.lastName}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -193,7 +193,7 @@ const signUpInitialValues: SignUp = {
                   <TextField 
                   fullWidth 
                   id="email"
-                  label="Email"
+                  label={t("email", CommonMessage.Email)}
                   value={formik.values.email}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -204,7 +204,7 @@ const signUpInitialValues: SignUp = {
                   <TextField 
                   fullWidth 
                   id="userName"
-                  label="User Name"
+                  label={t("username", CommonMessage.Username)}
                   value={formik.values.userName}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -216,7 +216,7 @@ const signUpInitialValues: SignUp = {
                   fullWidth 
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  label="Password"
+                  label={t("password", CommonMessage.Password)}
                   value={formik.values.password}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -241,7 +241,7 @@ const signUpInitialValues: SignUp = {
                   fullWidth 
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
-                  label="Confirm Password"
+                  label={t("confirmPassword", CommonMessage.ConfirmPassword)}
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -267,7 +267,7 @@ const signUpInitialValues: SignUp = {
                   variant="contained" 
                   size="large"
                   startIcon={isSignUp ? <PersonIcon/> : <LoginIcon />}>
-                    <span>{isSignUp ? "Sign Up" : "Login" }</span>
+                    <span>{isSignUp ? t("signUp",SecurityMessage.SignUp) : t("login", SecurityMessage.Login) }</span>
                   </Button>  
                 </Grid>
             </Grid>
@@ -282,8 +282,8 @@ const signUpInitialValues: SignUp = {
               <Grid item md={4} lg={4}>
                 <Link href="/forgetPassword"
                   variant="body1"
-                  underline="none">
-                    Forget password?
+                  underline="none">              
+                    {t("forgetPassword", SecurityMessage.ForgetPassword)}
                 </Link>
               </Grid>
               <Grid item lg={8} display="flex" justifyContent="flex-end">
@@ -292,7 +292,7 @@ const signUpInitialValues: SignUp = {
                   variant="body1"
                   underline="none"
                   onClick={handleChangeMode}>
-                    {isSignUp ? <span>sign In</span> : <span>Do Not have an account? sign Up</span>}
+                    {isSignUp ? <span>{t("login", SecurityMessage.Login)}</span> : <span>{t("signUp",SecurityMessage.SignUp)}</span>}
                 </Link>
               </Grid>
             </Grid>
@@ -303,7 +303,7 @@ const signUpInitialValues: SignUp = {
             spacing={3}
             justifyContent="center">
               <Grid item xs={12}>
-                <Divider>Or</Divider>
+                <Divider>{t("or", CommonMessage.Or)}</Divider>
               </Grid>
               <Grid item lg={12} display="flex" justifyContent="center">
                 <IconButton onClick={() => handleLoginByGoogle()}>

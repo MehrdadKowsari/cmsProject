@@ -157,4 +157,5 @@ export default class CommonMessage {
     public static readonly Subscribe: string = 'Subscribe';
     public static readonly Profile: string = 'Profile';
     public static readonly Logout: string = 'Logout';
+    public static readonly Or: string = 'Or';
 }
