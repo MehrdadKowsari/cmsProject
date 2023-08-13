@@ -1,14 +1,16 @@
 export enum PostTypeEnum {
     Text = 1,
-    Video = 2,
-    Audio = 3,
-    ImageGallery = 4,
-    VideoGallery = 5,
-    AudioGallery = 6
+    Page = 2,
+    Video = 3,
+    Audio = 4,
+    ImageGallery = 5,
+    VideoGallery = 6,
+    AudioGallery = 7
 }
 
 export const PostTypeEnumLabelMapping: Record<PostTypeEnum, string> ={
     [PostTypeEnum.Text]: 'text',
+    [PostTypeEnum.Page]: 'page',
     [PostTypeEnum.Video]: 'video',
     [PostTypeEnum.Audio]: 'audio',
     [PostTypeEnum.ImageGallery]: 'imageGallery',
