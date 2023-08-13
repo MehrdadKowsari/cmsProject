@@ -34,6 +34,7 @@ import CommonMessage from 'src/constants/commonMessage';
 import SecurityMessage from 'src/constants/securityMessage';
 import ApplicationParams from 'src/constants/applicationParams';
 import browserStorageService from 'src/services/shared/browserStorageService';
+import InternalPageLayout from 'src/layouts/website/InternalPageLayout';
 
 
 const Login = ({Component, pageProps}: AppProps) => {
@@ -157,7 +158,7 @@ const signUpInitialValues: SignUp = {
             className={classes.container}
             spacing={3}
             justifyContent="center">
-                <Grid item>
+                <Grid item xs={12}>
                   <Avatar sx={{bgcolor: "primary.main"}}>
                     <LockIcon/>
                   </Avatar>
@@ -316,13 +317,10 @@ const signUpInitialValues: SignUp = {
     </>
   )
 }
-
+Login.getLayout = (page: React.ReactNode) => <InternalPageLayout>{page}</InternalPageLayout>
 export default Login
-type Props = {
-  // Add custom props here
-}
 
-export const getStaticProps: GetStaticProps<Props> = async ({
+export const getStaticProps: GetStaticProps<{}> = async ({
   locale,
 }) => ({
   props: {
