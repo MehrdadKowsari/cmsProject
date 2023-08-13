@@ -97,7 +97,7 @@ const Navbar = () => {
           <Toolbar className={classes.toolbar}>
             <Box className={classes.startContainer}>
               <Box className={classes.logo}>
-                <Typography variant="h5"> 
+                <Typography variant="h6"> 
                   company Logo            
                 </Typography>
               </Box>

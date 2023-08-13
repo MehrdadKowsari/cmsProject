@@ -20,7 +20,7 @@
     "persian": "Persian",
     "english": "English",
     "contentBlock": "content Block",
-    "events": "events",
+    "events": "Events",
     "mostCommentedPostList": "Most Commented Post List",
     "mostPopularPostList": "Most Popular Post List",
     "lastPostList": "Last Post List",
@@ -31,5 +31,12 @@
     "companyName":"Company Name",
     "allRightsReserved":"All Rights Reserved",
     "blog":"Blog",
-    "relatedPosts":"Related Posts"
+    "relatedPosts":"Related Posts",
+    "readBlogOnline":"Read Blog Online",
+    "subscribeUs":"subscribe Us",
+    "quickAccess":"Quick Access",
+    "socialNetworks":"Social Networks",
+    "certifications":"Certifications",
+    "aboutUs":"About Us",
+    "features":"Features"
 }

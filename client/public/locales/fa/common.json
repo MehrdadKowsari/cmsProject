@@ -221,6 +221,9 @@
    "signUp":"ثبت نام",
    "or":"یا",
    "googleLoginFailed":"خطا در ورود با حساب کاربری گوگل ",
-   "forgetPassword":"فراموشی رمز عبور "
+   "forgetPassword":"فراموشی رمز عبور ",
+   "readBlogOnline":"مشاهده نوشته",
+   "subscribeUs":"عضویت در خبرنامه",
+   "subscribe":"اشتراک"
    
 }
