@@ -1,31 +1,35 @@
 import React from 'react';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import InternalPageLayout from 'src/layouts/website/InternalPageLayout';
+import { makeStyles } from 'tss-react/mui';
+import { container } from 'src/styles/jss/globalStyle';
+import GridContainer from 'src/components/website/Grid/GridContainer';
+import GridItem from 'src/components/website/Grid/GridItem';
+import ContentBlock from 'src/components/website/ContentBlock/ContentBlock';
 
+const styles = makeStyles()(() => ({
+  container,
+  mainContainer:{
+    marginLeft: 0,
+    marginRight: 0
+  },
+  itemContainer:{
+    paddingLeft: "0 !important",
+    paddingRight: "0 !important"
+  }
+}))
 export default function About() {
+  const { classes } = styles();
+  
   return (
-    <Container maxWidth="lg">
-      <Box
-        sx={{
-          my: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Typography variant="h4" component="h1" gutterBottom>
-          MUI v5 + Next.js with TypeScript example
-        </Typography>
-        <Box maxWidth="sm">
-          <Button variant="contained">
-            Go to the home page
-          </Button>
-        </Box>
-        
-      </Box>
-    </Container>
+    <Container className={classes.container}>
+        <GridContainer spacing={3} className={classes.mainContainer}>
+          <GridItem lg={12} className={classes.itemContainer}>
+            <ContentBlock sectionName="page_aboutUs" />
+          </GridItem>
+        </GridContainer>
+      </Container>
   );
 }
+
+About.getLayout = (page: React.ReactNode) => <InternalPageLayout>{page}</InternalPageLayout>
