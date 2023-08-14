@@ -317,6 +317,7 @@ const signUpInitialValues: SignUp = {
     </>
   )
 }
+
 Login.getLayout = (page: React.ReactNode) => <InternalPageLayout>{page}</InternalPageLayout>
 export default Login
 
