@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "next-i18next";
 import { Grid, ImageListItem, useMediaQuery } from "@mui/material";
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Container from "src/components/website/Container";
 import PopUpDevelopment from "src/components/website/PopUpDevelopment";
 import { PopUpT } from "src/types/popup";
 import { ClockIcon } from "src/svg";
-import style from "./markdown-styles.module.css";
 import { Parser } from 'html-to-react';
 
 import {
@@ -43,6 +42,8 @@ import GridContainer from "src/components/website/Grid/GridContainer";
 import GridItem from "src/components/website/Grid/GridItem";
 import MostPopularPostList from "src/components/website/MostPopularPostList/MostPopularPostList";
 import BlockHeader from "src/components/website/BlockHeader/BlockHeader";
+import PostComment from "src/components/website/PostComment/PostComment";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 interface Props extends PopUpT {
   
 }
@@ -168,6 +169,7 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
                 </>
               )}
             </TopicWrapper>
+            <PostComment postId={post?.id}/>
             </GridItem>
             <GridItem lg={4} md={4} sm={4} xs={12} className={classes.itemContainer}>
               <MostPopularPostList postCount={11} />
@@ -181,3 +183,11 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
 };
 Post.getLayout = (page: React.ReactNode) => <InternalPageLayout>{page}</InternalPageLayout>
 export default Post;
+
+export const getStaticProps: GetStaticProps<{}> = async ({
+  locale,
+}) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+  },
+})

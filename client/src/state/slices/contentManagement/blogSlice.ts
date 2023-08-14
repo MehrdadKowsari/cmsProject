@@ -7,6 +7,7 @@ import { ListPublishedPostByParamsDTO } from 'src/models/contentManagement/post/
 import { ListMostCommentedPostByParamsDTO } from 'src/models/contentManagement/post/listMostCommentedPostByParamsDTO';
 import { ListMostPopularPostByParamsDTO } from 'src/models/contentManagement/post/listMostPopularPostByParamsDTO';
 import { ListLastPostByParamsDTO } from 'src/models/contentManagement/post/listLastPostByParamsDTO';
+import { AddPostCommentDTO } from 'src/models/contentManagement/postComment/addPostCommentDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/blog`;
 
@@ -71,12 +72,38 @@ export const getBySlugUrl = createAsyncThunk(
   }
 )
 
+export const getPageBySlugUrl = createAsyncThunk(
+  'blog/getPageBySlugUrl',
+  async (id: string, { rejectWithValue }) => {
+      try {
+          const { data } = await axios.post(`${API_URL}/getPageBySlugUrl`, id);
+          return data?.result;
+      } catch (err) {
+          const error= err as AxiosError;
+          return rejectWithValue(error.message);
+      }
+  }
+)
+
+export const addPostComment = createAsyncThunk(
+  "blog/addPostComment", 
+  async (post: AddPostCommentDTO, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/addPostComment`, post)
+      return data?.result;
+    } catch (err) {
+        const error= err as AxiosError;
+        return rejectWithValue(error.message);
+    }
+});
+
 interface PostState extends IntialState {
   posts: PostDTO[] | null,
   mostCommentedPosts: PostDTO[] | null,
   mostPopularPosts: PostDTO[] | null,
   lastPosts: PostDTO[] | null,
-  post: PostDTO | null
+  post: PostDTO | null,
+  page: PostDTO | null,
 }
 
 const initialState: PostState = {
@@ -85,6 +112,7 @@ const initialState: PostState = {
     mostPopularPosts: [],
     lastPosts: [],
     post: null,
+    page: null,
     totalCount: 0,
     isLoading: false,
     hasError: false,
@@ -97,6 +125,20 @@ const blogSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+          .addCase(addPostComment.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(addPostComment.fulfilled, (state, { payload }) => {
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(addPostComment.rejected, (state, { payload }) => {
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+
           .addCase(getAllPublishedPostsByParams.pending, (state) => {
             state.isLoading = true;
             state.hasError = false;
@@ -173,6 +215,21 @@ const blogSlice = createSlice({
             state.hasError = false;
           })
           .addCase(getBySlugUrl.rejected, (state, { payload }) => {
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
+          .addCase(getPageBySlugUrl.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getPageBySlugUrl.fulfilled, (state, { payload }) => {
+            state.page = payload;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getPageBySlugUrl.rejected, (state, { payload }) => {
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;

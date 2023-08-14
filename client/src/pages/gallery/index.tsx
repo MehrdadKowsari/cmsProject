@@ -18,7 +18,7 @@ import { ListActiveGalleryByParamsDTO } from "src/models/contentManagement/galle
 import { GalleryDTO } from "src/models/contentManagement/gallery/galleryDTO";
 import GalleryCard from "src/components/website/GalleryCard/GalleryCard";
 
-const styles = makeStyles()((theme) => ({
+const styles = makeStyles()(() => ({
   container,
   mainContainer:{
     marginLeft: 0,

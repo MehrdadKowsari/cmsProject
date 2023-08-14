@@ -7,6 +7,7 @@ import { PostStatusTypeEnum } from "src/enums/contentManagement/postStatusTypeEn
 import { ListMostCommentedPostByParamsDTO } from "src/dtos/contentManagement/post/listMostCommentedPostByParamsDTO";
 import { ListMostPopularPostByParamsDTO } from "src/dtos/contentManagement/post/listMostPopularPostByParamsDTO";
 import { ListLastPostByParamsDTO } from "src/dtos/contentManagement/post/listLastPostByParamsDTO";
+import { PostTypeEnum } from "src/enums/contentManagement/postTypeEnum";
 
 
     export default class PostRepository{
@@ -58,7 +59,7 @@ import { ListLastPostByParamsDTO } from "src/dtos/contentManagement/post/listLas
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await PostModel.find({status: PostStatusTypeEnum.Published, locale: listPublishedPostByParamsDTO.locale}).sort(sort).skip(skipCount).limit(limitCount);
+            const list = await PostModel.find({status: PostStatusTypeEnum.Published, type: {$ne : PostTypeEnum.Page}, locale: listPublishedPostByParamsDTO.locale}).sort(sort).skip(skipCount).limit(limitCount);
             return list;
         }  
         
@@ -69,7 +70,7 @@ import { ListLastPostByParamsDTO } from "src/dtos/contentManagement/post/listLas
          * @returns {Promise<Post[]>}
          */
         getAllMostCommentedByParams = async (listMostCommentedPostByParamsDTO : ListMostCommentedPostByParamsDTO) : Promise<Post[]> =>{
-            const list = await PostModel.find({status: PostStatusTypeEnum.Published, locale: listMostCommentedPostByParamsDTO.locale}).sort({_id : 'desc'}).limit(listMostCommentedPostByParamsDTO.count);
+            const list = await PostModel.find({status: PostStatusTypeEnum.Published, type: {$ne : PostTypeEnum.Page}, locale: listMostCommentedPostByParamsDTO.locale}).sort({_id : 'desc'}).limit(listMostCommentedPostByParamsDTO.count);
             return list;
         }  
         
@@ -80,7 +81,7 @@ import { ListLastPostByParamsDTO } from "src/dtos/contentManagement/post/listLas
          * @returns {Promise<Post[]>}
          */
         getAllMostPopularByParams = async (listMostPopularPostByParamsDTO : ListMostPopularPostByParamsDTO) : Promise<Post[]> =>{
-            const list = await PostModel.find({status: PostStatusTypeEnum.Published, locale: listMostPopularPostByParamsDTO.locale}).sort({likeCount : 'desc'}).limit(listMostPopularPostByParamsDTO.count);
+            const list = await PostModel.find({status: PostStatusTypeEnum.Published, type: {$ne : PostTypeEnum.Page}, locale: listMostPopularPostByParamsDTO.locale}).sort({likeCount : 'desc'}).limit(listMostPopularPostByParamsDTO.count);
             return list;
         }  
         
@@ -91,7 +92,7 @@ import { ListLastPostByParamsDTO } from "src/dtos/contentManagement/post/listLas
          * @returns {Promise<Post[]>}
          */
         getAllLastByParams = async (listLastPostByParamsDTO : ListLastPostByParamsDTO) : Promise<Post[]> =>{
-            const list = await PostModel.find({status: PostStatusTypeEnum.Published, locale: listLastPostByParamsDTO.locale}).sort({createdAt : 'desc'}).limit(listLastPostByParamsDTO.count);
+            const list = await PostModel.find({status: PostStatusTypeEnum.Published, type: {$ne : PostTypeEnum.Page}, locale: listLastPostByParamsDTO.locale}).sort({createdAt : 'desc'}).limit(listLastPostByParamsDTO.count);
             return list;
         }  
         
@@ -109,7 +110,16 @@ import { ListLastPostByParamsDTO } from "src/dtos/contentManagement/post/listLas
          * @param {string} slugUrl 
          * @returns {Promise<Post | null>}
          */
-        getBySlugUrl = async (slugUrl: string): Promise<Post | null> => await PostModel.findOne({ slugUrl : slugUrl }); 
+        getBySlugUrl = async (slugUrl: string): Promise<Post | null> => await PostModel.findOne({ slugUrl : slugUrl, type: {$ne : PostTypeEnum.Page} }); 
+        
+        /**
+         * get post by slugUrl
+         * 
+         * @param {string} slugUrl 
+         * @returns {Promise<Post | null>}
+         */
+        
+        getPageBySlugUrl = async (slugUrl: string): Promise<Post | null> => await PostModel.findOne({ slugUrl : slugUrl, type: PostTypeEnum.Page }); 
         
         /**
          * update post

@@ -224,6 +224,8 @@
    "forgetPassword":"فراموشی رمز عبور ",
    "readBlogOnline":"مشاهده نوشته",
    "subscribeUs":"عضویت در خبرنامه",
-   "subscribe":"اشتراک"
+   "subscribe":"اشتراک",
+   "submit":"ارسال",
+   "comments":"نظرات"
    
 }

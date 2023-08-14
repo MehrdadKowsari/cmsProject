@@ -463,6 +463,53 @@ export default class PostService {
     }
     
     /**
+     * get post by SlugUrl
+     * 
+     * @param {string} slugUrl 
+     * @returns {Promise<RequestResult<PostDTO | null>>}
+    */
+    getPageBySlugUrl = async (slugUrl: string): Promise<RequestResult<PostDTO | null>> => {
+        try {
+            const post = await this._postRepository.getPageBySlugUrl(slugUrl);
+            if (!post) {
+                return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'postDoesNotExist')));
+            }
+
+            const postDTO: PostDTO = <PostDTO>{
+                id: post._id?.toString(),
+                postCategoryId: post.postCategoryId?.toString(),
+                title: post.title,
+                type: post.type,
+                shortDescription: post.shortDescription,
+                content: post.content,
+                isCommentOpen: post.isCommentOpen,
+                image: post.image,
+                thumbnailImage: post.thumbnailImage,
+                visitNumber: post.visitNumber,
+                likeCount: post.likeCount,
+                dislikeCount: post.dislikeCount,
+                raterNumber: post.raterNumber,
+                totalRating: post.totalRating,
+                galleryId: post.galleryId,
+                dateFrom: post.dateFrom,
+                dateTo: post.dateTo,
+                slugUrl: post.slugUrl,
+                locale: post.locale,
+                priority: post.priority,
+                isFeatured: post.isFeatured,
+                status: post.status,
+                createdBy: post.createdBy,
+                createdAt: post.createdAt,
+                updatedBy: post.updatedBy,
+                updatedAt: post.updatedAt
+            };
+            return new RequestResult(StatusCodes.OK, new MethodResult<PostDTO>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), postDTO));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+    
+    /**
      * update post
      * 
      * @param {object} updatePostDTO

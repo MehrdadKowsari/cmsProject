@@ -86,6 +86,7 @@ export default class CommonMessage {
     public static readonly PageSize: string = 'Page Size';
     public static readonly New: string = 'New';  
     public static readonly Save: string = 'Save';
+    public static readonly Submit: string = 'Submit';
     public static readonly Update: string = 'Update';
     public static readonly Add: string = 'Add';
     public static readonly Clear: string = 'Clear';
@@ -158,4 +159,5 @@ export default class CommonMessage {
     public static readonly Profile: string = 'Profile';
     public static readonly Logout: string = 'Logout';
     public static readonly Or: string = 'Or';
+    public static readonly Comments: string = 'Comments';
 }

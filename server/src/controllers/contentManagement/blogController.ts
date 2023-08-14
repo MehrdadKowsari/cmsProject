@@ -74,5 +74,22 @@ export class BlogController{
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
         }
     }
+    
+    /**
+     * get page by slugUrl
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
+    getPageBySlugUrl = async (req: Request, res: Response) => {
+        try {
+            const slugUrl = req.body;
+            const requestResult = await this._postService.getPageBySlugUrl(slugUrl);
+            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
 
 }
