@@ -10,12 +10,16 @@ import { ListPublishedPostByParamsDTO } from 'src/dtos/contentManagement/post/li
 import { ListMostCommentedPostByParamsDTO } from 'src/dtos/contentManagement/post/listMostCommentedPostByParamsDTO';
 import { ListMostPopularPostByParamsDTO } from 'src/dtos/contentManagement/post/listMostPopularPostByParamsDTO';
 import { ListLastPostByParamsDTO } from 'src/dtos/contentManagement/post/listLastPostByParamsDTO';
+import PostCommentService from 'src/services/contentManagement/postCommentService';
 
 @autoInjectable()
 export class BlogController{
     private _postService: PostService;
-    constructor(postService: PostService){
+    private _postCommentService: PostCommentService;
+    constructor(postService: PostService,
+        postCommentService: PostCommentService){
         this._postService = postService;
+        this._postCommentService = postCommentService;
     }
      
     getAllPublishedPostsByParams = async (req: Request, res: Response) => {
@@ -86,6 +90,39 @@ export class BlogController{
         try {
             const slugUrl = req.body;
             const requestResult = await this._postService.getPageBySlugUrl(slugUrl);
+            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
+
+    /**
+     * add a postComment
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {object}
+     */
+    addPostComment = async (req: Request, res: Response) => {
+        try {
+            const requestResult = await this._postCommentService.addPostComment(req.body, req.user?.id!);
+            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
+
+    /**
+     * add a postComment
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {object}
+     */
+    getAllAcceptedPostCommentsByPostId = async (req: Request, res: Response) => {
+        try {
+            const { postId } = req.body;
+            const requestResult = await this._postCommentService.getAllAcceptedPostCommentsByPostId(postId);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));

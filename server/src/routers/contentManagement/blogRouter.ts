@@ -11,5 +11,7 @@ router.post('/getAllMostPopularPostsByParams', blogController.getAllMostPopularP
 router.post('/getAllLastPostsByParams', blogController.getAllLastPostsByParams);
 router.post('/getBySlugUrl', blogController.getBySlugUrl);
 router.post('/getPageBySlugUrl', blogController.getPageBySlugUrl);
+router.post('/addPostComment', blogController.addPostComment);
+router.post('/getAllAcceptedPostCommentsByPostId', blogController.getAllAcceptedPostCommentsByPostId);
 
 export default router;

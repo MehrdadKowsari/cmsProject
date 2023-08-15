@@ -130,6 +130,40 @@ export default class PostCommentService {
     }
     
     /**
+     * get all accepted postComment list by params
+     * 
+     * @param {string} postId 
+     * @returns {Promise<RequestResult<PostCommentDTO[]> | null>}
+     */
+    getAllAcceptedPostCommentsByPostId = async (postId: GridParameter): Promise<RequestResult<PostCommentDTO[] | null>> => {
+        try {
+            const postComments: PostCommentDTO[] = (await this._postCommentRepository.getAllAcceptedPostCommentsByPostId(postId))?.map((postComment: any) => <PostCommentDTO>{
+                id: postComment._id?.toString(),
+                postId: postComment.postId,
+                postTitle: postComment.postId?.title,
+                parentId: postComment.parentId?.toString(),
+                title: postComment.title,
+                fullName: postComment.fullName,
+                email: postComment.email,
+                website: postComment.website,
+                comment: postComment.comment,
+                ip: postComment.ip,
+                status: postComment.status,
+                likeCount: postComment.likeCount,
+                dislikeCount: postComment.dislikeCount,
+                priority: postComment.priority,
+                createdBy: postComment.createdBy,
+                createdAt: postComment.createdAt,
+                updatedBy: postComment.updatedBy,
+                updatedAt: postComment.updatedAt
+            });
+            return new RequestResult(StatusCodes.OK, new MethodResult<PostCommentDTO[]>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), postComments));
+        } catch (error) {
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        }
+    }
+    
+    /**
      * get postComment by Id
      * 
      * @param {string} id 

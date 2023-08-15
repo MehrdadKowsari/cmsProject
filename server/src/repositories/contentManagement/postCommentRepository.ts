@@ -28,7 +28,7 @@ import AppConstant from "src/constants/appConstants";
         getAll = async () => await PostCommentModel.find(); 
         
         /**
-         * get all galleries by parameters
+         * get all postComments by parameters
          * 
          * @param {object} gridParameter 
          * @returns {Promise<PostComment[]>}
@@ -39,6 +39,17 @@ import AppConstant from "src/constants/appConstants";
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
             const list = await PostCommentModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            return list;
+        }  
+        
+        /**
+         * get all accepted postComments by parameters
+         * 
+         * @param {string} postId 
+         * @returns {Promise<PostComment[]>}
+         */
+        getAllAcceptedPostCommentsByPostId = async (postId: GridParameter) : Promise<PostComment[]> =>{
+            const list = await PostCommentModel.find({ postId }).sort({ createdAt: 'asc' });
             return list;
         }  
         
