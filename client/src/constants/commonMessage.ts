@@ -160,4 +160,5 @@ export default class CommonMessage {
     public static readonly Logout: string = 'Logout';
     public static readonly Or: string = 'Or';
     public static readonly Comments: string = 'Comments';
+    public static readonly Comment: string = 'Comment';
 }
