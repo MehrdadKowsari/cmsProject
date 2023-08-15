@@ -10,7 +10,6 @@ import {object, string} from 'yup';
 import { useAppDispatch } from 'src/state/hooks/hooks';
 import { useTranslation } from 'next-i18next';
 import CommonMessage from 'src/constants/commonMessage';
-import SecurityMessage from 'src/constants/securityMessage';
 import { AddPostCommentDTO } from 'src/models/contentManagement/postComment/addPostCommentDTO';
 import { addPostComment } from 'src/state/slices/contentManagement/blogSlice';
 import notificationService from '../../../services/shared/notificationService';
@@ -39,6 +38,7 @@ const initialValues: AddPostCommentDTO = {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
+    validateOnBlur: false,
     onSubmit: async (values) => {
       if(formik.isValid){
         try {
@@ -71,7 +71,7 @@ const initialValues: AddPostCommentDTO = {
                   <TextField 
                   fullWidth 
                   id="fullName"
-                  label={t("fullName", CommonMessage.FirstName)}
+                  label={t("fullName", CommonMessage.FullName)}
                   value={formik.values.fullName}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
@@ -93,7 +93,7 @@ const initialValues: AddPostCommentDTO = {
                   <TextField 
                   fullWidth 
                   id="comment"
-                  label={t("comment", CommonMessage.Email)}
+                  label={t("comment", CommonMessage.Comment)}
                   value={formik.values.comment}
                   onChange={formik.handleChange} 
                   onBlur={formik.handleBlur}
