@@ -227,6 +227,7 @@
    "subscribe":"اشتراک",
    "submit":"ارسال",
    "comment":"نظر",
-   "comments":"نظرات"
+   "comments":"نظرات",
+   "noCommentRegistered": "نظری ثبت نشده است"
    
 }
