@@ -8,6 +8,7 @@ import { ListMostCommentedPostByParamsDTO } from 'src/models/contentManagement/p
 import { ListMostPopularPostByParamsDTO } from 'src/models/contentManagement/post/listMostPopularPostByParamsDTO';
 import { ListLastPostByParamsDTO } from 'src/models/contentManagement/post/listLastPostByParamsDTO';
 import { AddPostCommentDTO } from 'src/models/contentManagement/postComment/addPostCommentDTO';
+import { PostCommentDTO } from 'src/models/contentManagement/postComment/postCommentDTO';
 
 const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/blog`;
 
@@ -97,11 +98,24 @@ export const addPostComment = createAsyncThunk(
     }
 });
 
+export const getAllAcceptedPostCommentsByPostId = createAsyncThunk(
+  "blog/getAllAcceptedPostCommentsByPostId", 
+  async (postId : string, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/getAllAcceptedPostCommentsByPostId`, postId);
+      return data?.result;
+    } catch (err) {
+      const error= err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+});
+
 interface PostState extends IntialState {
   posts: PostDTO[] | null,
   mostCommentedPosts: PostDTO[] | null,
   mostPopularPosts: PostDTO[] | null,
   lastPosts: PostDTO[] | null,
+  postComments: PostCommentDTO[] | null,
   post: PostDTO | null,
   page: PostDTO | null,
 }
@@ -111,6 +125,7 @@ const initialState: PostState = {
     mostCommentedPosts: [],
     mostPopularPosts: [],
     lastPosts: [],
+    postComments: [],
     post: null,
     page: null,
     totalCount: 0,
@@ -204,7 +219,6 @@ const blogSlice = createSlice({
             state.error = <string>payload;
           })
           
-
           .addCase(getBySlugUrl.pending, (state) => {
             state.isLoading = true;
             state.hasError = false;
@@ -234,6 +248,23 @@ const blogSlice = createSlice({
             state.isLoading = false;
             state.error = <string>payload;
           })
+
+          .addCase(getAllAcceptedPostCommentsByPostId.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getAllAcceptedPostCommentsByPostId.fulfilled, (state, { payload }) => {
+            state.postComments = payload;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getAllAcceptedPostCommentsByPostId.rejected, (state, { payload }) => {
+            state.postComments = [];
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+
     }
 });
 

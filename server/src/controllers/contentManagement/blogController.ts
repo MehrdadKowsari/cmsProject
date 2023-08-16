@@ -121,7 +121,7 @@ export class BlogController{
      */
     getAllAcceptedPostCommentsByPostId = async (req: Request, res: Response) => {
         try {
-            const { postId } = req.body;
+            const postId: string = req.body;
             const requestResult = await this._postCommentService.getAllAcceptedPostCommentsByPostId(postId);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {

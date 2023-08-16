@@ -135,7 +135,7 @@ export default class PostCommentService {
      * @param {string} postId 
      * @returns {Promise<RequestResult<PostCommentDTO[]> | null>}
      */
-    getAllAcceptedPostCommentsByPostId = async (postId: GridParameter): Promise<RequestResult<PostCommentDTO[] | null>> => {
+    getAllAcceptedPostCommentsByPostId = async (postId: string): Promise<RequestResult<PostCommentDTO[] | null>> => {
         try {
             const postComments: PostCommentDTO[] = (await this._postCommentRepository.getAllAcceptedPostCommentsByPostId(postId))?.map((postComment: any) => <PostCommentDTO>{
                 id: postComment._id?.toString(),

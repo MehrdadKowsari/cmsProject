@@ -48,7 +48,7 @@ import AppConstant from "src/constants/appConstants";
          * @param {string} postId 
          * @returns {Promise<PostComment[]>}
          */
-        getAllAcceptedPostCommentsByPostId = async (postId: GridParameter) : Promise<PostComment[]> =>{
+        getAllAcceptedPostCommentsByPostId = async (postId: string) : Promise<PostComment[]> =>{
             const list = await PostCommentModel.find({ postId }).sort({ createdAt: 'asc' });
             return list;
         }  
