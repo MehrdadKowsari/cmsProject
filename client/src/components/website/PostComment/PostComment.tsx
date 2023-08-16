@@ -42,7 +42,13 @@ const initialValues: AddPostCommentDTO = {
     onSubmit: async (values) => {
       if(formik.isValid){
         try {
-          const result = await dispatch(addPostComment(values)).unwrap();
+          const addPostCommentDTO: AddPostCommentDTO = {
+            postId,
+            fullName: values.fullName,
+            comment: values.comment,
+            email: values.email,
+          }
+          const result = await dispatch(addPostComment(addPostCommentDTO)).unwrap();
           if (result) {
             formik.resetForm({errors: {}});
             notificationService.showSuccessMessage(t("successOperation", CommonMessage.SuccessOperation)!);
