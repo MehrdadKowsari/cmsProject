@@ -12,6 +12,7 @@ import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePostCommentDTO } from 'src/dtos/contentManagement/postComment/updatePostCommentDTO';
 import { PostComment } from 'src/models/contentManagement/postComment';
 import { Types } from 'mongoose';
+import { ListPostCommentByParamsDTO } from 'src/dtos/contentManagement/postComment/listPostCommentByParamsDTO';
 
 @autoInjectable()
 export default class PostCommentService {
@@ -93,13 +94,13 @@ export default class PostCommentService {
     /**
      * get all postComment list by params
      * 
-     * @param {object} gridParameter 
+     * @param {object} listPostCommentByParamsDTO 
      * @returns {Promise<RequestResult<GridData<PostCommentDTO[]>> | null>}
      */
-    getAllByParams = async (gridParameter: GridParameter): Promise<RequestResult<GridData<PostCommentDTO[]> | null>> => {
+    getAllByParams = async (listPostCommentByParamsDTO: ListPostCommentByParamsDTO): Promise<RequestResult<GridData<PostCommentDTO[]> | null>> => {
         try {
             const totalCount = await this._postCommentRepository.count();
-            const postComments: PostCommentDTO[] = (await this._postCommentRepository.getAllByParams(gridParameter))?.map((postComment: any) => <PostCommentDTO>{
+            const postComments: PostCommentDTO[] = (await this._postCommentRepository.getAllByParams(listPostCommentByParamsDTO))?.map((postComment: any) => <PostCommentDTO>{
                 id: postComment._id?.toString(),
                 postId: postComment.postId,
                 postTitle: postComment.postId?.title,

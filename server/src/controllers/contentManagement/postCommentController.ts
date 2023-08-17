@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import PostCommentService from '../../services/contentManagement/postCommentService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
 import { UpdatePostCommentDTO } from 'src/dtos/contentManagement/postComment/updatePostCommentDTO';
 import LocalizerHelper from 'src/helpers/localizeHelper';
+import { ListPostCommentByParamsDTO } from 'src/dtos/contentManagement/postComment/listPostCommentByParamsDTO';
 
 @autoInjectable()
 export class PostCommentController{
@@ -40,7 +40,6 @@ export class PostCommentController{
      */
     getAll = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
             const requestResult = await this._postCommentService.getAll();
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
@@ -57,8 +56,8 @@ export class PostCommentController{
      */
     getAllByParams = async (req: Request, res: Response) => {
         try {
-            const gridParameter: GridParameter = req.body;
-            const requestResult = await this._postCommentService.getAllByParams(gridParameter);
+            const listPostCommentByParamsDTO: ListPostCommentByParamsDTO = req.body;
+            const requestResult = await this._postCommentService.getAllByParams(listPostCommentByParamsDTO);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));

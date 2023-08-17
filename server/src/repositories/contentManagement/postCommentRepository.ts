@@ -2,6 +2,8 @@ import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
 import PostCommentModel, { PostComment } from "src/models/contentManagement/postComment";
 import GridUtilityHelper from "src/helpers/gridUtilityHelper";
 import AppConstant from "src/constants/appConstants";
+import { ConfirmStatusTypeEnum } from "../../../../client/src/models/contentManagement/enums/confirmStatusTypeEnum";
+import { ListPostCommentByParamsDTO } from "src/dtos/contentManagement/postComment/listPostCommentByParamsDTO";
 
 
     export default class PostCommentRepository{
@@ -30,15 +32,15 @@ import AppConstant from "src/constants/appConstants";
         /**
          * get all postComments by parameters
          * 
-         * @param {object} gridParameter 
+         * @param {object} listPostCommentByParamsDTO 
          * @returns {Promise<PostComment[]>}
          */
-        getAllByParams = async (gridParameter: GridParameter) : Promise<PostComment[]> =>{
-            const { currentPage, pageSize, sortModel } = gridParameter;
+        getAllByParams = async (listPostCommentByParamsDTO: ListPostCommentByParamsDTO) : Promise<PostComment[]> =>{
+            const { currentPage, pageSize, sortModel } = listPostCommentByParamsDTO.gridParameter;
             const limitCount: number = (pageSize || AppConstant.PageSize);
             const skipCount = (currentPage || 0) * limitCount;           
             const sort = GridUtilityHelper.getSortObject(sortModel);
-            const list = await PostCommentModel.find().sort(sort).skip(skipCount).limit(limitCount);
+            const list = await PostCommentModel.find({ postId : listPostCommentByParamsDTO.postId }).sort(sort).skip(skipCount).limit(limitCount);
             return list;
         }  
         
@@ -49,7 +51,7 @@ import AppConstant from "src/constants/appConstants";
          * @returns {Promise<PostComment[]>}
          */
         getAllAcceptedPostCommentsByPostId = async (postId: string) : Promise<PostComment[]> =>{
-            const list = await PostCommentModel.find({ postId }).sort({ createdAt: 'asc' });
+            const list = await PostCommentModel.find({ postId, status: ConfirmStatusTypeEnum.Accepted }).sort({ createdAt: 'asc' });
             return list;
         }  
         
