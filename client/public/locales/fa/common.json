@@ -227,6 +227,9 @@
    "subscribe":"اشتراک",
    "submit":"ارسال",
    "comment":"نظر",
+   "commentComment":"نظرات نوشته",
+   "accepted":"تایید شده",
+   "rejected":"رد شده",
    "comments":"نظرات",
    "noCommentRegistered": "نظری ثبت نشده است"
    
