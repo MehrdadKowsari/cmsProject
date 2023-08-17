@@ -6,8 +6,9 @@ import { UpdatePostCommentDTO } from 'src/models/contentManagement/postComment/u
 import { PostCommentDTO } from 'src/models/contentManagement/postComment/postCommentDTO';
 import { IntialState } from 'src/state/interfaces/intialState';
 import { GridParameter } from 'src/models/shared/grid/gridPrameter';
+import { ListPostCommentByParamsDTO } from 'src/models/contentManagement/postComment/listPostCommentByParamsDTO';
 
-const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/post`;
+const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/postComment`;
 
 export const add = createAsyncThunk(
   "postComments/add", 
@@ -35,9 +36,9 @@ export const getAllPostComments = createAsyncThunk(
 
 export const getAllByParams = createAsyncThunk(
   "postComments/getAllByParams", 
-  async (gridParameter: GridParameter, { rejectWithValue }) => {
+  async (listPostCommentByParams: ListPostCommentByParamsDTO, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_URL}/getAllByParams`, gridParameter);
+      const { data } = await axios.post(`${API_URL}/getAllByParams`, listPostCommentByParams);
       return data?.result;
     } catch (err) {
       const error= err as AxiosError;

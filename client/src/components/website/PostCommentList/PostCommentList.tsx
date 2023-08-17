@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useAppDispatch } from "src/state/hooks/hooks";
 import { useSelector } from "react-redux";
 import { getAllAcceptedPostCommentsByPostId } from "src/state/slices/contentManagement/blogSlice";
-import GridContainer from "../Grid/GridContainer";
 import BlockHeader from "../BlockHeader/BlockHeader";
 import { useTranslation } from "next-i18next";
 import List from "@mui/material/List";

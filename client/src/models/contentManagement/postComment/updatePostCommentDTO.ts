@@ -1,9 +1,9 @@
-import { ConfirmStatusTypeEnum } from "src/enums/shared/confirmStatusTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
+import { ConfirmStatusTypeEnum } from "../enums/confirmStatusTypeEnum";
 
 export interface UpdatePostCommentDTO extends BaseModel {
   parentId?: string | null;
-  postId: string;
+  postId: string | number;
   title: string | null;
   comment: string;
   fullName: string | null;
