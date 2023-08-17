@@ -12,6 +12,7 @@ import ListIcon from '@mui/icons-material/Image';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import TagIcon from '@mui/icons-material/Tag';
 import ShareIcon from '@mui/icons-material/Share';
+import CommentIcon from '@mui/icons-material/Comment';
 import { Button, CardContent, CardHeader } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useAppDispatch } from 'src/state/hooks/hooks';
@@ -42,6 +43,7 @@ import localizationService from 'src/services/shared/localizationService';
 import PostImage from './modal/postImage';
 import PostTag from './modal/postTag';
 import RelatedPost from './modal/relatedPost';
+import PostComment from './modal/postComment';
 
 const Page = ({ Component, pageProps }: AppProps) => {
   const dispatch = useAppDispatch();
@@ -52,6 +54,7 @@ const Page = ({ Component, pageProps }: AppProps) => {
   const [isOpenPostFileItemModal, setIsOpenPostFileItemModal] = useState<boolean>(false);
   const [isOpenPostTagItemModal, setIsOpenPostTagItemModal] = useState<boolean>(false);
   const [isOpenRelatedPostItemModal, setIsOpenRelatedPostItemModal] = useState<boolean>(false);
+  const [isOpenPostCommentItemModal, setIsOpenPostCommentItemModal] = useState<boolean>(false);
   const [userPagePermissions, setUserPagePermissions] = useState<PermissionDTO[]>([]);
   const [hasViewPermission, setHasViewPermission] = useState<boolean>(false);
   const [hasInsertPermission, setHasInsertPermission] = useState<boolean>(false);
@@ -227,10 +230,16 @@ const Page = ({ Component, pageProps }: AppProps) => {
           onClick={() => handleOpenPostTagItemModal(params.id)}
         />,
         <GridActionsCellItem
+        key={params.id}
+        icon={<ShareIcon />}
+        label={t('relatedPost', CommonMessage.RelatedPost)}
+        onClick={() => handleOpenRelatedPostItemModal(params.id)}
+        />,
+        <GridActionsCellItem
           key={params.id}
-          icon={<ShareIcon />}
-          label={t('relatedPost', CommonMessage.RelatedPost)}
-          onClick={() => handleOpenRelatedPostItemModal(params.id)}
+          icon={<CommentIcon />}
+          label={t('postComment', CommonMessage.PostComment)}
+          onClick={() => handleOpenPostCommentItemModal(params.id)}
         />,
       ],
     },
@@ -258,10 +267,15 @@ const Page = ({ Component, pageProps }: AppProps) => {
     setRowId(id);
     setIsOpenPostTagItemModal(true);
   }
-
+  
   const handleOpenRelatedPostItemModal = (id: GridRowId) => {
     setRowId(id);
     setIsOpenRelatedPostItemModal(true);
+  }
+
+  const handleOpenPostCommentItemModal = (id: GridRowId) => {
+    setRowId(id);
+    setIsOpenPostCommentItemModal(true);
   }
 
   const handleCloseFormModal = () => {
@@ -286,6 +300,11 @@ const Page = ({ Component, pageProps }: AppProps) => {
   
   const handleCloseRelatedPostItemModal = () => {
     setIsOpenRelatedPostItemModal(false);
+    setRowId(null);
+  }
+
+  const handleClosePostCommentItemModal = () => {
+    setIsOpenPostCommentItemModal(false);
     setRowId(null);
   }
 
@@ -377,6 +396,16 @@ const Page = ({ Component, pageProps }: AppProps) => {
               id={rowId}
               permissions={userPagePermissions}
               onClose={() => handleCloseRelatedPostItemModal()} />
+          </CustomDialog>
+          <CustomDialog
+            title={t('postComment', CommonMessage.PostComment)}
+            isOpen={isOpenPostCommentItemModal}
+            size='lg'
+            onClose={() => handleClosePostCommentItemModal()}>
+            <PostComment
+              id={rowId}
+              permissions={userPagePermissions}
+              onClose={() => handleClosePostCommentItemModal()} />
           </CustomDialog>
         </CardContent>
       </Card>
