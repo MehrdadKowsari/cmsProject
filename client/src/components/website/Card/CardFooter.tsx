@@ -1,19 +1,16 @@
-import React from "react";
+import React, { ReactNode } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-// nodejs library to set properties for components
-import PropTypes from "prop-types";
-// @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
-// @material-ui/icons
+
+type Props = {
+  className: string,
+  children: ReactNode
+};
 
 // core components
-import styles from "/styles/jss/nextjs-material-kit/components/cardFooterStyle.js";
-
-const useStyles = makeStyles(styles);
-
-export default function CardFooter(props) {
-  const classes = useStyles();
+import styles from "src/styles/jss/components/card/cardFooterStyle";
+export default function CardFooter(props: Props) {
+  const { classes } = styles();
   const { className, children, ...rest } = props;
   const cardFooterClasses = classNames({
     [classes.cardFooter]: true,
@@ -26,7 +23,3 @@ export default function CardFooter(props) {
   );
 }
 
-CardFooter.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node
-};
