@@ -81,11 +81,11 @@ app.use('/content', contentRouter);
 app.use('/media', mediaRouter);
 
 
-//const CLOUD_CONNECTION_URL = process.env.CLOUD_CONNECTION_URL;
+const CLOUD_CONNECTION_URL = process.env.CLOUD_CONNECTION_URL;
 const DB_NAME = process.env.DB_NAME; 
 const LOCAL_CONNECTION_URL = `${process.env.LOCAL_CONNECTION_URL}/${DB_NAME}`;
 const PORT = process.env.PORT; 
-mongoose.connect(LOCAL_CONNECTION_URL, { })
+mongoose.connect(CLOUD_CONNECTION_URL!, { })
 .then(() => app.listen(PORT, () => console.log(`Server Running on Port ${PORT}`)))
 .catch((error) => console.log(error.message));
 
