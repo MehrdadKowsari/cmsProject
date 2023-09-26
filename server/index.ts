@@ -40,12 +40,14 @@ import authMiddleware from './src/middleware/seucrity/authMiddleware';
 import { i18n }  from "./i18next";
  
 const app = express();
-
-app.use(cors());
+const corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200
+  }
+app.use(cors(corsOptions));
 
 app.use(express.json({limit: '30mb', strict: false}));
 app.use(express.urlencoded({limit: '30mb', extended: true}));
-
 
 i18n.init({ app });
 
@@ -81,8 +83,8 @@ app.use('/content', contentRouter);
 app.use('/media', mediaRouter);
 
 
-const CLOUD_CONNECTION_URL = process.env.CLOUD_CONNECTION_URL;
 const DB_NAME = process.env.DB_NAME; 
+const CLOUD_CONNECTION_URL = `${process.env.CLOUD_CONNECTION_URL}/${DB_NAME}`;
 const LOCAL_CONNECTION_URL = `${process.env.LOCAL_CONNECTION_URL}/${DB_NAME}`;
 const PORT = process.env.PORT; 
 mongoose.connect(CLOUD_CONNECTION_URL!, { })
