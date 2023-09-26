@@ -1,17 +1,17 @@
 import { CRUDResultModel } from '../../models/shared/crud/crudResultModel';
 import { MethodResult } from '../../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { StatusCodes } from 'http-status-codes';
 import { autoInjectable } from 'tsyringe';
 import UserRepository from '../../repositories/security/userRepository';
-import { ValidateRefreshToken } from 'src/dtos/security/auth/validateRefreshToken';
-import { SignIn } from 'src/dtos/security/auth/SignIn';
+import { ValidateRefreshToken } from '../../dtos/security/auth/validateRefreshToken';
+import { SignIn } from '../../dtos/security/auth/SignIn';
 import { google } from 'googleapis/build/src/index';
-import { RequestResult } from 'src/models/shared/crud/requestResult';
+import { RequestResult } from '../../models/shared/crud/requestResult';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { SignUp } from 'src/dtos/security/auth/SignUp';
-import { User } from 'src/models/security/user';
+import { SignUp } from '../../dtos/security/auth/SignUp';
+import { User } from '../../models/security/user';
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
 const ACCESS_TOKEN_EXPIRES_IN = '1m';
@@ -133,7 +133,7 @@ export default class AuthService{
             const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
             const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_EXPIRES_IN});
             
-            return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
+            return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));           
         } catch (error) {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         }

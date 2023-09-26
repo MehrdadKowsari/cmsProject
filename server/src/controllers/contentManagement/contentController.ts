@@ -4,8 +4,8 @@ import { MethodResult } from '../../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import { autoInjectable } from 'tsyringe';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import BlockControlService from 'src/services/contentManagement/contentBlockService';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import BlockControlService from '../../services/contentManagement/contentBlockService';
 
 @autoInjectable()
 export class ContentController{

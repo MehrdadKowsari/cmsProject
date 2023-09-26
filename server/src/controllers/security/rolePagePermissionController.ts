@@ -5,10 +5,10 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import RolePagePermissionService from '../../services/security/rolePagePermissionService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateRolePagePermissionDTO } from 'src/dtos/security/rolePagePermission/updateRolePagePermissionDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateRolePagePermissionDTO } from '../../dtos/security/rolePagePermission/updateRolePagePermissionDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { PageTypeEnum } from '../../enums/security/pageTypeEnum';
 
 @autoInjectable()
 export class RolePagePermissionController{

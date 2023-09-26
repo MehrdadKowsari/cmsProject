@@ -1,8 +1,8 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import PostFileModel, { PostFile } from "src/models/contentManagement/postFile";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import { ListPostFileByParams } from "src/dtos/contentManagement/postFile/listPostFileByParamsDTO";
+import { GridParameter } from "../../dtos/shared/grid/gridPrameter";
+import PostFileModel, { PostFile } from "../../models/contentManagement/postFile";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import { ListPostFileByParams } from "../../dtos/contentManagement/postFile/listPostFileByParamsDTO";
 
 
     export default class PostFileRepository{

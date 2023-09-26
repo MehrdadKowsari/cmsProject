@@ -1,10 +1,10 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import PageModel, { Page } from "src/models/security/page";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import UserRoleModel from "src/models/security/userRole";
-import RolePagePermissionModel from "src/models/security/rolePagePermission";
-import PagePermissionModel from "src/models/security/pagePermission";
+import { GridParameter } from "../../dtos/shared/grid/gridPrameter";
+import PageModel, { Page } from "../../models/security/page";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import UserRoleModel from "../../models/security/userRole";
+import RolePagePermissionModel from "../../models/security/rolePagePermission";
+import PagePermissionModel from "../../models/security/pagePermission";
 
 
     export default class PageRepository{

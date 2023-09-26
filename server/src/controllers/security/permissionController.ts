@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import PermissionService from '../../services/security/permissionService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdatePermissionDTO } from 'src/dtos/security/permission/updatePermissionDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdatePermissionDTO } from '../../dtos/security/permission/updatePermissionDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
 
 @autoInjectable()
 export class PermissionController{

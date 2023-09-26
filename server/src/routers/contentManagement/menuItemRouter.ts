@@ -1,10 +1,10 @@
 import express from 'express';
 import { MenuItemController } from '../../controllers/contentManagement/menuItemController';
 import {container} from 'tsyringe'; 
-import { addValidation, deleteValidation, getByIdValidation, toggleActiveValidation, updateValidation } from 'src/validations/contentManagement/menuItemValidation';
-import permissionMiddleware from 'src/middleware/shared/permissionMiddleware';
-import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
-import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
+import { addValidation, deleteValidation, getByIdValidation, toggleActiveValidation, updateValidation } from '../../validations/contentManagement/menuItemValidation';
+import permissionMiddleware from '../../middleware/shared/permissionMiddleware';
+import { PermissionTypeEnum } from '../../enums/security/permissionTypeEnum';
+import { PageTypeEnum } from '../../enums/security/pageTypeEnum';
 
 const menuItemController = container.resolve(MenuItemController);
 const router = express.Router();

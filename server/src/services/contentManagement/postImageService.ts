@@ -8,10 +8,10 @@ import { AddPostImageDTO } from '../../dtos/contentManagement/postImage/addPostI
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PostImageRepository from '../../repositories/contentManagement/postImageRepository';
-import { UpdatePostImageDTO } from 'src/dtos/contentManagement/postImage/updatePostImageDTO';
-import { PostImage } from 'src/models/contentManagement/postImage';
+import { UpdatePostImageDTO } from '../../dtos/contentManagement/postImage/updatePostImageDTO';
+import { PostImage } from '../../models/contentManagement/postImage';
 import { Types } from 'mongoose';
-import { ListPostImageByParams } from 'src/dtos/contentManagement/postImage/listPostImageByParamsDTO';
+import { ListPostImageByParams } from '../../dtos/contentManagement/postImage/listPostImageByParamsDTO';
 
 @autoInjectable()
 export default class PostImageService {

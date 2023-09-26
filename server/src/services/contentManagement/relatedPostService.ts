@@ -8,10 +8,10 @@ import { AddRelatedPostDTO } from '../../dtos/contentManagement/relatedPost/addR
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import RelatedPostRepository from '../../repositories/contentManagement/relatedPostRepository';
-import { UpdateRelatedPostDTO } from 'src/dtos/contentManagement/relatedPost/updateRelatedPostDTO';
-import { RelatedPost } from 'src/models/contentManagement/relatedPost';
+import { UpdateRelatedPostDTO } from '../../dtos/contentManagement/relatedPost/updateRelatedPostDTO';
+import { RelatedPost } from '../../models/contentManagement/relatedPost';
 import { Types } from 'mongoose';
-import { ListRelatedPostByParams } from 'src/dtos/contentManagement/relatedPost/listRelatedPostByParamsDTO';
+import { ListRelatedPostByParams } from '../../dtos/contentManagement/relatedPost/listRelatedPostByParamsDTO';
 
 @autoInjectable()
 export default class RelatedPostService {

@@ -5,12 +5,12 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import UserService from '../../services/security/userService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateUserDTO } from 'src/dtos/security/user/updateUserDTO';
-import { UpdateUserProfileDTO } from 'src/dtos/security/user/updateUserProfileDTO';
-import { ChangeUserPasswordDTO } from 'src/dtos/security/user/changeUserPasswordDTO';
-import { ResetUserPasswordDTO } from 'src/dtos/security/user/resetUserPasswordDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateUserDTO } from '../../dtos/security/user/updateUserDTO';
+import { UpdateUserProfileDTO } from '../../dtos/security/user/updateUserProfileDTO';
+import { ChangeUserPasswordDTO } from '../../dtos/security/user/changeUserPasswordDTO';
+import { ResetUserPasswordDTO } from '../../dtos/security/user/resetUserPasswordDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
 
 @autoInjectable()
 export class UserController{

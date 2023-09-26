@@ -5,10 +5,10 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import PostFileService from '../../services/contentManagement/postFileService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdatePostFileDTO } from 'src/dtos/contentManagement/postFile/updatePostFileDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListPostFileByParams } from 'src/dtos/contentManagement/postFile/listPostFileByParamsDTO';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdatePostFileDTO } from '../../dtos/contentManagement/postFile/updatePostFileDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { ListPostFileByParams } from '../../dtos/contentManagement/postFile/listPostFileByParamsDTO';
 
 @autoInjectable()
 export class PostFileController{

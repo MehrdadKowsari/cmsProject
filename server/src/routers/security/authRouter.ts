@@ -1,7 +1,7 @@
 import express from 'express';
 import AuthController from '../../controllers/security/authController'
 import { container } from 'tsyringe';
-import { signInByGoogleValidation, signInValidation, signUpValidation } from 'src/validations/security/authValidation';
+import { signInByGoogleValidation, signInValidation, signUpValidation } from '../../validations/security/authValidation';
 
 const authController = container.resolve(AuthController);
 const router = express.Router();

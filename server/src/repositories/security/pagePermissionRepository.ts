@@ -1,12 +1,12 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import PagePermissionModel, { PagePermission } from "src/models/security/pagePermission";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import { PageTypeEnum } from "src/enums/security/pageTypeEnum";
-import RolePagePermissionModel from "src/models/security/rolePagePermission";
+import { GridParameter } from "../../dtos/shared/grid/gridPrameter";
+import PagePermissionModel, { PagePermission } from "../../models/security/pagePermission";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import { PageTypeEnum } from "../../enums/security/pageTypeEnum";
+import RolePagePermissionModel from "../../models/security/rolePagePermission";
 import { Types } from "mongoose";
-import PageModel, { Page } from "src/models/security/page";
-import UserRoleModel, { UserRole } from "src/models/security/userRole";
+import PageModel, { Page } from "../../models/security/page";
+import UserRoleModel, { UserRole } from "../../models/security/userRole";
 
 
     export default class PagePermissionRepository{

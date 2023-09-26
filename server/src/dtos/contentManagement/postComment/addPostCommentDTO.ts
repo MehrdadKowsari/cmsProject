@@ -1,4 +1,4 @@
-import { ConfirmStatusTypeEnum } from "src/enums/shared/confirmStatusTypeEnum";
+import { ConfirmStatusTypeEnum } from "../../enums/shared/confirmStatusTypeEnum";
 
 export interface AddPostCommentDTO{
   parentId?: string | null;

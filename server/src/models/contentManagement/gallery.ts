@@ -1,5 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
-import { GalleryTypeEnum } from 'src/enums/contentManagement/galleryTypeEnum';
+import { GalleryTypeEnum } from '../../enums/contentManagement/galleryTypeEnum';
 import { GalleryFile } from './galleryFile';
 
 export const DOCUMENT_NAME = 'Gallery';

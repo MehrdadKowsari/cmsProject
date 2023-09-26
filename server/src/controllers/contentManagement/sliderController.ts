@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import SliderService from '../../services/contentManagement/sliderService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateSliderDTO } from 'src/dtos/contentManagement/slider/updateSliderDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateSliderDTO } from '../../dtos/contentManagement/slider/updateSliderDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
 
 @autoInjectable()
 export class SliderController{

@@ -1,7 +1,7 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import UserModel, { User } from "src/models/security/user";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
+import { GridParameter } from "../../dtos/shared/grid/gridPrameter";
+import UserModel, { User } from "../../models/security/user";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
 
 
     export default class UserRepository{

@@ -1,5 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
-import { ConfirmStatusTypeEnum } from 'src/enums/shared/confirmStatusTypeEnum';
+import { ConfirmStatusTypeEnum } from '../../enums/shared/confirmStatusTypeEnum';
 
 export const DOCUMENT_NAME = 'PostComment';
 export const COLLECTION_NAME = 'postComments';

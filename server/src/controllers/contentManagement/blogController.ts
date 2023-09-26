@@ -5,12 +5,12 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import PostService from '../../services/contentManagement/postService';
 import { autoInjectable } from 'tsyringe';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListPublishedPostByParamsDTO } from 'src/dtos/contentManagement/post/listPublishedPostByParamsDTO';
-import { ListMostCommentedPostByParamsDTO } from 'src/dtos/contentManagement/post/listMostCommentedPostByParamsDTO';
-import { ListMostPopularPostByParamsDTO } from 'src/dtos/contentManagement/post/listMostPopularPostByParamsDTO';
-import { ListLastPostByParamsDTO } from 'src/dtos/contentManagement/post/listLastPostByParamsDTO';
-import PostCommentService from 'src/services/contentManagement/postCommentService';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { ListPublishedPostByParamsDTO } from '../../dtos/contentManagement/post/listPublishedPostByParamsDTO';
+import { ListMostCommentedPostByParamsDTO } from '../../dtos/contentManagement/post/listMostCommentedPostByParamsDTO';
+import { ListMostPopularPostByParamsDTO } from '../../dtos/contentManagement/post/listMostPopularPostByParamsDTO';
+import { ListLastPostByParamsDTO } from '../../dtos/contentManagement/post/listLastPostByParamsDTO';
+import PostCommentService from '../../services/contentManagement/postCommentService';
 
 @autoInjectable()
 export class BlogController{

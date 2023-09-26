@@ -2,19 +2,19 @@ import { UserDTO } from '../../dtos/security/user/userDTO';
 import { CRUDResultModel } from '../../models/shared/crud/crudResultModel';
 import { MethodResult } from '../../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
-import bcrypt from 'bcrypt';
+//import bcrypt from 'bcryptjs';
 import { StatusCodes } from 'http-status-codes';
 import { GridData } from '../../models/shared/grid/gridData';
 import { AddUserDTO } from '../../dtos/security/user/addUserDTO';
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import UserRepository from '../../repositories/security/userRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { ChangeUserPasswordDTO } from 'src/dtos/security/user/changeUserPasswordDTO';
-import { ResetUserPasswordDTO } from 'src/dtos/security/user/resetUserPasswordDTO';
-import { UpdateUserDTO } from 'src/dtos/security/user/updateUserDTO';
-import { UpdateUserProfileDTO } from 'src/dtos/security/user/updateUserProfileDTO';
-import { User } from 'src/models/security/user';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { ChangeUserPasswordDTO } from '../../dtos/security/user/changeUserPasswordDTO';
+import { ResetUserPasswordDTO } from '../../dtos/security/user/resetUserPasswordDTO';
+import { UpdateUserDTO } from '../../dtos/security/user/updateUserDTO';
+import { UpdateUserProfileDTO } from '../../dtos/security/user/updateUserProfileDTO';
+import { User } from '../../models/security/user';
 
 @autoInjectable()
 export default class UserService {
@@ -46,14 +46,14 @@ export default class UserService {
             if (password !== confirmPassword) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
             }
-            const hashedPassword = await bcrypt.hash(password, 12);
+            //const hashedPassword = await bcrypt.hash(password, 12);
             const newUser: User = {
                 _id: null,
                 firstName,
                 lastName,
                 email,
                 userName,
-                password: hashedPassword,
+                //password: hashedPassword,
                 createdBy: userId,
                 createdAt: new Date()
             }
@@ -333,20 +333,20 @@ export default class UserService {
             if (user === null) {
                 return new RequestResult(StatusCodes.NOT_FOUND, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'userDoesNotExist')));
             }
-            const isPasswordMatch = await bcrypt.compare(currentPassword, user.password as string);
-            if (!isPasswordMatch) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'passwordDoesNotMatch')));
-            }
+            // const isPasswordMatch = await bcrypt.compare(currentPassword, user.password as string);
+            // if (!isPasswordMatch) {
+            //     return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'passwordDoesNotMatch')));
+            // }
 
-            if (newPassword !== confirmNewPassword) {
-                return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
-            }
-            const hashedPassword = await bcrypt.hash(newPassword, 12);
+            // if (newPassword !== confirmNewPassword) {
+            //     return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
+            // }
+            // const hashedPassword = await bcrypt.hash(newPassword, 12);
 
-            const { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword, userId);
-            if (modifiedCount > 0) {
-                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
-            }
+            //const { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword, userId);
+            // if (modifiedCount > 0) {
+            //     return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
+            // }
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         } catch (error) {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
@@ -371,12 +371,12 @@ export default class UserService {
             if (password !== confirmPassword) {
                 return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'confirmPasswordDoesNotMatch')));
             }
-            const hashedPassword = await bcrypt.hash(password, 12);
+            // const hashedPassword = await bcrypt.hash(password, 12);
 
-            const { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword, userId);
-            if (modifiedCount > 0) {
-                return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
-            }
+            // const { modifiedCount } = await this._userRepository.changePassword(id, hashedPassword, userId);
+            // if (modifiedCount > 0) {
+            //     return new RequestResult(StatusCodes.OK, new MethodResult<boolean>(new CRUDResultModel(CRUDResultEnum.SuccessWithNotification, 'successOperation'), true));
+            // }
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
         } catch (error) {
             return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));

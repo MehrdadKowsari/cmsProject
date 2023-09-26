@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import PostService from '../../services/contentManagement/postService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdatePostDTO } from 'src/dtos/contentManagement/post/updatePostDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdatePostDTO } from '../../dtos/contentManagement/post/updatePostDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
 
 @autoInjectable()
 export class PostController{

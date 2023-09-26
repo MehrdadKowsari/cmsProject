@@ -8,22 +8,22 @@ import { AddPostDTO } from '../../dtos/contentManagement/post/addPostDTO';
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PostRepository from '../../repositories/contentManagement/postRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdatePostDTO } from 'src/dtos/contentManagement/post/updatePostDTO';
-import { Post } from 'src/models/contentManagement/post';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdatePostDTO } from '../../dtos/contentManagement/post/updatePostDTO';
+import { Post } from '../../models/contentManagement/post';
 import { Types } from 'mongoose';
-import { ListPublishedPostByParamsDTO } from 'src/dtos/contentManagement/post/listPublishedPostByParamsDTO';
-import { PostTagDTO } from 'src/dtos/contentManagement/postTag/postTagDTO';
-import PostTagRepository from 'src/repositories/contentManagement/postTagRepository';
-import { PostTag } from 'src/models/contentManagement/postTag';
-import { RelatedPostDTO } from 'src/dtos/contentManagement/relatedPost/relatedPostDTO';
-import RelatedPostRepository from 'src/repositories/contentManagement/relatedPostRepository';
-import { TagDTO } from 'src/dtos/contentManagement/tag/tagDTO';
-import { ListMostCommentedPostByParamsDTO } from 'src/dtos/contentManagement/post/listMostCommentedPostByParamsDTO';
-import { ListMostPopularPostByParamsDTO } from 'src/dtos/contentManagement/post/listMostPopularPostByParamsDTO';
-import { ListLastPostByParamsDTO } from 'src/dtos/contentManagement/post/listLastPostByParamsDTO';
-import utilityHelper from 'src/helpers/utilityHelper';
-import { PostStatusTypeEnum } from 'src/enums/contentManagement/postStatusTypeEnum';
+import { ListPublishedPostByParamsDTO } from '../../dtos/contentManagement/post/listPublishedPostByParamsDTO';
+import { PostTagDTO } from '../../dtos/contentManagement/postTag/postTagDTO';
+import PostTagRepository from '../../repositories/contentManagement/postTagRepository';
+import { PostTag } from '../../models/contentManagement/postTag';
+import { RelatedPostDTO } from '../../dtos/contentManagement/relatedPost/relatedPostDTO';
+import RelatedPostRepository from '../../repositories/contentManagement/relatedPostRepository';
+import { ListMostCommentedPostByParamsDTO } from '../../dtos/contentManagement/post/listMostCommentedPostByParamsDTO';
+import { ListMostPopularPostByParamsDTO } from '../../dtos/contentManagement/post/listMostPopularPostByParamsDTO';
+import { ListLastPostByParamsDTO } from '../../dtos/contentManagement/post/listLastPostByParamsDTO';
+import utilityHelper from '../../helpers/utilityHelper';
+import { PostStatusTypeEnum } from '../../enums/contentManagement/postStatusTypeEnum';
+import { TagDTO } from '../../dtos/contentManagement/tag/tagDTO';
 
 @autoInjectable()
 export default class PostService {

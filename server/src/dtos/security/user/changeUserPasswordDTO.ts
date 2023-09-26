@@ -1,4 +1,4 @@
-import { BaseModel } from "src/models/shared/base/baseModel";
+import { BaseModel } from "../../../models/shared/base/baseModel";
 
 export interface ChangeUserPasswordDTO extends BaseModel {
     newPassword: string;

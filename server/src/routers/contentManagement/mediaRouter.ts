@@ -1,6 +1,6 @@
 import express from 'express';
 import {container} from 'tsyringe'; 
-import { MediaController } from 'src/controllers/contentManagement/mediaController';
+import { MediaController } from '../../controllers/contentManagement/mediaController';
 
 const mediaController = container.resolve(MediaController);
 const router = express.Router();

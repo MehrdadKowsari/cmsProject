@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import PostImageService from '../../services/contentManagement/postImageService';
 import { autoInjectable } from 'tsyringe';
-import { UpdatePostImageDTO } from 'src/dtos/contentManagement/postImage/updatePostImageDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListPostImageByParams } from 'src/dtos/contentManagement/postImage/listPostImageByParamsDTO';
+import { UpdatePostImageDTO } from '../../dtos/contentManagement/postImage/updatePostImageDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { ListPostImageByParams } from '../../dtos/contentManagement/postImage/listPostImageByParamsDTO';
 
 @autoInjectable()
 export class PostImageController{

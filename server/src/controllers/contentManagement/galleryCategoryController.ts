@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import GalleryCategoryService from '../../services/contentManagement/galleryCategoryService';
 import { autoInjectable } from 'tsyringe';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateGalleryCategoryDTO } from 'src/dtos/contentManagement/galleryCategory/updateGalleryCategoryDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateGalleryCategoryDTO } from '../../dtos/contentManagement/galleryCategory/updateGalleryCategoryDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
 
 @autoInjectable()
 export class GalleryCategoryController{

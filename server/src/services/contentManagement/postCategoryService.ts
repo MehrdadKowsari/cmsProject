@@ -8,9 +8,9 @@ import { AddPostCategoryDTO } from '../../dtos/contentManagement/postCategory/ad
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PostCategoryRepository from '../../repositories/contentManagement/postCategoryRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdatePostCategoryDTO } from 'src/dtos/contentManagement/postCategory/updatePostCategoryDTO';
-import { PostCategory } from 'src/models/contentManagement/postCategory';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdatePostCategoryDTO } from '../../dtos/contentManagement/postCategory/updatePostCategoryDTO';
+import { PostCategory } from '../../models/contentManagement/postCategory';
 import { Types } from 'mongoose';
 
 @autoInjectable()

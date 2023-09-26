@@ -1,6 +1,6 @@
-import { PostTypeEnum } from "src/enums/contentManagement/postTypeEnum";
+import { PostTypeEnum } from "../../enums/contentManagement/postTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
-import { PostStatusTypeEnum } from "src/enums/contentManagement/postStatusTypeEnum";
+import { PostStatusTypeEnum } from "../../enums/contentManagement/postStatusTypeEnum";
 import { TagDTO } from "../tag/tagDTO";
 
 export interface PostDTO extends BaseModel {

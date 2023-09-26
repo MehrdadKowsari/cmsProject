@@ -1,4 +1,4 @@
-import { PageTypeEnum } from "src/enums/security/pageTypeEnum";
+import { PageTypeEnum } from "../../enums/security/pageTypeEnum";
 
 export interface AddPageDTO{
   parentId?: string;

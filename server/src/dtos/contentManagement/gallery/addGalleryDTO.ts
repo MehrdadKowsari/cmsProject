@@ -1,4 +1,4 @@
-import { GalleryTypeEnum } from "src/enums/contentManagement/galleryTypeEnum";
+import { GalleryTypeEnum } from "../../enums/contentManagement/galleryTypeEnum";
 
 export interface AddGalleryDTO{
   galleryCategoryId: string;

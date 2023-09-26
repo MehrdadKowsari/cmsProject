@@ -1,7 +1,7 @@
-import PostTagModel, { PostTag } from "src/models/contentManagement/postTag";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import { ListPostTagByParams } from "src/dtos/contentManagement/postTag/listPostTagByParamsDTO";
+import PostTagModel, { PostTag } from "../../models/contentManagement/postTag";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import { ListPostTagByParams } from "../../dtos/contentManagement/postTag/listPostTagByParamsDTO";
 
 
     export default class PostTagRepository{

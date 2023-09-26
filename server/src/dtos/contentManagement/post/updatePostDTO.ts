@@ -1,6 +1,6 @@
 import { BaseModel } from "../../../models/shared/base/baseModel";
-import { PostStatusTypeEnum } from "src/enums/contentManagement/postStatusTypeEnum";
-import { PostTypeEnum } from "src/enums/contentManagement/postTypeEnum";
+import { PostStatusTypeEnum } from "../../enums/contentManagement/postStatusTypeEnum";
+import { PostTypeEnum } from "../../enums/contentManagement/postTypeEnum";
 
 export interface UpdatePostDTO extends BaseModel {
   postCategoryId: string;

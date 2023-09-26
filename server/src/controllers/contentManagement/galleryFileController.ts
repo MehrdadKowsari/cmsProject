@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import GalleryFileService from '../../services/contentManagement/galleryFileService';
 import { autoInjectable } from 'tsyringe';
-import { UpdateGalleryFileDTO } from 'src/dtos/contentManagement/galleryFile/updateGalleryFileDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListGalleryFileByParams } from 'src/dtos/contentManagement/galleryFile/listGalleryFileByParamsDTO';
+import { UpdateGalleryFileDTO } from '../../dtos/contentManagement/galleryFile/updateGalleryFileDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { ListGalleryFileByParams } from '../../dtos/contentManagement/galleryFile/listGalleryFileByParamsDTO';
 
 @autoInjectable()
 export class GalleryFileController{

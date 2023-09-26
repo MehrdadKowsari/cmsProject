@@ -8,9 +8,9 @@ import { AddPageDTO } from '../../dtos/security/page/addPageDTO';
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PageRepository from '../../repositories/security/pageRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdatePageDTO } from 'src/dtos/security/page/updatePageDTO';
-import { Page } from 'src/models/security/page';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdatePageDTO } from '../../dtos/security/page/updatePageDTO';
+import { Page } from '../../models/security/page';
 import { Types } from 'mongoose';
 
 @autoInjectable()

@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import RelatedPostService from '../../services/contentManagement/relatedPostService';
 import { autoInjectable } from 'tsyringe';
-import { UpdateRelatedPostDTO } from 'src/dtos/contentManagement/relatedPost/updateRelatedPostDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListRelatedPostByParams } from 'src/dtos/contentManagement/relatedPost/listRelatedPostByParamsDTO';
+import { UpdateRelatedPostDTO } from '../../dtos/contentManagement/relatedPost/updateRelatedPostDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { ListRelatedPostByParams } from '../../dtos/contentManagement/relatedPost/listRelatedPostByParamsDTO';
 
 @autoInjectable()
 export class RelatedPostController{

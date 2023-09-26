@@ -1,10 +1,10 @@
 import express from 'express';
 import { PostCategoryController } from '../../controllers/contentManagement/postCategoryController';
 import {container} from 'tsyringe'; 
-import { addValidation, deleteValidation, getByIdValidation, toggleActiveValidation, updateValidation } from 'src/validations/contentManagement/postCategoryValidation';
-import permissionMiddleware from 'src/middleware/shared/permissionMiddleware';
-import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
-import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
+import { addValidation, deleteValidation, getByIdValidation, toggleActiveValidation, updateValidation } from '../../validations/contentManagement/postCategoryValidation';
+import permissionMiddleware from '../../middleware/shared/permissionMiddleware';
+import { PermissionTypeEnum } from '../../enums/security/permissionTypeEnum';
+import { PageTypeEnum } from '../../enums/security/pageTypeEnum';
 
 const postCategoryController = container.resolve(PostCategoryController);
 const router = express.Router();

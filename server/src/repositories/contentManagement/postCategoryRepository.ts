@@ -1,7 +1,7 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import PostCategoryModel, { PostCategory } from "src/models/contentManagement/postCategory";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
+import { GridParameter } from "../../dtos/shared/grid/gridPrameter";
+import PostCategoryModel, { PostCategory } from "../../models/contentManagement/postCategory";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
 
 
     export default class PostCategoryRepository{

@@ -1,9 +1,9 @@
-import MenuItemModel, { MenuItem } from "src/models/contentManagement/menuItem";
-import MenuModel from "src/models/contentManagement/menu";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import { ListMenuItemByParamsDTO } from "src/dtos/contentManagement/menuItem/listMenuItemByParamsDTO";
-import { ListAllMenuItemByParamsDTO } from "src/dtos/contentManagement/menuItem/listAllMenuItemByParamsDTO";
+import MenuItemModel, { MenuItem } from "../../models/contentManagement/menuItem";
+import MenuModel from "../../models/contentManagement/menu";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import { ListMenuItemByParamsDTO } from "../../dtos/contentManagement/menuItem/listMenuItemByParamsDTO";
+import { ListAllMenuItemByParamsDTO } from "../../dtos/contentManagement/menuItem/listAllMenuItemByParamsDTO";
 
 
     export default class MenuItemRepository{

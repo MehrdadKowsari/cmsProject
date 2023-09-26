@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import MenuItemService from '../../services/contentManagement/menuItemService';
 import { autoInjectable } from 'tsyringe';
-import { UpdateMenuItemDTO } from 'src/dtos/contentManagement/menuItem/updateMenuItemDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListMenuItemByParamsDTO } from 'src/dtos/contentManagement/menuItem/listMenuItemByParamsDTO';
+import { UpdateMenuItemDTO } from '../../dtos/contentManagement/menuItem/updateMenuItemDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { ListMenuItemByParamsDTO } from '../../dtos/contentManagement/menuItem/listMenuItemByParamsDTO';
 
 @autoInjectable()
 export class MenuItemController{

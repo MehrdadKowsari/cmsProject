@@ -8,9 +8,9 @@ import { AddMenuDTO } from '../../dtos/contentManagement/menu/addMenuDTO';
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import MenuRepository from '../../repositories/contentManagement/menuRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateMenuDTO } from 'src/dtos/contentManagement/menu/updateMenuDTO';
-import { Menu } from 'src/models/contentManagement/menu';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateMenuDTO } from '../../dtos/contentManagement/menu/updateMenuDTO';
+import { Menu } from '../../models/contentManagement/menu';
 import { Types } from 'mongoose';
 
 @autoInjectable()

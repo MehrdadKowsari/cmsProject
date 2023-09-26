@@ -8,11 +8,11 @@ import { AddGalleryCategoryDTO } from '../../dtos/contentManagement/galleryCateg
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import GalleryCategoryRepository from '../../repositories/contentManagement/galleryCategoryRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateGalleryCategoryDTO } from 'src/dtos/contentManagement/galleryCategory/updateGalleryCategoryDTO';
-import { GalleryCategory } from 'src/models/contentManagement/galleryCategory';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateGalleryCategoryDTO } from '../../dtos/contentManagement/galleryCategory/updateGalleryCategoryDTO';
+import { GalleryCategory } from '../../models/contentManagement/galleryCategory';
 import { Types } from 'mongoose';
-import { ListActiveGalleryCategoryByParamsDTO } from 'src/dtos/contentManagement/galleryCategory/listActiveGalleryCategoryByParamsDTO';
+import { ListActiveGalleryCategoryByParamsDTO } from '../../dtos/contentManagement/galleryCategory/listActiveGalleryCategoryByParamsDTO';
 
 @autoInjectable()
 export default class GalleryCategoryService {

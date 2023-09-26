@@ -8,10 +8,10 @@ import { AddPostTagDTO } from '../../dtos/contentManagement/postTag/addPostTagDT
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PostTagRepository from '../../repositories/contentManagement/postTagRepository';
-import { UpdatePostTagDTO } from 'src/dtos/contentManagement/postTag/updatePostTagDTO';
-import { PostTag } from 'src/models/contentManagement/postTag';
+import { UpdatePostTagDTO } from '../../dtos/contentManagement/postTag/updatePostTagDTO';
+import { PostTag } from '../../models/contentManagement/postTag';
 import { Types } from 'mongoose';
-import { ListPostTagByParams } from 'src/dtos/contentManagement/postTag/listPostTagByParamsDTO';
+import { ListPostTagByParams } from '../../dtos/contentManagement/postTag/listPostTagByParamsDTO';
 
 @autoInjectable()
 export default class PostTagService {

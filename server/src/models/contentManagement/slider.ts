@@ -1,5 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
-import { SliderTypeEnum } from 'src/enums/contentManagement/sliderTypeEnum';
+import { SliderTypeEnum } from '../../enums/contentManagement/sliderTypeEnum';
 import { SliderItem } from './sliderItem';
 
 export const DOCUMENT_NAME = 'Slider';

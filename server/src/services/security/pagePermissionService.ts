@@ -8,11 +8,11 @@ import { AddPagePermissionDTO } from '../../dtos/security/pagePermission/addPage
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PagePermissionRepository from '../../repositories/security/pagePermissionRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdatePagePermissionDTO } from 'src/dtos/security/pagePermission/updatePagePermissionDTO';
-import { PagePermission } from 'src/models/security/pagePermission';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdatePagePermissionDTO } from '../../dtos/security/pagePermission/updatePagePermissionDTO';
+import { PagePermission } from '../../models/security/pagePermission';
 import { Types } from 'mongoose';
-import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
+import { PageTypeEnum } from '../../enums/security/pageTypeEnum';
 
 @autoInjectable()
 export default class PagePermissionService {

@@ -1,7 +1,7 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import SliderModel, { Slider } from "src/models/contentManagement/slider";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
+import { GridParameter } from "../../dtos/shared/grid/gridPrameter";
+import SliderModel, { Slider } from "../../models/contentManagement/slider";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
 
 
     export default class SliderRepository{

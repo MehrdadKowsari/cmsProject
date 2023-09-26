@@ -1,9 +1,9 @@
-import SliderItemModel, { SliderItem } from "src/models/contentManagement/sliderItem";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import { ListSliderItemByParamsDTO } from "src/dtos/contentManagement/sliderItem/listSliderItemByParamsDTO";
-import { ListActiveSliderItemByParamsDTO } from "src/dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO";
-import SliderModel from "src/models/contentManagement/slider";
+import SliderItemModel, { SliderItem } from "../../models/contentManagement/sliderItem";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import { ListSliderItemByParamsDTO } from "../../dtos/contentManagement/sliderItem/listSliderItemByParamsDTO";
+import { ListActiveSliderItemByParamsDTO } from "../../dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO";
+import SliderModel from "../../models/contentManagement/slider";
 
 
     export default class SliderItemRepository{

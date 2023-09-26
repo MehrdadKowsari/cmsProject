@@ -4,13 +4,13 @@ import { MethodResult } from '../../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import { autoInjectable } from 'tsyringe';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import GalleryService from 'src/services/contentManagement/galleryService';
-import { ListActiveGalleryByParamsDTO } from 'src/dtos/contentManagement/gallery/listActiveGalleryByParamsDTO';
-import { ListGalleryFileByParams } from 'src/dtos/contentManagement/galleryFile/listGalleryFileByParamsDTO';
-import GalleryFileService from 'src/services/contentManagement/galleryFileService';
-import { ListActiveGalleryCategoryByParamsDTO } from 'src/dtos/contentManagement/galleryCategory/listActiveGalleryCategoryByParamsDTO';
-import GalleryCategoryService from 'src/services/contentManagement/galleryCategoryService';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import GalleryService from '../../services/contentManagement/galleryService';
+import { ListActiveGalleryByParamsDTO } from '../../dtos/contentManagement/gallery/listActiveGalleryByParamsDTO';
+import { ListGalleryFileByParams } from '../../dtos/contentManagement/galleryFile/listGalleryFileByParamsDTO';
+import GalleryFileService from '../../services/contentManagement/galleryFileService';
+import { ListActiveGalleryCategoryByParamsDTO } from '../../dtos/contentManagement/galleryCategory/listActiveGalleryCategoryByParamsDTO';
+import GalleryCategoryService from '../../services/contentManagement/galleryCategoryService';
 
 @autoInjectable()
 export class MediaController{

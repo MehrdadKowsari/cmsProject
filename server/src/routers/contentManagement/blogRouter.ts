@@ -1,6 +1,6 @@
 import express from 'express';
 import {container} from 'tsyringe'; 
-import { BlogController } from 'src/controllers/contentManagement/blogController';
+import { BlogController } from '../../controllers/contentManagement/blogController';
 
 const blogController = container.resolve(BlogController);
 const router = express.Router();

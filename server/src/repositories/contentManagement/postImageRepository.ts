@@ -1,7 +1,7 @@
-import PostImageModel, { PostImage } from "src/models/contentManagement/postImage";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import { ListPostImageByParams } from "src/dtos/contentManagement/postImage/listPostImageByParamsDTO";
+import PostImageModel, { PostImage } from "../../models/contentManagement/postImage";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import { ListPostImageByParams } from "../../dtos/contentManagement/postImage/listPostImageByParamsDTO";
 
 
     export default class PostImageRepository{

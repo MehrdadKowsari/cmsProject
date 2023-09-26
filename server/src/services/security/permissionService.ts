@@ -8,9 +8,9 @@ import { AddPermissionDTO } from '../../dtos/security/permission/addPermissionDT
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PermissionRepository from '../../repositories/security/permissionRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdatePermissionDTO } from 'src/dtos/security/permission/updatePermissionDTO';
-import { Permission } from 'src/models/security/permission';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdatePermissionDTO } from '../../dtos/security/permission/updatePermissionDTO';
+import { Permission } from '../../models/security/permission';
 import { Types } from 'mongoose';
 
 @autoInjectable()

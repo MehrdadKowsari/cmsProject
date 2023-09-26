@@ -1,10 +1,10 @@
 import express from 'express';
 import { RolePagePermissionController } from '../../controllers/security/rolePagePermissionController';
 import {container} from 'tsyringe'; 
-import { addValidation, deleteValidation, getByIdValidation, updateValidation } from 'src/validations/security/rolePagePermissionValidation';
-import permissionMiddleware from 'src/middleware/shared/permissionMiddleware';
-import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
-import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
+import { addValidation, deleteValidation, getByIdValidation, updateValidation } from '../../validations/security/rolePagePermissionValidation';
+import permissionMiddleware from '../../middleware/shared/permissionMiddleware';
+import { PermissionTypeEnum } from '../../enums/security/permissionTypeEnum';
+import { PageTypeEnum } from '../../enums/security/pageTypeEnum';
 
 const rolePagePermissionController = container.resolve(RolePagePermissionController);
 const router = express.Router();

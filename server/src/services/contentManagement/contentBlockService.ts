@@ -8,9 +8,9 @@ import { AddContentBlockDTO } from '../../dtos/contentManagement/contentBlock/ad
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import ContentBlockRepository from '../../repositories/contentManagement/contentBlockRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateContentBlockDTO } from 'src/dtos/contentManagement/contentBlock/updateContentBlockDTO';
-import { ContentBlock } from 'src/models/contentManagement/contentBlock';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateContentBlockDTO } from '../../dtos/contentManagement/contentBlock/updateContentBlockDTO';
+import { ContentBlock } from '../../models/contentManagement/contentBlock';
 import { Types } from 'mongoose';
 
 

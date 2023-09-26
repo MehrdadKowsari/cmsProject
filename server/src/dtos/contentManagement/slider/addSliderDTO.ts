@@ -1,4 +1,4 @@
-import { SliderTypeEnum } from "src/enums/contentManagement/sliderTypeEnum";
+import { SliderTypeEnum } from "../../enums/contentManagement/sliderTypeEnum";
 
 export interface AddSliderDTO{
   articleCategoryId?: string | null;

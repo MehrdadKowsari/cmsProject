@@ -1,13 +1,13 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import PostModel, { Post } from "src/models/contentManagement/post";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import { ListPublishedPostByParamsDTO } from "src/dtos/contentManagement/post/listPublishedPostByParamsDTO";
-import { PostStatusTypeEnum } from "src/enums/contentManagement/postStatusTypeEnum";
-import { ListMostCommentedPostByParamsDTO } from "src/dtos/contentManagement/post/listMostCommentedPostByParamsDTO";
-import { ListMostPopularPostByParamsDTO } from "src/dtos/contentManagement/post/listMostPopularPostByParamsDTO";
-import { ListLastPostByParamsDTO } from "src/dtos/contentManagement/post/listLastPostByParamsDTO";
-import { PostTypeEnum } from "src/enums/contentManagement/postTypeEnum";
+import { GridParameter } from "../../dtos/shared/grid/gridPrameter";
+import PostModel, { Post } from "../../models/contentManagement/post";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import { ListPublishedPostByParamsDTO } from "../../dtos/contentManagement/post/listPublishedPostByParamsDTO";
+import { PostStatusTypeEnum } from "../../enums/contentManagement/postStatusTypeEnum";
+import { ListMostCommentedPostByParamsDTO } from "../../dtos/contentManagement/post/listMostCommentedPostByParamsDTO";
+import { ListMostPopularPostByParamsDTO } from "../../dtos/contentManagement/post/listMostPopularPostByParamsDTO";
+import { ListLastPostByParamsDTO } from "../../dtos/contentManagement/post/listLastPostByParamsDTO";
+import { PostTypeEnum } from "../../enums/contentManagement/postTypeEnum";
 
 
     export default class PostRepository{

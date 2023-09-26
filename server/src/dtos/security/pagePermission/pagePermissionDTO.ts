@@ -1,6 +1,6 @@
-import { PageTypeEnum } from "src/enums/security/pageTypeEnum";
+import { PageTypeEnum } from "../../enums/security/pageTypeEnum";
 import { BaseModel } from "../../../models/shared/base/baseModel";
-import { PermissionTypeEnum } from "src/enums/security/permissionTypeEnum";
+import { PermissionTypeEnum } from "../../enums/security/permissionTypeEnum";
 
 export interface PagePermissionDTO extends BaseModel {
     pageId: string;

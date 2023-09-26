@@ -8,11 +8,11 @@ import { AddMenuItemDTO } from '../../dtos/contentManagement/menuItem/addMenuIte
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import MenuItemRepository from '../../repositories/contentManagement/menuItemRepository';
-import { UpdateMenuItemDTO } from 'src/dtos/contentManagement/menuItem/updateMenuItemDTO';
-import { MenuItem } from 'src/models/contentManagement/menuItem';
+import { UpdateMenuItemDTO } from '../../dtos/contentManagement/menuItem/updateMenuItemDTO';
+import { MenuItem } from '../../models/contentManagement/menuItem';
 import { Types } from 'mongoose';
-import { ListMenuItemByParamsDTO } from 'src/dtos/contentManagement/menuItem/listMenuItemByParamsDTO';
-import { ListAllMenuItemByParamsDTO } from 'src/dtos/contentManagement/menuItem/listAllMenuItemByParamsDTO';
+import { ListMenuItemByParamsDTO } from '../../dtos/contentManagement/menuItem/listMenuItemByParamsDTO';
+import { ListAllMenuItemByParamsDTO } from '../../dtos/contentManagement/menuItem/listAllMenuItemByParamsDTO';
 
 @autoInjectable()
 export default class MenuItemService {

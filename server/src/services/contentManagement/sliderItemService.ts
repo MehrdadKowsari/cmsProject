@@ -8,11 +8,11 @@ import { AddSliderItemDTO } from '../../dtos/contentManagement/sliderItem/addSli
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import SliderItemRepository from '../../repositories/contentManagement/sliderItemRepository';
-import { UpdateSliderItemDTO } from 'src/dtos/contentManagement/sliderItem/updateSliderItemDTO';
-import { SliderItem } from 'src/models/contentManagement/sliderItem';
+import { UpdateSliderItemDTO } from '../../dtos/contentManagement/sliderItem/updateSliderItemDTO';
+import { SliderItem } from '../../models/contentManagement/sliderItem';
 import { Types } from 'mongoose';
-import { ListSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParamsDTO';
-import { ListActiveSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO';
+import { ListSliderItemByParamsDTO } from '../../dtos/contentManagement/sliderItem/listSliderItemByParamsDTO';
+import { ListActiveSliderItemByParamsDTO } from '../../dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO';
 
 @autoInjectable()
 export default class SliderItemService {

@@ -1,10 +1,10 @@
 import express from 'express';
 import { RelatedPostController } from '../../controllers/contentManagement/relatedPostController';
 import {container} from 'tsyringe'; 
-import { addValidation, deleteValidation, getByIdValidation, updateValidation } from 'src/validations/contentManagement/relatedPostValidation';
-import permissionMiddleware from 'src/middleware/shared/permissionMiddleware';
-import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
-import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
+import { addValidation, deleteValidation, getByIdValidation, updateValidation } from '../../validations/contentManagement/relatedPostValidation';
+import permissionMiddleware from '../../middleware/shared/permissionMiddleware';
+import { PermissionTypeEnum } from '../../enums/security/permissionTypeEnum';
+import { PageTypeEnum } from '../../enums/security/pageTypeEnum';
 
 const relatedPostController = container.resolve(RelatedPostController);
 const router = express.Router();

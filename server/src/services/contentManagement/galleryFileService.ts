@@ -8,10 +8,10 @@ import { AddGalleryFileDTO } from '../../dtos/contentManagement/galleryFile/addG
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import GalleryFileRepository from '../../repositories/contentManagement/galleryFileRepository';
-import { UpdateGalleryFileDTO } from 'src/dtos/contentManagement/galleryFile/updateGalleryFileDTO';
-import { GalleryFile } from 'src/models/contentManagement/galleryFile';
+import { UpdateGalleryFileDTO } from '../../dtos/contentManagement/galleryFile/updateGalleryFileDTO';
+import { GalleryFile } from '../../models/contentManagement/galleryFile';
 import { Types } from 'mongoose';
-import { ListGalleryFileByParams } from 'src/dtos/contentManagement/galleryFile/listGalleryFileByParamsDTO';
+import { ListGalleryFileByParams } from '../../dtos/contentManagement/galleryFile/listGalleryFileByParamsDTO';
 
 @autoInjectable()
 export default class GalleryFileService {

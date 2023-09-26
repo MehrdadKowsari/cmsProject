@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import PostCommentService from '../../services/contentManagement/postCommentService';
 import { autoInjectable } from 'tsyringe';
-import { UpdatePostCommentDTO } from 'src/dtos/contentManagement/postComment/updatePostCommentDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListPostCommentByParamsDTO } from 'src/dtos/contentManagement/postComment/listPostCommentByParamsDTO';
+import { UpdatePostCommentDTO } from '../../dtos/contentManagement/postComment/updatePostCommentDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { ListPostCommentByParamsDTO } from '../../dtos/contentManagement/postComment/listPostCommentByParamsDTO';
 
 @autoInjectable()
 export class PostCommentController{

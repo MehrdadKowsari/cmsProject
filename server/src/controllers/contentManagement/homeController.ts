@@ -5,10 +5,10 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import SliderItemService from '../../services/contentManagement/sliderItemService';
 import { autoInjectable } from 'tsyringe';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListActiveSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO';
-import MenuItemService from 'src/services/contentManagement/menuItemService';
-import { ListAllMenuItemByParamsDTO } from 'src/dtos/contentManagement/menuItem/listAllMenuItemByParamsDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { ListActiveSliderItemByParamsDTO } from '../../dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO';
+import MenuItemService from '../../services/contentManagement/menuItemService';
+import { ListAllMenuItemByParamsDTO } from '../../dtos/contentManagement/menuItem/listAllMenuItemByParamsDTO';
 
 @autoInjectable()
 export class HomeController{
@@ -48,6 +48,21 @@ export class HomeController{
             const listActiveSliderItemByParamsDTO : ListActiveSliderItemByParamsDTO = req.body;
             const requestResult = await this._sliderItemService.getAllActiveSlidersByParams(listActiveSliderItemByParamsDTO);
             return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
+     
+    /**
+     * get all sliderItems
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
+    getTest = async (req: Request, res: Response) => {
+        try {
+            return res.status(200).json("test");
         } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
         }

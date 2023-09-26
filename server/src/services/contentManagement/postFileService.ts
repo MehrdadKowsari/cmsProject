@@ -8,11 +8,11 @@ import { AddPostFileDTO } from '../../dtos/contentManagement/postFile/addPostFil
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PostFileRepository from '../../repositories/contentManagement/postFileRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdatePostFileDTO } from 'src/dtos/contentManagement/postFile/updatePostFileDTO';
-import { PostFile } from 'src/models/contentManagement/postFile';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdatePostFileDTO } from '../../dtos/contentManagement/postFile/updatePostFileDTO';
+import { PostFile } from '../../models/contentManagement/postFile';
 import { Types } from 'mongoose';
-import { ListPostFileByParams } from 'src/dtos/contentManagement/postFile/listPostFileByParamsDTO';
+import { ListPostFileByParams } from '../../dtos/contentManagement/postFile/listPostFileByParamsDTO';
 
 @autoInjectable()
 export default class PostFileService {

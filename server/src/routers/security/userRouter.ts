@@ -1,10 +1,10 @@
 import express from 'express';
 import { UserController } from '../../controllers/security/userController';
 import {container} from 'tsyringe'; 
-import { addValidation, changePasswordValidation, deleteValidation, getByIdValidation, resetPasswordValidation, toggleActiveValidation, updateValidation } from 'src/validations/security/userValidation';
-import permissionMiddleware from 'src/middleware/shared/permissionMiddleware';
-import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
-import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
+import { addValidation, changePasswordValidation, deleteValidation, getByIdValidation, resetPasswordValidation, toggleActiveValidation, updateValidation } from '../../validations/security/userValidation';
+import permissionMiddleware from '../../middleware/shared/permissionMiddleware';
+import { PageTypeEnum } from '../../enums/security/pageTypeEnum';
+import { PermissionTypeEnum } from '../../enums/security/permissionTypeEnum';
 
 const userController = container.resolve(UserController);
 const router = express.Router();

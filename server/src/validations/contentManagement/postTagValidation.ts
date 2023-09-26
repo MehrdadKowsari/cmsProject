@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
-import Message from "src/constants/messages";
-import { CRUDResultModel } from "src/models/shared/crud/crudResultModel";
-import { MethodError } from "src/models/shared/crud/methodError";
-import { MethodResult } from "src/models/shared/crud/methodResult";
-import { CRUDResultEnum } from "src/models/shared/enums/crudResultEnum";
+import Message from "../../constants/messages";
+import { CRUDResultModel } from "../../models/shared/crud/crudResultModel";
+import { MethodError } from "../../models/shared/crud/methodError";
+import { MethodResult } from "../../models/shared/crud/methodResult";
+import { CRUDResultEnum } from "../../models/shared/enums/crudResultEnum";
 
 const joi = require("joi");
 const options = {

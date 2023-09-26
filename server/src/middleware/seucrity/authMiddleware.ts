@@ -7,10 +7,10 @@ import { CRUDResultModel } from '../../models/shared/crud/crudResultModel';
 import { MethodResult } from '../../models/shared/crud/methodResult';
 import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { UserType } from '../../types/security/user';
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcryptjs';
 import UserModel from '../../models/security/user';
 import { StatusCodes } from 'http-status-codes';
-import localizeHelper from 'src/helpers/localizeHelper';
+import localizeHelper from '../../helpers/localizeHelper';
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
 
@@ -43,13 +43,13 @@ const authMiddleware = async(req:Request, res: Response, next: NextFunction) => 
                     const lastName = decodedData.family_name; 
                     const userName = decodedData?.email;
                     const email = decodedData?.email;
-                    const hashedPassword = await bcrypt.hash(decodedData?.jit, 12);
-                    const newUser = await UserModel.create({firstName, lastName, userName, password: hashedPassword, email });
-                    req.user = <UserType>{ 
-                        id: newUser._id?.toString(),
-                        email: newUser.email,
-                        username: newUser.userName,
-                    };
+                    // const hashedPassword = await bcrypt.hash(decodedData?.jit, 12);
+                    // const newUser = await UserModel.create({firstName, lastName, userName, password: hashedPassword, email });
+                    // req.user = <UserType>{ 
+                    //     id: newUser._id?.toString(),
+                    //     email: newUser.email,
+                    //     username: newUser.userName,
+                    // };
                 }
             }
             next();

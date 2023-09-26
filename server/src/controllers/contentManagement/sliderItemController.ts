@@ -5,10 +5,10 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import SliderItemService from '../../services/contentManagement/sliderItemService';
 import { autoInjectable } from 'tsyringe';
-import { UpdateSliderItemDTO } from 'src/dtos/contentManagement/sliderItem/updateSliderItemDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listSliderItemByParamsDTO';
-import { ListActiveSliderItemByParamsDTO } from 'src/dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO';
+import { UpdateSliderItemDTO } from '../../dtos/contentManagement/sliderItem/updateSliderItemDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { ListSliderItemByParamsDTO } from '../../dtos/contentManagement/sliderItem/listSliderItemByParamsDTO';
+import { ListActiveSliderItemByParamsDTO } from '../../dtos/contentManagement/sliderItem/listActiveSliderItemByParamsDTO';
 
 @autoInjectable()
 export class SliderItemController{

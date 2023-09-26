@@ -1,7 +1,7 @@
-import RelatedPostModel, { RelatedPost } from "src/models/contentManagement/relatedPost";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import { ListRelatedPostByParams } from "src/dtos/contentManagement/relatedPost/listRelatedPostByParamsDTO";
+import RelatedPostModel, { RelatedPost } from "../../models/contentManagement/relatedPost";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import { ListRelatedPostByParams } from "../../dtos/contentManagement/relatedPost/listRelatedPostByParamsDTO";
 
 
     export default class RelatedPostRepository{

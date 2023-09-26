@@ -8,14 +8,14 @@ import { AddRolePagePermissionDTO } from '../../dtos/security/rolePagePermission
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import RolePagePermissionRepository from '../../repositories/security/rolePagePermissionRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateRolePagePermissionDTO } from 'src/dtos/security/rolePagePermission/updateRolePagePermissionDTO';
-import { RolePagePermission } from 'src/models/security/rolePagePermission';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateRolePagePermissionDTO } from '../../dtos/security/rolePagePermission/updateRolePagePermissionDTO';
+import { RolePagePermission } from '../../models/security/rolePagePermission';
 import { Types } from 'mongoose';
-import { PageTypeEnum } from 'src/enums/security/pageTypeEnum';
-import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
-import { PagePermissionDTO } from 'src/dtos/security/pagePermission/pagePermissionDTO';
-import { PermissionDTO } from 'src/dtos/security/permission/permissionDTO';
+import { PageTypeEnum } from '../../enums/security/pageTypeEnum';
+import { PermissionTypeEnum } from '../../enums/security/permissionTypeEnum';
+import { PagePermissionDTO } from '../../dtos/security/pagePermission/pagePermissionDTO';
+import { PermissionDTO } from '../../dtos/security/permission/permissionDTO';
 
 @autoInjectable()
 export default class RolePagePermissionService {

@@ -1,4 +1,4 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
+import { GridParameter } from "../../dtos/shared/grid/gridPrameter";
 
 export interface ListPostImageByParams{
     gridParameter: GridParameter;

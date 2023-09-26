@@ -8,9 +8,9 @@ import { AddRoleDTO } from '../../dtos/security/role/addRoleDTO';
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import RoleRepository from '../../repositories/security/roleRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateRoleDTO } from 'src/dtos/security/role/updateRoleDTO';
-import { Role } from 'src/models/security/role';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateRoleDTO } from '../../dtos/security/role/updateRoleDTO';
+import { Role } from '../../models/security/role';
 import { Types } from 'mongoose';
 
 @autoInjectable()

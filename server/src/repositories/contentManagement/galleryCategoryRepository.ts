@@ -1,8 +1,8 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import GalleryCategoryModel, { GalleryCategory } from "src/models/contentManagement/galleryCategory";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import { ListActiveGalleryCategoryByParamsDTO } from "src/dtos/contentManagement/galleryCategory/listActiveGalleryCategoryByParamsDTO";
+import { GridParameter } from "../../dtos/shared/grid/gridPrameter";
+import GalleryCategoryModel, { GalleryCategory } from "../../models/contentManagement/galleryCategory";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import { ListActiveGalleryCategoryByParamsDTO } from "../../dtos/contentManagement/galleryCategory/listActiveGalleryCategoryByParamsDTO";
 
 
     export default class GalleryCategoryRepository{

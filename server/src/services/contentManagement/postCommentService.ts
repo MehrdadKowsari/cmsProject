@@ -8,11 +8,11 @@ import { AddPostCommentDTO } from '../../dtos/contentManagement/postComment/addP
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import PostCommentRepository from '../../repositories/contentManagement/postCommentRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdatePostCommentDTO } from 'src/dtos/contentManagement/postComment/updatePostCommentDTO';
-import { PostComment } from 'src/models/contentManagement/postComment';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdatePostCommentDTO } from '../../dtos/contentManagement/postComment/updatePostCommentDTO';
+import { PostComment } from '../../models/contentManagement/postComment';
 import { Types } from 'mongoose';
-import { ListPostCommentByParamsDTO } from 'src/dtos/contentManagement/postComment/listPostCommentByParamsDTO';
+import { ListPostCommentByParamsDTO } from '../../dtos/contentManagement/postComment/listPostCommentByParamsDTO';
 
 @autoInjectable()
 export default class PostCommentService {

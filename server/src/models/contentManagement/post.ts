@@ -1,6 +1,6 @@
 import { Schema, model, Types } from 'mongoose';
-import { PostStatusTypeEnum } from 'src/enums/contentManagement/postStatusTypeEnum';
-import { PostTypeEnum } from 'src/enums/contentManagement/postTypeEnum';
+import { PostStatusTypeEnum } from '../../enums/contentManagement/postStatusTypeEnum';
+import { PostTypeEnum } from '../../enums/contentManagement/postTypeEnum';
 
 export const DOCUMENT_NAME = 'Post';
 export const COLLECTION_NAME = 'posts';

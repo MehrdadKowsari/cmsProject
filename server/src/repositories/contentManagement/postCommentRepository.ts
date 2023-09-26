@@ -1,9 +1,8 @@
-import { GridParameter } from "src/dtos/shared/grid/gridPrameter";
-import PostCommentModel, { PostComment } from "src/models/contentManagement/postComment";
-import GridUtilityHelper from "src/helpers/gridUtilityHelper";
-import AppConstant from "src/constants/appConstants";
-import { ConfirmStatusTypeEnum } from "../../../../client/src/models/contentManagement/enums/confirmStatusTypeEnum";
-import { ListPostCommentByParamsDTO } from "src/dtos/contentManagement/postComment/listPostCommentByParamsDTO";
+import PostCommentModel, { PostComment } from "../../models/contentManagement/postComment";
+import GridUtilityHelper from "../../helpers/gridUtilityHelper";
+import AppConstant from "../../constants/appConstants";
+import { ListPostCommentByParamsDTO } from "../../dtos/contentManagement/postComment/listPostCommentByParamsDTO";
+import { ConfirmStatusTypeEnum } from "../../enums/shared/confirmStatusTypeEnum";
 
 
     export default class PostCommentRepository{

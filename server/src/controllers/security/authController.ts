@@ -7,11 +7,11 @@ import { CRUDResultModel } from '../../models/shared/crud/crudResultModel';
 import { MethodResult } from '../../models/shared/crud/methodResult';
 import { ValidateRefreshToken } from '../../dtos/security/auth/validateRefreshToken';
 import { StatusCodes } from 'http-status-codes';
-import AuthService from 'src/services/security/authService';
-import { SignIn } from 'src/dtos/security/auth/SignIn';
+import AuthService from '../../services/security/authService';
+import { SignIn } from '../../dtos/security/auth/SignIn';
 import { autoInjectable } from 'tsyringe';
-import { SignUp } from 'src/dtos/security/auth/SignUp';
-import LocalizerHelper from 'src/helpers/localizeHelper';
+import { SignUp } from '../../dtos/security/auth/SignUp';
+import LocalizerHelper from '../../helpers/localizeHelper';
 @autoInjectable()
 export default class AuthController{
     private _authService: AuthService;

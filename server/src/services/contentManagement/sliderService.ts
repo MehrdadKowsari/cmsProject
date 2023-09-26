@@ -8,9 +8,9 @@ import { AddSliderDTO } from '../../dtos/contentManagement/slider/addSliderDTO';
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import SliderRepository from '../../repositories/contentManagement/sliderRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateSliderDTO } from 'src/dtos/contentManagement/slider/updateSliderDTO';
-import { Slider } from 'src/models/contentManagement/slider';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateSliderDTO } from '../../dtos/contentManagement/slider/updateSliderDTO';
+import { Slider } from '../../models/contentManagement/slider';
 import { Types } from 'mongoose';
 
 @autoInjectable()

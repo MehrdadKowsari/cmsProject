@@ -1,5 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
-import { PermissionTypeEnum } from 'src/enums/security/permissionTypeEnum';
+import { PermissionTypeEnum } from '../../enums/security/permissionTypeEnum';
 
 export const DOCUMENT_NAME = 'Permission';
 export const COLLECTION_NAME = 'permissions';

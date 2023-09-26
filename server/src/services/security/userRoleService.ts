@@ -8,9 +8,9 @@ import { AddUserRoleDTO } from '../../dtos/security/userRole/addUserRoleDTO';
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import UserRoleRepository from '../../repositories/security/userRoleRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateUserRoleDTO } from 'src/dtos/security/userRole/updateUserRoleDTO';
-import { UserRole } from 'src/models/security/userRole';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateUserRoleDTO } from '../../dtos/security/userRole/updateUserRoleDTO';
+import { UserRole } from '../../models/security/userRole';
 import { Types } from 'mongoose';
 
 @autoInjectable()

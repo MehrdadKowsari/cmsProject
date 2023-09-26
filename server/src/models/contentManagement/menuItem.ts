@@ -1,5 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
-import { MenuItemTypeEnum } from 'src/enums/contentManagement/menuItemTypeEnum';
+import { MenuItemTypeEnum } from '../../enums/contentManagement/menuItemTypeEnum';
 
 export const DOCUMENT_NAME = 'MenuItem';
 export const COLLECTION_NAME = 'menueItems';

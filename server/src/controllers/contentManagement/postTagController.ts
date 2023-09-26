@@ -5,9 +5,9 @@ import { CRUDResultEnum } from '../../models/shared/enums/crudResultEnum';
 import { StatusCodes } from 'http-status-codes';
 import PostTagService from '../../services/contentManagement/postTagService';
 import { autoInjectable } from 'tsyringe';
-import { UpdatePostTagDTO } from 'src/dtos/contentManagement/postTag/updatePostTagDTO';
-import LocalizerHelper from 'src/helpers/localizeHelper';
-import { ListPostTagByParams } from 'src/dtos/contentManagement/postTag/listPostTagByParamsDTO';
+import { UpdatePostTagDTO } from '../../dtos/contentManagement/postTag/updatePostTagDTO';
+import LocalizerHelper from '../../helpers/localizeHelper';
+import { ListPostTagByParams } from '../../dtos/contentManagement/postTag/listPostTagByParamsDTO';
 
 @autoInjectable()
 export class PostTagController{

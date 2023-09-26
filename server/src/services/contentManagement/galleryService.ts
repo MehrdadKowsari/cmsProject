@@ -8,11 +8,11 @@ import { AddGalleryDTO } from '../../dtos/contentManagement/gallery/addGalleryDT
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import GalleryRepository from '../../repositories/contentManagement/galleryRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateGalleryDTO } from 'src/dtos/contentManagement/gallery/updateGalleryDTO';
-import { Gallery } from 'src/models/contentManagement/gallery';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateGalleryDTO } from '../../dtos/contentManagement/gallery/updateGalleryDTO';
+import { Gallery } from '../../models/contentManagement/gallery';
 import { Types } from 'mongoose';
-import { ListActiveGalleryByParamsDTO } from 'src/dtos/contentManagement/gallery/listActiveGalleryByParamsDTO';
+import { ListActiveGalleryByParamsDTO } from '../../dtos/contentManagement/gallery/listActiveGalleryByParamsDTO';
 
 @autoInjectable()
 export default class GalleryService {

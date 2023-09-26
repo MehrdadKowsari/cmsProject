@@ -8,9 +8,9 @@ import { AddTagDTO } from '../../dtos/contentManagement/tag/addTagDTO';
 import { RequestResult } from '../../models/shared/crud/requestResult';
 import { autoInjectable } from 'tsyringe';
 import TagRepository from '../../repositories/contentManagement/tagRepository';
-import { GridParameter } from 'src/dtos/shared/grid/gridPrameter';
-import { UpdateTagDTO } from 'src/dtos/contentManagement/tag/updateTagDTO';
-import { Tag } from 'src/models/contentManagement/tag';
+import { GridParameter } from '../../dtos/shared/grid/gridPrameter';
+import { UpdateTagDTO } from '../../dtos/contentManagement/tag/updateTagDTO';
+import { Tag } from '../../models/contentManagement/tag';
 import { Types } from 'mongoose';
 
 @autoInjectable()
