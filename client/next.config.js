@@ -10,8 +10,7 @@ const nextConfig = {
   },
   trailingSlash: true,
   i18n,
-  transpilePackages: ['@mui/material'],
-  distDir: 'dist'
+  transpilePackages: ['@mui/material']
 }
 
 module.exports = nextConfig
