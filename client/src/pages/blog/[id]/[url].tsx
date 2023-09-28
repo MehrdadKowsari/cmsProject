@@ -26,7 +26,7 @@ import {
   DESKTOP_MEDIA_QUERY,
   MOBILE_MEDIA_QUERY,
 } from "src/constants/breakpoints";
-import { getBySlugUrl } from "src/state/slices/contentManagement/blogSlice";
+import { getById } from "src/state/slices/contentManagement/blogSlice";
 import { useAppDispatch } from "src/state/hooks/hooks";
 import { PostDTO } from "src/models/contentManagement/post/postDTO";
 import useLocale from "src/hooks/useLocale";
@@ -77,17 +77,17 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
   const dispatch = useAppDispatch();
   const { post,  isLoading } = useSelector((state: any) => state?.blog?.post ? state?.blog : { post: null, isLoading: false });
   const router = useRouter();
-  const slugUrl: string = router.query.url as string;
+  const { slugUrl, id} = router.query;
   const { classes } = styles();
 
   useEffect(() => {
-    if (slugUrl) {
-      getBySEOUrl(slugUrl);
+    if (id) {
+      getPostById(id as string);
     }
-  }, [slugUrl]);
+  }, [id]);
   
-  const getBySEOUrl = async (slugUrl: string) =>{
-    await dispatch(getBySlugUrl(slugUrl));
+  const getPostById = async (id: string) =>{
+    await dispatch(getById(id));
   }
 
   return (
@@ -153,7 +153,7 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
                 </TopicFooter>
               </Topic>
 
-              {!!post?.relatedPosts.length && (
+              {!!post?.relatedPosts?.length && (
                 <>
                   <div className={classes.relatedPostTitle}>
                     <BlockHeader title={t("relatedPosts")} iconCssClass="share"/>

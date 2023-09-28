@@ -3,11 +3,5 @@
  */
 export enum Routes {
   Root = "/",
-  Blog = "/blog",
-  Privacy = "/privacy-policy",
-  Easy = "/easy",
-  Medium = "/medium",
-  Hard = "/hard",
-  Expert = "/expert",
-  Extreme = "/extreme",
+  Blog = "/blog"
 }

@@ -80,6 +80,23 @@ export class BlogController{
     }
     
     /**
+     * get post by slugUrl
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns {Promise<object>} return
+     */
+    getById = async (req: Request, res: Response) => {
+        try {
+            const id = req.body;
+            const requestResult = await this._postService.getById(id);
+            return res.status(requestResult.statusCode).json(LocalizerHelper.localize(requestResult.methodResult, req));
+        } catch (error) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(LocalizerHelper.localize(new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')), req));
+        }
+    }
+    
+    /**
      * get page by slugUrl
      * 
      * @param {object} req 

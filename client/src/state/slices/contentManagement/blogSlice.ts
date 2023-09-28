@@ -62,9 +62,22 @@ export const getAllLastPostsByParams = createAsyncThunk(
 
 export const getBySlugUrl = createAsyncThunk(
   'blog/getBySlugUrl',
+  async (slug: string, { rejectWithValue }) => {
+      try {
+          const { data } = await axios.post(`${API_URL}/getBySlugUrl`, slug);
+          return data?.result;
+      } catch (err) {
+          const error= err as AxiosError;
+          return rejectWithValue(error.message);
+      }
+  }
+)
+
+export const getById = createAsyncThunk(
+  'blog/getById',
   async (id: string, { rejectWithValue }) => {
       try {
-          const { data } = await axios.post(`${API_URL}/getBySlugUrl`, id);
+          const { data } = await axios.post(`${API_URL}/getById`, id);
           return data?.result;
       } catch (err) {
           const error= err as AxiosError;
@@ -229,6 +242,21 @@ const blogSlice = createSlice({
             state.hasError = false;
           })
           .addCase(getBySlugUrl.rejected, (state, { payload }) => {
+            state.hasError = true;
+            state.isLoading = false;
+            state.error = <string>payload;
+          })
+          
+          .addCase(getById.pending, (state) => {
+            state.isLoading = true;
+            state.hasError = false;
+          })
+          .addCase(getById.fulfilled, (state, { payload }) => {
+            state.post = payload;
+            state.isLoading = false;
+            state.hasError = false;
+          })
+          .addCase(getById.rejected, (state, { payload }) => {
             state.hasError = true;
             state.isLoading = false;
             state.error = <string>payload;

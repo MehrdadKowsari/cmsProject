@@ -10,6 +10,7 @@ router.post('/getAllMostCommentedPostsByParams', blogController.getAllMostCommen
 router.post('/getAllMostPopularPostsByParams', blogController.getAllMostPopularPostsByParams);
 router.post('/getAllLastPostsByParams', blogController.getAllLastPostsByParams);
 router.post('/getBySlugUrl', blogController.getBySlugUrl);
+router.post('/getById', blogController.getById);
 router.post('/getPageBySlugUrl', blogController.getPageBySlugUrl);
 router.post('/addPostComment', blogController.addPostComment);
 router.post('/getAllAcceptedPostCommentsByPostId', blogController.getAllAcceptedPostCommentsByPostId);

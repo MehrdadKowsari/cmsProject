@@ -30,7 +30,7 @@ const Post: React.FC<Props> = ({ post }) => {
   return (
     <PostWrapper>
       <ImageWrapper>
-        <Link href={`${Routes.Blog}/${post.slugUrl}/`} passHref>
+        <Link href={`${Routes.Blog}/${post.id}/${post.slugUrl}`} passHref>
           <StyledLink>
             {post.image ? (
               <StyledImage
@@ -49,7 +49,7 @@ const Post: React.FC<Props> = ({ post }) => {
         </Link>
       </ImageWrapper>
       <PostBody>
-        <Link href={`${Routes.Blog}/${post.slugUrl}/`} passHref>
+        <Link href={`${Routes.Blog}/${post.id}/${post.slugUrl}`} passHref>
           <StyledLink>
             <PostTitle>{post.title}</PostTitle>
           </StyledLink>
