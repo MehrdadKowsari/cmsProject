@@ -13,7 +13,7 @@ export const CookiesBox = styled("div")(({ theme }) => ({
   bottom: "20px",
   left: "50%",
   transform: "translate(-50%, 0)",
-  background: COLORS.WHITE,
+  background: theme.palette.primary.main,
   padding: 20,
   boxShadow: "0px 4px 20px rgba(60, 133, 191, 0.18)",
   ...tablet({
@@ -30,7 +30,7 @@ export const CookiesBox = styled("div")(({ theme }) => ({
 export const Button = styled("button")(({ theme }) => ({
   width: 130,
   height: 40,
-  background: COLORS.ELEMENTS,
+  background: theme.palette.primary.main,
   borderRadius: "8px",
   cursor: "pointer",
   outline: "none",
