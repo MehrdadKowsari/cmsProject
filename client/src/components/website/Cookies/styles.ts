@@ -53,7 +53,7 @@ export const Text = styled("span")(({ theme }) => ({
   fontSize: 14,
   fontWeight: 400,
   lineHeight: "20px",
-  color: theme.palette.grey[50],
+  color: theme.palette.grey[700],
   margin: "10px",
 
   ...tablet({
