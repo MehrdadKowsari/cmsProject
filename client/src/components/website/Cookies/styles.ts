@@ -30,7 +30,7 @@ export const CookiesBox = styled("div")(({ theme }) => ({
 export const Button = styled("button")(({ theme }) => ({
   width: 130,
   height: 40,
-  background: theme.palette.primary.main,
+  background: theme.palette.common.white,
   borderRadius: "8px",
   cursor: "pointer",
   outline: "none",
@@ -53,7 +53,7 @@ export const Text = styled("span")(({ theme }) => ({
   fontSize: 14,
   fontWeight: 400,
   lineHeight: "20px",
-  color: COLORS.GRAY_FOR_TEXT,
+  color: theme.palette.grey[500],
   margin: "10px",
 
   ...tablet({
