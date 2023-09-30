@@ -49,8 +49,9 @@ export default class AuthService{
             const accessToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRES_IN});
             const refreshToken = jwt.sign({userName: user.userName, email: user.email, id: user._id}, TOKEN_SECRET, {expiresIn: '20m'});
             return new RequestResult(StatusCodes.OK, new MethodResult<ValidateRefreshToken>(new CRUDResultModel(CRUDResultEnum.Success, 'successOperation'), <ValidateRefreshToken>{token: accessToken, refreshToken: refreshToken}));
-        } catch (error) {
-            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened')));
+        } catch (error) {console.log(error)
+            const err = error as any;
+            return new RequestResult(StatusCodes.INTERNAL_SERVER_ERROR, new MethodResult<any>(new CRUDResultModel(CRUDResultEnum.Error, 'unknownErrorHappened'), err));
         }
     }
     
