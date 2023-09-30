@@ -170,12 +170,12 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
                 </>
               )}
             </TopicWrapper>
-            <PostComment postId={post?.id}/>
-            <PostCommentList postId={post?.id}/>
+            {/* <PostComment postId={post?.id}/>
+            <PostCommentList postId={post?.id}/> */}
             </GridItem>
-            <GridItem lg={4} md={4} sm={4} xs={12} className={classes.itemContainer}>
+            {/* <GridItem lg={4} md={4} sm={4} xs={12} className={classes.itemContainer}>
               <MostPopularPostList postCount={11} />
-            </GridItem>
+            </GridItem> */}
           </GridContainer>
         </Container>
       </Content>
@@ -186,10 +186,10 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
 Post.getLayout = (page: React.ReactNode) => <InternalPageLayout>{page}</InternalPageLayout>
 export default Post;
 
-export const getServerSideProps: GetServerSideProps<{}> = async ({
-  locale,
-}) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? 'en', ['common'])),
-  },
-})
+// export const getServerSideProps: GetServerSideProps<{}> = async ({
+//   locale,
+// }) => ({
+//   props: {
+//     ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+//   },
+// })
