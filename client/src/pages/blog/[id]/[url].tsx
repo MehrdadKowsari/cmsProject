@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "next-i18next";
 import { Grid, ImageListItem, useMediaQuery } from "@mui/material";
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Container from "src/components/website/Container";
 import PopUpDevelopment from "src/components/website/PopUpDevelopment";
@@ -186,18 +186,10 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
 Post.getLayout = (page: React.ReactNode) => <InternalPageLayout>{page}</InternalPageLayout>
 export default Post;
 
-export const getStaticProps: GetStaticProps<{}> = async ({
+export const getServerSideProps: GetServerSideProps<{}> = async ({
   locale,
 }) => ({
   props: {
     ...(await serverSideTranslations(locale ?? 'en', ['common'])),
   },
 })
-
-export const getStaticPaths: GetStaticPaths<{ url: string }> = async () => {
-
-  return {
-      paths: [],
-      fallback: false
-  }
-}
