@@ -80,15 +80,15 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
   const { slugUrl, id} = router.query;
   const { classes } = styles();
 
-  useEffect(() => {
-    if (id) {
-      getPostById(id as string);
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   if (id) {
+  //     getPostById(id as string);
+  //   }
+  // }, [id]);
   
-  const getPostById = async (id: string) =>{
-    await dispatch(getById(id));
-  }
+  // const getPostById = async (id: string) =>{
+  //   await dispatch(getById(id));
+  // }
 
   return (
     <>
@@ -185,3 +185,9 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
 };
 Post.getLayout = (page: React.ReactNode) => <InternalPageLayout>{page}</InternalPageLayout>
 export default Post;
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
+  props: {
+    ...await serverSideTranslations(locale as string, ['common', 'header']),
+  },
+})
