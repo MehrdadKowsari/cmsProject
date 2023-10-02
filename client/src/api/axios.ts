@@ -22,6 +22,9 @@ axiosInstance.interceptors.request.use(
       config.headers['Content-Type'] = 'application/json;charset=UTF-8'
       config.headers['Access-Control-Allow-Origin'] = '*'
       config.headers['Accept-Language'] = locale;
+      config.headers['Cache-Control'] = 'no-cache'
+      config.headers['Expires'] = '0'
+      config.headers['Pragma'] = 'no-cache'
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`
       }
