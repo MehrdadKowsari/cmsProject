@@ -26,7 +26,7 @@ import {
   DESKTOP_MEDIA_QUERY,
   MOBILE_MEDIA_QUERY,
 } from "src/constants/breakpoints";
-import { getById } from "src/state/slices/contentManagement/blogSlice";
+import { getById, getBySlugUrl } from "src/state/slices/contentManagement/blogSlice";
 import { useAppDispatch } from "src/state/hooks/hooks";
 import { PostDTO } from "src/models/contentManagement/post/postDTO";
 import useLocale from "src/hooks/useLocale";
@@ -77,17 +77,17 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
   const dispatch = useAppDispatch();
   const { post,  isLoading } = useSelector((state: any) => state?.blog?.post ? state?.blog : { post: null, isLoading: false });
   const router = useRouter();
-  const { slugUrl, id} = router.query;
+  const slugUrl = router.query.slug;
   const { classes } = styles();
 
   useEffect(() => {
-    if (id) {
-      getPostById(id as string);
+    if (slugUrl) {
+      getPostById(slugUrl as string);
     }
-  }, [id]);
+  }, [slugUrl]);
   
   const getPostById = async (id: string) =>{
-    await dispatch(getById(id));
+    await dispatch(getBySlugUrl(id));
   }
 
   return (
@@ -187,10 +187,14 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
 Post.getLayout = (page: React.ReactNode) => <InternalPageLayout>{page}</InternalPageLayout>
 export default Post;
 
- export async function getServerSideProps({ locale }: { locale: string }) {
-    return {
-        props: {
-          ...(await serverSideTranslations(locale, ['common'])),
-        },
+export const getServerSideProps: GetStaticProps = async ({
+  locale,
+  locales,
+  query
+}: any) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
     }
-}
+  }
+};

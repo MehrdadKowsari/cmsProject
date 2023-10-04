@@ -42,7 +42,7 @@ const MostCommentedPostList: React.FC<Props> = ({ postCount }) => {
                         <GridItem lg={12/postCount}>
                             <BlogCard
                                 title={p.title || ''}
-                                href={`/blog/${p.id}/${p.slugUrl}`} 
+                                href={`/blog/${p.slugUrl}`} 
                                 imageSrc={p.image}
                                 imageAlt={p.title}/>
                         </GridItem>

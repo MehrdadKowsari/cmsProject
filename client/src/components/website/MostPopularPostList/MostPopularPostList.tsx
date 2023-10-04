@@ -44,7 +44,7 @@ const MostPopularPostList: React.FC<Props> = ({ postCount }) => {
                                 <li key={p.id}>
                                     <LinkItem
                                     title={p.title || ''}
-                                    href={`/blog/${p.id}/${p.slugUrl}`}
+                                    href={`/blog/${p.slugUrl}`}
                                     iconCssClass='whatshot'/>
                                 </li>
                             ))}
