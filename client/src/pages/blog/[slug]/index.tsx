@@ -45,8 +45,9 @@ import BlockHeader from "src/components/website/BlockHeader/BlockHeader";
 import PostComment from "src/components/website/PostComment/PostComment";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PostCommentList from "src/components/website/PostCommentList/PostCommentList";
+import axios from "src/api/axios";
 interface Props extends PopUpT {
-  
+  post: PostDTO
 }
 
   const styles = makeStyles()((theme) => ({
@@ -68,21 +69,23 @@ interface Props extends PopUpT {
     }
   }))
 
-const Post: NextPage<Props> = ({ setPopup, popup }) => {
+  const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/blog`;
+
+const Post: NextPage<Props> = ({ setPopup, popup, post }) => {console.log(post)
   const { getLocale } = useLocale();
   const locale = getLocale();
   const { t } = useTranslation();
   const isMobile = useMediaQuery(MOBILE_MEDIA_QUERY);
   const isDesktop = useMediaQuery(DESKTOP_MEDIA_QUERY);
   const dispatch = useAppDispatch();
-  const { post,  isLoading } = useSelector((state: any) => state?.blog?.post ? state?.blog : { post: null, isLoading: false });
+  //const { post,  isLoading } = useSelector((state: any) => state?.blog?.post ? state?.blog : { post: null, isLoading: false });
   const router = useRouter();
   const slugUrl = router.query.slug;
   const { classes } = styles();
 
   useEffect(() => {
     if (slugUrl) {
-      getPostById(slugUrl as string);
+      //getPostById(slugUrl as string);
     }
   }, [slugUrl]);
   
@@ -170,8 +173,8 @@ const Post: NextPage<Props> = ({ setPopup, popup }) => {
                 </>
               )}
             </TopicWrapper>
-            <PostComment postId={post?.id}/>
-            <PostCommentList postId={post?.id}/>
+            <PostComment postId={post?.id as string}/>
+            <PostCommentList postId={post?.id as string}/>
             </GridItem>
             <GridItem lg={4} md={4} sm={4} xs={12} className={classes.itemContainer}>
               <MostPopularPostList postCount={11} />
@@ -192,8 +195,11 @@ export const getServerSideProps: GetStaticProps = async ({
   locales,
   query
 }: any) => {
+  const slug = query?.slug;
+  const { data } = await axios.post(`${API_URL}/getBySlugUrl`, slug);
   return {
     props: {
+      post: data?.result
       //...(await serverSideTranslations(locale, ["common"])),
     }
   }
