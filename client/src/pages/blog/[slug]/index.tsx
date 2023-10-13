@@ -71,21 +71,21 @@ interface Props extends PopUpT {
 
   const API_URL: string = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/blog`;
 
-const Post: NextPage<Props> = ({ setPopup, popup, post }) => {console.log(post)
+const Post: NextPage<Props> = ({ setPopup, popup/*, post*/ }) => {
   const { getLocale } = useLocale();
   const locale = getLocale();
   const { t } = useTranslation();
   const isMobile = useMediaQuery(MOBILE_MEDIA_QUERY);
   const isDesktop = useMediaQuery(DESKTOP_MEDIA_QUERY);
   const dispatch = useAppDispatch();
-  //const { post,  isLoading } = useSelector((state: any) => state?.blog?.post ? state?.blog : { post: null, isLoading: false });
+  const { post,  isLoading } = useSelector((state: any) => state?.blog?.post ? state?.blog : { post: null, isLoading: false });
   const router = useRouter();
   const slugUrl = router.query.slug;
   const { classes } = styles();
 
   useEffect(() => {
     if (slugUrl) {
-      //getPostById(slugUrl as string);
+      getPostById(slugUrl as string);
     }
   }, [slugUrl]);
   
@@ -190,17 +190,19 @@ const Post: NextPage<Props> = ({ setPopup, popup, post }) => {console.log(post)
 Post.getLayout = (page: React.ReactNode) => <InternalPageLayout>{page}</InternalPageLayout>
 export default Post;
 
-export const getServerSideProps: GetStaticProps = async ({
-  locale,
-  locales,
-  query
-}: any) => {
-  const slug = query?.slug;
-  const { data } = await axios.post(`${API_URL}/getBySlugUrl`, slug);
-  return {
-    props: {
-      post: data?.result
-      //...(await serverSideTranslations(locale, ["common"])),
-    }
-  }
-};
+// jusr for resolve vercel deployment 504 error
+
+// export const getServerSideProps: GetStaticProps = async ({
+//   locale,
+//   locales,
+//   query
+// }: any) => {
+//   const slug = query?.slug;
+//   const { data } = await axios.post(`${API_URL}/getBySlugUrl`, slug);
+//   return {
+//     props: {
+//       post: data?.result,
+//       ...(await serverSideTranslations(locale, ["common"]))
+//     }
+//   }
+// };
